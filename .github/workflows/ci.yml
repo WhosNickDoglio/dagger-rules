@@ -1,0 +1,42 @@
+name: CI
+on: [ push ]
+jobs:
+  Validate-Gradle:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3.3.0
+      - uses: ./.github/actions/setup
+      - name: Gradle Wrapper Validation
+        uses: gradle/wrapper-validation-action@55e685c48d84285a5b0418cd094606e199cca3b6 # v1.0.5
+  Build:
+    runs-on: ubuntu-latest
+    needs: [ Validate-Gradle ]
+    steps:
+      - uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3.3.0
+      - uses: ./.github/actions/setup
+      - name: Build
+        run: ./gradlew assemble
+  Lint:
+    runs-on: ubuntu-latest
+    needs: [ Build ]
+    strategy:
+      matrix:
+        command: [ detekt, spotlessCheck ]
+    steps:
+      - uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3.3.0
+      - uses: ./.github/actions/setup
+      - name: Lint
+        run: ./gradlew ${{ matrix.command }}
+  Tests:
+    runs-on: ubuntu-latest
+    needs: [ Build ]
+    steps:
+      - uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3.3.0
+      - uses: ./.github/actions/setup
+      - name: Run Unit Tests
+        run: ./gradlew kover-aggregate:koverXmlReport
+      - name: Codecov
+        uses: codecov/codecov-action@d9f34f8cd5cb3b3eb79b3e4b5dae3a16df499a70 # v3.1.1
+        with:
+          files: ./kover-aggregate/build/reports/kover/report.xml
+          token: ${{ secrets.CODE_COV_TOKEN  }}
