@@ -25,18 +25,18 @@ package dev.whosnickdoglio.dagger
 
 import com.android.tools.lint.detector.api.Issue
 import dev.whosnickdoglio.dagger.detectors.BindsWithCorrectReturnTypeDetector
-import dev.whosnickdoglio.dagger.detectors.ConstructorInjectionOverFieldInjection
+import dev.whosnickdoglio.dagger.detectors.ConstructorInjectionOverFieldInjectionDetector
 import dev.whosnickdoglio.dagger.detectors.ConstructorInjectionOverProvidesDetector
 import dev.whosnickdoglio.dagger.detectors.FavorBindsOverProvidesDetector
-import dev.whosnickdoglio.dagger.detectors.MissingModuleAnnotation
+import dev.whosnickdoglio.dagger.detectors.MissingModuleAnnotationDetector
 import dev.whosnickdoglio.dagger.detectors.StaticProvidesDetector
 
 val daggerIssues: List<Issue> =
     listOf(
         BindsWithCorrectReturnTypeDetector.ISSUE,
-        ConstructorInjectionOverFieldInjection.ISSUE,
+        ConstructorInjectionOverFieldInjectionDetector.ISSUE,
         ConstructorInjectionOverProvidesDetector.ISSUE,
         FavorBindsOverProvidesDetector.ISSUE,
-        MissingModuleAnnotation.ISSUE,
+        MissingModuleAnnotationDetector.ISSUE,
         StaticProvidesDetector.ISSUE,
     )

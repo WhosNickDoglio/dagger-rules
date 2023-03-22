@@ -31,7 +31,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(TestParameterInjector::class)
-class ConstructorInjectionOverFieldInjectionTest {
+class ConstructorInjectionOverFieldInjectionDetectorTest {
 
     @TestParameter lateinit var component: AndroidComponentParameters
 
@@ -77,7 +77,7 @@ class ConstructorInjectionOverFieldInjectionTest {
                     )
                     .indented()
             )
-            .issues(ConstructorInjectionOverFieldInjection.ISSUE)
+            .issues(ConstructorInjectionOverFieldInjectionDetector.ISSUE)
             .run()
             .expectClean()
             .expectErrorCount(0)
@@ -125,7 +125,7 @@ class ConstructorInjectionOverFieldInjectionTest {
                     )
                     .indented()
             )
-            .issues(ConstructorInjectionOverFieldInjection.ISSUE)
+            .issues(ConstructorInjectionOverFieldInjectionDetector.ISSUE)
             .run()
             .expectClean()
             .expectErrorCount(0)
@@ -153,7 +153,7 @@ class ConstructorInjectionOverFieldInjectionTest {
                     )
                     .indented()
             )
-            .issues(ConstructorInjectionOverFieldInjection.ISSUE)
+            .issues(ConstructorInjectionOverFieldInjectionDetector.ISSUE)
             .run()
             .expect(
                 """
@@ -189,7 +189,7 @@ class ConstructorInjectionOverFieldInjectionTest {
                     )
                     .indented()
             )
-            .issues(ConstructorInjectionOverFieldInjection.ISSUE)
+            .issues(ConstructorInjectionOverFieldInjectionDetector.ISSUE)
             .run()
             .expect(
                 """

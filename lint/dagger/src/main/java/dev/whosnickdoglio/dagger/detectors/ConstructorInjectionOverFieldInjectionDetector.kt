@@ -39,7 +39,7 @@ import org.jetbrains.uast.UElement
 import org.jetbrains.uast.UField
 import org.jetbrains.uast.getContainingUClass
 
-internal class ConstructorInjectionOverFieldInjection : Detector(), SourceCodeScanner {
+internal class ConstructorInjectionOverFieldInjectionDetector : Detector(), SourceCodeScanner {
 
     override fun getApplicableUastTypes(): List<Class<out UElement>> =
         listOf(UAnnotation::class.java)
@@ -112,7 +112,7 @@ internal class ConstructorInjectionOverFieldInjection : Detector(), SourceCodeSc
 
         private val implementation =
             Implementation(
-                ConstructorInjectionOverFieldInjection::class.java,
+                ConstructorInjectionOverFieldInjectionDetector::class.java,
                 Scope.JAVA_FILE_SCOPE
             )
 
