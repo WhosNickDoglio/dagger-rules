@@ -39,10 +39,6 @@ import org.jetbrains.uast.UElement
 import org.jetbrains.uast.UField
 import org.jetbrains.uast.getContainingUClass
 
-/**
- * A lint [Detector] that checks for usages of field injection and suggests constructor injection in
- * cases were it's possible.
- */
 internal class ConstructorInjectionOverFieldInjection : Detector(), SourceCodeScanner {
 
     override fun getApplicableUastTypes(): List<Class<out UElement>> =
