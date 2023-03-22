@@ -32,6 +32,7 @@ import com.android.tools.lint.detector.api.JavaContext
 import com.android.tools.lint.detector.api.Scope
 import com.android.tools.lint.detector.api.Severity
 import com.android.tools.lint.detector.api.SourceCodeScanner
+import com.android.tools.lint.detector.api.isKotlin
 import dev.whosnickdoglio.dagger.BINDS
 import dev.whosnickdoglio.dagger.MODULE
 import dev.whosnickdoglio.dagger.MULTIBINDS
@@ -40,7 +41,7 @@ import org.jetbrains.uast.UAnnotation
 import org.jetbrains.uast.UElement
 import org.jetbrains.uast.getContainingUClass
 
-internal class MissingModuleAnnotation : Detector(), SourceCodeScanner {
+internal class MissingModuleAnnotationDetector : Detector(), SourceCodeScanner {
 
     private val daggerAnnotations = listOf(BINDS, PROVIDES, MULTIBINDS)
 
@@ -52,6 +53,11 @@ internal class MissingModuleAnnotation : Detector(), SourceCodeScanner {
             override fun visitAnnotation(node: UAnnotation) {
                 if (node.qualifiedName in daggerAnnotations) {
                     val containingClass = node.uastParent?.getContainingUClass() ?: return
+
+                    if (isKotlin(node.lang) && context.evaluator.isCompanion(containingClass)) {
+                        // Early out, other methods should already trigger lint warning?
+                        return
+                    }
 
                     if (
                         !containingClass.uAnnotations.any { annotation ->
@@ -77,7 +83,7 @@ internal class MissingModuleAnnotation : Detector(), SourceCodeScanner {
 
     companion object {
         private val implementation =
-            Implementation(MissingModuleAnnotation::class.java, Scope.JAVA_FILE_SCOPE)
+            Implementation(MissingModuleAnnotationDetector::class.java, Scope.JAVA_FILE_SCOPE)
         val ISSUE =
             Issue.create(
                 id = "MissingModuleAnnotation",
