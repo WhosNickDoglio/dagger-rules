@@ -23,29 +23,201 @@
  */
 package dev.whosnickdoglio.dagger.detectors
 
+import com.android.tools.lint.checks.infrastructure.TestFiles
+import com.android.tools.lint.checks.infrastructure.TestLintTask
+import org.junit.Test
+
 class BindsWithCorrectReturnTypeDetectorTest {
 
-    //    @Test
-    //    fun `java @Binds method with a parameter that is a subclass of the return type does not
-    // trigger error`() {
-    //        TODO("Not yet implemented")
-    //    }
-    //
-    //    @Test
-    //    fun `java @Binds method with a parameter that is not a subclass of the return type
-    // triggers error`() {
-    //        TODO("Not yet implemented")
-    //    }
-    //
-    //    @Test
-    //    fun `kotlin @Binds method with a parameter that is a subclass of the return type does not
-    // trigger error`() {
-    //        TODO("Not yet implemented")
-    //    }
-    //
-    //    @Test
-    //    fun `kotlin @Binds method with a parameter that is not a subclass of the return type
-    // triggers error`() {
-    //        TODO("Not yet implemented")
-    //    }
+    @Test
+    fun `java @Binds method with a parameter that is a subclass of the return type does not trigger error`() {
+        TestLintTask.lint()
+            .files(
+                daggerAnnotations,
+                TestFiles.java(
+                        """
+                    import dagger.Module;
+                    import dagger.Binds;
+
+                    interface PizzaMaker {}
+                    class PizzaMakerImpl extends PizzaMaker {}
+
+                    @Module
+                    interface MyModule {
+
+                        @Binds PizzaMaker bindsPizzaMaker(PizzaMakerImpl pizzaMaker);
+                    }
+                """
+                    )
+                    .indented()
+            )
+            .issues(BindsWithCorrectReturnTypeDetector.ISSUE)
+            .run()
+            .expectClean()
+            .expectErrorCount(0)
+    }
+
+    @Test
+    fun `java @Binds method with a parameter that is not a subclass of the return type triggers error`() {
+        TestLintTask.lint()
+            .files(
+                daggerAnnotations,
+                TestFiles.java(
+                        """
+                    import dagger.Module;
+                    import dagger.Binds;
+
+                    interface PizzaMaker {}
+                    class NotPizzaMaker {}
+
+                    @Module
+                    interface MyModule {
+
+                        @Binds PizzaMaker bindsPizzaMaker(PizzaMakerImpl pizzaMaker);
+                    }
+                """
+                    )
+                    .indented()
+            )
+            .issues(BindsWithCorrectReturnTypeDetector.ISSUE)
+            .run()
+            .expect(
+                """
+                src/PizzaMaker.java:10: Error: The impl is not a subclass of the given return type :thinking [BindsWithCorrectReturnType]
+                    @Binds PizzaMaker bindsPizzaMaker(PizzaMakerImpl pizzaMaker);
+                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                1 errors, 0 warnings
+            """
+                    .trimIndent()
+            )
+            .expectErrorCount(1)
+    }
+
+    @Test
+    fun `kotlin @Binds method with a parameter that is a subclass of the return type does not trigger error`() {
+        TestLintTask.lint()
+            .files(
+                daggerAnnotations,
+                TestFiles.kotlin(
+                        """
+                    import dagger.Module
+                    import dagger.Binds
+
+                    interface PizzaMaker
+                    class PizzaMakerImpl: PizzaMaker
+
+                    @Module
+                    interface MyModule {
+
+                        @Binds fun bindsPizzaMaker(impl: PizzaMakerImpl): PizzaMaker
+                    }
+                """
+                    )
+                    .indented()
+            )
+            .issues(BindsWithCorrectReturnTypeDetector.ISSUE)
+            .run()
+            .expectClean()
+            .expectErrorCount(0)
+    }
+
+    @Test
+    fun `kotlin @Binds method with a parameter that is not a subclass of the return type triggers error`() {
+        TestLintTask.lint()
+            .files(
+                daggerAnnotations,
+                TestFiles.kotlin(
+                        """
+                    import dagger.Module
+                    import dagger.Binds
+
+                    interface PizzaMaker
+                    class NotPizzaMaker
+
+                    @Module
+                    interface MyModule {
+
+                        @Binds fun bindsPizzaMaker(impl: NotPizzaMaker): PizzaMaker
+                    }
+                """
+                    )
+                    .indented()
+            )
+            .issues(BindsWithCorrectReturnTypeDetector.ISSUE)
+            .run()
+            .expect(
+                """
+                src/PizzaMaker.kt:10: Error: The impl is not a subclass of the given return type :thinking [BindsWithCorrectReturnType]
+                    @Binds fun bindsPizzaMaker(impl: NotPizzaMaker): PizzaMaker
+                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                1 errors, 0 warnings
+            """
+                    .trimIndent()
+            )
+            .expectErrorCount(1)
+    }
+
+    @Test
+    fun `kotlin @Binds extension method with a parameter that is a subclass of the return type no error`() {
+        TestLintTask.lint()
+            .files(
+                daggerAnnotations,
+                TestFiles.kotlin(
+                        """
+                    import dagger.Module
+                    import dagger.Binds
+
+                    interface PizzaMaker
+                    class PizzaMakerImpl: PizzaMaker
+
+                    @Module
+                    interface MyModule {
+
+                        @Binds fun PizzaMakerImpl.bindPizzaMaker(): PizzaMaker
+                    }
+                """
+                    )
+                    .indented()
+            )
+            .issues(BindsWithCorrectReturnTypeDetector.ISSUE)
+            .run()
+            .expectClean()
+            .expectErrorCount(0)
+    }
+
+    @Test
+    fun `kotlin @Binds extension method with a parameter that is not a subclass of the return type triggers error`() {
+        TestLintTask.lint()
+            .files(
+                daggerAnnotations,
+                TestFiles.kotlin(
+                        """
+                    import dagger.Module
+                    import dagger.Binds
+
+                    interface PizzaMaker
+                    class NotPizzaMaker
+
+                    @Module
+                    interface MyModule {
+
+                        @Binds fun NotPizzaMaker.bindPizzaMaker(): PizzaMaker
+                    }
+                """
+                    )
+                    .indented()
+            )
+            .issues(BindsWithCorrectReturnTypeDetector.ISSUE)
+            .run()
+            .expect(
+                """
+                src/PizzaMaker.kt:10: Error: The impl is not a subclass of the given return type :thinking [BindsWithCorrectReturnType]
+                    @Binds fun NotPizzaMaker.bindPizzaMaker(): PizzaMaker
+                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                1 errors, 0 warnings
+            """
+                    .trimIndent()
+            )
+            .expectErrorCount(1)
+    }
 }

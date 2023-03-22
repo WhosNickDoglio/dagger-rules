@@ -43,8 +43,8 @@ internal class BindsWithCorrectReturnTypeDetector : Detector(), SourceCodeScanne
     override fun getApplicableUastTypes(): List<Class<out UElement>> =
         listOf(UAnnotation::class.java)
 
-    override fun createUastHandler(context: JavaContext): UElementHandler {
-        return object : UElementHandler() {
+    override fun createUastHandler(context: JavaContext): UElementHandler =
+        object : UElementHandler() {
             override fun visitAnnotation(node: UAnnotation) {
                 if (node.qualifiedName == BINDS) {
                     val bindsMethod = node.uastParent
@@ -64,7 +64,6 @@ internal class BindsWithCorrectReturnTypeDetector : Detector(), SourceCodeScanne
                 }
             }
         }
-    }
 
     companion object {
         private val implementation =
@@ -77,7 +76,7 @@ internal class BindsWithCorrectReturnTypeDetector : Detector(), SourceCodeScanne
                 explanation = "Hello friend",
                 category = Category.CORRECTNESS,
                 priority = 5,
-                severity = Severity.WARNING,
+                severity = Severity.ERROR,
                 implementation = implementation
             )
     }
