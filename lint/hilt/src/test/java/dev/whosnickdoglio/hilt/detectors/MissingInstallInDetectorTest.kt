@@ -44,7 +44,7 @@ class MissingInstallInDetectorTest {
         )
 
     @Test
-    fun `class that is annotated with @Module but is missing @InstallIn annotation shows an error`() {
+    fun `kotlin provides @Module but is missing @InstallIn annotation shows an error`() {
         TestLintTask.lint()
             .files(
                 daggerAnnotations,
@@ -78,7 +78,7 @@ class MissingInstallInDetectorTest {
     }
 
     @Test
-    fun `class that has both @Module and @InstallIn annotation does not show an error`() {
+    fun `kotlin provides has both @Module and @InstallIn annotation does not show an error`() {
         TestLintTask.lint()
             .files(
                 TestFiles.kotlin(
@@ -101,6 +101,325 @@ class MissingInstallInDetectorTest {
                 class MyModule {
 
                 @Provides fun provideMyThing(): String = "Hello World"
+
+                }
+            """
+                        .trimIndent()
+                )
+            )
+            .issues(MissingInstallInDetector.ISSUE)
+            .run()
+            .expectClean()
+            .expectErrorCount(0)
+    }
+
+    @Test
+    fun `kotlin @Binds @Module but is missing @InstallIn annotation shows an error`() {
+        TestLintTask.lint()
+            .files(
+                daggerAnnotations,
+                TestFiles.kotlin(
+                    """
+                import dagger.Module
+                import dagger.Binds
+
+                interface PizzaMaker
+                class PizzaMakerImpl: PizzaMaker
+
+
+                @Module
+                interface MyModule {
+
+                    @Binds fun bindsPizza(impl: PizzaMakerImpl): PizzaMaker
+                }
+            """
+                        .trimIndent()
+                )
+            )
+            .issues(MissingInstallInDetector.ISSUE)
+            .run()
+            .expect(
+                """
+                    src/PizzaMaker.kt:9: Error: Hello friend [MissingInstallInAnnotation]
+                    interface MyModule {
+                              ~~~~~~~~
+                    1 errors, 0 warnings
+                """
+                    .trimIndent()
+            )
+            .expectErrorCount(1)
+    }
+
+    @Test
+    fun `kotlin @Binds has both @Module and @InstallIn annotation does not show an error`() {
+        TestLintTask.lint()
+            .files(
+                TestFiles.kotlin(
+                    """
+                    package  dagger.hilt
+
+                   annotation class InstallIn
+                """
+                        .trimIndent()
+                ),
+                daggerAnnotations,
+                TestFiles.kotlin(
+                    """
+                import dagger.Module
+                import dagger.Binds
+                import dagger.hilt.InstallIn
+
+                interface PizzaMaker
+                class PizzaMakerImpl: PizzaMaker
+
+                @Module
+                @InstallIn
+                interface MyModule {
+
+                @Binds fun bindsPizza(impl: PizzaMakerImpl): PizzaMaker
+
+                }
+            """
+                        .trimIndent()
+                )
+            )
+            .issues(MissingInstallInDetector.ISSUE)
+            .run()
+            .expectClean()
+            .expectErrorCount(0)
+    }
+
+    @Test
+    fun `kotlin companion object @Binds has both @Module and @InstallIn annotation does not show an error`() {
+        TestLintTask.lint()
+            .files(
+                TestFiles.kotlin(
+                    """
+                    package  dagger.hilt
+
+                   annotation class InstallIn
+                """
+                        .trimIndent()
+                ),
+                daggerAnnotations,
+                TestFiles.kotlin(
+                    """
+                import dagger.Module
+                import dagger.Binds
+                import dagger.Provides
+                import dagger.hilt.InstallIn
+
+                interface PizzaMaker
+                class PizzaMakerImpl: PizzaMaker
+
+                @Module
+                @InstallIn
+                interface MyModule {
+
+                    @Binds fun bindsPizza(impl: PizzaMakerImpl): PizzaMaker
+
+                    companion object {
+                        @Provides fun provideSomething(): String = "Hello World"
+                    }
+
+                }
+            """
+                        .trimIndent()
+                )
+            )
+            .issues(MissingInstallInDetector.ISSUE)
+            .run()
+            .expectClean()
+            .expectErrorCount(0)
+    }
+
+    @Test
+    fun `kotlin companion object @Binds has @Module but no  @InstallIn annotation show an error`() {
+        TestLintTask.lint()
+            .files(
+                TestFiles.kotlin(
+                    """
+                    package  dagger.hilt
+
+                   annotation class InstallIn
+                """
+                        .trimIndent()
+                ),
+                daggerAnnotations,
+                TestFiles.kotlin(
+                    """
+                import dagger.Module
+                import dagger.Binds
+                import dagger.Provides
+
+                interface PizzaMaker
+                class PizzaMakerImpl: PizzaMaker
+
+                @Module
+                interface MyModule {
+
+                    @Binds fun bindsPizza(impl: PizzaMakerImpl): PizzaMaker
+
+                    companion object {
+                        @Provides fun provideSomething(): String = "Hello World"
+                    }
+
+                }
+            """
+                        .trimIndent()
+                )
+            )
+            .issues(MissingInstallInDetector.ISSUE)
+            .run()
+            .expect(
+                """
+                src/PizzaMaker.kt:9: Error: Hello friend [MissingInstallInAnnotation]
+                interface MyModule {
+                          ~~~~~~~~
+                1 errors, 0 warnings
+            """
+                    .trimIndent()
+            )
+            .expectErrorCount(1)
+    }
+
+    @Test
+    fun `java provides @Module but is missing @InstallIn annotation shows an error`() {
+        TestLintTask.lint()
+            .files(
+                daggerAnnotations,
+                TestFiles.java(
+                    """
+                import dagger.Module;
+                import dagger.Provides;
+
+                @Module
+                class MyModule {
+
+                @Provides String provideMyThing() {
+                    return "Hello World";
+                }
+
+                }
+            """
+                        .trimIndent()
+                )
+            )
+            .issues(MissingInstallInDetector.ISSUE)
+            .run()
+            .expect(
+                """
+                    src/MyModule.java:5: Error: Hello friend [MissingInstallInAnnotation]
+                    class MyModule {
+                          ~~~~~~~~
+                    1 errors, 0 warnings
+                """
+                    .trimIndent()
+            )
+            .expectErrorCount(1)
+    }
+
+    @Test
+    fun `java provides has both @Module and @InstallIn annotation does not show an error`() {
+        TestLintTask.lint()
+            .files(
+                TestFiles.kotlin(
+                    """
+                    package  dagger.hilt
+
+                   annotation class InstallIn
+                """
+                        .trimIndent()
+                ),
+                daggerAnnotations,
+                TestFiles.java(
+                    """
+                import dagger.Module;
+                import dagger.Provides;
+                import dagger.hilt.InstallIn;
+
+                @Module
+                @InstallIn
+                class MyModule {
+
+                    @Provides String provideMyThing() {
+                        return "Hello World";
+                    }
+                }
+            """
+                        .trimIndent()
+                )
+            )
+            .issues(MissingInstallInDetector.ISSUE)
+            .run()
+            .expectClean()
+            .expectErrorCount(0)
+    }
+
+    @Test
+    fun `java @Binds @Module but is missing @InstallIn annotation shows an error`() {
+        TestLintTask.lint()
+            .files(
+                daggerAnnotations,
+                TestFiles.java(
+                    """
+                import dagger.Module;
+                import dagger.Binds;
+
+                interface PizzaMaker {}
+                class PizzaMakerImpl extends PizzaMaker {}
+
+
+                @Module
+                interface MyModule {
+
+                    @Binds PizzaMaker binds(PizzaMakerImpl impl);
+                }
+            """
+                        .trimIndent()
+                )
+            )
+            .issues(MissingInstallInDetector.ISSUE)
+            .run()
+            .expect(
+                """
+                    src/PizzaMaker.java:9: Error: Hello friend [MissingInstallInAnnotation]
+                    interface MyModule {
+                              ~~~~~~~~
+                    1 errors, 0 warnings
+                """
+                    .trimIndent()
+            )
+            .expectErrorCount(1)
+    }
+
+    @Test
+    fun `java @Binds has both @Module and @InstallIn annotation does not show an error`() {
+        TestLintTask.lint()
+            .files(
+                TestFiles.kotlin(
+                    """
+                    package  dagger.hilt
+
+                   annotation class InstallIn
+                """
+                        .trimIndent()
+                ),
+                daggerAnnotations,
+                TestFiles.java(
+                    """
+                import dagger.Module;
+                import dagger.Binds;
+                import dagger.hilt.InstallIn;
+
+                interface PizzaMaker {}
+                class PizzaMakerImpl extends PizzaMaker {}
+
+                @Module
+                @InstallIn
+                interface MyModule {
+
+                @Binds PizzaMaker binds(PizzaMakerImpl impl);
 
                 }
             """

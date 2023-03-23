@@ -173,6 +173,82 @@ class MissingContributesToDetectorTest {
     }
 
     @Test
+    fun `kotlin companion object @Binds module with @ContributesTo annotation shows no error`() {
+        TestLintTask.lint()
+            .files(
+                daggerAnnotations,
+                contributeTo,
+                TestFiles.kotlin(
+                        """
+                import dagger.Module
+                import dagger.Binds
+                import com.squareup.anvil.annotations.ContributesTo
+
+                interface MyThing
+                class MyThingImpl: MyThing
+
+                @Module
+                @ContributesTo
+                interface MyModule {
+
+                    @Binds fun provideMyThing(impl: MyThingImpl): MyThing
+
+                    companion object {
+                        @Provides fun provideSomething(): String = "Hello world"
+                    }
+                }
+            """
+                    )
+                    .indented()
+            )
+            .issues(MissingContributesToDetector.ISSUE)
+            .run()
+            .expectClean()
+            .expectErrorCount(0)
+    }
+
+    @Test
+    fun `kotlin companion object @Binds module without @ContributesTo annotation shows an error`() {
+        TestLintTask.lint()
+            .files(
+                daggerAnnotations,
+                contributeTo,
+                TestFiles.kotlin(
+                        """
+                import dagger.Module
+                import dagger.Binds
+
+                interface MyThing
+                class MyThingImpl: MyThing
+
+                @Module
+                interface MyModule {
+
+                    @Binds fun provideMyThing(impl: MyThingImpl): MyThing
+
+                    companion object {
+                        @Provides fun provideSomething(): String = "Hell World"
+                    }
+                }
+            """
+                    )
+                    .indented()
+            )
+            .issues(MissingContributesToDetector.ISSUE)
+            .run()
+            .expect(
+                """
+                    src/MyThing.kt:8: Error: Hello friend [MissingContributesToAnnotation]
+                    interface MyModule {
+                              ~~~~~~~~
+                    1 errors, 0 warnings
+                """
+                    .trimIndent()
+            )
+            .expectErrorCount(1)
+    }
+
+    @Test
     fun `java provides module without @ContributesTo annotation shows an error`() {
         TestLintTask.lint()
             .files(

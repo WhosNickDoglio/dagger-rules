@@ -68,6 +68,48 @@ class FavorContributesBindingOverBindsDetectorTest {
     }
 
     @Test
+    fun `kotlin companion object @Binds method should trigger warning`() {
+        TestLintTask.lint()
+            .files(
+                daggerAnnotations,
+                TestFiles.kotlin(
+                        """
+                import dagger.Module
+                import dagger.Binds
+
+                interface MyThing
+                class MyThingImpl: MyThing
+
+                @Module
+                interface MyModule {
+
+                    @Binds
+                    fun provideMyThing(impl: MyThingImpl): MyThing
+
+                    companion object {
+                        @Provides fun provideSomething(): String = "Hello world"
+                    }
+
+                }
+            """
+                    )
+                    .indented()
+            )
+            .issues(FavorContributesBindingOverBindsDetector.ISSUE)
+            .run()
+            .expect(
+                """
+                    src/MyThing.kt:11: Warning:  [ContributesBindingOverBinds]
+                        fun provideMyThing(impl: MyThingImpl): MyThing
+                            ~~~~~~~~~~~~~~
+                    0 errors, 1 warnings
+                """
+                    .trimIndent()
+            )
+            .expectWarningCount(1)
+    }
+
+    @Test
     fun `java @Binds method should not trigger warning`() {
         TestLintTask.lint()
             .files(

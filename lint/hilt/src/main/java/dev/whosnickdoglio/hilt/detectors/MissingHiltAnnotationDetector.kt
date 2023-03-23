@@ -65,7 +65,6 @@ internal class MissingHiltAnnotationDetector : Detector(), SourceCodeScanner {
                                 uAnnotation.qualifiedName == hiltAnnotation
                             }
                     ) {
-
                         context.report(
                             issue = ISSUE,
                             location = context.getNameLocation(node),
