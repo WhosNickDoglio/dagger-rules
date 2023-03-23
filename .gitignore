@@ -130,3 +130,13 @@ hs_err_pid*
 
 # Cache of project
 .gradletasknamecache
+
+# Files for the Dalvik VM
+*.dex
+
+# Generated files
+bin/
+gen/
+
+# Local configuration file (sdk path, etc)
+local.properties
