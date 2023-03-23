@@ -3,5 +3,18 @@
     "config:base",
     ":dependencyDashboard",
     "helpers:pinGitHubActionDigests"
+  ],
+  "automergeType": "branch",
+  "packageRules": [
+    {
+      "description": "Automerge non-major updates",
+      "matchUpdateTypes": [
+        "minor",
+        "patch",
+        "digest",
+        "lockFileMaintenance"
+      ],
+      "automerge": true
+    }
   ]
 }
