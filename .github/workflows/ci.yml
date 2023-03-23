@@ -21,7 +21,7 @@ jobs:
     needs: [ Build ]
     strategy:
       matrix:
-        command: [ detekt, spotlessCheck ]
+        command: [ detekt, spotlessCheck, lint ]
     steps:
       - uses: actions/checkout@24cb9080177205b6e8c946b17badbe402adc938f # v3.4.0
       - uses: ./.github/actions/setup
@@ -34,7 +34,7 @@ jobs:
       - uses: actions/checkout@24cb9080177205b6e8c946b17badbe402adc938f # v3.4.0
       - uses: ./.github/actions/setup
       - name: Run Unit Tests
-        run: ./gradlew kover-aggregate:koverXmlReport
+        run: ./gradlew kover-aggregate:koverXmlReport --no-build-cache
       - name: Codecov
         uses: codecov/codecov-action@d9f34f8cd5cb3b3eb79b3e4b5dae3a16df499a70 # v3.1.1
         with:
