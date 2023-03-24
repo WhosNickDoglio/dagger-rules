@@ -14,7 +14,7 @@ jobs:
   Validate-Gradle:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@24cb9080177205b6e8c946b17badbe402adc938f # v3.4.0
+      - uses: actions/checkout@8f4b7f84864484a7bf31766abe9204da3cbe65b3 # v3.5.0
       - uses: ./.github/actions/setup
       - name: Gradle Wrapper Validation
         uses: gradle/wrapper-validation-action@8d49e559aae34d3e0eb16cde532684bc9702762b # v1.0.6
@@ -22,7 +22,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: [ Validate-Gradle ]
     steps:
-      - uses: actions/checkout@24cb9080177205b6e8c946b17badbe402adc938f # v3.4.0
+      - uses: actions/checkout@8f4b7f84864484a7bf31766abe9204da3cbe65b3 # v3.5.0
       - uses: ./.github/actions/setup
       - name: Build
         run: ./gradlew assemble
@@ -33,7 +33,7 @@ jobs:
       matrix:
         command: [ detekt, spotlessCheck, lint ]
     steps:
-      - uses: actions/checkout@24cb9080177205b6e8c946b17badbe402adc938f # v3.4.0
+      - uses: actions/checkout@8f4b7f84864484a7bf31766abe9204da3cbe65b3 # v3.5.0
       - uses: ./.github/actions/setup
       - name: Lint
         run: ./gradlew ${{ matrix.command }}
@@ -41,7 +41,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: [ Build ]
     steps:
-      - uses: actions/checkout@24cb9080177205b6e8c946b17badbe402adc938f # v3.4.0
+      - uses: actions/checkout@8f4b7f84864484a7bf31766abe9204da3cbe65b3 # v3.5.0
       - uses: ./.github/actions/setup
       - name: Run Unit Tests
         run: ./gradlew kover-aggregate:koverXmlReport --no-build-cache
