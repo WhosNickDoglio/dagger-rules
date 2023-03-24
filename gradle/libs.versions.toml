@@ -48,7 +48,7 @@ ktlint-test = { module = "com.pinterest.ktlint:ktlint-test", version.ref = "ktli
 
 junit = { module = "junit:junit", version = "4.13.2" }
 truth = { module = "com.google.truth:truth", version = "1.1.3" }
-testParameterInjector = { module = "com.google.testparameterinjector:test-parameter-injector", version = "1.10" }
+testParameterInjector = { module = "com.google.testparameterinjector:test-parameter-injector", version = "1.11" }
 
 [bundles]
 lintApi = ["lint-api", "lint-checks"]
