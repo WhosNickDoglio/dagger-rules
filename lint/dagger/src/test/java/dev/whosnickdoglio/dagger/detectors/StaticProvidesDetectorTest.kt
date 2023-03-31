@@ -29,6 +29,9 @@ import org.junit.Test
 
 class StaticProvidesDetectorTest {
 
+    // todo companion object tests
+    // TODO multiple @Provides/@Binds
+
     @Test
     fun `kotlin @Provides methods in an object do not show a warning`() {
         TestLintTask.lint()
@@ -55,7 +58,7 @@ class StaticProvidesDetectorTest {
             .run()
             .expect(
                 """
-                src/com/test/android/MyModule.kt:9: Warning: plz use static provides methods. [StaticProvides]
+                src/com/test/android/MyModule.kt:9: Warning: plz use static provides methods [StaticProvides]
                         @Provides
                         ^
                 0 errors, 1 warnings
@@ -91,7 +94,7 @@ class StaticProvidesDetectorTest {
             .run()
             .expect(
                 """
-                src/com/test/android/MyModule.kt:9: Warning: plz use static provides methods. [StaticProvides]
+                src/com/test/android/MyModule.kt:9: Warning: plz use static provides methods [StaticProvides]
                         @Provides
                         ^
                 0 errors, 1 warnings
@@ -160,7 +163,7 @@ class StaticProvidesDetectorTest {
             .run()
             .expect(
                 """
-                src/com/test/android/MyModule.java:10: Warning: plz use static provides methods. [StaticProvides]
+                src/com/test/android/MyModule.java:10: Warning: plz use static provides methods [StaticProvides]
                         public String myString() {
                                       ~~~~~~~~
                 0 errors, 1 warnings
