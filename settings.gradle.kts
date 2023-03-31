@@ -60,5 +60,5 @@ include(
     ":lint:anvil",
     ":lint:hilt",
     ":kover-aggregate",
+    ":lint:shared"
 )
-include("lint:shared")
