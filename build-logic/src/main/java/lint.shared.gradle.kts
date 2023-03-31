@@ -44,11 +44,12 @@ val catalog =
 val libs = catalog.named("libs")
 
 lint {
-    htmlReport = true
-    xmlReport = true
+    htmlReport = false
+    xmlReport = false
     textReport = true
     absolutePaths = false
     checkTestSources = true
+    warningsAsErrors = true
     baseline = file("lint-baseline.xml")
 }
 

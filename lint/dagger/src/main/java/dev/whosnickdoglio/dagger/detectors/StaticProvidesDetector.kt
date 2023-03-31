@@ -66,7 +66,7 @@ internal class StaticProvidesDetector : Detector(), SourceCodeScanner {
             context.report(
                 issue = ISSUE,
                 location = context.getNameLocation(method),
-                message = "plz use static provides methods.",
+                message = "plz use static provides methods",
             )
         }
     }
@@ -78,7 +78,7 @@ internal class StaticProvidesDetector : Detector(), SourceCodeScanner {
             context.report(
                 issue = ISSUE,
                 location = context.getLocation(method),
-                message = "plz use static provides methods."
+                message = "plz use static provides methods"
             )
         }
     }
