@@ -30,16 +30,15 @@ import com.android.tools.lint.detector.api.Issue
 import dev.whosnickdoglio.anvil.detectors.FavorContributesBindingOverBindsDetector
 import dev.whosnickdoglio.anvil.detectors.MissingContributesBindingDetector
 import dev.whosnickdoglio.anvil.detectors.MissingContributesToDetector
-import dev.whosnickdoglio.dagger.daggerIssues
 
 class AnvilRulesIssueRegistry : IssueRegistry() {
+
     override val issues: List<Issue> =
-        daggerIssues +
-            listOf(
-                FavorContributesBindingOverBindsDetector.ISSUE,
-                MissingContributesToDetector.ISSUE,
-                MissingContributesBindingDetector.ISSUE,
-            )
+        listOf(
+            FavorContributesBindingOverBindsDetector.ISSUE,
+            MissingContributesToDetector.ISSUE,
+            MissingContributesBindingDetector.ISSUE,
+        )
 
     override val api: Int = CURRENT_API
 

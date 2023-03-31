@@ -61,3 +61,4 @@ include(
     ":lint:hilt",
     ":kover-aggregate",
 )
+include("lint:shared")

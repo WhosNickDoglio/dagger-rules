@@ -33,7 +33,7 @@ import com.android.tools.lint.detector.api.Scope
 import com.android.tools.lint.detector.api.Severity
 import com.android.tools.lint.detector.api.SourceCodeScanner
 import com.android.tools.lint.detector.api.isKotlin
-import dev.whosnickdoglio.dagger.BINDS
+import dev.whosnickdoglio.lint.shared.BINDS
 import org.jetbrains.uast.UAnnotation
 import org.jetbrains.uast.UElement
 

@@ -34,7 +34,7 @@ import com.android.tools.lint.detector.api.Severity
 import com.android.tools.lint.detector.api.SourceCodeScanner
 import com.android.tools.lint.detector.api.isKotlin
 import dev.whosnickdoglio.anvil.CONTRIBUTES_BINDING
-import dev.whosnickdoglio.dagger.INJECT
+import dev.whosnickdoglio.lint.shared.INJECT
 import org.jetbrains.uast.UClass
 import org.jetbrains.uast.UElement
 

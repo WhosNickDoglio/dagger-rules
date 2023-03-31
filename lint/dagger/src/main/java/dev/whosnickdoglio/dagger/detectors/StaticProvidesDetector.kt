@@ -34,7 +34,7 @@ import com.android.tools.lint.detector.api.Severity
 import com.android.tools.lint.detector.api.SourceCodeScanner
 import com.android.tools.lint.detector.api.isJava
 import com.android.tools.lint.detector.api.isKotlin
-import dev.whosnickdoglio.dagger.PROVIDES
+import dev.whosnickdoglio.lint.shared.PROVIDES
 import org.jetbrains.kotlin.psi.KtObjectDeclaration
 import org.jetbrains.uast.UAnnotation
 import org.jetbrains.uast.UElement

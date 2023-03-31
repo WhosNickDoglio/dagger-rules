@@ -33,6 +33,7 @@ import com.android.tools.lint.detector.api.Scope
 import com.android.tools.lint.detector.api.Severity
 import com.android.tools.lint.detector.api.SourceCodeScanner
 import dev.whosnickdoglio.hilt.INSTALL_IN
+import dev.whosnickdoglio.lint.shared.MODULE
 import org.jetbrains.uast.UAnnotation
 import org.jetbrains.uast.UClass
 import org.jetbrains.uast.UElement
@@ -45,21 +46,23 @@ internal class MissingInstallInDetector : Detector(), SourceCodeScanner {
     override fun createUastHandler(context: JavaContext): UElementHandler =
         object : UElementHandler() {
             override fun visitAnnotation(node: UAnnotation) {
-                val clazz = node.uastParent
+                if (node.qualifiedName == MODULE) {
+                    val clazz = node.uastParent
 
-                if (clazz is UClass) {
-                    val hasContributesToAnnotation =
-                        clazz.uAnnotations.any { annotation ->
-                            annotation.qualifiedName == INSTALL_IN
+                    if (clazz is UClass) {
+                        val hasContributesToAnnotation =
+                            clazz.uAnnotations.any { annotation ->
+                                annotation.qualifiedName == INSTALL_IN
+                            }
+
+                        if (!hasContributesToAnnotation) {
+                            context.report(
+                                issue = ISSUE,
+                                location = context.getNameLocation(clazz),
+                                message = "Hello friend",
+                                quickfixData = null // TODO
+                            )
                         }
-
-                    if (!hasContributesToAnnotation) {
-                        context.report(
-                            issue = ISSUE,
-                            location = context.getNameLocation(clazz),
-                            message = "Hello friend",
-                            quickfixData = null // TODO
-                        )
                     }
                 }
             }

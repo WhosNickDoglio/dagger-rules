@@ -21,22 +21,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package dev.whosnickdoglio.dagger
+package dev.whosnickdoglio.lint.shared
 
-import com.android.tools.lint.detector.api.Issue
-import dev.whosnickdoglio.dagger.detectors.BindsWithCorrectReturnTypeDetector
-import dev.whosnickdoglio.dagger.detectors.ConstructorInjectionOverFieldInjectionDetector
-import dev.whosnickdoglio.dagger.detectors.ConstructorInjectionOverProvidesDetector
-import dev.whosnickdoglio.dagger.detectors.FavorBindsOverProvidesDetector
-import dev.whosnickdoglio.dagger.detectors.MissingModuleAnnotationDetector
-import dev.whosnickdoglio.dagger.detectors.StaticProvidesDetector
-
-val daggerIssues: List<Issue> =
-    listOf(
-        BindsWithCorrectReturnTypeDetector.ISSUE,
-        ConstructorInjectionOverFieldInjectionDetector.ISSUE,
-        ConstructorInjectionOverProvidesDetector.ISSUE,
-        FavorBindsOverProvidesDetector.ISSUE,
-        MissingModuleAnnotationDetector.ISSUE,
-        StaticProvidesDetector.ISSUE,
-    )
+const val INJECT = "javax.inject.Inject"
+const val BINDS = "dagger.Binds"
+const val PROVIDES = "dagger.Provides"
+const val MULTIBINDS = "dagger.Multibinds"
+const val MODULE = "dagger.Module"

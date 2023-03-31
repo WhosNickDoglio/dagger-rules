@@ -22,3 +22,5 @@
  * SOFTWARE.
  */
 plugins { id("lint.shared") }
+
+dependencies { implementation(projects.lint.shared) }
