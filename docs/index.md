@@ -7,10 +7,10 @@ dependencies {
     // Use for vanilla dagger rules
     lintChecks("dev.whosnickdoglio:dagger-lint:<version>")
 
-    // Use for Anvil and vanilla dagger rules
+    // Use for Anvil dagger rules
     lintChecks("dev.whosnickdoglio:anvil-lint:<version>")
 
-    // Use for Hilt and vanilla dagger rules
+    // Use for Hilt rules
     lintChecks("dev.whosnickdoglio:hilt-lint:<version>")
 }
 ```
