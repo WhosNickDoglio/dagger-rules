@@ -85,6 +85,7 @@ tasks.withType<Detekt>().configureEach { jvmTarget = "11" }
 tasks.withType<JavaCompile>().configureEach { options.release.set(11) }
 
 tasks.withType<Test>().configureEach {
+    maxParallelForks = (Runtime.getRuntime().availableProcessors() / 2).takeIf { it > 0 } ?: 1
     testLogging {
         exceptionFormat = TestExceptionFormat.FULL
         events = setOf(
@@ -94,6 +95,8 @@ tasks.withType<Test>().configureEach {
         )
         showStandardStreams = true
     }
+    reports.html.required.set(false)
+    reports.junitXml.required.set(false)
 }
 
 tasks.withType<KotlinCompile>().configureEach {
