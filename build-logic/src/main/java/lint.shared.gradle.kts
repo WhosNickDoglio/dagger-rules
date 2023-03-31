@@ -38,8 +38,6 @@ plugins {
     id("org.jetbrains.kotlinx.kover")
 }
 
-detekt { autoCorrect = true }
-
 val catalog =
     extensions.findByType(VersionCatalogsExtension::class.java) ?: error("No Catalog found!")
 

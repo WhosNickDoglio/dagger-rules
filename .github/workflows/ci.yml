@@ -9,7 +9,6 @@ on:
       - main
       - renovate/**
 
-
 jobs:
   Validate-Gradle:
     runs-on: ubuntu-latest

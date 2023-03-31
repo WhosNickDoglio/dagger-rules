@@ -30,8 +30,6 @@ plugins {
 
 kotlin { jvmToolchain(11) }
 
-detekt { autoCorrect = true }
-
 configure<com.diffplug.gradle.spotless.SpotlessExtension> {
     format("misc") {
         target("*.md", ".gitignore")

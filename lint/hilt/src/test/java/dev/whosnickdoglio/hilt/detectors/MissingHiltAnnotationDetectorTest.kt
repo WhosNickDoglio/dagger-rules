@@ -132,7 +132,7 @@ class MissingHiltAnnotationDetectorTest {
                     .indented(),
                 TestFiles.kotlin(
                         """
-                package androidx;
+                package androidx
 
                 import ${parameter.classPackage}.${parameter.className}
                 import ${parameter.annotation}
