@@ -79,8 +79,6 @@ configure<SpotlessExtension> {
 
 configure<KotlinJvmProjectExtension> { jvmToolchain(11) }
 
-group = "dev.whosnickdoglio"
-
 tasks.withType<Detekt>().configureEach { jvmTarget = "11" }
 
 tasks.withType<JavaCompile>().configureEach { options.release.set(11) }

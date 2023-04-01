@@ -5,13 +5,13 @@
 ```kotlin
 dependencies {
     // Use for vanilla dagger rules
-    lintChecks("dev.whosnickdoglio:dagger-lint:<version>")
+    lintChecks("dev.whosnickdoglio.dagger.rules:dagger-lint:<version>")
 
-    // Use for Anvil dagger rules
-    lintChecks("dev.whosnickdoglio:anvil-lint:<version>")
+    // Use for Anvil rules
+    lintChecks("dev.whosnickdoglio.dagger.rules:anvil-lint:<version>")
 
     // Use for Hilt rules
-    lintChecks("dev.whosnickdoglio:hilt-lint:<version>")
+    lintChecks("dev.whosnickdoglio.dagger.rules:hilt-lint:<version>")
 }
 ```
 
