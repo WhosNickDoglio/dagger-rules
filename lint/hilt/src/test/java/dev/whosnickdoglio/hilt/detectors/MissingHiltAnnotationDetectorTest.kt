@@ -23,6 +23,7 @@
  */
 package dev.whosnickdoglio.hilt.detectors
 
+import com.android.tools.lint.checks.infrastructure.TestFile
 import com.android.tools.lint.checks.infrastructure.TestFiles
 import com.android.tools.lint.checks.infrastructure.TestLintTask
 import com.google.testing.junit.testparameterinjector.TestParameter
@@ -33,21 +34,386 @@ import dev.whosnickdoglio.hilt.HILT_VIEW_MODEL
 import org.junit.Test
 import org.junit.runner.RunWith
 
+@Suppress("JUnitMalformedDeclaration")
 @RunWith(TestParameterInjector::class)
 class MissingHiltAnnotationDetectorTest {
 
-    @TestParameter lateinit var parameter: HiltAnnotationParameter
+    // TODO organize stubs better
+    private val injectAnnotation: TestFile =
+        TestFiles.kotlin(
+            """
+    package javax.inject
+
+    annotation class Inject
+"""
+                .trimIndent()
+        )
+
+    private val viewModelStub =
+        TestFiles.kotlin(
+                """
+                        package androidx.lifecycle
+                        class ViewModel
+                    """
+            )
+            .indented()
 
     @Test
-    fun `java android component with hilt annotation does not trigger error`() {
+    fun `java application class without @HiltAndroidApp triggers error`() {
+        TestLintTask.lint()
+            .files(
+                *hiltAnnotations,
+                TestFiles.kotlin(
+                        """
+                    package android.app
+                    class Application
+                """
+                    )
+                    .indented(),
+                TestFiles.java(
+                        """
+                import android.app.Application;
+
+                class MyApplication extends Application {}
+            """
+                    )
+                    .indented()
+            )
+            .issues(MissingHiltAnnotationDetector.ISSUE)
+            .run()
+            .expect(
+                """
+                src/MyApplication.java:3: Error: This class is missing the @HiltAndroidApp [MissingHiltAnnotation]
+                class MyApplication extends Application {}
+                      ~~~~~~~~~~~~~
+                1 errors, 0 warnings
+            """
+                    .trimIndent()
+            )
+            .expectErrorCount(1)
+            .expectFixDiffs(
+                """
+                Fix for src/MyApplication.java line 3: Add HiltAndroidApp annotation:
+                @@ -3 +3
+                - class MyApplication extends Application {}
+                @@ -4 +3
+                + class @dagger.hilt.android.HiltAndroidApp
+                + MyApplication extends Application {}
+            """
+                    .trimIndent()
+            )
+    }
+
+    @Test
+    fun `java application class with @HiltAndroidApp does not triggers error`() {
+        TestLintTask.lint()
+            .files(
+                *hiltAnnotations,
+                TestFiles.kotlin(
+                        """
+                    package android.app
+                    class Application
+                """
+                    )
+                    .indented(),
+                TestFiles.java(
+                        """
+                import android.app.Application;
+                import $HILT_ANDROID_APP;
+
+                @${HILT_ANDROID_APP.substringAfterLast(".")}
+                class MyApplication extends Application {}
+            """
+                    )
+                    .indented()
+            )
+            .issues(MissingHiltAnnotationDetector.ISSUE)
+            .run()
+            .expectClean()
+            .expectErrorCount(0)
+    }
+
+    @Test
+    fun `kotlin application class without @HiltAndroidApp triggers error`() {
+        TestLintTask.lint()
+            .files(
+                *hiltAnnotations,
+                TestFiles.kotlin(
+                        """
+                    package android.app
+                    class Application
+                """
+                    )
+                    .indented(),
+                TestFiles.kotlin(
+                        """
+                import android.app.Application
+
+                class MyApplication : Application
+            """
+                    )
+                    .indented()
+            )
+            .issues(MissingHiltAnnotationDetector.ISSUE)
+            .run()
+            .expect(
+                """
+                src/MyApplication.kt:3: Error: This class is missing the @HiltAndroidApp [MissingHiltAnnotation]
+                class MyApplication : Application
+                      ~~~~~~~~~~~~~
+                1 errors, 0 warnings
+            """
+                    .trimIndent()
+            )
+            .expectErrorCount(1)
+            .expectFixDiffs(
+                """
+                    Fix for src/MyApplication.kt line 3: Add HiltAndroidApp annotation:
+                    @@ -3 +3
+                    - class MyApplication : Application
+                    @@ -4 +3
+                    + class @dagger.hilt.android.HiltAndroidApp
+                    + MyApplication : Application
+                """
+                    .trimIndent()
+            )
+    }
+
+    @Test
+    fun `kotlin application class with @HiltAndroidApp does not triggers error`() {
+        TestLintTask.lint()
+            .files(
+                *hiltAnnotations,
+                TestFiles.kotlin(
+                        """
+                    package android.app
+                    class Application
+                """
+                    )
+                    .indented(),
+                TestFiles.kotlin(
+                        """
+                import android.app.Application
+                import $HILT_ANDROID_APP
+
+                @${HILT_ANDROID_APP.substringAfterLast(".")}
+                class MyApplication : Application
+            """
+                    )
+                    .indented()
+            )
+            .issues(MissingHiltAnnotationDetector.ISSUE)
+            .run()
+            .expectClean()
+            .expectErrorCount(0)
+    }
+
+    @Test
+    fun `kotlin ViewModel with @Inject and no @HiltViewModel triggers error`() {
+        TestLintTask.lint()
+            .files(
+                *hiltAnnotations,
+                injectAnnotation,
+                viewModelStub,
+                TestFiles.kotlin(
+                        """
+                import androidx.lifecycle.ViewModel
+                import javax.inject.Inject
+
+                class MyViewModel @Inject constructor(
+                    private val something: String
+                ) : ViewModel()
+            """
+                    )
+                    .indented()
+            )
+            .issues(MissingHiltAnnotationDetector.ISSUE)
+            .run()
+            .expect(
+                """
+                    src/MyViewModel.kt:4: Error: This class is missing the @HiltViewModel [MissingHiltAnnotation]
+                    class MyViewModel @Inject constructor(
+                          ~~~~~~~~~~~
+                    1 errors, 0 warnings
+                """
+                    .trimIndent()
+            )
+            .expectErrorCount(1)
+            .expectFixDiffs(
+                """
+                    Fix for src/MyViewModel.kt line 4: Add HiltViewModel annotation:
+                    @@ -4 +4
+                    - class MyViewModel @Inject constructor(
+                    + class @dagger.hilt.android.lifecycle.HiltViewModel
+                    + MyViewModel @Inject constructor(
+                """
+                    .trimIndent()
+            )
+    }
+
+    @Test
+    fun `java ViewModel with @Inject and no @HiltViewModel triggers error`() {
+        TestLintTask.lint()
+            .files(
+                *hiltAnnotations,
+                injectAnnotation,
+                viewModelStub,
+                TestFiles.java(
+                        """
+                import androidx.lifecycle.ViewModel;
+                import javax.inject.Inject;
+
+                class MyViewModel extends ViewModel {
+
+                    private final String something;
+
+                    @Inject
+                    public MyViewModel(String something) {
+                        this.something = something;
+                    }
+                }
+            """
+                    )
+                    .indented()
+            )
+            .issues(MissingHiltAnnotationDetector.ISSUE)
+            .run()
+            .expect(
+                """
+                src/MyViewModel.java:4: Error: This class is missing the @HiltViewModel [MissingHiltAnnotation]
+                class MyViewModel extends ViewModel {
+                      ~~~~~~~~~~~
+                1 errors, 0 warnings
+            """
+                    .trimIndent()
+            )
+            .expectErrorCount(1)
+            .expectFixDiffs(
+                """
+                Fix for src/MyViewModel.java line 4: Add HiltViewModel annotation:
+                @@ -4 +4
+                - class MyViewModel extends ViewModel {
+                + class @dagger.hilt.android.lifecycle.HiltViewModel
+                + MyViewModel extends ViewModel {
+            """
+                    .trimIndent()
+            )
+    }
+
+    @Test
+    fun `kotlin ViewModel with no @Inject or @HiltViewModel does not triggers error`() {
+        TestLintTask.lint()
+            .files(
+                *hiltAnnotations,
+                viewModelStub,
+                TestFiles.kotlin(
+                        """
+                import androidx.lifecycle.ViewModel
+
+                class MyViewModel : ViewModel()
+            """
+                    )
+                    .indented()
+            )
+            .issues(MissingHiltAnnotationDetector.ISSUE)
+            .run()
+            .expectClean()
+            .expectErrorCount(0)
+    }
+
+    @Test
+    fun `java ViewModel with no @Inject or @HiltViewModel does not triggers error`() {
+        TestLintTask.lint()
+            .files(
+                *hiltAnnotations,
+                viewModelStub,
+                TestFiles.java(
+                        """
+                import androidx.lifecycle.ViewModel;
+
+                class MyViewModel extends ViewModel {}
+            """
+                    )
+                    .indented()
+            )
+            .issues(MissingHiltAnnotationDetector.ISSUE)
+            .run()
+            .expectClean()
+            .expectErrorCount(0)
+    }
+
+    @Test
+    fun `kotlin ViewModel with @HiltViewModel does not triggers error`() {
+        TestLintTask.lint()
+            .files(
+                *hiltAnnotations,
+                viewModelStub,
+                TestFiles.kotlin(
+                        """
+                import androidx.lifecycle.ViewModel
+                import $HILT_VIEW_MODEL
+
+                @${HILT_VIEW_MODEL.substringAfterLast(".")}
+                class MyViewModel : ViewModel()
+            """
+                    )
+                    .indented()
+            )
+            .issues(MissingHiltAnnotationDetector.ISSUE)
+            .run()
+            .expectClean()
+            .expectErrorCount(0)
+    }
+
+    @Test
+    fun `java ViewModel with @HiltViewModel does not triggers error`() {
+        TestLintTask.lint()
+            .files(
+                *hiltAnnotations,
+                viewModelStub,
+                TestFiles.java(
+                        """
+                import androidx.lifecycle.ViewModel;
+                import $HILT_VIEW_MODEL;
+
+                @${HILT_VIEW_MODEL.substringAfterLast(".")}
+                class MyViewModel extends ViewModel {}
+            """
+                    )
+                    .indented()
+            )
+            .issues(MissingHiltAnnotationDetector.ISSUE)
+            .run()
+            .expectClean()
+            .expectErrorCount(0)
+    }
+
+    @Test
+    fun `java android component using field injection with @AndroidEntryPoint does not trigger error`(
+        @TestParameter(
+            value =
+                [
+                    "android.app.Activity",
+                    "android.app.Fragment",
+                    "android.app.Service",
+                    "android.content.ContentProvider",
+                    "android.content.BroadcastReceiver",
+                    "androidx.fragment.app.Fragment"
+                ]
+        )
+        androidEntryPoint: String
+    ) {
+        val classPackage = androidEntryPoint.substringBeforeLast(".")
+        val className = androidEntryPoint.substringAfterLast(".")
+
         TestLintTask.lint()
             .files(
                 *hiltAnnotations,
                 TestFiles.java(
                         """
-                package ${parameter.classPackage};
+                package $classPackage;
 
-                class ${parameter.className} {}
+                class $className {}
 
                 """
                     )
@@ -56,11 +422,11 @@ class MissingHiltAnnotationDetectorTest {
                         """
                 package androidx;
 
-                import ${parameter.classPackage}.${parameter.className};
-                import ${parameter.annotation};
+                import $androidEntryPoint;
+                import $ANDROID_ENTRY_POINT;
 
-                @${parameter.annotation.substringAfterLast(".")}
-                class AndroidX${parameter.className} extends ${parameter.className} {}
+                @${ANDROID_ENTRY_POINT.substringAfterLast(".")}
+                class AndroidX$className extends $className {}
                     """
                     )
                     .indented(),
@@ -72,28 +438,54 @@ class MissingHiltAnnotationDetectorTest {
     }
 
     @Test
-    fun `java android component without hilt annotation triggers error`() {
+    fun `java android component using field injection without @AndroidEntryPoint triggers error`(
+        @TestParameter(
+            value =
+                [
+                    "android.app.Activity",
+                    "android.app.Fragment",
+                    "android.app.Service",
+                    "android.content.ContentProvider",
+                    "android.content.BroadcastReceiver",
+                    "androidx.fragment.app.Fragment"
+                ]
+        )
+        androidEntryPoint: String
+    ) {
+        val classPackage = androidEntryPoint.substringBeforeLast(".")
+        val className = androidEntryPoint.substringAfterLast(".")
+
         fun expectedErrorMessage(): String {
 
-            val errorHighlight =
-                "AndroidX${parameter.className}".map { "~" }.joinToString(separator = "")
+            val errorHighlight = "AndroidX${className}".map { "~" }.joinToString(separator = "")
 
             return """
-                src/androidx/AndroidX${parameter.className}.java:6: Error:  [MissingHiltAnnotation]
-                class AndroidX${parameter.className} extends ${parameter.className} {}
+                src/androidx/AndroidX$className.java:7: Error: This class is missing the @${ANDROID_ENTRY_POINT.substringAfterLast(".")} [MissingHiltAnnotation]
+                class AndroidX$className extends $className {
                       $errorHighlight
                 1 errors, 0 warnings
             """
         }
 
+        fun expectedFixDiff(): String =
+            """
+            Fix for src/androidx/AndroidX$className.java line 7: Add AndroidEntryPoint annotation:
+            @@ -7 +7
+            - class AndroidX$className extends $className {
+            + class @dagger.hilt.android.AndroidEntryPoint
+            + AndroidX$className extends $className {
+        """
+                .trimIndent()
+
         TestLintTask.lint()
             .files(
                 *hiltAnnotations,
+                injectAnnotation,
                 TestFiles.java(
                         """
-                package ${parameter.classPackage};
+                package $classPackage;
 
-                class ${parameter.className} {}
+                class $className {}
 
                 """
                     )
@@ -102,10 +494,14 @@ class MissingHiltAnnotationDetectorTest {
                         """
                 package androidx;
 
-                import ${parameter.classPackage}.${parameter.className};
+                import $androidEntryPoint;
+                import javax.inject.Inject;
 
 
-                class AndroidX${parameter.className} extends ${parameter.className} {}
+                class AndroidX$className extends $className {
+                    @Inject
+                    String myString;
+                }
                     """
                     )
                     .indented(),
@@ -114,18 +510,35 @@ class MissingHiltAnnotationDetectorTest {
             .run()
             .expect(expectedErrorMessage())
             .expectErrorCount(1)
+            .expectFixDiffs(expectedFixDiff())
     }
 
     @Test
-    fun `kotlin android component with hilt annotation does not trigger error`() {
+    fun `kotlin android component using field injection with @AndroidEntryPoint does not trigger error`(
+        @TestParameter(
+            value =
+                [
+                    "android.app.Activity",
+                    "android.app.Fragment",
+                    "android.app.Service",
+                    "android.content.ContentProvider",
+                    "android.content.BroadcastReceiver",
+                    "androidx.fragment.app.Fragment"
+                ]
+        )
+        androidEntryPoint: String
+    ) {
+        val classPackage = androidEntryPoint.substringBeforeLast(".")
+        val className = androidEntryPoint.substringAfterLast(".")
+
         TestLintTask.lint()
             .files(
                 *hiltAnnotations,
                 TestFiles.kotlin(
                         """
-                package ${parameter.classPackage}
+                package $classPackage
 
-                class ${parameter.className}
+                class $className
 
                 """
                     )
@@ -134,11 +547,11 @@ class MissingHiltAnnotationDetectorTest {
                         """
                 package androidx
 
-                import ${parameter.classPackage}.${parameter.className}
-                import ${parameter.annotation}
+                import $androidEntryPoint
+                import $ANDROID_ENTRY_POINT
 
-                @${parameter.annotation.substringAfterLast(".")}
-                class AndroidX${parameter.className}: ${parameter.className}
+                @${ANDROID_ENTRY_POINT.substringAfterLast(".")}
+                class AndroidX$className: $className
                     """
                     )
                     .indented(),
@@ -150,40 +563,68 @@ class MissingHiltAnnotationDetectorTest {
     }
 
     @Test
-    fun `kotlin android component without hilt annotation triggers error`() {
+    fun `kotlin android component using field injection without @AndroidEntryPoint triggers error`(
+        @TestParameter(
+            value =
+                [
+                    "android.app.Activity",
+                    "android.app.Fragment",
+                    "android.app.Service",
+                    "android.content.ContentProvider",
+                    "android.content.BroadcastReceiver",
+                    "androidx.fragment.app.Fragment"
+                ]
+        )
+        androidEntryPoint: String
+    ) {
+        val classPackage = androidEntryPoint.substringBeforeLast(".")
+        val className = androidEntryPoint.substringAfterLast(".")
+
         fun expectedErrorMessage(): String {
 
-            val errorHighlight =
-                "AndroidX${parameter.className}".map { "~" }.joinToString(separator = "")
+            val errorHighlight = "AndroidX$className".map { "~" }.joinToString(separator = "")
 
             return """
-                src/androidx/AndroidX${parameter.className}.kt:6: Error:  [MissingHiltAnnotation]
-                class AndroidX${parameter.className} : ${parameter.className}
+                src/androidx/AndroidX$className.kt:6: Error: This class is missing the @${ANDROID_ENTRY_POINT.substringAfterLast(".")} [MissingHiltAnnotation]
+                class AndroidX$className : $className {
                       $errorHighlight
                 1 errors, 0 warnings
             """
         }
 
+        fun expectedFixDiff(): String =
+            """
+                Fix for src/androidx/AndroidX${className}.kt line 6: Add AndroidEntryPoint annotation:
+                @@ -6 +6
+                - class AndroidX${className} : $className {
+                + class @dagger.hilt.android.AndroidEntryPoint
+                + AndroidX${className} : $className {
+            """
+                .trimIndent()
+
         TestLintTask.lint()
             .files(
                 *hiltAnnotations,
+                injectAnnotation,
                 TestFiles.kotlin(
                         """
-                package ${parameter.classPackage}
+                package $classPackage
 
-                class ${parameter.className}
+                class $className
 
                 """
                     )
                     .indented(),
                 TestFiles.kotlin(
                         """
-                package androidx;
+                package androidx
 
-                import ${parameter.classPackage}.${parameter.className}
+                import javax.inject.Inject
+                import $androidEntryPoint
 
-
-                class AndroidX${parameter.className} : ${parameter.className}
+                class AndroidX${className} : ${className} {
+                    @Inject lateinit var something: String
+                }
                     """
                     )
                     .indented(),
@@ -192,21 +633,96 @@ class MissingHiltAnnotationDetectorTest {
             .run()
             .expect(expectedErrorMessage())
             .expectErrorCount(1)
+            .expectFixDiffs(expectedFixDiff())
     }
 
-    @Suppress("unused")
-    enum class HiltAnnotationParameter(
-        val className: String,
-        val classPackage: String,
-        val annotation: String,
+    @Test
+    fun `kotlin android component not using field injection without @AndroidEntryPoint does not trigger error`(
+        @TestParameter(
+            value =
+                [
+                    "android.app.Activity",
+                    "android.app.Fragment",
+                    "android.app.Service",
+                    "android.content.ContentProvider",
+                    "android.content.BroadcastReceiver",
+                    "androidx.fragment.app.Fragment"
+                ]
+        )
+        androidEntryPoint: String
     ) {
-        ACTIVITY("Activity", "android.app", ANDROID_ENTRY_POINT),
-        APP_FRAGMENT("Fragment", "android.app", ANDROID_ENTRY_POINT),
-        APPLICATION("Application", "android.app", HILT_ANDROID_APP),
-        SERVICE("Service", "android.app", ANDROID_ENTRY_POINT),
-        ANDROIDX_FRAGMENT("Fragment", "androidx.fragment.app", ANDROID_ENTRY_POINT),
-        BROADCAST_RECEIVER("BroadcastReceiver", "android.content", ANDROID_ENTRY_POINT),
-        CONTENT_PROVIDER("ContentProvider", "android.content", ANDROID_ENTRY_POINT),
-        VIEWMODEL("ViewModel", "androidx.lifecycle", HILT_VIEW_MODEL)
+        val classPackage = androidEntryPoint.substringBeforeLast(".")
+        val className = androidEntryPoint.substringAfterLast(".")
+
+        TestLintTask.lint()
+            .files(
+                *hiltAnnotations,
+                TestFiles.kotlin(
+                        """
+                package $classPackage
+
+                class $className
+
+                """
+                    )
+                    .indented(),
+                TestFiles.kotlin(
+                        """
+                package androidx
+
+                class AndroidX$className : $className
+                    """
+                    )
+                    .indented(),
+            )
+            .issues(MissingHiltAnnotationDetector.ISSUE)
+            .run()
+            .expectClean()
+            .expectErrorCount(0)
+    }
+
+    @Test
+    fun `java android component not using field injection without @AndroidEntryPoint does not trigger error`(
+        @TestParameter(
+            value =
+                [
+                    "android.app.Activity",
+                    "android.app.Fragment",
+                    "android.app.Service",
+                    "android.content.ContentProvider",
+                    "android.content.BroadcastReceiver",
+                    "androidx.fragment.app.Fragment"
+                ]
+        )
+        androidEntryPoint: String
+    ) {
+        val classPackage = androidEntryPoint.substringBeforeLast(".")
+        val className = androidEntryPoint.substringAfterLast(".")
+
+        TestLintTask.lint()
+            .files(
+                *hiltAnnotations,
+                TestFiles.java(
+                        """
+                package $classPackage;
+
+                class $className {}
+
+                """
+                    )
+                    .indented(),
+                TestFiles.java(
+                        """
+                package androidx;
+
+                class AndroidX$className extends $className {}
+                    """
+                    )
+                    .indented(),
+            )
+            .issues(MissingHiltAnnotationDetector.ISSUE)
+            .run()
+            .expectClean()
+            .expectErrorCount(0)
     }
 }

@@ -35,21 +35,20 @@ import com.android.tools.lint.detector.api.SourceCodeScanner
 import dev.whosnickdoglio.hilt.ANDROID_ENTRY_POINT
 import dev.whosnickdoglio.hilt.HILT_ANDROID_APP
 import dev.whosnickdoglio.hilt.HILT_VIEW_MODEL
+import dev.whosnickdoglio.lint.shared.INJECT
 import org.jetbrains.uast.UClass
 import org.jetbrains.uast.UElement
 
 internal class MissingHiltAnnotationDetector : Detector(), SourceCodeScanner {
 
-    private val supersToAnnotation =
-        mapOf(
-            "android.app.Activity" to ANDROID_ENTRY_POINT,
-            "android.app.Fragment" to ANDROID_ENTRY_POINT,
-            "android.app.Service" to ANDROID_ENTRY_POINT,
-            "android.content.ContentProvider" to ANDROID_ENTRY_POINT,
-            "android.content.BroadcastReceiver" to ANDROID_ENTRY_POINT,
-            "androidx.fragment.app.Fragment" to ANDROID_ENTRY_POINT,
-            "android.app.Application" to HILT_ANDROID_APP,
-            "androidx.lifecycle.ViewModel" to HILT_VIEW_MODEL
+    private val androidEntryPointSupers =
+        setOf(
+            "android.app.Activity",
+            "android.app.Fragment",
+            "android.app.Service",
+            "android.content.ContentProvider",
+            "android.content.BroadcastReceiver",
+            "androidx.fragment.app.Fragment",
         )
 
     override fun getApplicableUastTypes(): List<Class<out UElement>> = listOf(UClass::class.java)
@@ -57,24 +56,77 @@ internal class MissingHiltAnnotationDetector : Detector(), SourceCodeScanner {
     override fun createUastHandler(context: JavaContext): UElementHandler =
         object : UElementHandler() {
             override fun visitClass(node: UClass) {
-                supersToAnnotation.forEach { (superClass, hiltAnnotation) ->
-                    val isSubClass = context.evaluator.extendsClass(node, superClass, true)
-                    if (
-                        isSubClass &&
-                            !node.uAnnotations.any { uAnnotation ->
-                                uAnnotation.qualifiedName == hiltAnnotation
-                            }
-                    ) {
-                        context.report(
-                            issue = ISSUE,
-                            location = context.getNameLocation(node),
-                            message = "",
-                            quickfixData = null // TODO
-                        )
-                    }
+                if (
+                    context.evaluator.extendsClass(node, "android.app.Application", true) &&
+                        !node.hasAnnotation(HILT_ANDROID_APP)
+                ) {
+                    context.report(
+                        issue = ISSUE,
+                        location = context.getNameLocation(node),
+                        message =
+                            "This class is missing the `@${HILT_ANDROID_APP.substringAfterLast(".")}`",
+                        quickfixData =
+                            fix()
+                                .name("Add ${HILT_ANDROID_APP.substringAfterLast(".")} annotation")
+                                .annotate(HILT_ANDROID_APP)
+                                .range(context.getNameLocation(node))
+                                .build(),
+                    )
+                } else if (
+                    context.evaluator.extendsClass(node, "androidx.lifecycle.ViewModel", true) &&
+                        node.hasInjectedConstructor() &&
+                        !node.hasAnnotation(HILT_VIEW_MODEL)
+                ) {
+                    context.report(
+                        issue = ISSUE,
+                        location = context.getNameLocation(node),
+                        message =
+                            "This class is missing the `@${HILT_VIEW_MODEL.substringAfterLast(".")}`",
+                        quickfixData =
+                            fix()
+                                .name("Add ${HILT_VIEW_MODEL.substringAfterLast(".")} annotation")
+                                .annotate(HILT_VIEW_MODEL)
+                                .range(context.getNameLocation(node))
+                                .build(),
+                    )
+                } else {
+                    context.checkAndroidEntryPoints(node)
                 }
             }
         }
+
+    private fun JavaContext.checkAndroidEntryPoints(node: UClass) {
+        androidEntryPointSupers.forEach { superClass ->
+            val isSubClass = evaluator.extendsClass(node, superClass, true)
+
+            val injectedFields =
+                node.fields.filter { field ->
+                    field.uAnnotations.any { annotation -> annotation.qualifiedName == INJECT }
+                }
+
+            if (
+                isSubClass &&
+                    injectedFields.isNotEmpty() &&
+                    !node.hasAnnotation(ANDROID_ENTRY_POINT)
+            ) {
+                report(
+                    issue = ISSUE,
+                    location = getNameLocation(node),
+                    message =
+                        "This class is missing the `@${ANDROID_ENTRY_POINT.substringAfterLast(".")}`",
+                    quickfixData =
+                        fix()
+                            .name("Add ${ANDROID_ENTRY_POINT.substringAfterLast(".")} annotation")
+                            .annotate(ANDROID_ENTRY_POINT)
+                            .range(getNameLocation(node))
+                            .build(),
+                )
+            }
+        }
+    }
+
+    private fun UClass.hasInjectedConstructor(): Boolean =
+        constructors.flatMap { it.annotations.toList() }.any { it.qualifiedName == INJECT }
 
     companion object {
         private val implementation =
@@ -82,7 +134,7 @@ internal class MissingHiltAnnotationDetector : Detector(), SourceCodeScanner {
         val ISSUE =
             Issue.create(
                 id = "MissingHiltAnnotation",
-                briefDescription = "Hello friend",
+                briefDescription = "Android Component is missing Hilt annotation",
                 explanation = "Hello friend",
                 category = Category.CORRECTNESS,
                 priority = 5,
