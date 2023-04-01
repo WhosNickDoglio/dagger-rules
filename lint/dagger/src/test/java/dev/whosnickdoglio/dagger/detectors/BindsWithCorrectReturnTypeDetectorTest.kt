@@ -83,11 +83,13 @@ class BindsWithCorrectReturnTypeDetectorTest {
             .run()
             .expect(
                 """
-                src/PizzaMaker.java:10: Error: The impl is not a subclass of the given return type :thinking [BindsWithCorrectReturnType]
-                    @Binds PizzaMaker bindsPizzaMaker(PizzaMakerImpl pizzaMaker);
-                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                1 errors, 0 warnings
-            """
+                    src/PizzaMaker.java:10: Error: @Binds method parameters need to be a subclass of the return type.
+                    Make sure you're passing the correct parameter or the intended subclass is implementing
+                    the return type interface. [BindsWithCorrectReturnType]
+                        @Binds PizzaMaker bindsPizzaMaker(PizzaMakerImpl pizzaMaker);
+                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                    1 errors, 0 warnings
+                """
                     .trimIndent()
             )
             .expectErrorCount(1)
@@ -147,11 +149,13 @@ class BindsWithCorrectReturnTypeDetectorTest {
             .run()
             .expect(
                 """
-                src/PizzaMaker.kt:10: Error: The impl is not a subclass of the given return type :thinking [BindsWithCorrectReturnType]
-                    @Binds fun bindsPizzaMaker(impl: NotPizzaMaker): PizzaMaker
-                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                1 errors, 0 warnings
-            """
+                    src/PizzaMaker.kt:10: Error: @Binds method parameters need to be a subclass of the return type.
+                    Make sure you're passing the correct parameter or the intended subclass is implementing
+                    the return type interface. [BindsWithCorrectReturnType]
+                        @Binds fun bindsPizzaMaker(impl: NotPizzaMaker): PizzaMaker
+                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                    1 errors, 0 warnings
+                """
                     .trimIndent()
             )
             .expectErrorCount(1)
@@ -211,11 +215,13 @@ class BindsWithCorrectReturnTypeDetectorTest {
             .run()
             .expect(
                 """
-                src/PizzaMaker.kt:10: Error: The impl is not a subclass of the given return type :thinking [BindsWithCorrectReturnType]
-                    @Binds fun NotPizzaMaker.bindPizzaMaker(): PizzaMaker
-                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                1 errors, 0 warnings
-            """
+                    src/PizzaMaker.kt:10: Error: @Binds method parameters need to be a subclass of the return type.
+                    Make sure you're passing the correct parameter or the intended subclass is implementing
+                    the return type interface. [BindsWithCorrectReturnType]
+                        @Binds fun NotPizzaMaker.bindPizzaMaker(): PizzaMaker
+                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                    1 errors, 0 warnings
+                """
                     .trimIndent()
             )
             .expectErrorCount(1)

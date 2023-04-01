@@ -32,6 +32,7 @@ import com.android.tools.lint.detector.api.JavaContext
 import com.android.tools.lint.detector.api.Scope
 import com.android.tools.lint.detector.api.Severity
 import com.android.tools.lint.detector.api.SourceCodeScanner
+import com.android.tools.lint.detector.api.TextFormat
 import dev.whosnickdoglio.lint.shared.PROVIDES
 import org.jetbrains.uast.UAnnotation
 import org.jetbrains.uast.UCallExpression
@@ -52,7 +53,7 @@ internal class ConstructorInjectionOverProvidesDetector : Detector(), SourceCode
                         context.report(
                             issue = ISSUE,
                             location = context.getLocation(method),
-                            message = "Hello hello hello"
+                            message = ISSUE.getExplanation(TextFormat.TEXT)
                         )
                     }
                 }
@@ -69,8 +70,14 @@ internal class ConstructorInjectionOverProvidesDetector : Detector(), SourceCode
         val ISSUE =
             Issue.create(
                 id = "ConstructorInjectionOverProvidesMethods",
-                briefDescription = "Hello friend",
-                explanation = "Hello friend",
+                briefDescription =
+                    "Class is being added to Dagger graph with @Provides method instead of constructor injection",
+                explanation =
+                    """
+                    `@Provides` methods are great for adding third party libraries or classes that require Builders or Factories
+                    to the Dagger graph but for classes with simple constructors you should just add a `@Inject` annotation to the constructor
+                """
+                        .trimIndent(),
                 category = Category.CORRECTNESS,
                 priority = 5,
                 severity = Severity.WARNING,

@@ -34,6 +34,7 @@ import com.android.tools.lint.detector.api.Severity
 import com.android.tools.lint.detector.api.SourceCodeScanner
 import com.android.tools.lint.detector.api.isKotlin
 import dev.whosnickdoglio.anvil.CONTRIBUTES_BINDING
+import dev.whosnickdoglio.anvil.CONTRIBUTES_MULTI_BINDING
 import dev.whosnickdoglio.lint.shared.INJECT
 import org.jetbrains.uast.UClass
 import org.jetbrains.uast.UElement
@@ -43,23 +44,44 @@ internal class MissingContributesBindingDetector : Detector(), SourceCodeScanner
     override fun getApplicableUastTypes(): List<Class<out UElement>> = listOf(UClass::class.java)
 
     override fun createUastHandler(context: JavaContext): UElementHandler? {
+        // Anvil is Kotlin only
         if (!isKotlin(context.uastFile?.lang)) return null
         return object : UElementHandler() {
             override fun visitClass(node: UClass) {
                 val psiClass = node.javaPsi
+
+                val doesNotHaveBindingAnnotations =
+                    !node.uAnnotations.any { annotation ->
+                        annotation.qualifiedName == CONTRIBUTES_BINDING ||
+                            annotation.qualifiedName == CONTRIBUTES_MULTI_BINDING
+                    }
                 if (
                     psiClass.constructors.any { method -> method.hasAnnotation(INJECT) } &&
                         // TODO this feels naive
                         node.superTypes.size > 1 &&
-                        !node.uAnnotations.any { annotation ->
-                            annotation.qualifiedName == CONTRIBUTES_BINDING
-                        }
+                        doesNotHaveBindingAnnotations
+                // TODO ContributesBinding doesn't support generics so we should avoid suggesting
+                // when the super takes generics
                 ) {
                     context.report(
                         issue = ISSUE,
                         location = context.getNameLocation(node),
-                        message = "hello",
-                        quickfixData = null // TODO
+                        message =
+                            "Contribute this binding to the Dagger graph using an Anvil annotation",
+                        quickfixData =
+                            fix()
+                                .alternatives(
+                                    fix()
+                                        .name("Add @ContributesBinding annotation")
+                                        .annotate(CONTRIBUTES_BINDING)
+                                        .range(context.getNameLocation(node))
+                                        .build(),
+                                    fix()
+                                        .name("Add @ContributesMultibinding annotation")
+                                        .annotate(CONTRIBUTES_MULTI_BINDING)
+                                        .range(context.getNameLocation(node))
+                                        .build(),
+                                )
                     )
                 }
             }

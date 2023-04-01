@@ -32,6 +32,7 @@ import com.android.tools.lint.detector.api.JavaContext
 import com.android.tools.lint.detector.api.Scope
 import com.android.tools.lint.detector.api.Severity
 import com.android.tools.lint.detector.api.SourceCodeScanner
+import com.android.tools.lint.detector.api.TextFormat
 import com.android.tools.lint.detector.api.isKotlin
 import dev.whosnickdoglio.anvil.CONTRIBUTES_TO
 import dev.whosnickdoglio.lint.shared.MODULE
@@ -45,6 +46,7 @@ internal class MissingContributesToDetector : Detector(), SourceCodeScanner {
         listOf(UAnnotation::class.java)
 
     override fun createUastHandler(context: JavaContext): UElementHandler? {
+        // Anvil is Kotlin only
         if (!isKotlin(context.uastFile?.lang)) return null
         return object : UElementHandler() {
             override fun visitAnnotation(node: UAnnotation) {
@@ -60,8 +62,13 @@ internal class MissingContributesToDetector : Detector(), SourceCodeScanner {
                             context.report(
                                 issue = ISSUE,
                                 location = context.getNameLocation(element),
-                                message = "Hello friend",
-                                quickfixData = null // TODO
+                                message = ISSUE.getExplanation(TextFormat.TEXT),
+                                quickfixData =
+                                    fix()
+                                        .name("Add @ContributesTo annotation")
+                                        .annotate(CONTRIBUTES_TO)
+                                        .range(context.getNameLocation(element))
+                                        .build()
                             )
                         }
                     }
@@ -76,8 +83,9 @@ internal class MissingContributesToDetector : Detector(), SourceCodeScanner {
         val ISSUE =
             Issue.create(
                 id = "MissingContributesToAnnotation",
-                briefDescription = "Hello friend",
-                explanation = "Hello friend",
+                briefDescription = "Module missing @ContributesTo annotation",
+                explanation =
+                    "This Dagger module is missing a `@ContributesTo` annotation for Anvil to pick it up",
                 category = Category.CORRECTNESS,
                 priority = 5,
                 severity = Severity.ERROR,

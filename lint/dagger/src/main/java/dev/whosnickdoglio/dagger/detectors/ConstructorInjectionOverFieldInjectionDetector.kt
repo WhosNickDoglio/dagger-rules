@@ -33,6 +33,7 @@ import com.android.tools.lint.detector.api.Scope
 import com.android.tools.lint.detector.api.Severity
 import com.android.tools.lint.detector.api.SourceCodeScanner
 import com.android.tools.lint.detector.api.StringOption
+import com.android.tools.lint.detector.api.TextFormat
 import dev.whosnickdoglio.lint.shared.INJECT
 import org.jetbrains.uast.UAnnotation
 import org.jetbrains.uast.UElement
@@ -64,7 +65,7 @@ internal class ConstructorInjectionOverFieldInjectionDetector : Detector(), Sour
                                 context.evaluator.extendsClass(
                                     cls = annotatedElement.getContainingUClass(),
                                     className = className,
-                                    strict = true // todo what you do
+                                    strict = true
                                 )
                             }
 
@@ -73,7 +74,7 @@ internal class ConstructorInjectionOverFieldInjectionDetector : Detector(), Sour
                             context.report(
                                 issue = ISSUE,
                                 location = context.getLocation(annotatedElement),
-                                message = "plz use constructor injection over field injection"
+                                message = ISSUE.getExplanation(TextFormat.TEXT)
                             )
                         }
                     }
@@ -119,8 +120,12 @@ internal class ConstructorInjectionOverFieldInjectionDetector : Detector(), Sour
         val ISSUE =
             Issue.create(
                 id = "ConstructorOverField",
-                briefDescription = "Hello friend",
-                explanation = "Hello friend",
+                briefDescription = "Class is using field injection over constructor injection",
+                explanation =
+                    """
+                    Constructor injection should be favored over field injection for classes that support it.
+                """
+                        .trimIndent(),
                 category = Category.CORRECTNESS,
                 priority = 5,
                 severity = Severity.WARNING,

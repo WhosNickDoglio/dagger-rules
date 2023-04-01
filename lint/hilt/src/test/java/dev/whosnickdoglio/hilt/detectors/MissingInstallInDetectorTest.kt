@@ -67,11 +67,11 @@ class MissingInstallInDetectorTest {
             .run()
             .expect(
                 """
-                src/MyModule.kt:5: Error: Hello friend [MissingInstallInAnnotation]
-                class MyModule {
-                      ~~~~~~~~
-                1 errors, 0 warnings
-            """
+                    src/MyModule.kt:5: Error: Hilt modules require the @InstallIn annotation to be properly connected to a Component. Annotate this class with @InstallIn and the Hilt component you want to connect it to, the most commonly used Component is the SingletonComponent. [MissingInstallInAnnotation]
+                    class MyModule {
+                          ~~~~~~~~
+                    1 errors, 0 warnings
+                """
                     .trimIndent()
             )
             .expectErrorCount(1)
@@ -140,7 +140,7 @@ class MissingInstallInDetectorTest {
             .run()
             .expect(
                 """
-                    src/PizzaMaker.kt:9: Error: Hello friend [MissingInstallInAnnotation]
+                    src/PizzaMaker.kt:9: Error: Hilt modules require the @InstallIn annotation to be properly connected to a Component. Annotate this class with @InstallIn and the Hilt component you want to connect it to, the most commonly used Component is the SingletonComponent. [MissingInstallInAnnotation]
                     interface MyModule {
                               ~~~~~~~~
                     1 errors, 0 warnings
@@ -273,11 +273,11 @@ class MissingInstallInDetectorTest {
             .run()
             .expect(
                 """
-                src/PizzaMaker.kt:9: Error: Hello friend [MissingInstallInAnnotation]
-                interface MyModule {
-                          ~~~~~~~~
-                1 errors, 0 warnings
-            """
+                    src/PizzaMaker.kt:9: Error: Hilt modules require the @InstallIn annotation to be properly connected to a Component. Annotate this class with @InstallIn and the Hilt component you want to connect it to, the most commonly used Component is the SingletonComponent. [MissingInstallInAnnotation]
+                    interface MyModule {
+                              ~~~~~~~~
+                    1 errors, 0 warnings
+                """
                     .trimIndent()
             )
             .expectErrorCount(1)
@@ -309,7 +309,7 @@ class MissingInstallInDetectorTest {
             .run()
             .expect(
                 """
-                    src/MyModule.java:5: Error: Hello friend [MissingInstallInAnnotation]
+                    src/MyModule.java:5: Error: Hilt modules require the @InstallIn annotation to be properly connected to a Component. Annotate this class with @InstallIn and the Hilt component you want to connect it to, the most commonly used Component is the SingletonComponent. [MissingInstallInAnnotation]
                     class MyModule {
                           ~~~~~~~~
                     1 errors, 0 warnings
@@ -383,7 +383,7 @@ class MissingInstallInDetectorTest {
             .run()
             .expect(
                 """
-                    src/PizzaMaker.java:9: Error: Hello friend [MissingInstallInAnnotation]
+                    src/PizzaMaker.java:9: Error: Hilt modules require the @InstallIn annotation to be properly connected to a Component. Annotate this class with @InstallIn and the Hilt component you want to connect it to, the most commonly used Component is the SingletonComponent. [MissingInstallInAnnotation]
                     interface MyModule {
                               ~~~~~~~~
                     1 errors, 0 warnings

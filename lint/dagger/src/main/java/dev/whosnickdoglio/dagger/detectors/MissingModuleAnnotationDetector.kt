@@ -67,12 +67,12 @@ internal class MissingModuleAnnotationDetector : Detector(), SourceCodeScanner {
                         context.report(
                             issue = ISSUE,
                             location = context.getNameLocation(containingClass),
-                            message = "Don't forget the @Module annotation!",
+                            message = "Don't forget the `@Module` annotation!",
                             quickfixData =
                                 fix()
-                                    // TODO
-                                    .annotate(MODULE, replace = false)
-                                    .range(context.getLocation(containingClass as UElement))
+                                    .name("Add @Module annotation")
+                                    .annotate(MODULE)
+                                    .range(context.getNameLocation(containingClass))
                                     .build()
                         )
                     }
@@ -87,8 +87,12 @@ internal class MissingModuleAnnotationDetector : Detector(), SourceCodeScanner {
         val ISSUE =
             Issue.create(
                 id = "MissingModuleAnnotation",
-                briefDescription = "Hello friend",
-                explanation = "Hello friend",
+                briefDescription = "Missing `@Module` annotation",
+                explanation =
+                    """
+                    TODO talk about needing @Module
+                """
+                        .trimIndent(),
                 category = Category.CORRECTNESS,
                 priority = 5,
                 severity = Severity.ERROR,

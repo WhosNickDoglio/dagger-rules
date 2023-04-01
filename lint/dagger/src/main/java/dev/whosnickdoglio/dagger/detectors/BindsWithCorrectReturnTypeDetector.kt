@@ -32,6 +32,7 @@ import com.android.tools.lint.detector.api.JavaContext
 import com.android.tools.lint.detector.api.Scope
 import com.android.tools.lint.detector.api.Severity
 import com.android.tools.lint.detector.api.SourceCodeScanner
+import com.android.tools.lint.detector.api.TextFormat
 import com.intellij.psi.PsiType
 import dev.whosnickdoglio.lint.shared.BINDS
 import org.jetbrains.uast.UAnnotation
@@ -56,8 +57,7 @@ internal class BindsWithCorrectReturnTypeDetector : Detector(), SourceCodeScanne
                             context.report(
                                 issue = ISSUE,
                                 location = context.getLocation(bindsMethod),
-                                message =
-                                    "The impl is not a subclass of the given return type :thinking",
+                                message = ISSUE.getExplanation(TextFormat.TEXT),
                             )
                         }
                     }
@@ -72,8 +72,14 @@ internal class BindsWithCorrectReturnTypeDetector : Detector(), SourceCodeScanne
         val ISSUE =
             Issue.create(
                 id = "BindsWithCorrectReturnType",
-                briefDescription = "Hello friend",
-                explanation = "Hello friend",
+                briefDescription =
+                    "`@Binds` method parameter is not a subclass of method return type",
+                explanation =
+                    """
+                        |`@Binds` method parameters need to be a subclass of the return type.
+                        |Make sure you're passing the correct parameter or the intended subclass is implementing
+                        |the return type interface."""
+                        .trimMargin(),
                 category = Category.CORRECTNESS,
                 priority = 5,
                 severity = Severity.ERROR,

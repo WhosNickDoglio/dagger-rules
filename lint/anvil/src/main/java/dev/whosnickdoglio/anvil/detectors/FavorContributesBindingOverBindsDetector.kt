@@ -34,23 +34,41 @@ import com.android.tools.lint.detector.api.Severity
 import com.android.tools.lint.detector.api.SourceCodeScanner
 import com.android.tools.lint.detector.api.isKotlin
 import dev.whosnickdoglio.lint.shared.BINDS
+import dev.whosnickdoglio.lint.shared.INTO_MAP
+import dev.whosnickdoglio.lint.shared.INTO_SET
 import org.jetbrains.uast.UAnnotation
 import org.jetbrains.uast.UElement
 
 internal class FavorContributesBindingOverBindsDetector : Detector(), SourceCodeScanner {
 
+    private val multiBindsAnnotations = setOf(INTO_MAP, INTO_SET)
+
     override fun getApplicableUastTypes(): List<Class<out UElement>> =
         listOf(UAnnotation::class.java)
 
     override fun createUastHandler(context: JavaContext): UElementHandler? {
+        // Anvil is Kotlin only
         if (!isKotlin(context.uastFile?.lang)) return null
         return object : UElementHandler() {
             override fun visitAnnotation(node: UAnnotation) {
                 if (node.qualifiedName == BINDS) {
+                    //                    val bindsMethod = node.uastParent
+                    //                    if (bindsMethod is UMethod) {
+                    //                        val returnType = bindsMethod.returnType
+                    //                    }
+                    // TODO check for generics in return type
+                    context.report(
+                        issue = ISSUE,
+                        // TODO try range location
+                        location = context.getLocation(node.uastParent),
+                        message = "You can use `@ContributesBinding` over `@Binds`"
+                    )
+                    // Multibinding
+                } else if (node.qualifiedName in multiBindsAnnotations) {
                     context.report(
                         issue = ISSUE,
                         location = context.getLocation(node.uastParent),
-                        message = ""
+                        message = "You can use `@ContributesBinding` over `@Binds`"
                     )
                 }
             }

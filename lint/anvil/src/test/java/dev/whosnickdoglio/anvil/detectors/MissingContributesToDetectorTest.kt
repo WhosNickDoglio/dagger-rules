@@ -54,6 +54,8 @@ class MissingContributesToDetectorTest {
 
                 @Provides fun provideMyThing(): String = "Hello World"
 
+                @Provides fun provideAnotherThing(): Int = 1
+
                 }
             """
                     )
@@ -63,7 +65,7 @@ class MissingContributesToDetectorTest {
             .run()
             .expect(
                 """
-                    src/MyModule.kt:5: Error: Hello friend [MissingContributesToAnnotation]
+                    src/MyModule.kt:5: Error: This Dagger module is missing a @ContributesTo annotation for Anvil to pick it up [MissingContributesToAnnotation]
                     class MyModule {
                           ~~~~~~~~
                     1 errors, 0 warnings
@@ -71,6 +73,16 @@ class MissingContributesToDetectorTest {
                     .trimIndent()
             )
             .expectErrorCount(1)
+            .expectFixDiffs(
+                """
+                Fix for src/MyModule.kt line 5: Add @ContributesTo annotation:
+                @@ -5 +5
+                - class MyModule {
+                + class @com.squareup.anvil.annotations.ContributesTo
+                + MyModule {
+            """
+                    .trimIndent()
+            )
     }
 
     @Test
@@ -90,6 +102,8 @@ class MissingContributesToDetectorTest {
                 class MyModule {
 
                 @Provides fun provideMyThing(): String = "Hello World"
+
+                @Provides fun provideAnotherThing(): Int = 1
 
                 }
             """
@@ -116,10 +130,15 @@ class MissingContributesToDetectorTest {
                 interface MyThing
                 class MyThingImpl: MyThing
 
+                interface OtherThing
+                class MyOtherThingImpl: MyOtherThingImpl
+
                 @Module
                 interface MyModule {
 
                 @Binds fun provideMyThing(impl: MyThingImpl): MyThing
+
+                @Binds fun provideMyOtherThing(impl: MyOtherThingImpl): OtherThing
 
                 }
             """
@@ -130,7 +149,7 @@ class MissingContributesToDetectorTest {
             .run()
             .expect(
                 """
-                    src/MyThing.kt:8: Error: Hello friend [MissingContributesToAnnotation]
+                    src/MyThing.kt:11: Error: This Dagger module is missing a @ContributesTo annotation for Anvil to pick it up [MissingContributesToAnnotation]
                     interface MyModule {
                               ~~~~~~~~
                     1 errors, 0 warnings
@@ -138,6 +157,16 @@ class MissingContributesToDetectorTest {
                     .trimIndent()
             )
             .expectErrorCount(1)
+            .expectFixDiffs(
+                """
+                Fix for src/MyThing.kt line 11: Add @ContributesTo annotation:
+                @@ -11 +11
+                - interface MyModule {
+                + interface @com.squareup.anvil.annotations.ContributesTo
+                + MyModule {
+            """
+                    .trimIndent()
+            )
     }
 
     @Test
@@ -155,11 +184,16 @@ class MissingContributesToDetectorTest {
                 interface MyThing
                 class MyThingImpl: MyThing
 
+                interface OtherThing
+                class MyOtherThingImpl: MyOtherThingImpl
+
                 @Module
                 @ContributesTo
                 interface MyModule {
 
                 @Binds fun provideMyThing(impl: MyThingImpl): MyThing
+
+                 @Binds fun provideMyOtherThing(impl: MyOtherThingImpl): OtherThing
 
                 }
             """
@@ -238,7 +272,7 @@ class MissingContributesToDetectorTest {
             .run()
             .expect(
                 """
-                    src/MyThing.kt:8: Error: Hello friend [MissingContributesToAnnotation]
+                    src/MyThing.kt:8: Error: This Dagger module is missing a @ContributesTo annotation for Anvil to pick it up [MissingContributesToAnnotation]
                     interface MyModule {
                               ~~~~~~~~
                     1 errors, 0 warnings
@@ -246,6 +280,16 @@ class MissingContributesToDetectorTest {
                     .trimIndent()
             )
             .expectErrorCount(1)
+            .expectFixDiffs(
+                """
+                Fix for src/MyThing.kt line 8: Add @ContributesTo annotation:
+                @@ -8 +8
+                - interface MyModule {
+                + interface @com.squareup.anvil.annotations.ContributesTo
+                + MyModule {
+            """
+                    .trimIndent()
+            )
     }
 
     @Test

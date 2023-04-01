@@ -50,7 +50,7 @@ class MissingContributesBindingDetectorTest {
             .run()
             .expect(
                 """
-                    src/Authenticator.kt:5: Warning: hello [MissingContributesBindingAnnotation]
+                    src/Authenticator.kt:5: Warning: Contribute this binding to the Dagger graph using an Anvil annotation [MissingContributesBindingAnnotation]
                     class AuthenticatorImpl @Inject constructor(): Authenticator
                           ~~~~~~~~~~~~~~~~~
                     0 errors, 1 warnings
@@ -58,6 +58,23 @@ class MissingContributesBindingDetectorTest {
                     .trimIndent()
             )
             .expectWarningCount(1)
+            .expectFixDiffs(
+                """
+                Fix for src/Authenticator.kt line 5: Add @ContributesBinding annotation:
+                @@ -5 +5
+                - class AuthenticatorImpl @Inject constructor(): Authenticator
+                @@ -6 +5
+                + class @com.squareup.anvil.annotations.ContributesBinding
+                + AuthenticatorImpl @Inject constructor(): Authenticator
+                Fix for src/Authenticator.kt line 5: Add @ContributesMultibinding annotation:
+                @@ -5 +5
+                - class AuthenticatorImpl @Inject constructor(): Authenticator
+                @@ -6 +5
+                + class @com.squareup.anvil.annotations.ContributesMultibinding
+                + AuthenticatorImpl @Inject constructor(): Authenticator
+            """
+                    .trimIndent()
+            )
     }
 
     @Test

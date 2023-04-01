@@ -57,7 +57,7 @@ class FavorContributesBindingOverBindsDetectorTest {
             .run()
             .expect(
                 """
-                    src/MyThing.kt:11: Warning:  [ContributesBindingOverBinds]
+                    src/MyThing.kt:11: Warning: You can use @ContributesBinding over @Binds [ContributesBindingOverBinds]
                     fun provideMyThing(impl: MyThingImpl): MyThing
                         ~~~~~~~~~~~~~~
                     0 errors, 1 warnings
@@ -99,7 +99,7 @@ class FavorContributesBindingOverBindsDetectorTest {
             .run()
             .expect(
                 """
-                    src/MyThing.kt:11: Warning:  [ContributesBindingOverBinds]
+                    src/MyThing.kt:11: Warning: You can use @ContributesBinding over @Binds [ContributesBindingOverBinds]
                         fun provideMyThing(impl: MyThingImpl): MyThing
                             ~~~~~~~~~~~~~~
                     0 errors, 1 warnings

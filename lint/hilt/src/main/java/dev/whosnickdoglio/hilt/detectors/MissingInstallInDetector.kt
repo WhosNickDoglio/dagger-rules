@@ -32,6 +32,7 @@ import com.android.tools.lint.detector.api.JavaContext
 import com.android.tools.lint.detector.api.Scope
 import com.android.tools.lint.detector.api.Severity
 import com.android.tools.lint.detector.api.SourceCodeScanner
+import com.android.tools.lint.detector.api.TextFormat
 import dev.whosnickdoglio.hilt.INSTALL_IN
 import dev.whosnickdoglio.lint.shared.MODULE
 import org.jetbrains.uast.UAnnotation
@@ -59,8 +60,13 @@ internal class MissingInstallInDetector : Detector(), SourceCodeScanner {
                             context.report(
                                 issue = ISSUE,
                                 location = context.getNameLocation(clazz),
-                                message = "Hello friend",
-                                quickfixData = null // TODO
+                                message = ISSUE.getExplanation(TextFormat.TEXT),
+                                quickfixData =
+                                    fix()
+                                        .name("Add @InstallIn annotation")
+                                        .annotate(INSTALL_IN)
+                                        .range(context.getNameLocation(node))
+                                        .build()
                             )
                         }
                     }
@@ -74,8 +80,13 @@ internal class MissingInstallInDetector : Detector(), SourceCodeScanner {
         val ISSUE =
             Issue.create(
                 id = "MissingInstallInAnnotation",
-                briefDescription = "Hello friend",
-                explanation = "Hello friend",
+                briefDescription = "@Module is missing @InstallIn annotation",
+                explanation =
+                    """
+                    Hilt modules require the `@InstallIn` annotation to be properly connected to a Component. Annotate this class with @InstallIn \
+                    and the Hilt component you want to connect it to, the most commonly used Component is the `SingletonComponent`.
+                    """
+                        .trimIndent(),
                 category = Category.CORRECTNESS,
                 priority = 5,
                 severity = Severity.ERROR,
