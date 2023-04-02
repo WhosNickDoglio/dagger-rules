@@ -32,6 +32,7 @@ import com.android.tools.lint.detector.api.JavaContext
 import com.android.tools.lint.detector.api.Scope
 import com.android.tools.lint.detector.api.Severity
 import com.android.tools.lint.detector.api.SourceCodeScanner
+import com.android.tools.lint.detector.api.TextFormat
 import com.android.tools.lint.detector.api.isJava
 import com.android.tools.lint.detector.api.isKotlin
 import dev.whosnickdoglio.lint.shared.PROVIDES
@@ -50,12 +51,10 @@ internal class StaticProvidesDetector : Detector(), SourceCodeScanner {
         object : UElementHandler() {
             override fun visitAnnotation(node: UAnnotation) {
                 if (node.qualifiedName == PROVIDES) {
-                    val method = node.uastParent
-                    if (method is UMethod) {
-                        when {
-                            isJava(method.language) -> javaCheck(context, method)
-                            isKotlin(method.language) -> kotlinCheck(context, method)
-                        }
+                    val method = node.uastParent as? UMethod ?: return
+                    when {
+                        isJava(method.language) -> javaCheck(context, method)
+                        isKotlin(method.language) -> kotlinCheck(context, method)
                     }
                 }
             }
@@ -66,19 +65,19 @@ internal class StaticProvidesDetector : Detector(), SourceCodeScanner {
             context.report(
                 issue = ISSUE,
                 location = context.getNameLocation(method),
-                message = "plz use static provides methods",
+                message = ISSUE.getExplanation(TextFormat.TEXT),
             )
         }
     }
 
     private fun kotlinCheck(context: JavaContext, method: UMethod) {
         val containingClass = method.getContainingUClass()
-        val source = containingClass?.sourcePsi ?: return
-        if (!(source is KtObjectDeclaration && source.isObjectLiteral())) {
+        val sourcePsi = containingClass?.sourcePsi ?: return
+        if (sourcePsi !is KtObjectDeclaration) {
             context.report(
                 issue = ISSUE,
                 location = context.getLocation(method),
-                message = "plz use static provides methods"
+                message = ISSUE.getExplanation(TextFormat.TEXT)
             )
         }
     }
@@ -90,8 +89,8 @@ internal class StaticProvidesDetector : Detector(), SourceCodeScanner {
         val ISSUE =
             Issue.create(
                 id = "StaticProvides",
-                briefDescription = "Hello friend",
-                explanation = "Hello friend",
+                briefDescription = "Not using static @Provides methods",
+                explanation = "plz use static provides methods",
                 category = Category.CORRECTNESS,
                 priority = 5,
                 severity = Severity.WARNING,

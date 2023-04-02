@@ -30,9 +30,6 @@ import org.junit.Test
 
 class StaticProvidesDetectorTest {
 
-    // todo companion object tests
-    // TODO multiple @Provides/@Binds
-
     @Test
     fun `kotlin @Provides methods in an object do not show a warning`() {
         TestLintTask.lint()
@@ -47,9 +44,8 @@ class StaticProvidesDetectorTest {
 
                  @Module
                  object MyModule {
-
-                        @Provides
-                        fun myString(): String = "Hello World"
+                        @Provides fun myString(): String = "Hello World"
+                        @Provides fun myInt(): Int = 1
                 }
                 """
                     )
@@ -57,16 +53,8 @@ class StaticProvidesDetectorTest {
             )
             .issues(StaticProvidesDetector.ISSUE)
             .run()
-            .expect(
-                """
-                src/com/test/android/MyModule.kt:9: Warning: plz use static provides methods [StaticProvides]
-                        @Provides
-                        ^
-                0 errors, 1 warnings
-            """
-                    .trimIndent()
-            )
-            .expectWarningCount(1)
+            .expectClean()
+            .expectWarningCount(0)
     }
 
     @Test
@@ -83,9 +71,8 @@ class StaticProvidesDetectorTest {
 
                  @Module
                  class MyModule {
-
-                        @Provides
-                        fun myString(): String = "Hello World"
+                        @Provides fun myString(): String = "Hello World"
+                        @Provides fun myInt(): Int = 1
                 }
                 """
                     )
@@ -95,14 +82,52 @@ class StaticProvidesDetectorTest {
             .run()
             .expect(
                 """
-                src/com/test/android/MyModule.kt:9: Warning: plz use static provides methods [StaticProvides]
-                        @Provides
-                        ^
-                0 errors, 1 warnings
-            """
+                    src/com/test/android/MyModule.kt:8: Warning: plz use static provides methods [StaticProvides]
+                            @Provides fun myString(): String = "Hello World"
+                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                    src/com/test/android/MyModule.kt:9: Warning: plz use static provides methods [StaticProvides]
+                            @Provides fun myInt(): Int = 1
+                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                    0 errors, 2 warnings
+                """
                     .trimIndent()
             )
-            .expectWarningCount(1)
+            .expectWarningCount(2)
+    }
+
+    @Test
+    fun `kotlin companion object with @Binds and @Provides method does not show warning`() {
+        TestLintTask.lint()
+            .files(
+                daggerAnnotations,
+                TestFiles.kotlin(
+                        """
+                package com.test.android
+
+                import dagger.Provides
+                import dagger.Module
+
+                interface Repository
+                class SqlRepository: Repository
+
+                 @Module
+                 interface MyModule {
+
+                 @Binds fun bindsRepository(impl: SqlRepository): Repository
+
+                 companion object {
+                        @Provides fun myString(): String = "Hello World"
+                        @Provides fun myInt(): Int = 1
+                    }
+                }
+                """
+                    )
+                    .indented()
+            )
+            .issues(StaticProvidesDetector.ISSUE)
+            .run()
+            .expectClean()
+            .expectWarningCount(0)
     }
 
     @Test
@@ -125,6 +150,10 @@ class StaticProvidesDetectorTest {
                             return "My String";
                         }
 
+                        @Provides
+                        public static Long myLong() {
+                            return 100L;
+                        }
                 }
                 """
                     )
@@ -155,6 +184,11 @@ class StaticProvidesDetectorTest {
                             return "My String";
                         }
 
+                        @Provides
+                        public Long myLong() {
+                            return 100L;
+                        }
+
                 }
                 """
                     )
@@ -164,13 +198,16 @@ class StaticProvidesDetectorTest {
             .run()
             .expect(
                 """
-                src/com/test/android/MyModule.java:10: Warning: plz use static provides methods [StaticProvides]
-                        public String myString() {
-                                      ~~~~~~~~
-                0 errors, 1 warnings
-            """
+                    src/com/test/android/MyModule.java:10: Warning: plz use static provides methods [StaticProvides]
+                            public String myString() {
+                                          ~~~~~~~~
+                    src/com/test/android/MyModule.java:15: Warning: plz use static provides methods [StaticProvides]
+                            public Long myLong() {
+                                        ~~~~~~
+                    0 errors, 2 warnings
+                """
                     .trimIndent()
             )
-            .expectWarningCount(1)
+            .expectWarningCount(2)
     }
 }
