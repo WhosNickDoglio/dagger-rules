@@ -39,6 +39,11 @@ import dev.whosnickdoglio.lint.shared.INJECT
 import org.jetbrains.uast.UClass
 import org.jetbrains.uast.UElement
 
+/**
+ * A Kotlin only [Detector] for the Anvil library that suggests using the provided
+ * `@ContributesBinding` or `@ContributesMultibinding` annotations for classes that use Dagger and
+ * implement an interface or abstract class.
+ */
 internal class MissingContributesBindingDetector : Detector(), SourceCodeScanner {
 
     override fun getApplicableUastTypes(): List<Class<out UElement>> = listOf(UClass::class.java)
@@ -58,31 +63,36 @@ internal class MissingContributesBindingDetector : Detector(), SourceCodeScanner
                 if (
                     psiClass.constructors.any { method -> method.hasAnnotation(INJECT) } &&
                         // TODO this feels naive
+                        // Ignore Any
                         node.superTypes.size > 1 &&
                         doesNotHaveBindingAnnotations
-                // TODO ContributesBinding doesn't support generics so we should avoid suggesting
-                // when the super takes generics
                 ) {
-                    context.report(
-                        issue = ISSUE,
-                        location = context.getNameLocation(node),
-                        message =
-                            "Contribute this binding to the Dagger graph using an Anvil annotation",
-                        quickfixData =
-                            fix()
-                                .alternatives(
-                                    fix()
-                                        .name("Add @ContributesBinding annotation")
-                                        .annotate(CONTRIBUTES_BINDING)
-                                        .range(context.getNameLocation(node))
-                                        .build(),
-                                    fix()
-                                        .name("Add @ContributesMultibinding annotation")
-                                        .annotate(CONTRIBUTES_MULTI_BINDING)
-                                        .range(context.getNameLocation(node))
-                                        .build(),
-                                )
-                    )
+                    val hasNoGenerics = node.superTypes.filter { !it.hasParameters() }
+
+                    // Ignore Any
+                    if (hasNoGenerics.size > 1) {
+                        context.report(
+                            issue = ISSUE,
+                            location = context.getNameLocation(node),
+                            message =
+                                "Contribute this binding to the Dagger graph using an Anvil annotation",
+                            quickfixData =
+                                fix()
+                                    // TODO try and give better fixes
+                                    .alternatives(
+                                        fix()
+                                            .name("Add @ContributesBinding annotation")
+                                            .annotate(CONTRIBUTES_BINDING)
+                                            .range(context.getNameLocation(node))
+                                            .build(),
+                                        fix()
+                                            .name("Add @ContributesMultibinding annotation")
+                                            .annotate(CONTRIBUTES_MULTI_BINDING)
+                                            .range(context.getNameLocation(node))
+                                            .build(),
+                                    )
+                        )
+                    }
                 }
             }
         }

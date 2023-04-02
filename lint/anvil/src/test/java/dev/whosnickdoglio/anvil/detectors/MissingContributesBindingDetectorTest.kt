@@ -25,9 +25,15 @@ package dev.whosnickdoglio.anvil.detectors
 
 import com.android.tools.lint.checks.infrastructure.TestFiles
 import com.android.tools.lint.checks.infrastructure.TestLintTask
+import com.google.testing.junit.testparameterinjector.TestParameter
+import com.google.testing.junit.testparameterinjector.TestParameterInjector
+import dev.whosnickdoglio.anvil.CONTRIBUTES_BINDING
+import dev.whosnickdoglio.anvil.CONTRIBUTES_MULTI_BINDING
 import dev.whosnickdoglio.stubs.injectAnnotation
 import org.junit.Test
+import org.junit.runner.RunWith
 
+@RunWith(TestParameterInjector::class)
 class MissingContributesBindingDetectorTest {
 
     @Test
@@ -100,7 +106,9 @@ class MissingContributesBindingDetectorTest {
     }
 
     @Test
-    fun `kotlin class with super using dagger with @ContributesBinding annotation shows no warning`() {
+    fun `kotlin class with super using dagger with @ContributesBinding annotation shows no warning`(
+        @TestParameter(value = [CONTRIBUTES_BINDING, CONTRIBUTES_MULTI_BINDING]) annotation: String
+    ) {
         TestLintTask.lint()
             .files(
                 anvilAnnotations,
@@ -108,11 +116,11 @@ class MissingContributesBindingDetectorTest {
                 TestFiles.kotlin(
                         """
                     import javax.inject.Inject
-                    import com.squareup.anvil.annotations.ContributesBinding
+                    import $annotation
 
                     interface Authenticator
 
-                    @ContributesBinding
+                    @${annotation.substringAfterLast(".")}
                     class AuthenticatorImpl @Inject constructor(): Authenticator
                     """
                     )
@@ -122,6 +130,124 @@ class MissingContributesBindingDetectorTest {
             .run()
             .expectClean()
             .expectWarningCount(0)
+    }
+
+    @Test
+    fun `kotlin class without @ContributesBinding annotation but only super takes generics shows no warning`() {
+        TestLintTask.lint()
+            .files(
+                injectAnnotation,
+                TestFiles.kotlin(
+                        """
+                    import javax.inject.Inject
+
+                    interface JsonAdapter<T>
+
+                    class MyJsonAdapter @Inject constructor(): JsonAdapter<String>
+                    """
+                    )
+                    .indented()
+            )
+            .issues(MissingContributesBindingDetector.ISSUE)
+            .run()
+            .expectClean()
+            .expectWarningCount(0)
+    }
+
+    @Test
+    fun `kotlin class without @ContributesBinding annotation with a multiple supers shows a warning`() {
+        TestLintTask.lint()
+            .files(
+                injectAnnotation,
+                TestFiles.kotlin(
+                        """
+                    import javax.inject.Inject
+
+                    interface JsonAdapter<T>
+                    interface CustomAdapter
+
+                    class MyJsonAdapter @Inject constructor(): JsonAdapter<String>, CustomAdapter
+                    """
+                    )
+                    .indented()
+            )
+            .issues(MissingContributesBindingDetector.ISSUE)
+            .run()
+            .expect(
+                """
+                src/JsonAdapter.kt:6: Warning: Contribute this binding to the Dagger graph using an Anvil annotation [MissingContributesBindingAnnotation]
+                class MyJsonAdapter @Inject constructor(): JsonAdapter<String>, CustomAdapter
+                      ~~~~~~~~~~~~~
+                0 errors, 1 warnings
+            """
+                    .trimIndent()
+            )
+            .expectWarningCount(1)
+            .expectFixDiffs(
+                """
+                Fix for src/JsonAdapter.kt line 6: Add @ContributesBinding annotation:
+                @@ -6 +6
+                - class MyJsonAdapter @Inject constructor(): JsonAdapter<String>, CustomAdapter
+                @@ -7 +6
+                + class @com.squareup.anvil.annotations.ContributesBinding
+                + MyJsonAdapter @Inject constructor(): JsonAdapter<String>, CustomAdapter
+                Fix for src/JsonAdapter.kt line 6: Add @ContributesMultibinding annotation:
+                @@ -6 +6
+                - class MyJsonAdapter @Inject constructor(): JsonAdapter<String>, CustomAdapter
+                @@ -7 +6
+                + class @com.squareup.anvil.annotations.ContributesMultibinding
+                + MyJsonAdapter @Inject constructor(): JsonAdapter<String>, CustomAdapter
+            """
+                    .trimIndent()
+            )
+    }
+
+    @Test
+    fun `kotlin class with @ContributesBinding annotation with a multiple supers does not show a warning`(
+        @TestParameter(value = [CONTRIBUTES_BINDING, CONTRIBUTES_MULTI_BINDING]) annotation: String
+    ) {
+        TestLintTask.lint()
+            .files(
+                anvilAnnotations,
+                injectAnnotation,
+                TestFiles.kotlin(
+                        """
+                    import javax.inject.Inject
+                    import $annotation
+
+                    interface JsonAdapter<T>
+                    interface CustomAdapter
+
+                    @${annotation.substringAfterLast(".")}
+                    class MyJsonAdapter @Inject constructor(): JsonAdapter<String>, CustomAdapter
+                    """
+                    )
+                    .indented()
+            )
+            .issues(MissingContributesBindingDetector.ISSUE)
+            .run()
+            .expectClean()
+            .expectWarningCount(0)
+    }
+
+    @Test
+    fun `kotlin class with a super not using dagger without @ContributesBinding annotation does not show a warning`() {
+        TestLintTask.lint()
+            .files(
+                TestFiles.kotlin(
+                        """
+
+                    interface Authenticator
+
+                    class AuthenticatorImpl: Authenticator
+                    """
+                    )
+                    .indented()
+            )
+            .issues(MissingContributesBindingDetector.ISSUE)
+            .run()
+            .expectClean()
+            .expectErrorCount(0)
     }
 
     @Test
