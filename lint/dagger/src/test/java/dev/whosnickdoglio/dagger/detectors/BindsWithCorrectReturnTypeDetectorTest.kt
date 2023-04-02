@@ -30,23 +30,44 @@ import org.junit.Test
 
 class BindsWithCorrectReturnTypeDetectorTest {
 
+    private val pizzaMakerStubs =
+        TestFiles.kotlin(
+                """
+                    interface PizzaMaker
+                    class PizzaMakerImpl: PizzaMaker
+                    class NotAPizzaMaker
+                    """
+            )
+            .indented()
+
+    private val repositoryStubs =
+        TestFiles.kotlin(
+            """
+                interface Repository
+                class InMemoryRepository : Repository
+                class NotARepository
+                """
+                .trimIndent()
+        )
+
     @Test
     fun `java @Binds method with a parameter that is a subclass of the return type does not trigger error`() {
         TestLintTask.lint()
             .files(
                 daggerAnnotations,
+                pizzaMakerStubs,
+                repositoryStubs,
                 TestFiles.java(
                         """
                     import dagger.Module;
                     import dagger.Binds;
 
-                    interface PizzaMaker {}
-                    class PizzaMakerImpl extends PizzaMaker {}
-
                     @Module
                     interface MyModule {
 
-                        @Binds PizzaMaker bindsPizzaMaker(PizzaMakerImpl pizzaMaker);
+                        @Binds PizzaMaker bindsPizzaMaker(PizzaMakerImpl impl);
+
+                        @Binds Repository bindsRepository(InMemoryRepository impl);
                     }
                 """
                     )
@@ -63,18 +84,19 @@ class BindsWithCorrectReturnTypeDetectorTest {
         TestLintTask.lint()
             .files(
                 daggerAnnotations,
+                pizzaMakerStubs,
+                repositoryStubs,
                 TestFiles.java(
                         """
                     import dagger.Module;
                     import dagger.Binds;
 
-                    interface PizzaMaker {}
-                    class NotPizzaMaker {}
-
                     @Module
                     interface MyModule {
 
-                        @Binds PizzaMaker bindsPizzaMaker(PizzaMakerImpl pizzaMaker);
+                        @Binds PizzaMaker bindsPizzaMaker(NotAPizzaMaker impl);
+
+                        @Binds Repository bindsRepository(NotARepository impl);
                     }
                 """
                     )
@@ -84,14 +106,17 @@ class BindsWithCorrectReturnTypeDetectorTest {
             .run()
             .expect(
                 """
-                    src/PizzaMaker.java:10: Error: @Binds method parameters need to be a subclass of the return type. Make sure you're passing the correct parameter or the intended subclass is implementing the return type interface. [BindsWithCorrectReturnType]
-                        @Binds PizzaMaker bindsPizzaMaker(PizzaMakerImpl pizzaMaker);
-                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                    1 errors, 0 warnings
+                    src/MyModule.java:7: Error: @Binds method parameters need to be a subclass of the return type. Make sure you're passing the correct parameter or the intended subclass is implementing the return type interface. [BindsWithCorrectReturnType]
+                        @Binds PizzaMaker bindsPizzaMaker(NotAPizzaMaker impl);
+                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                    src/MyModule.java:9: Error: @Binds method parameters need to be a subclass of the return type. Make sure you're passing the correct parameter or the intended subclass is implementing the return type interface. [BindsWithCorrectReturnType]
+                        @Binds Repository bindsRepository(NotARepository impl);
+                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                    2 errors, 0 warnings
                 """
                     .trimIndent()
             )
-            .expectErrorCount(1)
+            .expectErrorCount(2)
     }
 
     @Test
@@ -99,18 +124,17 @@ class BindsWithCorrectReturnTypeDetectorTest {
         TestLintTask.lint()
             .files(
                 daggerAnnotations,
+                pizzaMakerStubs,
+                repositoryStubs,
                 TestFiles.kotlin(
                         """
-                    import dagger.Module
-                    import dagger.Binds
-
-                    interface PizzaMaker
-                    class PizzaMakerImpl: PizzaMaker
 
                     @Module
                     interface MyModule {
 
                         @Binds fun bindsPizzaMaker(impl: PizzaMakerImpl): PizzaMaker
+
+                        @Binds fun bindsRepository(impl: InMemoryRepository): Repository
                     }
                 """
                     )
@@ -127,18 +151,17 @@ class BindsWithCorrectReturnTypeDetectorTest {
         TestLintTask.lint()
             .files(
                 daggerAnnotations,
+                pizzaMakerStubs,
+                repositoryStubs,
                 TestFiles.kotlin(
                         """
                     import dagger.Module
                     import dagger.Binds
 
-                    interface PizzaMaker
-                    class NotPizzaMaker
-
                     @Module
                     interface MyModule {
 
-                        @Binds fun bindsPizzaMaker(impl: NotPizzaMaker): PizzaMaker
+                        @Binds fun bindsPizzaMaker(impl: NotAPizzaMaker): PizzaMaker
                     }
                 """
                     )
@@ -148,9 +171,9 @@ class BindsWithCorrectReturnTypeDetectorTest {
             .run()
             .expect(
                 """
-                    src/PizzaMaker.kt:10: Error: @Binds method parameters need to be a subclass of the return type. Make sure you're passing the correct parameter or the intended subclass is implementing the return type interface. [BindsWithCorrectReturnType]
-                        @Binds fun bindsPizzaMaker(impl: NotPizzaMaker): PizzaMaker
-                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                    src/MyModule.kt:7: Error: @Binds method parameters need to be a subclass of the return type. Make sure you're passing the correct parameter or the intended subclass is implementing the return type interface. [BindsWithCorrectReturnType]
+                        @Binds fun bindsPizzaMaker(impl: NotAPizzaMaker): PizzaMaker
+                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
                     1 errors, 0 warnings
                 """
                     .trimIndent()
@@ -163,13 +186,11 @@ class BindsWithCorrectReturnTypeDetectorTest {
         TestLintTask.lint()
             .files(
                 daggerAnnotations,
+                pizzaMakerStubs,
                 TestFiles.kotlin(
                         """
                     import dagger.Module
                     import dagger.Binds
-
-                    interface PizzaMaker
-                    class PizzaMakerImpl: PizzaMaker
 
                     @Module
                     interface MyModule {
@@ -191,13 +212,11 @@ class BindsWithCorrectReturnTypeDetectorTest {
         TestLintTask.lint()
             .files(
                 daggerAnnotations,
+                pizzaMakerStubs,
                 TestFiles.kotlin(
                         """
                     import dagger.Module
                     import dagger.Binds
-
-                    interface PizzaMaker
-                    class NotPizzaMaker
 
                     @Module
                     interface MyModule {
@@ -212,7 +231,7 @@ class BindsWithCorrectReturnTypeDetectorTest {
             .run()
             .expect(
                 """
-                    src/PizzaMaker.kt:10: Error: @Binds method parameters need to be a subclass of the return type. Make sure you're passing the correct parameter or the intended subclass is implementing the return type interface. [BindsWithCorrectReturnType]
+                    src/MyModule.kt:7: Error: @Binds method parameters need to be a subclass of the return type. Make sure you're passing the correct parameter or the intended subclass is implementing the return type interface. [BindsWithCorrectReturnType]
                         @Binds fun NotPizzaMaker.bindPizzaMaker(): PizzaMaker
                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
                     1 errors, 0 warnings

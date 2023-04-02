@@ -39,6 +39,10 @@ import org.jetbrains.uast.UAnnotation
 import org.jetbrains.uast.UElement
 import org.jetbrains.uast.UMethod
 
+/**
+ * A Kotlin and Java [Detector] for Dagger that warns if the parameter of a `@Binds` method is not a
+ * subclass of the method return type.
+ */
 internal class BindsWithCorrectReturnTypeDetector : Detector(), SourceCodeScanner {
 
     override fun getApplicableUastTypes(): List<Class<out UElement>> =
