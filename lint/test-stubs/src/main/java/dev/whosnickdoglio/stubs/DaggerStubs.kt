@@ -42,7 +42,7 @@ val daggerAnnotations: TestFile =
 val daggerMultibindingAnnotations: TestFile =
     TestFiles.kotlin(
         """
-    package dagger.multibinding
+    package dagger.multibindings
 
     annotation class IntoMap
     annotation class IntoSet
