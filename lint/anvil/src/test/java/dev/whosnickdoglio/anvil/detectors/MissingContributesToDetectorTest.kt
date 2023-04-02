@@ -30,16 +30,6 @@ import org.junit.Test
 
 class MissingContributesToDetectorTest {
 
-    private val contributeTo =
-        TestFiles.kotlin(
-                """
-            package com.squareup.anvil.annotations
-
-            annotation class ContributesTo
-        """
-            )
-            .indented()
-
     @Test
     fun `kotlin provides module without @ContributesTo annotation shows an error`() {
         TestLintTask.lint()
@@ -91,7 +81,7 @@ class MissingContributesToDetectorTest {
         TestLintTask.lint()
             .files(
                 daggerAnnotations,
-                contributeTo,
+                anvilAnnotations,
                 TestFiles.kotlin(
                         """
                 import dagger.Module
@@ -122,7 +112,7 @@ class MissingContributesToDetectorTest {
         TestLintTask.lint()
             .files(
                 daggerAnnotations,
-                contributeTo,
+                anvilAnnotations,
                 TestFiles.kotlin(
                         """
                 import dagger.Module
@@ -175,7 +165,7 @@ class MissingContributesToDetectorTest {
         TestLintTask.lint()
             .files(
                 daggerAnnotations,
-                contributeTo,
+                anvilAnnotations,
                 TestFiles.kotlin(
                         """
                 import dagger.Module
@@ -191,11 +181,9 @@ class MissingContributesToDetectorTest {
                 @Module
                 @ContributesTo
                 interface MyModule {
+                    @Binds fun provideMyThing(impl: MyThingImpl): MyThing
 
-                @Binds fun provideMyThing(impl: MyThingImpl): MyThing
-
-                 @Binds fun provideMyOtherThing(impl: MyOtherThingImpl): OtherThing
-
+                    @Binds fun provideMyOtherThing(impl: MyOtherThingImpl): OtherThing
                 }
             """
                     )
@@ -212,7 +200,7 @@ class MissingContributesToDetectorTest {
         TestLintTask.lint()
             .files(
                 daggerAnnotations,
-                contributeTo,
+                anvilAnnotations,
                 TestFiles.kotlin(
                         """
                 import dagger.Module
@@ -247,7 +235,7 @@ class MissingContributesToDetectorTest {
         TestLintTask.lint()
             .files(
                 daggerAnnotations,
-                contributeTo,
+                anvilAnnotations,
                 TestFiles.kotlin(
                         """
                 import dagger.Module
@@ -327,7 +315,7 @@ class MissingContributesToDetectorTest {
         TestLintTask.lint()
             .files(
                 daggerAnnotations,
-                contributeTo,
+                anvilAnnotations,
                 TestFiles.java(
                         """
                 import dagger.Module;
