@@ -23,4 +23,7 @@
  */
 plugins { id("lint.shared") }
 
-dependencies { implementation(projects.lint.shared) }
+dependencies {
+    implementation(projects.lint.shared)
+    testImplementation(projects.lint.testStubs)
+}

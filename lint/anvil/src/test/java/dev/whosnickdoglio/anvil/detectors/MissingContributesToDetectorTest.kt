@@ -25,6 +25,7 @@ package dev.whosnickdoglio.anvil.detectors
 
 import com.android.tools.lint.checks.infrastructure.TestFiles
 import com.android.tools.lint.checks.infrastructure.TestLintTask
+import dev.whosnickdoglio.stubs.daggerAnnotations
 import org.junit.Test
 
 class MissingContributesToDetectorTest {

@@ -26,26 +26,6 @@ package dev.whosnickdoglio.anvil.detectors
 import com.android.tools.lint.checks.infrastructure.TestFile
 import com.android.tools.lint.checks.infrastructure.TestFiles
 
-val daggerAnnotations: TestFile =
-    TestFiles.kotlin(
-            """
-        package  dagger
-
-        annotation class Provides
-        annotation class Binds
-        annotation class Module
-        annotation class Multibinds
-    """
-        )
-        .indented()
-
-val injectAnnotation: TestFile =
-    TestFiles.kotlin("""
-    package javax.inject
-
-    annotation class Inject
-""").indented()
-
 val anvilAnnotations: TestFile =
     TestFiles.kotlin(
             """

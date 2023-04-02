@@ -27,6 +27,7 @@ import com.android.tools.lint.checks.infrastructure.TestFiles
 import com.android.tools.lint.checks.infrastructure.TestLintTask
 import com.google.testing.junit.testparameterinjector.TestParameter
 import com.google.testing.junit.testparameterinjector.TestParameterInjector
+import dev.whosnickdoglio.stubs.injectAnnotation
 import org.junit.Test
 import org.junit.runner.RunWith
 

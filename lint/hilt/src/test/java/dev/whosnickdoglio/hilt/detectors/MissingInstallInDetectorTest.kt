@@ -23,25 +23,12 @@
  */
 package dev.whosnickdoglio.hilt.detectors
 
-import com.android.tools.lint.checks.infrastructure.TestFile
 import com.android.tools.lint.checks.infrastructure.TestFiles
 import com.android.tools.lint.checks.infrastructure.TestLintTask
+import dev.whosnickdoglio.stubs.daggerAnnotations
 import org.junit.Test
 
 class MissingInstallInDetectorTest {
-
-    val daggerAnnotations: TestFile =
-        TestFiles.kotlin(
-            """
-        package  dagger
-
-        annotation class Provides
-        annotation class Binds
-        annotation class Module
-        annotation class Multibinds
-    """
-                .trimIndent()
-        )
 
     @Test
     fun `kotlin provides @Module but is missing @InstallIn annotation shows an error`() {

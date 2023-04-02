@@ -21,9 +21,30 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-plugins { id("lint.shared") }
+package dev.whosnickdoglio.stubs
 
-dependencies {
-    implementation(projects.lint.shared)
-    testImplementation(projects.lint.testStubs)
-}
+import com.android.tools.lint.checks.infrastructure.TestFile
+import com.android.tools.lint.checks.infrastructure.TestFiles
+
+val daggerAnnotations: TestFile =
+    TestFiles.kotlin(
+        """
+        package  dagger
+
+        annotation class Provides
+        annotation class Binds
+        annotation class Module
+        annotation class Multibinds
+    """
+            .trimIndent()
+    )
+
+val injectAnnotation: TestFile =
+    TestFiles.kotlin(
+        """
+    package javax.inject
+
+    annotation class Inject
+"""
+            .trimIndent()
+    )

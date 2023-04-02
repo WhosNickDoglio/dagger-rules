@@ -21,30 +21,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package dev.whosnickdoglio.dagger.detectors
+plugins { id("lint.shared") }
 
-import com.android.tools.lint.checks.infrastructure.TestFile
-import com.android.tools.lint.checks.infrastructure.TestFiles
-
-val daggerAnnotations: TestFile =
-    TestFiles.kotlin(
-        """
-        package  dagger
-
-        annotation class Provides
-        annotation class Binds
-        annotation class Module
-        annotation class Multibinds
-    """
-            .trimIndent()
-    )
-
-val injectAnnotation: TestFile =
-    TestFiles.kotlin(
-        """
-    package javax.inject
-
-    annotation class Inject
-"""
-            .trimIndent()
-    )
+dependencies { implementation(libs.lint.tests) }

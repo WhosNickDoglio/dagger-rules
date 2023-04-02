@@ -25,6 +25,7 @@ package dev.whosnickdoglio.dagger.detectors
 
 import com.android.tools.lint.checks.infrastructure.TestFiles.kotlin
 import com.android.tools.lint.checks.infrastructure.TestLintTask.lint
+import dev.whosnickdoglio.stubs.daggerAnnotations
 import org.junit.Test
 
 class ConstructorInjectionOverProvidesDetectorTest {

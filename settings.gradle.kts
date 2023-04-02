@@ -40,9 +40,7 @@ dependencyResolutionManagement {
     }
 }
 
-plugins {
-    id("com.gradle.enterprise") version("3.12.5")
-}
+plugins { id("com.gradle.enterprise") version ("3.12.5") }
 
 gradleEnterprise {
     buildScan {
@@ -56,9 +54,10 @@ gradleEnterprise {
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 include(
+    ":kover-aggregate",
     ":lint:dagger",
     ":lint:anvil",
     ":lint:hilt",
-    ":kover-aggregate",
-    ":lint:shared"
+    ":lint:shared",
+    ":lint:test-stubs"
 )

@@ -23,7 +23,6 @@
  */
 package dev.whosnickdoglio.hilt.detectors
 
-import com.android.tools.lint.checks.infrastructure.TestFile
 import com.android.tools.lint.checks.infrastructure.TestFiles
 import com.android.tools.lint.checks.infrastructure.TestLintTask
 import com.google.testing.junit.testparameterinjector.TestParameter
@@ -31,23 +30,13 @@ import com.google.testing.junit.testparameterinjector.TestParameterInjector
 import dev.whosnickdoglio.hilt.ANDROID_ENTRY_POINT
 import dev.whosnickdoglio.hilt.HILT_ANDROID_APP
 import dev.whosnickdoglio.hilt.HILT_VIEW_MODEL
+import dev.whosnickdoglio.stubs.injectAnnotation
 import org.junit.Test
 import org.junit.runner.RunWith
 
 @Suppress("JUnitMalformedDeclaration")
 @RunWith(TestParameterInjector::class)
 class MissingHiltAnnotationDetectorTest {
-
-    // TODO organize stubs better
-    private val injectAnnotation: TestFile =
-        TestFiles.kotlin(
-            """
-    package javax.inject
-
-    annotation class Inject
-"""
-                .trimIndent()
-        )
 
     private val viewModelStub =
         TestFiles.kotlin(
