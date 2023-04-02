@@ -38,10 +38,14 @@ import dev.whosnickdoglio.lint.shared.INTO_MAP
 import dev.whosnickdoglio.lint.shared.INTO_SET
 import org.jetbrains.uast.UAnnotation
 import org.jetbrains.uast.UElement
+import org.jetbrains.uast.UMethod
 
+/**
+ * A Kotlin only [Detector] for the Anvil library to suggest using the provided
+ * `@ContributesBinding` or `@ContributesMultibinding` annotations instead of using a Dagger
+ * `@Module` to bind the implementation to an interface.
+ */
 internal class FavorContributesBindingOverBindsDetector : Detector(), SourceCodeScanner {
-
-    private val multiBindsAnnotations = setOf(INTO_MAP, INTO_SET)
 
     override fun getApplicableUastTypes(): List<Class<out UElement>> =
         listOf(UAnnotation::class.java)
@@ -52,24 +56,24 @@ internal class FavorContributesBindingOverBindsDetector : Detector(), SourceCode
         return object : UElementHandler() {
             override fun visitAnnotation(node: UAnnotation) {
                 if (node.qualifiedName == BINDS) {
-                    //                    val bindsMethod = node.uastParent
-                    //                    if (bindsMethod is UMethod) {
-                    //                        val returnType = bindsMethod.returnType
-                    //                    }
-                    // TODO check for generics in return type
-                    context.report(
-                        issue = ISSUE,
-                        // TODO try range location
-                        location = context.getLocation(node.uastParent),
-                        message = "You can use `@ContributesBinding` over `@Binds`"
-                    )
-                    // Multibinding
-                } else if (node.qualifiedName in multiBindsAnnotations) {
-                    context.report(
-                        issue = ISSUE,
-                        location = context.getLocation(node.uastParent),
-                        message = "You can use `@ContributesBinding` over `@Binds`"
-                    )
+                    val method = node.uastParent as? UMethod ?: return
+                    // TODO this is terrible, is there a better way to check for generics?
+                    if (method.returnType?.canonicalText?.contains("<") == false) {
+                        if (method.hasAnnotation(INTO_MAP) || method.hasAnnotation(INTO_SET)) {
+                            context.report(
+                                issue = ISSUE,
+                                location = context.getLocation(node.uastParent),
+                                message = "You can use `@ContributesMultibinding` over `@Binds`"
+                            )
+                        } else {
+                            context.report(
+                                issue = ISSUE,
+                                // TODO try range location
+                                location = context.getLocation(node.uastParent),
+                                message = "You can use `@ContributesBinding` over `@Binds`"
+                            )
+                        }
+                    }
                 }
             }
         }
