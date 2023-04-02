@@ -69,17 +69,18 @@ internal class ConstructorInjectionOverProvidesDetector : Detector(), SourceCode
             )
         val ISSUE =
             Issue.create(
-                id = "ConstructorInjectionOverProvidesMethods",
-                briefDescription = "@Provides method used instead of constructor injection",
-                explanation =
-                    """
+                    id = "ConstructorInjectionOverProvidesMethods",
+                    briefDescription = "@Provides method used instead of constructor injection",
+                    explanation =
+                        """
                     `@Provides` methods are great for adding third party libraries or classes that require Builders or Factories \
                     to the Dagger graph but for classes with simple constructors you should just add a `@Inject` annotation to the constructor
                     """,
-                category = Category.CORRECTNESS,
-                priority = 5,
-                severity = Severity.WARNING,
-                implementation = implementation
-            )
+                    category = Category.CORRECTNESS,
+                    priority = 5,
+                    severity = Severity.WARNING,
+                    implementation = implementation
+                )
+                .setEnabledByDefault(false)
     }
 }
