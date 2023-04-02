@@ -44,7 +44,7 @@ class HiltRulesIssueRegistry : IssueRegistry() {
         get() =
             Vendor(
                 vendorName = "Nicholas Doglio",
-                identifier = "dev.whosnickdoglio:hilt-rules",
-                feedbackUrl = "https://github.com/WhosNickDoglio/dagger-rules/"
+                identifier = "dev.whosnickdoglio.dagger.rules:hilt-lint",
+                feedbackUrl = "https://github.com/WhosNickDoglio/dagger-rules/issues/"
             )
 }

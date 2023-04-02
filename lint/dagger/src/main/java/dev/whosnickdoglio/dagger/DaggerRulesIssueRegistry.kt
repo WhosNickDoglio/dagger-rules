@@ -52,7 +52,7 @@ class DaggerRulesIssueRegistry : IssueRegistry() {
         get() =
             Vendor(
                 vendorName = "Nicholas Doglio",
-                identifier = "dev.whosnickdoglio:dagger-rules",
-                feedbackUrl = "https://github.com/WhosNickDoglio/dagger-rules/"
+                identifier = "dev.whosnickdoglio.dagger.rules:dagger-lint",
+                feedbackUrl = "https://github.com/WhosNickDoglio/dagger-rules/issues"
             )
 }

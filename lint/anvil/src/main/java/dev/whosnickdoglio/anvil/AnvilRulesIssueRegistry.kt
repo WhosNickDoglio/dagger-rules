@@ -46,7 +46,7 @@ class AnvilRulesIssueRegistry : IssueRegistry() {
         get() =
             Vendor(
                 vendorName = "Nicholas Doglio",
-                identifier = "dev.whosnickdoglio:anvil-rules",
-                feedbackUrl = "https://github.com/WhosNickDoglio/dagger-rules/"
+                identifier = "dev.whosnickdoglio.dagger.rules:anvil-lint",
+                feedbackUrl = "https://github.com/WhosNickDoglio/dagger-rules/issues"
             )
 }

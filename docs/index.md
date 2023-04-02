@@ -3,6 +3,10 @@
 ## Installation
 
 ```kotlin
+repositories {
+    mavenCentral()
+}
+
 dependencies {
     // Use for vanilla dagger rules
     lintChecks("dev.whosnickdoglio.dagger.rules:dagger-lint:<version>")
