@@ -70,8 +70,7 @@ internal class ConstructorInjectionOverProvidesDetector : Detector(), SourceCode
         val ISSUE =
             Issue.create(
                 id = "ConstructorInjectionOverProvidesMethods",
-                briefDescription =
-                    "@Provides method used instead of constructor injection",
+                briefDescription = "@Provides method used instead of constructor injection",
                 explanation =
                     """
                     `@Provides` methods are great for adding third party libraries or classes that require Builders or Factories \

@@ -72,8 +72,7 @@ internal class BindsWithCorrectReturnTypeDetector : Detector(), SourceCodeScanne
         val ISSUE =
             Issue.create(
                 id = "BindsWithCorrectReturnType",
-                briefDescription =
-                    " parameter is not a subclass of return type",
+                briefDescription = " parameter is not a subclass of return type",
                 explanation =
                     """
                         `@Binds` method parameters need to be a subclass of the return type. \

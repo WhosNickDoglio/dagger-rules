@@ -49,7 +49,7 @@ class MissingInstallInDetectorTest {
             .files(
                 daggerAnnotations,
                 TestFiles.kotlin(
-                    """
+                        """
                 import dagger.Module
                 import dagger.Provides
 
@@ -60,7 +60,8 @@ class MissingInstallInDetectorTest {
 
                 }
             """
-                ).indented()
+                    )
+                    .indented()
             )
             .issues(MissingInstallInDetector.ISSUE)
             .run()
@@ -81,16 +82,16 @@ class MissingInstallInDetectorTest {
         TestLintTask.lint()
             .files(
                 TestFiles.kotlin(
-                    """
+                        """
                     package  dagger.hilt
 
                    annotation class InstallIn
                 """
-
-                ).indented(),
+                    )
+                    .indented(),
                 daggerAnnotations,
                 TestFiles.kotlin(
-                    """
+                        """
                 import dagger.Module
                 import dagger.Provides
                 import dagger.hilt.InstallIn
@@ -103,7 +104,8 @@ class MissingInstallInDetectorTest {
 
                 }
             """
-                ).indented()
+                    )
+                    .indented()
             )
             .issues(MissingInstallInDetector.ISSUE)
             .run()
@@ -117,7 +119,7 @@ class MissingInstallInDetectorTest {
             .files(
                 daggerAnnotations,
                 TestFiles.kotlin(
-                    """
+                        """
                 import dagger.Module
                 import dagger.Binds
 
@@ -131,7 +133,8 @@ class MissingInstallInDetectorTest {
                     @Binds fun bindsPizza(impl: PizzaMakerImpl): PizzaMaker
                 }
             """
-                ).indented()
+                    )
+                    .indented()
             )
             .issues(MissingInstallInDetector.ISSUE)
             .run()
@@ -152,15 +155,16 @@ class MissingInstallInDetectorTest {
         TestLintTask.lint()
             .files(
                 TestFiles.kotlin(
-                    """
+                        """
                     package  dagger.hilt
 
                    annotation class InstallIn
                 """
-                ).indented(),
+                    )
+                    .indented(),
                 daggerAnnotations,
                 TestFiles.kotlin(
-                    """
+                        """
                 import dagger.Module
                 import dagger.Binds
                 import dagger.hilt.InstallIn
@@ -176,7 +180,8 @@ class MissingInstallInDetectorTest {
 
                 }
             """
-                ).indented()
+                    )
+                    .indented()
             )
             .issues(MissingInstallInDetector.ISSUE)
             .run()
@@ -189,15 +194,16 @@ class MissingInstallInDetectorTest {
         TestLintTask.lint()
             .files(
                 TestFiles.kotlin(
-                    """
+                        """
                     package  dagger.hilt
 
                    annotation class InstallIn
                 """
-                ).indented(),
+                    )
+                    .indented(),
                 daggerAnnotations,
                 TestFiles.kotlin(
-                    """
+                        """
                 import dagger.Module
                 import dagger.Binds
                 import dagger.Provides
@@ -218,7 +224,8 @@ class MissingInstallInDetectorTest {
 
                 }
             """
-                ).indented()
+                    )
+                    .indented()
             )
             .issues(MissingInstallInDetector.ISSUE)
             .run()
@@ -231,15 +238,16 @@ class MissingInstallInDetectorTest {
         TestLintTask.lint()
             .files(
                 TestFiles.kotlin(
-                    """
+                        """
                     package  dagger.hilt
 
                    annotation class InstallIn
                 """
-                ).indented(),
+                    )
+                    .indented(),
                 daggerAnnotations,
                 TestFiles.kotlin(
-                    """
+                        """
                 import dagger.Module
                 import dagger.Binds
                 import dagger.Provides
@@ -258,7 +266,8 @@ class MissingInstallInDetectorTest {
 
                 }
             """
-                ).indented()
+                    )
+                    .indented()
             )
             .issues(MissingInstallInDetector.ISSUE)
             .run()
@@ -280,7 +289,7 @@ class MissingInstallInDetectorTest {
             .files(
                 daggerAnnotations,
                 TestFiles.java(
-                    """
+                        """
                 import dagger.Module;
                 import dagger.Provides;
 
@@ -293,7 +302,8 @@ class MissingInstallInDetectorTest {
 
                 }
             """
-                ).indented()
+                    )
+                    .indented()
             )
             .issues(MissingInstallInDetector.ISSUE)
             .run()
@@ -314,15 +324,16 @@ class MissingInstallInDetectorTest {
         TestLintTask.lint()
             .files(
                 TestFiles.kotlin(
-                    """
+                        """
                     package  dagger.hilt
 
                    annotation class InstallIn
                 """
-                ).indented(),
+                    )
+                    .indented(),
                 daggerAnnotations,
                 TestFiles.java(
-                    """
+                        """
                 import dagger.Module;
                 import dagger.Provides;
                 import dagger.hilt.InstallIn;
@@ -336,7 +347,8 @@ class MissingInstallInDetectorTest {
                     }
                 }
             """
-                ).indented()
+                    )
+                    .indented()
             )
             .issues(MissingInstallInDetector.ISSUE)
             .run()
@@ -350,7 +362,7 @@ class MissingInstallInDetectorTest {
             .files(
                 daggerAnnotations,
                 TestFiles.java(
-                    """
+                        """
                 import dagger.Module;
                 import dagger.Binds;
 
@@ -364,7 +376,8 @@ class MissingInstallInDetectorTest {
                     @Binds PizzaMaker binds(PizzaMakerImpl impl);
                 }
             """
-                ).indented()
+                    )
+                    .indented()
             )
             .issues(MissingInstallInDetector.ISSUE)
             .run()
@@ -385,12 +398,13 @@ class MissingInstallInDetectorTest {
         TestLintTask.lint()
             .files(
                 TestFiles.kotlin(
-                    """
+                        """
                     package  dagger.hilt
 
                    annotation class InstallIn
                 """
-                ).indented(),
+                    )
+                    .indented(),
                 daggerAnnotations,
                 TestFiles.java(
                     """
