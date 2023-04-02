@@ -42,9 +42,8 @@ class MissingInstallInDetectorTest {
 
                 @Module
                 class MyModule {
-
-                @Provides fun provideMyThing(): String = "Hello World"
-
+                    @Provides fun provideMyThing(): String = "Hello World"
+                    @Provides fun provideMyOtherThing(): Int = 1
                 }
             """
                     )
@@ -68,14 +67,7 @@ class MissingInstallInDetectorTest {
     fun `kotlin provides has both @Module and @InstallIn annotation does not show an error`() {
         TestLintTask.lint()
             .files(
-                TestFiles.kotlin(
-                        """
-                    package  dagger.hilt
-
-                   annotation class InstallIn
-                """
-                    )
-                    .indented(),
+                *hiltAnnotations,
                 daggerAnnotations,
                 TestFiles.kotlin(
                         """
@@ -86,9 +78,8 @@ class MissingInstallInDetectorTest {
                 @Module
                 @InstallIn
                 class MyModule {
-
-                @Provides fun provideMyThing(): String = "Hello World"
-
+                    @Provides fun provideMyThing(): String = "Hello World"
+                    @Provides fun provideMyOtherThing(): Int = 1
                 }
             """
                     )
@@ -113,11 +104,14 @@ class MissingInstallInDetectorTest {
                 interface PizzaMaker
                 class PizzaMakerImpl: PizzaMaker
 
+                interface Repository
+                class SqlRepository : Repository
+
 
                 @Module
                 interface MyModule {
-
                     @Binds fun bindsPizza(impl: PizzaMakerImpl): PizzaMaker
+                    @Binds fun bindsRepository(impl: SqlRepository): Repository
                 }
             """
                     )
@@ -127,7 +121,7 @@ class MissingInstallInDetectorTest {
             .run()
             .expect(
                 """
-                    src/PizzaMaker.kt:9: Error: Hilt modules require the @InstallIn annotation to be properly connected to a Component. Annotate this class with @InstallIn and the Hilt component you want to connect it to, the most commonly used Component is the SingletonComponent. [MissingInstallInAnnotation]
+                    src/PizzaMaker.kt:12: Error: Hilt modules require the @InstallIn annotation to be properly connected to a Component. Annotate this class with @InstallIn and the Hilt component you want to connect it to, the most commonly used Component is the SingletonComponent. [MissingInstallInAnnotation]
                     interface MyModule {
                               ~~~~~~~~
                     1 errors, 0 warnings
@@ -141,14 +135,7 @@ class MissingInstallInDetectorTest {
     fun `kotlin @Binds has both @Module and @InstallIn annotation does not show an error`() {
         TestLintTask.lint()
             .files(
-                TestFiles.kotlin(
-                        """
-                    package  dagger.hilt
-
-                   annotation class InstallIn
-                """
-                    )
-                    .indented(),
+                *hiltAnnotations,
                 daggerAnnotations,
                 TestFiles.kotlin(
                         """
@@ -162,9 +149,7 @@ class MissingInstallInDetectorTest {
                 @Module
                 @InstallIn
                 interface MyModule {
-
-                @Binds fun bindsPizza(impl: PizzaMakerImpl): PizzaMaker
-
+                    @Binds fun bindsPizza(impl: PizzaMakerImpl): PizzaMaker
                 }
             """
                     )
@@ -180,14 +165,7 @@ class MissingInstallInDetectorTest {
     fun `kotlin companion object @Binds has both @Module and @InstallIn annotation does not show an error`() {
         TestLintTask.lint()
             .files(
-                TestFiles.kotlin(
-                        """
-                    package  dagger.hilt
-
-                   annotation class InstallIn
-                """
-                    )
-                    .indented(),
+                *hiltAnnotations,
                 daggerAnnotations,
                 TestFiles.kotlin(
                         """
@@ -224,14 +202,7 @@ class MissingInstallInDetectorTest {
     fun `kotlin companion object @Binds has @Module but no  @InstallIn annotation show an error`() {
         TestLintTask.lint()
             .files(
-                TestFiles.kotlin(
-                        """
-                    package  dagger.hilt
-
-                   annotation class InstallIn
-                """
-                    )
-                    .indented(),
+                *hiltAnnotations,
                 daggerAnnotations,
                 TestFiles.kotlin(
                         """
@@ -282,11 +253,9 @@ class MissingInstallInDetectorTest {
 
                 @Module
                 class MyModule {
-
-                @Provides String provideMyThing() {
-                    return "Hello World";
-                }
-
+                    @Provides String provideMyThing() {
+                        return "Hello World";
+                    }
                 }
             """
                     )
@@ -310,14 +279,7 @@ class MissingInstallInDetectorTest {
     fun `java provides has both @Module and @InstallIn annotation does not show an error`() {
         TestLintTask.lint()
             .files(
-                TestFiles.kotlin(
-                        """
-                    package  dagger.hilt
-
-                   annotation class InstallIn
-                """
-                    )
-                    .indented(),
+                *hiltAnnotations,
                 daggerAnnotations,
                 TestFiles.java(
                         """
@@ -328,7 +290,6 @@ class MissingInstallInDetectorTest {
                 @Module
                 @InstallIn
                 class MyModule {
-
                     @Provides String provideMyThing() {
                         return "Hello World";
                     }
@@ -359,7 +320,6 @@ class MissingInstallInDetectorTest {
 
                 @Module
                 interface MyModule {
-
                     @Binds PizzaMaker binds(PizzaMakerImpl impl);
                 }
             """
@@ -384,14 +344,7 @@ class MissingInstallInDetectorTest {
     fun `java @Binds has both @Module and @InstallIn annotation does not show an error`() {
         TestLintTask.lint()
             .files(
-                TestFiles.kotlin(
-                        """
-                    package  dagger.hilt
-
-                   annotation class InstallIn
-                """
-                    )
-                    .indented(),
+                *hiltAnnotations,
                 daggerAnnotations,
                 TestFiles.java(
                     """
@@ -405,10 +358,120 @@ class MissingInstallInDetectorTest {
                 @Module
                 @InstallIn
                 interface MyModule {
-
-                @Binds PizzaMaker binds(PizzaMakerImpl impl);
-
+                    @Binds PizzaMaker binds(PizzaMakerImpl impl);
                 }
+            """
+                        .trimIndent()
+                )
+            )
+            .issues(MissingInstallInDetector.ISSUE)
+            .run()
+            .expectClean()
+            .expectErrorCount(0)
+    }
+
+    @Test
+    fun `kotlin entry point is missing @InstallIn annotation shows an error`() {
+        TestLintTask.lint()
+            .files(
+                *hiltAnnotations,
+                TestFiles.kotlin(
+                    """
+                    import dagger.hilt.EntryPoint
+
+                    @EntryPoint
+                    interface MyEntryPoint {
+                        fun myString(): String
+                    }
+            """
+                        .trimIndent()
+                )
+            )
+            .issues(MissingInstallInDetector.ISSUE)
+            .run()
+            .expect(
+                """
+                src/MyEntryPoint.kt:4: Error: Hilt modules require the @InstallIn annotation to be properly connected to a Component. Annotate this class with @InstallIn and the Hilt component you want to connect it to, the most commonly used Component is the SingletonComponent. [MissingInstallInAnnotation]
+                interface MyEntryPoint {
+                          ~~~~~~~~~~~~
+                1 errors, 0 warnings
+            """
+                    .trimIndent()
+            )
+            .expectErrorCount(1)
+    }
+
+    @Test
+    fun `java entry point is missing @InstallIn annotation shows an error`() {
+        TestLintTask.lint()
+            .files(
+                *hiltAnnotations,
+                TestFiles.java(
+                    """
+                    import dagger.hilt.EntryPoint;
+
+                    @EntryPoint
+                    interface MyEntryPoint {
+                        String myString();
+                    }
+            """
+                        .trimIndent()
+                )
+            )
+            .issues(MissingInstallInDetector.ISSUE)
+            .run()
+            .expect(
+                """
+                src/MyEntryPoint.java:4: Error: Hilt modules require the @InstallIn annotation to be properly connected to a Component. Annotate this class with @InstallIn and the Hilt component you want to connect it to, the most commonly used Component is the SingletonComponent. [MissingInstallInAnnotation]
+                interface MyEntryPoint {
+                          ~~~~~~~~~~~~
+                1 errors, 0 warnings
+            """
+                    .trimIndent()
+            )
+            .expectErrorCount(1)
+    }
+
+    @Test
+    fun `kotlin entry point has @InstallIn annotation does not shows an error`() {
+        TestLintTask.lint()
+            .files(
+                *hiltAnnotations,
+                TestFiles.kotlin(
+                    """
+                    import dagger.hilt.EntryPoint
+                    import dagger.hilt.InstallIn
+
+                    @EntryPoint
+                    @InstallIn
+                    interface MyEntryPoint {
+                        fun myString(): String
+                    }
+            """
+                        .trimIndent()
+                )
+            )
+            .issues(MissingInstallInDetector.ISSUE)
+            .run()
+            .expectClean()
+            .expectErrorCount(0)
+    }
+
+    @Test
+    fun `java entry point has @InstallIn annotation does not shows an error`() {
+        TestLintTask.lint()
+            .files(
+                *hiltAnnotations,
+                TestFiles.java(
+                    """
+                    import dagger.hilt.EntryPoint;
+                    import dagger.hilt.InstallIn;
+
+                    @EntryPoint
+                    @InstallIn
+                    interface MyEntryPoint {
+                        String myString();
+                    }
             """
                         .trimIndent()
                 )

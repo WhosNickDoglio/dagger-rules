@@ -33,12 +33,14 @@ import com.android.tools.lint.detector.api.Scope
 import com.android.tools.lint.detector.api.Severity
 import com.android.tools.lint.detector.api.SourceCodeScanner
 import com.android.tools.lint.detector.api.TextFormat
+import dev.whosnickdoglio.hilt.ENTRY_POINT
 import dev.whosnickdoglio.hilt.INSTALL_IN
 import dev.whosnickdoglio.lint.shared.MODULE
 import org.jetbrains.uast.UAnnotation
 import org.jetbrains.uast.UClass
 import org.jetbrains.uast.UElement
 
+// TODO default to SingletonComponent
 internal class MissingInstallInDetector : Detector(), SourceCodeScanner {
 
     override fun getApplicableUastTypes(): List<Class<out UElement>> =
@@ -47,28 +49,26 @@ internal class MissingInstallInDetector : Detector(), SourceCodeScanner {
     override fun createUastHandler(context: JavaContext): UElementHandler =
         object : UElementHandler() {
             override fun visitAnnotation(node: UAnnotation) {
-                if (node.qualifiedName == MODULE) {
-                    val clazz = node.uastParent
+                if (node.qualifiedName == MODULE || node.qualifiedName == ENTRY_POINT) {
+                    val daggerModule = node.uastParent as? UClass ?: return
 
-                    if (clazz is UClass) {
-                        val hasContributesToAnnotation =
-                            clazz.uAnnotations.any { annotation ->
-                                annotation.qualifiedName == INSTALL_IN
-                            }
-
-                        if (!hasContributesToAnnotation) {
-                            context.report(
-                                issue = ISSUE,
-                                location = context.getNameLocation(clazz),
-                                message = ISSUE.getExplanation(TextFormat.TEXT),
-                                quickfixData =
-                                    fix()
-                                        .name("Add @InstallIn annotation")
-                                        .annotate(INSTALL_IN)
-                                        .range(context.getNameLocation(node))
-                                        .build()
-                            )
+                    val hasContributesToAnnotation =
+                        daggerModule.uAnnotations.any { annotation ->
+                            annotation.qualifiedName == INSTALL_IN
                         }
+
+                    if (!hasContributesToAnnotation) {
+                        context.report(
+                            issue = ISSUE,
+                            location = context.getNameLocation(daggerModule),
+                            message = ISSUE.getExplanation(TextFormat.TEXT),
+                            quickfixData =
+                                fix()
+                                    .name("Add @InstallIn annotation")
+                                    .annotate(INSTALL_IN)
+                                    .range(context.getNameLocation(node))
+                                    .build()
+                        )
                     }
                 }
             }
@@ -80,10 +80,10 @@ internal class MissingInstallInDetector : Detector(), SourceCodeScanner {
         val ISSUE =
             Issue.create(
                 id = "MissingInstallInAnnotation",
-                briefDescription = "@Module is missing @InstallIn annotation",
+                briefDescription = "Missing @InstallIn annotation",
                 explanation =
                     """
-                    Hilt modules require the `@InstallIn` annotation to be properly connected to a Component. Annotate this class with @InstallIn \
+                    Hilt modules and entry points require the `@InstallIn` annotation to be properly connected to a Component. Annotate this class with @InstallIn \
                     and the Hilt component you want to connect it to, the most commonly used Component is the `SingletonComponent`.
                     """,
                 category = Category.CORRECTNESS,
