@@ -49,6 +49,7 @@ val hiltAnnotations =
             package dagger.hilt
 
             annotation class InstallIn
+            annotation class EntryPoint
         """
                 .trimIndent()
         ),
