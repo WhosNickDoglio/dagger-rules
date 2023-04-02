@@ -85,8 +85,7 @@ internal class MissingInstallInDetector : Detector(), SourceCodeScanner {
                     """
                     Hilt modules require the `@InstallIn` annotation to be properly connected to a Component. Annotate this class with @InstallIn \
                     and the Hilt component you want to connect it to, the most commonly used Component is the `SingletonComponent`.
-                    """
-                        .trimIndent(),
+                    """,
                 category = Category.CORRECTNESS,
                 priority = 5,
                 severity = Severity.ERROR,

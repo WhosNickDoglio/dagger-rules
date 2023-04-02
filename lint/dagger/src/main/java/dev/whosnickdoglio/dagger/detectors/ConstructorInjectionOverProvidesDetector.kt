@@ -71,13 +71,12 @@ internal class ConstructorInjectionOverProvidesDetector : Detector(), SourceCode
             Issue.create(
                 id = "ConstructorInjectionOverProvidesMethods",
                 briefDescription =
-                    "Class is being added to Dagger graph with @Provides method instead of constructor injection",
+                    "@Provides method used instead of constructor injection",
                 explanation =
                     """
-                    `@Provides` methods are great for adding third party libraries or classes that require Builders or Factories
+                    `@Provides` methods are great for adding third party libraries or classes that require Builders or Factories \
                     to the Dagger graph but for classes with simple constructors you should just add a `@Inject` annotation to the constructor
-                """
-                        .trimIndent(),
+                    """,
                 category = Category.CORRECTNESS,
                 priority = 5,
                 severity = Severity.WARNING,

@@ -121,11 +121,9 @@ internal class ConstructorInjectionOverFieldInjectionDetector : Detector(), Sour
             Issue.create(
                 id = "ConstructorOverField",
                 briefDescription = "Class is using field injection over constructor injection",
-                explanation =
-                    """
+                explanation = """
                     Constructor injection should be favored over field injection for classes that support it.
-                """
-                        .trimIndent(),
+                """,
                 category = Category.CORRECTNESS,
                 priority = 5,
                 severity = Severity.WARNING,

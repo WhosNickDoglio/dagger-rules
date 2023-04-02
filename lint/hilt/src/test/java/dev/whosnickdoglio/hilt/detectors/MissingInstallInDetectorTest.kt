@@ -60,8 +60,7 @@ class MissingInstallInDetectorTest {
 
                 }
             """
-                        .trimIndent()
-                )
+                ).indented()
             )
             .issues(MissingInstallInDetector.ISSUE)
             .run()
@@ -87,8 +86,8 @@ class MissingInstallInDetectorTest {
 
                    annotation class InstallIn
                 """
-                        .trimIndent()
-                ),
+
+                ).indented(),
                 daggerAnnotations,
                 TestFiles.kotlin(
                     """
@@ -104,8 +103,7 @@ class MissingInstallInDetectorTest {
 
                 }
             """
-                        .trimIndent()
-                )
+                ).indented()
             )
             .issues(MissingInstallInDetector.ISSUE)
             .run()
@@ -133,8 +131,7 @@ class MissingInstallInDetectorTest {
                     @Binds fun bindsPizza(impl: PizzaMakerImpl): PizzaMaker
                 }
             """
-                        .trimIndent()
-                )
+                ).indented()
             )
             .issues(MissingInstallInDetector.ISSUE)
             .run()
@@ -160,8 +157,7 @@ class MissingInstallInDetectorTest {
 
                    annotation class InstallIn
                 """
-                        .trimIndent()
-                ),
+                ).indented(),
                 daggerAnnotations,
                 TestFiles.kotlin(
                     """
@@ -180,8 +176,7 @@ class MissingInstallInDetectorTest {
 
                 }
             """
-                        .trimIndent()
-                )
+                ).indented()
             )
             .issues(MissingInstallInDetector.ISSUE)
             .run()
@@ -199,8 +194,7 @@ class MissingInstallInDetectorTest {
 
                    annotation class InstallIn
                 """
-                        .trimIndent()
-                ),
+                ).indented(),
                 daggerAnnotations,
                 TestFiles.kotlin(
                     """
@@ -224,8 +218,7 @@ class MissingInstallInDetectorTest {
 
                 }
             """
-                        .trimIndent()
-                )
+                ).indented()
             )
             .issues(MissingInstallInDetector.ISSUE)
             .run()
@@ -243,8 +236,7 @@ class MissingInstallInDetectorTest {
 
                    annotation class InstallIn
                 """
-                        .trimIndent()
-                ),
+                ).indented(),
                 daggerAnnotations,
                 TestFiles.kotlin(
                     """
@@ -266,8 +258,7 @@ class MissingInstallInDetectorTest {
 
                 }
             """
-                        .trimIndent()
-                )
+                ).indented()
             )
             .issues(MissingInstallInDetector.ISSUE)
             .run()
@@ -302,8 +293,7 @@ class MissingInstallInDetectorTest {
 
                 }
             """
-                        .trimIndent()
-                )
+                ).indented()
             )
             .issues(MissingInstallInDetector.ISSUE)
             .run()
@@ -329,8 +319,7 @@ class MissingInstallInDetectorTest {
 
                    annotation class InstallIn
                 """
-                        .trimIndent()
-                ),
+                ).indented(),
                 daggerAnnotations,
                 TestFiles.java(
                     """
@@ -347,8 +336,7 @@ class MissingInstallInDetectorTest {
                     }
                 }
             """
-                        .trimIndent()
-                )
+                ).indented()
             )
             .issues(MissingInstallInDetector.ISSUE)
             .run()
@@ -376,8 +364,7 @@ class MissingInstallInDetectorTest {
                     @Binds PizzaMaker binds(PizzaMakerImpl impl);
                 }
             """
-                        .trimIndent()
-                )
+                ).indented()
             )
             .issues(MissingInstallInDetector.ISSUE)
             .run()
@@ -403,8 +390,7 @@ class MissingInstallInDetectorTest {
 
                    annotation class InstallIn
                 """
-                        .trimIndent()
-                ),
+                ).indented(),
                 daggerAnnotations,
                 TestFiles.java(
                     """

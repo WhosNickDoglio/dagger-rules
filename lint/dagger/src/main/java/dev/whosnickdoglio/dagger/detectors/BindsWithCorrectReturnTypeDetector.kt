@@ -73,13 +73,12 @@ internal class BindsWithCorrectReturnTypeDetector : Detector(), SourceCodeScanne
             Issue.create(
                 id = "BindsWithCorrectReturnType",
                 briefDescription =
-                    "`@Binds` method parameter is not a subclass of method return type",
+                    " parameter is not a subclass of return type",
                 explanation =
                     """
-                        |`@Binds` method parameters need to be a subclass of the return type.
-                        |Make sure you're passing the correct parameter or the intended subclass is implementing
-                        |the return type interface."""
-                        .trimMargin(),
+                        `@Binds` method parameters need to be a subclass of the return type. \
+                        Make sure you're passing the correct parameter or the intended subclass is implementing \
+                        the return type interface.""",
                 category = Category.CORRECTNESS,
                 priority = 5,
                 severity = Severity.ERROR,

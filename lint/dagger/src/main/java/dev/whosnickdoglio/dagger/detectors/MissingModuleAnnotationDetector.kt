@@ -91,8 +91,7 @@ internal class MissingModuleAnnotationDetector : Detector(), SourceCodeScanner {
                 explanation =
                     """
                     TODO talk about needing @Module
-                """
-                        .trimIndent(),
+                    """,
                 category = Category.CORRECTNESS,
                 priority = 5,
                 severity = Severity.ERROR,
