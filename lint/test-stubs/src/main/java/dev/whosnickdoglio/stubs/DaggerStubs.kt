@@ -39,6 +39,19 @@ val daggerAnnotations: TestFile =
             .trimIndent()
     )
 
+val daggerMultibindingAnnotations: TestFile =
+    TestFiles.kotlin(
+        """
+    package dagger.multibinding
+
+    annotation class IntoMap
+    annotation class IntoSet
+    annotation class StringKey(val key: String)
+    annotation class IntKey(val key: Int)
+"""
+            .trimIndent()
+    )
+
 val injectAnnotation: TestFile =
     TestFiles.kotlin(
         """
