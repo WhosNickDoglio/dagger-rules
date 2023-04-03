@@ -57,8 +57,10 @@ internal class FavorContributesBindingOverBindsDetector : Detector(), SourceCode
             override fun visitAnnotation(node: UAnnotation) {
                 if (node.qualifiedName == BINDS) {
                     val method = node.uastParent as? UMethod ?: return
-                    // TODO this is terrible, is there a better way to check for generics?
-                    if (method.returnType?.canonicalText?.contains("<") == false) {
+                    val returnType = context.evaluator.getTypeClass(method.returnType)
+                    // Anvils binding annotations do not support super types that type parameters
+                    // TODO document this better
+                    if (returnType?.typeParameters?.isEmpty() == true) {
                         if (method.hasAnnotation(INTO_MAP) || method.hasAnnotation(INTO_SET)) {
                             context.report(
                                 issue = ISSUE,
