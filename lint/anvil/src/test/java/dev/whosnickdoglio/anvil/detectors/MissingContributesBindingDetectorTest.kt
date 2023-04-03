@@ -33,6 +33,7 @@ import dev.whosnickdoglio.stubs.injectAnnotation
 import org.junit.Test
 import org.junit.runner.RunWith
 
+@Suppress("JUnitMalformedDeclaration")
 @RunWith(TestParameterInjector::class)
 class MissingContributesBindingDetectorTest {
 
@@ -262,7 +263,7 @@ class MissingContributesBindingDetectorTest {
 
                     interface Authenticator {}
 
-                    class AuthenticatorImpl extends Authenticator {
+                    class AuthenticatorImpl implements Authenticator {
 
                         @Inject
                         public AuthenticatorImpl() {}
