@@ -378,6 +378,62 @@ class MissingHiltAnnotationDetectorTest {
     }
 
     @Test
+    fun `kotlin ViewModel with @HiltViewModel and @Inject does not triggers error`() {
+        TestLintTask.lint()
+            .files(
+                *hiltAnnotations,
+                viewModelStub,
+                injectAnnotation,
+                TestFiles.kotlin(
+                        """
+                import androidx.lifecycle.ViewModel
+                import javax.inject.Inject
+                import $HILT_VIEW_MODEL
+
+                @${HILT_VIEW_MODEL.substringAfterLast(".")}
+                class MyViewModel @Inject constructor() : ViewModel()
+            """
+                    )
+                    .indented()
+            )
+            .issues(MissingHiltAnnotationDetector.ISSUE)
+            .run()
+            .expectClean()
+            .expectErrorCount(0)
+    }
+
+    @Test
+    fun `java ViewModel with @HiltViewModel and @Inject does not triggers error`() {
+        TestLintTask.lint()
+            .files(
+                *hiltAnnotations,
+                injectAnnotation,
+                viewModelStub,
+                TestFiles.java(
+                        """
+                import androidx.lifecycle.ViewModel;
+                import javax.inject.Inject;
+                import $HILT_VIEW_MODEL;
+
+                @${HILT_VIEW_MODEL.substringAfterLast(".")}
+                class MyViewModel extends ViewModel {
+
+                    @Inject
+                    public MyViewModel() {}
+                }
+            """
+                    )
+                    .indented()
+            )
+            .issues(MissingHiltAnnotationDetector.ISSUE)
+            .run()
+            .expectClean()
+            .expectErrorCount(0)
+    }
+
+    // TODO @Inject
+
+    @Test
     fun `java android component using field injection with @AndroidEntryPoint does not trigger error`(
         @TestParameter(
             value =
