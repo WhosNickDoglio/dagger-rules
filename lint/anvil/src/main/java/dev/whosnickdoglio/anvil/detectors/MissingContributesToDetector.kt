@@ -51,26 +51,25 @@ internal class MissingContributesToDetector : Detector(), SourceCodeScanner {
         return object : UElementHandler() {
             override fun visitAnnotation(node: UAnnotation) {
                 if (node.qualifiedName == MODULE) {
-                    val element = node.uastParent
-                    if (element is UClass) {
-                        val hasContributesToAnnotation =
-                            element.uAnnotations.any { annotation ->
-                                annotation.qualifiedName == CONTRIBUTES_TO
-                            }
+                    val element = node.uastParent as? UClass ?: return
 
-                        if (!hasContributesToAnnotation) {
-                            context.report(
-                                issue = ISSUE,
-                                location = context.getNameLocation(element),
-                                message = ISSUE.getExplanation(TextFormat.TEXT),
-                                quickfixData =
-                                    fix()
-                                        .name("Add @ContributesTo annotation")
-                                        .annotate(CONTRIBUTES_TO)
-                                        .range(context.getNameLocation(element))
-                                        .build()
-                            )
+                    val hasContributesToAnnotation =
+                        element.uAnnotations.any { annotation ->
+                            annotation.qualifiedName == CONTRIBUTES_TO
                         }
+
+                    if (!hasContributesToAnnotation) {
+                        context.report(
+                            issue = ISSUE,
+                            location = context.getNameLocation(element),
+                            message = ISSUE.getExplanation(TextFormat.TEXT),
+                            quickfixData =
+                                fix()
+                                    .name("Add @ContributesTo annotation")
+                                    .annotate(CONTRIBUTES_TO)
+                                    .range(context.getNameLocation(element))
+                                    .build()
+                        )
                     }
                 }
             }

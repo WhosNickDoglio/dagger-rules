@@ -52,18 +52,16 @@ internal class BindsWithCorrectReturnTypeDetector : Detector(), SourceCodeScanne
         object : UElementHandler() {
             override fun visitAnnotation(node: UAnnotation) {
                 if (node.qualifiedName == BINDS) {
-                    val bindsMethod = node.uastParent
-                    if (bindsMethod is UMethod) {
-                        val returnType: PsiType? = bindsMethod.returnType
-                        val parameter: PsiType? = bindsMethod.parameterList.getParameter(0)?.type
+                    val bindsMethod = node.uastParent as? UMethod ?: return
+                    val returnType: PsiType? = bindsMethod.returnType
+                    val parameter: PsiType? = bindsMethod.parameterList.getParameter(0)?.type
 
-                        if (parameter?.superTypes?.contains(returnType) == false) {
-                            context.report(
-                                issue = ISSUE,
-                                location = context.getLocation(bindsMethod),
-                                message = ISSUE.getExplanation(TextFormat.TEXT),
-                            )
-                        }
+                    if (parameter?.superTypes?.contains(returnType) == false) {
+                        context.report(
+                            issue = ISSUE,
+                            location = context.getLocation(bindsMethod),
+                            message = ISSUE.getExplanation(TextFormat.TEXT),
+                        )
                     }
                 }
             }

@@ -49,34 +49,32 @@ internal class ConstructorInjectionOverFieldInjectionDetector : Detector(), Sour
         return object : UElementHandler() {
             override fun visitAnnotation(node: UAnnotation) {
                 if (node.qualifiedName == INJECT) {
-                    val annotatedElement = node.uastParent
-                    if (annotatedElement is UField) {
-                        //                        val fullAllowList: List<String> =
-                        //                            if (context.mainProject.minSdk >= MIN_SDK) {
-                        //
-                        // allowList.defaultValue?.split(",").orEmpty()
-                        //                            } else {
-                        //
-                        // allowList.defaultValue?.split(",").orEmpty() + androidComponents
-                        //                            }
+                    val annotatedElement = node.uastParent as? UField ?: return
+                    //                        val fullAllowList: List<String> =
+                    //                            if (context.mainProject.minSdk >= MIN_SDK) {
+                    //
+                    // allowList.defaultValue?.split(",").orEmpty()
+                    //                            } else {
+                    //
+                    // allowList.defaultValue?.split(",").orEmpty() + androidComponents
+                    //                            }
 
-                        val isAllowedFieldInjection =
-                            androidComponents.any { className ->
-                                context.evaluator.extendsClass(
-                                    cls = annotatedElement.getContainingUClass(),
-                                    className = className,
-                                    strict = true
-                                )
-                            }
-
-                        //                        minSdkLessThan(28)
-                        if (!isAllowedFieldInjection) {
-                            context.report(
-                                issue = ISSUE,
-                                location = context.getLocation(annotatedElement),
-                                message = ISSUE.getExplanation(TextFormat.TEXT)
+                    val isAllowedFieldInjection =
+                        androidComponents.any { className ->
+                            context.evaluator.extendsClass(
+                                cls = annotatedElement.getContainingUClass(),
+                                className = className,
+                                strict = true
                             )
                         }
+
+                    //                        minSdkLessThan(28)
+                    if (!isAllowedFieldInjection) {
+                        context.report(
+                            issue = ISSUE,
+                            location = context.getLocation(annotatedElement),
+                            message = ISSUE.getExplanation(TextFormat.TEXT)
+                        )
                     }
                 }
             }

@@ -48,8 +48,8 @@ internal class ConstructorInjectionOverProvidesDetector : Detector(), SourceCode
         object : UElementHandler() {
             override fun visitAnnotation(node: UAnnotation) {
                 if (node.qualifiedName == PROVIDES) {
-                    val method = node.uastParent
-                    if (method is UCallExpression && method.isConstructorCall()) {
+                    val method = node.uastParent as? UCallExpression ?: return
+                    if (method.isConstructorCall()) {
                         context.report(
                             issue = ISSUE,
                             location = context.getLocation(method),

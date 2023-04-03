@@ -47,7 +47,7 @@ internal class FavorBindsOverProvidesDetector : Detector(), SourceCodeScanner {
         object : UElementHandler() {
             override fun visitAnnotation(node: UAnnotation) {
                 if (node.qualifiedName == PROVIDES) {
-                    val providesMethod = node.uastParent as UMethod
+                    val providesMethod = node.uastParent as? UMethod ?: return
 
                     providesMethod.uastParameters.firstOrNull()?.type
 
