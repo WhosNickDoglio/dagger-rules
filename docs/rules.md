@@ -63,6 +63,8 @@ here: [Keeping the Daggers Sharp](https://developer.squareup.com/blog/keeping-th
 
 [//]: # (TODO mention `AppComponentFactory` and `FragmentFactory`)
 
+## Prefer using @Binds over @Provides
+
 ### Methods annotated with `@Binds` must be abstract
 
 Methods annotated with the [`@Binds` annotation](https://dagger.dev/api/latest/dagger/Binds.html) need to be abstract.
