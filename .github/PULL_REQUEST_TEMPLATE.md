@@ -24,7 +24,7 @@
 <!--- Go over all the following points, and put an `x` in all the boxes that apply. -->
 <!--- If you're unsure about any of these, don't hesitate to ask. We're here to help! -->
 
-- [ ] My code follows the style guidelines of this project (`gradlew detektAll`)
+- [ ] My code follows the style guidelines of this project (`gradlew lint detekt spotlessCheck`)
 - [ ] I have performed a self-review of my own code
 - [ ] I have commented my code, particularly in hard-to-understand areas
 - [ ] I have made corresponding changes to the documentation
