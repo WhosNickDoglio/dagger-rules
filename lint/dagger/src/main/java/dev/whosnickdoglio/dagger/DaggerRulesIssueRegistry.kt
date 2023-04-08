@@ -11,6 +11,7 @@ import com.android.tools.lint.detector.api.Issue
 import com.google.auto.service.AutoService
 import dev.whosnickdoglio.dagger.detectors.ComponentMustBeAbstractDetector
 import dev.whosnickdoglio.dagger.detectors.ConstructorInjectionOverFieldInjectionDetector
+import dev.whosnickdoglio.dagger.detectors.ConstructorInjectionOverProvidesDetector
 import dev.whosnickdoglio.dagger.detectors.CorrectBindsUsageDetector
 import dev.whosnickdoglio.dagger.detectors.MissingModuleAnnotationDetector
 import dev.whosnickdoglio.dagger.detectors.MultipleScopesDetector
@@ -26,6 +27,7 @@ public class DaggerRulesIssueRegistry : IssueRegistry() {
             ConstructorInjectionOverFieldInjectionDetector.ISSUE,
             CorrectBindsUsageDetector.ISSUE_BINDS_ABSTRACT,
             CorrectBindsUsageDetector.ISSUE_CORRECT_RETURN_TYPE,
+            ConstructorInjectionOverProvidesDetector.ISSUE,
             MissingModuleAnnotationDetector.ISSUE,
             MultipleScopesDetector.ISSUE,
             StaticProvidesDetector.ISSUE,
