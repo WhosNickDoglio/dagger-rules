@@ -13,7 +13,7 @@ jobs:
   Validate-Gradle:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@83b7061638ee4956cf7545a6f7efe594e5ad0247 # v3.5.1
+      - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.5.2
       - uses: ./.github/actions/setup
       - name: Gradle Wrapper Validation
         uses: gradle/wrapper-validation-action@8d49e559aae34d3e0eb16cde532684bc9702762b # v1.0.6
@@ -21,7 +21,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: [ Validate-Gradle ]
     steps:
-      - uses: actions/checkout@83b7061638ee4956cf7545a6f7efe594e5ad0247 # v3.5.1
+      - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.5.2
       - uses: ./.github/actions/setup
       - name: Build
         run: ./gradlew assemble
@@ -32,7 +32,7 @@ jobs:
       matrix:
         command: [ detekt, ktfmtCheck, lint ]
     steps:
-      - uses: actions/checkout@83b7061638ee4956cf7545a6f7efe594e5ad0247 # v3.5.1
+      - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.5.2
       - uses: ./.github/actions/setup
       - name: Lint
         run: ./gradlew ${{ matrix.command }}
@@ -40,7 +40,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: [ Build ]
     steps:
-      - uses: actions/checkout@83b7061638ee4956cf7545a6f7efe594e5ad0247 # v3.5.1
+      - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.5.2
       - uses: ./.github/actions/setup
       - name: Run Unit Tests
         run: ./gradlew kover-aggregate:koverXmlReport --no-build-cache
