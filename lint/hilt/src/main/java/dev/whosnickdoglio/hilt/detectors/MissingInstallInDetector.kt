@@ -58,7 +58,8 @@ internal class MissingInstallInDetector : Detector(), SourceCodeScanner {
     companion object {
         private val implementation =
             Implementation(MissingInstallInDetector::class.java, Scope.JAVA_FILE_SCOPE)
-        val ISSUE =
+
+        internal val ISSUE =
             Issue.create(
                 id = "MissingInstallInAnnotation",
                 briefDescription = "Missing @InstallIn annotation",

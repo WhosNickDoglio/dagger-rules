@@ -64,10 +64,10 @@ internal class StaticProvidesDetector : Detector(), SourceCodeScanner {
     }
 
     companion object {
-
         private val implementation =
             Implementation(StaticProvidesDetector::class.java, Scope.JAVA_FILE_SCOPE)
-        val ISSUE =
+
+        internal val ISSUE =
             Issue.create(
                 id = "StaticProvides",
                 briefDescription = "Not using static @Provides methods",

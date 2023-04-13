@@ -96,7 +96,7 @@ internal class ConstructorInjectionOverFieldInjectionDetector : Detector(), Sour
                 Scope.JAVA_FILE_SCOPE
             )
 
-        val ISSUE =
+        internal val ISSUE =
             Issue.create(
                 id = "ConstructorOverField",
                 briefDescription = "Class is using field injection over constructor injection",

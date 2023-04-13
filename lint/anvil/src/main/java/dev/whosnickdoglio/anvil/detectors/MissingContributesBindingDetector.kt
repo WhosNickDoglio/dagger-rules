@@ -82,7 +82,8 @@ internal class MissingContributesBindingDetector : Detector(), SourceCodeScanner
     companion object {
         private val implementation =
             Implementation(MissingContributesBindingDetector::class.java, Scope.JAVA_FILE_SCOPE)
-        val ISSUE =
+
+        internal val ISSUE =
             Issue.create(
                 id = "MissingContributesBindingAnnotation",
                 briefDescription = "Hello friend",

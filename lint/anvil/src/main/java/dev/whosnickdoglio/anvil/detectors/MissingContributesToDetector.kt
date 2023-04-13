@@ -60,7 +60,8 @@ internal class MissingContributesToDetector : Detector(), SourceCodeScanner {
     companion object {
         private val implementation =
             Implementation(MissingContributesToDetector::class.java, Scope.JAVA_FILE_SCOPE)
-        val ISSUE =
+
+        internal val ISSUE =
             Issue.create(
                 id = "MissingContributesToAnnotation",
                 briefDescription = "Module missing @ContributesTo annotation",

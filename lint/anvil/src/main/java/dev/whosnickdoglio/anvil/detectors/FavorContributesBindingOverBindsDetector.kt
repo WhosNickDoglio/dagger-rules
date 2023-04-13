@@ -68,7 +68,8 @@ internal class FavorContributesBindingOverBindsDetector : Detector(), SourceCode
                 FavorContributesBindingOverBindsDetector::class.java,
                 Scope.JAVA_FILE_SCOPE
             )
-        val ISSUE =
+
+        internal val ISSUE =
             Issue.create(
                 id = "ContributesBindingOverBinds",
                 briefDescription = "Hello friend",

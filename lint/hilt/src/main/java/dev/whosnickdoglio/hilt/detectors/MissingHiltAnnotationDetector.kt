@@ -112,7 +112,8 @@ internal class MissingHiltAnnotationDetector : Detector(), SourceCodeScanner {
     companion object {
         private val implementation =
             Implementation(MissingHiltAnnotationDetector::class.java, Scope.JAVA_FILE_SCOPE)
-        val ISSUE =
+
+        internal val ISSUE =
             Issue.create(
                 id = "MissingHiltAnnotation",
                 briefDescription = "Android Component is missing Hilt annotation",
