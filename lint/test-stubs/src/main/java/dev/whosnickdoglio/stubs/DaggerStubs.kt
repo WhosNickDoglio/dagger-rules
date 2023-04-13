@@ -16,6 +16,8 @@ val daggerAnnotations: TestFile =
         annotation class Binds
         annotation class Module
         annotation class Multibinds
+        annotation class Component
+        annotation class Subcomponent
     """
             .trimIndent()
     )

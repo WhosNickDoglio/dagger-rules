@@ -6,6 +6,8 @@ package dev.whosnickdoglio.lint.shared
 
 const val INJECT = "javax.inject.Inject"
 const val BINDS = "dagger.Binds"
+const val COMPONENT = "dagger.Component"
+const val SUBCOMPONENT = "dagger.Subcomponent"
 const val PROVIDES = "dagger.Provides"
 const val MULTIBINDS = "dagger.multibindings.Multibinds"
 const val INTO_MAP = "dagger.multibindings.IntoMap"
