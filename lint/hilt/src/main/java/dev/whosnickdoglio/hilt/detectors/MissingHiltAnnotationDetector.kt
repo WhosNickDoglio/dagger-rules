@@ -107,7 +107,7 @@ internal class MissingHiltAnnotationDetector : Detector(), SourceCodeScanner {
     }
 
     private fun UClass.hasInjectedConstructor(): Boolean =
-        constructors.flatMap { it.annotations.toList() }.any { it.qualifiedName == INJECT }
+        constructors.any { method -> method.hasAnnotation(INJECT) }
 
     companion object {
         private val implementation =

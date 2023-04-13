@@ -35,16 +35,14 @@ internal class MissingModuleAnnotationDetector : Detector(), SourceCodeScanner {
                 if (node.qualifiedName in daggerAnnotations) {
                     val containingClass = node.uastParent?.getContainingUClass() ?: return
 
+                    // TODO need to support modules with multiple provides/binds methods
+
                     if (isKotlin(node.lang) && context.evaluator.isCompanion(containingClass)) {
                         // Early out, other methods should already trigger lint warning?
                         return
                     }
 
-                    if (
-                        !containingClass.uAnnotations.any { annotation ->
-                            annotation.qualifiedName == MODULE
-                        }
-                    ) {
+                    if (!containingClass.hasAnnotation(MODULE)) {
                         context.report(
                             issue = ISSUE,
                             location = context.getNameLocation(containingClass),

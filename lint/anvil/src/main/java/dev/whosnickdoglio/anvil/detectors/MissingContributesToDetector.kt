@@ -34,12 +34,7 @@ internal class MissingContributesToDetector : Detector(), SourceCodeScanner {
                 if (node.qualifiedName == MODULE) {
                     val element = node.uastParent as? UClass ?: return
 
-                    val hasContributesToAnnotation =
-                        element.uAnnotations.any { annotation ->
-                            annotation.qualifiedName == CONTRIBUTES_TO
-                        }
-
-                    if (!hasContributesToAnnotation) {
+                    if (!element.hasAnnotation(CONTRIBUTES_TO)) {
                         context.report(
                             issue = ISSUE,
                             location = context.getNameLocation(element),

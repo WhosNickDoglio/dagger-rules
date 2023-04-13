@@ -33,12 +33,7 @@ internal class MissingInstallInDetector : Detector(), SourceCodeScanner {
                 if (node.qualifiedName == MODULE || node.qualifiedName == ENTRY_POINT) {
                     val daggerModule = node.uastParent as? UClass ?: return
 
-                    val hasContributesToAnnotation =
-                        daggerModule.uAnnotations.any { annotation ->
-                            annotation.qualifiedName == INSTALL_IN
-                        }
-
-                    if (!hasContributesToAnnotation) {
+                    if (!daggerModule.hasAnnotation(INSTALL_IN)) {
                         context.report(
                             issue = ISSUE,
                             location = context.getNameLocation(daggerModule),
