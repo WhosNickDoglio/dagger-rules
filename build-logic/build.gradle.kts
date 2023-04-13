@@ -5,33 +5,16 @@
 
 plugins {
     `kotlin-dsl`
-    alias(libs.plugins.spotless)
+    alias(libs.plugins.ktfmt)
     alias(libs.plugins.detekt)
 }
 
 kotlin { jvmToolchain(11) }
 
-configure<com.diffplug.gradle.spotless.SpotlessExtension> {
-    format("misc") {
-        target("*.md", ".gitignore")
-        trimTrailingWhitespace()
-        endWithNewline()
-    }
-
-    kotlin {
-        ktfmt(libs.versions.ktfmt.get()).kotlinlangStyle()
-        trimTrailingWhitespace()
-        endWithNewline()
-    }
-    kotlinGradle {
-        ktfmt(libs.versions.ktfmt.get()).kotlinlangStyle()
-        trimTrailingWhitespace()
-        endWithNewline()
-    }
-}
+ktfmt { kotlinLangStyle() }
 
 dependencies {
-    implementation(libs.spotless.gradle)
+    implementation(libs.ktfmt.gradle)
     implementation(libs.kotlin.gradle)
     implementation(libs.detekt.gradle)
     implementation(libs.android.gradle)
