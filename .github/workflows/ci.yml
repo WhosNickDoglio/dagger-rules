@@ -30,7 +30,7 @@ jobs:
     needs: [ Build ]
     strategy:
       matrix:
-        command: [ detekt, spotlessCheck, lint ]
+        command: [ detekt, ktfmtCheck, lint ]
     steps:
       - uses: actions/checkout@83b7061638ee4956cf7545a6f7efe594e5ad0247 # v3.5.1
       - uses: ./.github/actions/setup
