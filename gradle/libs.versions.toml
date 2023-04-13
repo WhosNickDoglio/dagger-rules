@@ -1,5 +1,5 @@
 [versions]
-agp = "7.4.2"
+agp = "8.0.0"
 kotlin = "1.8.20"
 ktfmt = "0.43"
 ktfmtGradle = "0.12.0"
