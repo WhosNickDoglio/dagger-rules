@@ -9,7 +9,9 @@ import com.android.tools.lint.checks.infrastructure.TestLintTask
 import dev.whosnickdoglio.stubs.daggerAnnotations
 import org.junit.Test
 
-class BindsWithCorrectReturnTypeDetectorTest {
+class CorrectBindsUsageDetectorTest {
+
+    // TODO non-abstract @Binds methods
 
     private val pizzaMakerStubs =
         TestFiles.kotlin(
@@ -54,7 +56,7 @@ class BindsWithCorrectReturnTypeDetectorTest {
                     )
                     .indented()
             )
-            .issues(BindsWithCorrectReturnTypeDetector.ISSUE)
+            .issues(CorrectBindsUsageDetector.ISSUE_CORRECT_RETURN_TYPE)
             .run()
             .expectClean()
             .expectErrorCount(0)
@@ -83,7 +85,7 @@ class BindsWithCorrectReturnTypeDetectorTest {
                     )
                     .indented()
             )
-            .issues(BindsWithCorrectReturnTypeDetector.ISSUE)
+            .issues(CorrectBindsUsageDetector.ISSUE_CORRECT_RETURN_TYPE)
             .run()
             .expect(
                 """
@@ -121,7 +123,7 @@ class BindsWithCorrectReturnTypeDetectorTest {
                     )
                     .indented()
             )
-            .issues(BindsWithCorrectReturnTypeDetector.ISSUE)
+            .issues(CorrectBindsUsageDetector.ISSUE_CORRECT_RETURN_TYPE)
             .run()
             .expectClean()
             .expectErrorCount(0)
@@ -148,7 +150,7 @@ class BindsWithCorrectReturnTypeDetectorTest {
                     )
                     .indented()
             )
-            .issues(BindsWithCorrectReturnTypeDetector.ISSUE)
+            .issues(CorrectBindsUsageDetector.ISSUE_CORRECT_RETURN_TYPE)
             .run()
             .expect(
                 """
@@ -182,7 +184,7 @@ class BindsWithCorrectReturnTypeDetectorTest {
                     )
                     .indented()
             )
-            .issues(BindsWithCorrectReturnTypeDetector.ISSUE)
+            .issues(CorrectBindsUsageDetector.ISSUE_CORRECT_RETURN_TYPE)
             .run()
             .expectClean()
             .expectErrorCount(0)
@@ -208,7 +210,7 @@ class BindsWithCorrectReturnTypeDetectorTest {
                     )
                     .indented()
             )
-            .issues(BindsWithCorrectReturnTypeDetector.ISSUE)
+            .issues(CorrectBindsUsageDetector.ISSUE_CORRECT_RETURN_TYPE)
             .run()
             .expect(
                 """
