@@ -11,8 +11,6 @@ import org.junit.Test
 
 class CorrectBindsUsageDetectorTest {
 
-    // TODO non-abstract @Binds methods
-
     private val pizzaMakerStubs =
         TestFiles.kotlin(
                 """
@@ -219,6 +217,76 @@ class CorrectBindsUsageDetectorTest {
                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
                     1 errors, 0 warnings
                 """
+                    .trimIndent()
+            )
+            .expectErrorCount(1)
+    }
+
+    @Test
+    fun `kotlin non-abstract @Binds method triggers error`() {
+        TestLintTask.lint()
+            .files(
+                daggerAnnotations,
+                pizzaMakerStubs,
+                TestFiles.kotlin(
+                        """
+                    import dagger.Module
+                    import dagger.Binds
+
+                    @Module
+                    class MyModule {
+
+                        @Binds fun bindPizzaMaker(): PizzaMaker = PizzaMakerImpl()
+                    }
+                """
+                    )
+                    .indented()
+            )
+            .issues(CorrectBindsUsageDetector.ISSUE_BINDS_ABSTRACT)
+            .run()
+            .expect(
+                """
+                src/MyModule.kt:7: Error: Must be abstract [BindsMustBeAbstract]
+                    @Binds fun bindPizzaMaker(): PizzaMaker = PizzaMakerImpl()
+                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                1 errors, 0 warnings
+            """
+                    .trimIndent()
+            )
+            .expectErrorCount(1)
+    }
+
+    @Test
+    fun `java non-abstract @Binds method triggers error`() {
+        TestLintTask.lint()
+            .files(
+                daggerAnnotations,
+                pizzaMakerStubs,
+                TestFiles.java(
+                        """
+                    import dagger.Module;
+                    import dagger.Binds;
+
+                    @Module
+                    class MyModule {
+
+                        @Binds PizzaMaker bindPizzaMaker() {
+                            return PizzaMakerImpl();
+                        }
+                    }
+                """
+                    )
+                    .indented()
+            )
+            .issues(CorrectBindsUsageDetector.ISSUE_BINDS_ABSTRACT)
+            .run()
+            .expect(
+                """
+                src/MyModule.java:7: Error: Must be abstract [BindsMustBeAbstract]
+                    @Binds PizzaMaker bindPizzaMaker() {
+                    ^
+                1 errors, 0 warnings
+            """
                     .trimIndent()
             )
             .expectErrorCount(1)
