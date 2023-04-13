@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: MIT
  */
 
-import com.ncorti.ktfmt.gradle.KtfmtExtension
+import com.diffplug.gradle.spotless.SpotlessExtension
 import io.gitlab.arturbosch.detekt.Detekt
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.gradle.api.tasks.testing.logging.TestLogEvent
@@ -14,7 +14,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     id("org.jetbrains.kotlin.jvm")
     id("io.gitlab.arturbosch.detekt")
-    id("com.ncorti.ktfmt.gradle")
+    id("com.diffplug.spotless")
     id("com.android.lint")
     id("org.jetbrains.kotlinx.kover")
 }
@@ -34,7 +34,29 @@ lint {
     baseline = file("lint-baseline.xml")
 }
 
-configure<KtfmtExtension> { kotlinLangStyle() }
+configure<SpotlessExtension> {
+    format("misc") {
+        target("*.md", ".gitignore")
+        trimTrailingWhitespace()
+        endWithNewline()
+    }
+
+    kotlin {
+        ktfmt(libs.findVersion("ktfmt").get().requiredVersion).kotlinlangStyle()
+        trimTrailingWhitespace()
+        endWithNewline()
+        licenseHeaderFile(rootProject.file("spotless/spotless.kt"))
+    }
+    kotlinGradle {
+        ktfmt(libs.findVersion("ktfmt").get().requiredVersion).kotlinlangStyle()
+        trimTrailingWhitespace()
+        endWithNewline()
+        licenseHeaderFile(
+            rootProject.file("spotless/spotless.kt"),
+            "(import|plugins|buildscript|dependencies|pluginManagement)"
+        )
+    }
+}
 
 configure<KotlinJvmProjectExtension> { jvmToolchain(11) }
 
@@ -46,7 +68,11 @@ tasks.withType<Test>().configureEach {
     maxParallelForks = (Runtime.getRuntime().availableProcessors() / 2).takeIf { it > 0 } ?: 1
     testLogging {
         exceptionFormat = TestExceptionFormat.FULL
-        events = setOf(TestLogEvent.SKIPPED, TestLogEvent.PASSED, TestLogEvent.FAILED)
+        events = setOf(
+            TestLogEvent.SKIPPED,
+            TestLogEvent.PASSED,
+            TestLogEvent.FAILED
+        )
         showStandardStreams = true
     }
     reports.html.required.set(false)

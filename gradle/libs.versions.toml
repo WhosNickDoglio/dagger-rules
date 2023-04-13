@@ -2,7 +2,6 @@
 agp = "8.0.0"
 kotlin = "1.8.20"
 ktfmt = "0.43"
-ktfmtGradle = "0.12.0"
 lint = "31.0.0"
 detekt = "1.22.0"
 dagger = "2.45"
@@ -19,7 +18,6 @@ dependencyAnalysis = { id = "com.autonomousapps.dependency-analysis", version = 
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 gradleVersions = { id = "com.github.ben-manes.versions", version = "0.46.0" }
 kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
-ktfmt = { id = "com.ncorti.ktfmt.gradle", version.ref = "ktfmtGradle" }
 
 [libraries]
 spotless-gradle = { module = "com.diffplug.spotless:spotless-plugin-gradle", version.ref = "spotless" }
@@ -27,7 +25,6 @@ kotlin-gradle = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.
 detekt-gradle = { module = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin", version.ref = "detekt" }
 android-gradle = { module = "com.android.tools.build:gradle", version.ref = "agp" }
 kover-gradle = { module = "org.jetbrains.kotlinx:kover-gradle-plugin", version.ref = "kover" }
-ktfmt-gradle = { module = "com.ncorti.ktfmt.gradle:plugin", version.ref = "ktfmtGradle" }
 
 kotlin-bom = { module = "org.jetbrains.kotlin:kotlin-bom", version.ref = "kotlin" }
 
