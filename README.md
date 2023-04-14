@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/WhosNickDoglio/dagger-rules/actions/workflows/ci.yml/badge.svg)](https://github.com/WhosNickDoglio/dagger-rules/actions/workflows/ci.yml)
 [![codecov](https://codecov.io/gh/WhosNickDoglio/dagger-rules/branch/main/graph/badge.svg?token=wCMZ499cH4)](https://codecov.io/gh/WhosNickDoglio/dagger-rules)
-[![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-v2.0%20adopted-ff69b4.svg)](/.github/CODE_OF_CONDUCT.MD)
+[![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](code_of_conduct.md)
 [![Maintainability](https://api.codeclimate.com/v1/badges/528180026c455cacee93/maintainability)](https://codeclimate.com/github/WhosNickDoglio/dagger-rules/maintainability)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 

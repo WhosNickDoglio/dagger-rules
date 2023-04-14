@@ -18,9 +18,6 @@ jobs:
         with:
           key: ${{ github.ref }}
           path: .cache
-      - run: |
-          cp CHANGELOG.md docs/CHANGELOG.md
-          cp .github/CONTRIBUTING.md docs/CONTRIBUTING.md
-          cp .github/CODE_OF_CONDUCT.md docs/CODE_OF_CONDUCT.md
+      - run: ./move_docs.sh
       - run: pip install mkdocs-material
       - run: mkdocs gh-deploy --force
