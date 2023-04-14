@@ -39,6 +39,6 @@ nav:
   - 'Overview': index.md
   - 'Rules': rules.md
   - 'Discussions ⏏': https://github.com/WhosNickDoglio/dagger-rules/discussions
-#  - 'Change Log': changelog.md
-#  - 'Contributing': contributing.md
-#  - 'CoC': code-of-conduct.md
+  - 'Change Log': CHANGELOG.md
+  - 'Contributing': CONTRIBUTING.md
+  - 'CoC': /Users/nicholasdoglio/IdeaProjects/dagger-rules/.github/CODE_OF_CONDUCT.MD
