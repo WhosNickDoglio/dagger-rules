@@ -1,0 +1,44 @@
+# pip install mkdocs mkdocs-material
+# mkdocs serve
+# mkdocs gh-deploy
+
+site_name: dagger-rules
+repo_name: dagger-rules
+repo_url: https://github.com/WhosNickDoglio/dagger-rules
+site_description: Static analysis checks for using Dagger, Anvil, or Hilt.
+site_author: WhosNickDoglio
+remote_branch: gh-pages
+
+copyright: 'Copyright &copy; 2023 Nicholas Doglio'
+
+theme:
+  name: 'material'
+  palette:
+    - media: '(prefers-color-scheme: light)'
+      scheme: default
+      primary: 'white'
+      accent: 'green'
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - media: '(prefers-color-scheme: dark)'
+      scheme: slate
+      primary: 'black'
+      accent: 'green'
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  font:
+    text: 'Lato'
+    code: 'Fira Code'
+
+extra_css:
+  - 'css/app.css'
+
+nav:
+  - 'Overview': index.md
+  - 'Rules': rules.md
+  - 'Discussions ⏏': https://github.com/WhosNickDoglio/dagger-rules/discussions
+#  - 'Change Log': changelog.md
+#  - 'Contributing': contributing.md
+#  - 'CoC': code-of-conduct.md

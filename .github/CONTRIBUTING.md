@@ -5,7 +5,7 @@ smoother, more productive and painless.
 
 # Ground Rules
 
-Please make sure to review and follow the [Code of Conduct](/.github/CODE_OF_CONDUCT.md) when making
+Please make sure to review and follow the [Code of Conduct](/.github/CODE_OF_CONDUCT.MD) when making
 contributions to this project.
 
 # Your First Contribution
