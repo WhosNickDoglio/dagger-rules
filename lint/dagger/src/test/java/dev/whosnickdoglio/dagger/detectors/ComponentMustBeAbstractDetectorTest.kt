@@ -2,7 +2,6 @@
  * Copyright (C) 2023 Nicholas Doglio
  * SPDX-License-Identifier: MIT
  */
-
 package dev.whosnickdoglio.dagger.detectors
 
 import com.android.tools.lint.checks.infrastructure.TestFiles
@@ -28,7 +27,7 @@ class ComponentMustBeAbstractDetectorTest {
                 TestFiles.kotlin(
                     """
                     import $componentAnnotation
-                
+
                     @${componentAnnotation.substringAfterLast(".")}
                     abstract class MyComponent
                 """
@@ -48,7 +47,7 @@ class ComponentMustBeAbstractDetectorTest {
                 TestFiles.java(
                     """
                     import $componentAnnotation;
-                
+
                     @${componentAnnotation.substringAfterLast(".")}
                     abstract class MyComponent {}
                 """
@@ -68,7 +67,7 @@ class ComponentMustBeAbstractDetectorTest {
                 TestFiles.kotlin(
                     """
                     import $componentAnnotation
-                
+
                     @${componentAnnotation.substringAfterLast(".")}
                     interface MyComponent
                 """
@@ -88,7 +87,7 @@ class ComponentMustBeAbstractDetectorTest {
                 TestFiles.java(
                     """
                     import $componentAnnotation;
-                
+
                     @${componentAnnotation.substringAfterLast(".")}
                     interface MyComponent {}
                 """
@@ -108,7 +107,7 @@ class ComponentMustBeAbstractDetectorTest {
                 TestFiles.java(
                     """
                     import $componentAnnotation;
-                
+
                     @${componentAnnotation.substringAfterLast(".")}
                     class MyComponent {}
                 """
@@ -137,7 +136,7 @@ class ComponentMustBeAbstractDetectorTest {
                 TestFiles.kotlin(
                     """
                     import $componentAnnotation
-                
+
                     @${componentAnnotation.substringAfterLast(".")}
                     class MyComponent
                 """
