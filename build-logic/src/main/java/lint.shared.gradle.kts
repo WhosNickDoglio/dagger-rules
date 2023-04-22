@@ -4,6 +4,7 @@
  */
 
 import com.diffplug.gradle.spotless.SpotlessExtension
+import com.diffplug.spotless.LineEnding
 import io.gitlab.arturbosch.detekt.Detekt
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.gradle.api.tasks.testing.logging.TestLogEvent
@@ -35,6 +36,11 @@ lint {
 }
 
 configure<SpotlessExtension> {
+
+    // https://github.com/diffplug/spotless/issues/1527
+    // https://github.com/diffplug/spotless/issues/1644
+    lineEndings = LineEnding.PLATFORM_NATIVE
+
     format("misc") {
         target("*.md", ".gitignore")
         trimTrailingWhitespace()
@@ -68,11 +74,7 @@ tasks.withType<Test>().configureEach {
     maxParallelForks = (Runtime.getRuntime().availableProcessors() / 2).takeIf { it > 0 } ?: 1
     testLogging {
         exceptionFormat = TestExceptionFormat.FULL
-        events = setOf(
-            TestLogEvent.SKIPPED,
-            TestLogEvent.PASSED,
-            TestLogEvent.FAILED
-        )
+        events = setOf(TestLogEvent.SKIPPED, TestLogEvent.PASSED, TestLogEvent.FAILED)
         showStandardStreams = true
     }
     reports.html.required.set(false)

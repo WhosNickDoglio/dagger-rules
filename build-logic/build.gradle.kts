@@ -3,6 +3,8 @@
  * SPDX-License-Identifier: MIT
  */
 
+import com.diffplug.spotless.LineEnding
+
 plugins {
     `kotlin-dsl`
     alias(libs.plugins.spotless)
@@ -12,6 +14,11 @@ plugins {
 kotlin { jvmToolchain(11) }
 
 configure<com.diffplug.gradle.spotless.SpotlessExtension> {
+
+    // https://github.com/diffplug/spotless/issues/1527
+    // https://github.com/diffplug/spotless/issues/1644
+    lineEndings = LineEnding.PLATFORM_NATIVE
+
     format("misc") {
         target("*.md", ".gitignore")
         trimTrailingWhitespace()
