@@ -125,10 +125,11 @@ complexity:
   LargeClass:
     active: true
     excludes: ['**/test/**', '**/androidTest/**', '**/commonTest/**', '**/jvmTest/**', '**/jsTest/**', '**/iosTest/**']
-    threshold: 600
+    threshold: 500
   LongMethod:
     active: true
-    threshold: 60
+    excludes: ['**/test/**', '**/androidTest/**', '**/commonTest/**', '**/jvmTest/**', '**/jsTest/**', '**/iosTest/**']
+    threshold: 50
   LongParameterList:
     active: true
     functionThreshold: 6
