@@ -64,13 +64,14 @@ configure<SpotlessExtension> {
     }
 }
 
-configure<KotlinJvmProjectExtension> { jvmToolchain(11) }
+configure<KotlinJvmProjectExtension> { jvmToolchain(19) }
 
 tasks.withType<Detekt>().configureEach { jvmTarget = "11" }
 
 tasks.withType<JavaCompile>().configureEach { options.release.set(11) }
 
 tasks.withType<Test>().configureEach {
+    forkEvery = 100
     maxParallelForks = (Runtime.getRuntime().availableProcessors() / 2).takeIf { it > 0 } ?: 1
     testLogging {
         exceptionFormat = TestExceptionFormat.FULL
