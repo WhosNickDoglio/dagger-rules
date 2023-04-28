@@ -42,6 +42,35 @@ class MissingInstallInDetectorTest {
                     .trimIndent()
             )
             .expectErrorCount(1)
+            .expectFixDiffs(
+                """
+                Fix for src/MyModule.kt line 5: Install in the SingletonComponent :
+                @@ -4 +4
+                + @dagger.hilt.InstallIn(dagger.hilt.components.SingletonComponent::class)
+                Fix for src/MyModule.kt line 5: Install in the ActivityComponent :
+                @@ -4 +4
+                + @dagger.hilt.InstallIn(dagger.hilt.android.components.ActivityComponent::class)
+                Fix for src/MyModule.kt line 5: Install in the ActivityRetainedComponent :
+                @@ -4 +4
+                + @dagger.hilt.InstallIn(dagger.hilt.android.components.ActivityRetainedComponent::class)
+                Fix for src/MyModule.kt line 5: Install in the FragmentComponent :
+                @@ -4 +4
+                + @dagger.hilt.InstallIn(dagger.hilt.android.components.FragmentComponent::class)
+                Fix for src/MyModule.kt line 5: Install in the ServiceComponent :
+                @@ -4 +4
+                + @dagger.hilt.InstallIn(dagger.hilt.android.components.ServiceComponent::class)
+                Fix for src/MyModule.kt line 5: Install in the ViewComponent :
+                @@ -4 +4
+                + @dagger.hilt.InstallIn(dagger.hilt.android.components.ViewComponent::class)
+                Fix for src/MyModule.kt line 5: Install in the ViewModelComponent :
+                @@ -4 +4
+                + @dagger.hilt.InstallIn(dagger.hilt.android.components.ViewModelComponent::class)
+                Fix for src/MyModule.kt line 5: Install in the ViewWithFragmentComponent :
+                @@ -4 +4
+                + @dagger.hilt.InstallIn(dagger.hilt.android.components.ViewWithFragmentComponent::class)
+            """
+                    .trimIndent()
+            )
     }
 
     @Test
@@ -110,6 +139,35 @@ class MissingInstallInDetectorTest {
                     .trimIndent()
             )
             .expectErrorCount(1)
+            .expectFixDiffs(
+                """
+                Fix for src/PizzaMaker.kt line 12: Install in the SingletonComponent :
+                @@ -11 +11
+                + @dagger.hilt.InstallIn(dagger.hilt.components.SingletonComponent::class)
+                Fix for src/PizzaMaker.kt line 12: Install in the ActivityComponent :
+                @@ -11 +11
+                + @dagger.hilt.InstallIn(dagger.hilt.android.components.ActivityComponent::class)
+                Fix for src/PizzaMaker.kt line 12: Install in the ActivityRetainedComponent :
+                @@ -11 +11
+                + @dagger.hilt.InstallIn(dagger.hilt.android.components.ActivityRetainedComponent::class)
+                Fix for src/PizzaMaker.kt line 12: Install in the FragmentComponent :
+                @@ -11 +11
+                + @dagger.hilt.InstallIn(dagger.hilt.android.components.FragmentComponent::class)
+                Fix for src/PizzaMaker.kt line 12: Install in the ServiceComponent :
+                @@ -11 +11
+                + @dagger.hilt.InstallIn(dagger.hilt.android.components.ServiceComponent::class)
+                Fix for src/PizzaMaker.kt line 12: Install in the ViewComponent :
+                @@ -11 +11
+                + @dagger.hilt.InstallIn(dagger.hilt.android.components.ViewComponent::class)
+                Fix for src/PizzaMaker.kt line 12: Install in the ViewModelComponent :
+                @@ -11 +11
+                + @dagger.hilt.InstallIn(dagger.hilt.android.components.ViewModelComponent::class)
+                Fix for src/PizzaMaker.kt line 12: Install in the ViewWithFragmentComponent :
+                @@ -11 +11
+                + @dagger.hilt.InstallIn(dagger.hilt.android.components.ViewWithFragmentComponent::class)
+            """
+                    .trimIndent()
+            )
     }
 
     @Test
@@ -220,6 +278,35 @@ class MissingInstallInDetectorTest {
                     .trimIndent()
             )
             .expectErrorCount(1)
+            .expectFixDiffs(
+                """
+                Fix for src/PizzaMaker.kt line 9: Install in the SingletonComponent :
+                @@ -8 +8
+                + @dagger.hilt.InstallIn(dagger.hilt.components.SingletonComponent::class)
+                Fix for src/PizzaMaker.kt line 9: Install in the ActivityComponent :
+                @@ -8 +8
+                + @dagger.hilt.InstallIn(dagger.hilt.android.components.ActivityComponent::class)
+                Fix for src/PizzaMaker.kt line 9: Install in the ActivityRetainedComponent :
+                @@ -8 +8
+                + @dagger.hilt.InstallIn(dagger.hilt.android.components.ActivityRetainedComponent::class)
+                Fix for src/PizzaMaker.kt line 9: Install in the FragmentComponent :
+                @@ -8 +8
+                + @dagger.hilt.InstallIn(dagger.hilt.android.components.FragmentComponent::class)
+                Fix for src/PizzaMaker.kt line 9: Install in the ServiceComponent :
+                @@ -8 +8
+                + @dagger.hilt.InstallIn(dagger.hilt.android.components.ServiceComponent::class)
+                Fix for src/PizzaMaker.kt line 9: Install in the ViewComponent :
+                @@ -8 +8
+                + @dagger.hilt.InstallIn(dagger.hilt.android.components.ViewComponent::class)
+                Fix for src/PizzaMaker.kt line 9: Install in the ViewModelComponent :
+                @@ -8 +8
+                + @dagger.hilt.InstallIn(dagger.hilt.android.components.ViewModelComponent::class)
+                Fix for src/PizzaMaker.kt line 9: Install in the ViewWithFragmentComponent :
+                @@ -8 +8
+                + @dagger.hilt.InstallIn(dagger.hilt.android.components.ViewWithFragmentComponent::class)
+            """
+                    .trimIndent()
+            )
     }
 
     @Test
@@ -254,6 +341,35 @@ class MissingInstallInDetectorTest {
                     .trimIndent()
             )
             .expectErrorCount(1)
+            .expectFixDiffs(
+                """
+                Fix for src/MyModule.java line 5: Install in the SingletonComponent :
+                @@ -4 +4
+                + @dagger.hilt.InstallIn(dagger.hilt.components.SingletonComponent::class)
+                Fix for src/MyModule.java line 5: Install in the ActivityComponent :
+                @@ -4 +4
+                + @dagger.hilt.InstallIn(dagger.hilt.android.components.ActivityComponent::class)
+                Fix for src/MyModule.java line 5: Install in the ActivityRetainedComponent :
+                @@ -4 +4
+                + @dagger.hilt.InstallIn(dagger.hilt.android.components.ActivityRetainedComponent::class)
+                Fix for src/MyModule.java line 5: Install in the FragmentComponent :
+                @@ -4 +4
+                + @dagger.hilt.InstallIn(dagger.hilt.android.components.FragmentComponent::class)
+                Fix for src/MyModule.java line 5: Install in the ServiceComponent :
+                @@ -4 +4
+                + @dagger.hilt.InstallIn(dagger.hilt.android.components.ServiceComponent::class)
+                Fix for src/MyModule.java line 5: Install in the ViewComponent :
+                @@ -4 +4
+                + @dagger.hilt.InstallIn(dagger.hilt.android.components.ViewComponent::class)
+                Fix for src/MyModule.java line 5: Install in the ViewModelComponent :
+                @@ -4 +4
+                + @dagger.hilt.InstallIn(dagger.hilt.android.components.ViewModelComponent::class)
+                Fix for src/MyModule.java line 5: Install in the ViewWithFragmentComponent :
+                @@ -4 +4
+                + @dagger.hilt.InstallIn(dagger.hilt.android.components.ViewWithFragmentComponent::class)
+            """
+                    .trimIndent()
+            )
     }
 
     @Test
@@ -283,6 +399,7 @@ class MissingInstallInDetectorTest {
             .run()
             .expectClean()
             .expectErrorCount(0)
+            .expectFixDiffs("")
     }
 
     @Test
@@ -319,6 +436,35 @@ class MissingInstallInDetectorTest {
                     .trimIndent()
             )
             .expectErrorCount(1)
+            .expectFixDiffs(
+                """
+                Fix for src/PizzaMaker.java line 9: Install in the SingletonComponent :
+                @@ -8 +8
+                + @dagger.hilt.InstallIn(dagger.hilt.components.SingletonComponent::class)
+                Fix for src/PizzaMaker.java line 9: Install in the ActivityComponent :
+                @@ -8 +8
+                + @dagger.hilt.InstallIn(dagger.hilt.android.components.ActivityComponent::class)
+                Fix for src/PizzaMaker.java line 9: Install in the ActivityRetainedComponent :
+                @@ -8 +8
+                + @dagger.hilt.InstallIn(dagger.hilt.android.components.ActivityRetainedComponent::class)
+                Fix for src/PizzaMaker.java line 9: Install in the FragmentComponent :
+                @@ -8 +8
+                + @dagger.hilt.InstallIn(dagger.hilt.android.components.FragmentComponent::class)
+                Fix for src/PizzaMaker.java line 9: Install in the ServiceComponent :
+                @@ -8 +8
+                + @dagger.hilt.InstallIn(dagger.hilt.android.components.ServiceComponent::class)
+                Fix for src/PizzaMaker.java line 9: Install in the ViewComponent :
+                @@ -8 +8
+                + @dagger.hilt.InstallIn(dagger.hilt.android.components.ViewComponent::class)
+                Fix for src/PizzaMaker.java line 9: Install in the ViewModelComponent :
+                @@ -8 +8
+                + @dagger.hilt.InstallIn(dagger.hilt.android.components.ViewModelComponent::class)
+                Fix for src/PizzaMaker.java line 9: Install in the ViewWithFragmentComponent :
+                @@ -8 +8
+                + @dagger.hilt.InstallIn(dagger.hilt.android.components.ViewWithFragmentComponent::class)
+            """
+                    .trimIndent()
+            )
     }
 
     @Test
@@ -380,6 +526,35 @@ class MissingInstallInDetectorTest {
                     .trimIndent()
             )
             .expectErrorCount(1)
+            .expectFixDiffs(
+                """
+                Fix for src/MyEntryPoint.kt line 4: Install in the SingletonComponent :
+                @@ -3 +3
+                + @dagger.hilt.InstallIn(dagger.hilt.components.SingletonComponent::class)
+                Fix for src/MyEntryPoint.kt line 4: Install in the ActivityComponent :
+                @@ -3 +3
+                + @dagger.hilt.InstallIn(dagger.hilt.android.components.ActivityComponent::class)
+                Fix for src/MyEntryPoint.kt line 4: Install in the ActivityRetainedComponent :
+                @@ -3 +3
+                + @dagger.hilt.InstallIn(dagger.hilt.android.components.ActivityRetainedComponent::class)
+                Fix for src/MyEntryPoint.kt line 4: Install in the FragmentComponent :
+                @@ -3 +3
+                + @dagger.hilt.InstallIn(dagger.hilt.android.components.FragmentComponent::class)
+                Fix for src/MyEntryPoint.kt line 4: Install in the ServiceComponent :
+                @@ -3 +3
+                + @dagger.hilt.InstallIn(dagger.hilt.android.components.ServiceComponent::class)
+                Fix for src/MyEntryPoint.kt line 4: Install in the ViewComponent :
+                @@ -3 +3
+                + @dagger.hilt.InstallIn(dagger.hilt.android.components.ViewComponent::class)
+                Fix for src/MyEntryPoint.kt line 4: Install in the ViewModelComponent :
+                @@ -3 +3
+                + @dagger.hilt.InstallIn(dagger.hilt.android.components.ViewModelComponent::class)
+                Fix for src/MyEntryPoint.kt line 4: Install in the ViewWithFragmentComponent :
+                @@ -3 +3
+                + @dagger.hilt.InstallIn(dagger.hilt.android.components.ViewWithFragmentComponent::class)
+            """
+                    .trimIndent()
+            )
     }
 
     @Test
@@ -411,6 +586,35 @@ class MissingInstallInDetectorTest {
                     .trimIndent()
             )
             .expectErrorCount(1)
+            .expectFixDiffs(
+                """
+                Fix for src/MyEntryPoint.java line 4: Install in the SingletonComponent :
+                @@ -3 +3
+                + @dagger.hilt.InstallIn(dagger.hilt.components.SingletonComponent::class)
+                Fix for src/MyEntryPoint.java line 4: Install in the ActivityComponent :
+                @@ -3 +3
+                + @dagger.hilt.InstallIn(dagger.hilt.android.components.ActivityComponent::class)
+                Fix for src/MyEntryPoint.java line 4: Install in the ActivityRetainedComponent :
+                @@ -3 +3
+                + @dagger.hilt.InstallIn(dagger.hilt.android.components.ActivityRetainedComponent::class)
+                Fix for src/MyEntryPoint.java line 4: Install in the FragmentComponent :
+                @@ -3 +3
+                + @dagger.hilt.InstallIn(dagger.hilt.android.components.FragmentComponent::class)
+                Fix for src/MyEntryPoint.java line 4: Install in the ServiceComponent :
+                @@ -3 +3
+                + @dagger.hilt.InstallIn(dagger.hilt.android.components.ServiceComponent::class)
+                Fix for src/MyEntryPoint.java line 4: Install in the ViewComponent :
+                @@ -3 +3
+                + @dagger.hilt.InstallIn(dagger.hilt.android.components.ViewComponent::class)
+                Fix for src/MyEntryPoint.java line 4: Install in the ViewModelComponent :
+                @@ -3 +3
+                + @dagger.hilt.InstallIn(dagger.hilt.android.components.ViewModelComponent::class)
+                Fix for src/MyEntryPoint.java line 4: Install in the ViewWithFragmentComponent :
+                @@ -3 +3
+                + @dagger.hilt.InstallIn(dagger.hilt.android.components.ViewWithFragmentComponent::class)
+            """
+                    .trimIndent()
+            )
     }
 
     @Test
