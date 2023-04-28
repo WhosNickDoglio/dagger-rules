@@ -63,7 +63,7 @@ internal class MissingHiltAndroidAppAnnotationDetector : Detector(), SourceCodeS
             Issue.create(
                 id = "MissingHiltAndroidAppAnnotation",
                 briefDescription =
-                    "`Application` subclasses need to be annotated with `@HiltAndroidApp`",
+                    "`Application` subclasses need `@HiltAndroidApp`",
                 explanation =
                     "When you using Hilt it's required for a `Application` " +
                         "subclass to be annotated with `@HiltAndroidApp.`",
