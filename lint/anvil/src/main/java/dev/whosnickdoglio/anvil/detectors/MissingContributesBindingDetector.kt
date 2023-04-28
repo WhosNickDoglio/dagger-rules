@@ -8,6 +8,7 @@ import com.android.tools.lint.client.api.UElementHandler
 import com.android.tools.lint.detector.api.Category
 import com.android.tools.lint.detector.api.Detector
 import com.android.tools.lint.detector.api.Implementation
+import com.android.tools.lint.detector.api.Incident
 import com.android.tools.lint.detector.api.Issue
 import com.android.tools.lint.detector.api.JavaContext
 import com.android.tools.lint.detector.api.Scope
@@ -25,6 +26,7 @@ import org.jetbrains.uast.UElement
  * `@ContributesBinding` or `@ContributesMultibinding` annotations for classes that use Dagger and
  * implement an interface or abstract class.
  */
+// TODO make this configurable for Anvil scopes in quick fix
 internal class MissingContributesBindingDetector : Detector(), SourceCodeScanner {
 
     override fun getApplicableUastTypes(): List<Class<out UElement>> = listOf(UClass::class.java)
@@ -50,25 +52,27 @@ internal class MissingContributesBindingDetector : Detector(), SourceCodeScanner
                     // Ignore Any
                     if (hasNoGenerics.size > 1) {
                         context.report(
-                            issue = ISSUE,
-                            location = context.getNameLocation(node),
-                            message =
-                                "Contribute this binding to the Dagger graph using an Anvil annotation",
-                            quickfixData =
-                                fix()
-                                    // TODO try and give better fixes
-                                    .alternatives(
-                                        fix()
-                                            .name("Add @ContributesBinding annotation")
-                                            .annotate(CONTRIBUTES_BINDING)
-                                            .range(context.getNameLocation(node))
-                                            .build(),
-                                        fix()
-                                            .name("Add @ContributesMultibinding annotation")
-                                            .annotate(CONTRIBUTES_MULTI_BINDING)
-                                            .range(context.getNameLocation(node))
-                                            .build(),
-                                    )
+                            Incident(context, ISSUE)
+                                .location(context.getNameLocation(node))
+                                .message(
+                                    "Contribute this binding to the Dagger graph using an Anvil annotation"
+                                )
+                                .fix(
+                                    fix()
+                                        // TODO try and give better fixes
+                                        .alternatives(
+                                            fix()
+                                                .name("Add @ContributesBinding annotation")
+                                                .annotate(CONTRIBUTES_BINDING)
+                                                .range(context.getNameLocation(node))
+                                                .build(),
+                                            fix()
+                                                .name("Add @ContributesMultibinding annotation")
+                                                .annotate(CONTRIBUTES_MULTI_BINDING)
+                                                .range(context.getNameLocation(node))
+                                                .build(),
+                                        )
+                                )
                         )
                     }
                 }

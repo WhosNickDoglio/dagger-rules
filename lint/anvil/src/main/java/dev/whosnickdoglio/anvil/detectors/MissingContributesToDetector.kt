@@ -8,6 +8,7 @@ import com.android.tools.lint.client.api.UElementHandler
 import com.android.tools.lint.detector.api.Category
 import com.android.tools.lint.detector.api.Detector
 import com.android.tools.lint.detector.api.Implementation
+import com.android.tools.lint.detector.api.Incident
 import com.android.tools.lint.detector.api.Issue
 import com.android.tools.lint.detector.api.JavaContext
 import com.android.tools.lint.detector.api.Scope
@@ -21,6 +22,7 @@ import org.jetbrains.uast.UAnnotation
 import org.jetbrains.uast.UClass
 import org.jetbrains.uast.UElement
 
+// TODO make this configurable for Anvil scopes in quick fix
 internal class MissingContributesToDetector : Detector(), SourceCodeScanner {
 
     override fun getApplicableUastTypes(): List<Class<out UElement>> =
@@ -36,15 +38,16 @@ internal class MissingContributesToDetector : Detector(), SourceCodeScanner {
 
                     if (!element.hasAnnotation(CONTRIBUTES_TO)) {
                         context.report(
-                            issue = ISSUE,
-                            location = context.getNameLocation(element),
-                            message = ISSUE.getExplanation(TextFormat.TEXT),
-                            quickfixData =
-                                fix()
-                                    .name("Add @ContributesTo annotation")
-                                    .annotate(CONTRIBUTES_TO)
-                                    .range(context.getNameLocation(element))
-                                    .build()
+                            Incident(context, ISSUE)
+                                .location(context.getNameLocation(element))
+                                .message(ISSUE.getExplanation(TextFormat.RAW))
+                                .fix(
+                                    fix()
+                                        .name("Add @ContributesTo annotation")
+                                        .annotate(CONTRIBUTES_TO)
+                                        .range(context.getNameLocation(element))
+                                        .build()
+                                )
                         )
                     }
                 }

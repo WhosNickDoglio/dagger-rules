@@ -8,6 +8,7 @@ import com.android.tools.lint.client.api.UElementHandler
 import com.android.tools.lint.detector.api.Category
 import com.android.tools.lint.detector.api.Detector
 import com.android.tools.lint.detector.api.Implementation
+import com.android.tools.lint.detector.api.Incident
 import com.android.tools.lint.detector.api.Issue
 import com.android.tools.lint.detector.api.JavaContext
 import com.android.tools.lint.detector.api.Scope
@@ -44,16 +45,17 @@ internal class FavorContributesBindingOverBindsDetector : Detector(), SourceCode
                     if (returnType?.typeParameters?.isEmpty() == true) {
                         if (method.hasAnnotation(INTO_MAP) || method.hasAnnotation(INTO_SET)) {
                             context.report(
-                                issue = ISSUE,
-                                location = context.getLocation(node.uastParent),
-                                message = "You can use `@ContributesMultibinding` over `@Binds`"
+                                Incident(context, ISSUE)
+                                    // TODO try range location
+                                    .location(context.getLocation(node.uastParent))
+                                    .message("You can use `@ContributesMultibinding` over `@Binds`")
                             )
                         } else {
                             context.report(
-                                issue = ISSUE,
-                                // TODO try range location
-                                location = context.getLocation(node.uastParent),
-                                message = "You can use `@ContributesBinding` over `@Binds`"
+                                Incident(context, ISSUE)
+                                    // TODO try range location
+                                    .location(context.getLocation(node.uastParent))
+                                    .message("You can use `@ContributesBinding` over `@Binds`")
                             )
                         }
                     }
