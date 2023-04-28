@@ -11,6 +11,7 @@ import com.android.tools.lint.detector.api.Issue
 import dev.whosnickdoglio.hilt.detectors.EntryPointMustBeAnInterfaceDetector
 import dev.whosnickdoglio.hilt.detectors.MissingHiltAndroidAppAnnotationDetector
 import dev.whosnickdoglio.hilt.detectors.MissingHiltAnnotationDetector
+import dev.whosnickdoglio.hilt.detectors.MissingHiltViewModelAnnotationDetector
 import dev.whosnickdoglio.hilt.detectors.MissingInstallInDetector
 
 class HiltRulesIssueRegistry : IssueRegistry() {
@@ -20,6 +21,8 @@ class HiltRulesIssueRegistry : IssueRegistry() {
             EntryPointMustBeAnInterfaceDetector.ISSUE,
             MissingHiltAndroidAppAnnotationDetector.ISSUE,
             MissingHiltAnnotationDetector.ISSUE,
+            MissingHiltViewModelAnnotationDetector.ISSUE_MISSING_ANNOTATION,
+            MissingHiltViewModelAnnotationDetector.ISSUE_UNNECESSARY_ANNOTATION,
             MissingInstallInDetector.ISSUE,
         )
 

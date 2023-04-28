@@ -14,7 +14,6 @@ import com.android.tools.lint.detector.api.Scope
 import com.android.tools.lint.detector.api.Severity
 import com.android.tools.lint.detector.api.SourceCodeScanner
 import dev.whosnickdoglio.hilt.ANDROID_ENTRY_POINT
-import dev.whosnickdoglio.hilt.HILT_VIEW_MODEL
 import dev.whosnickdoglio.lint.shared.INJECT
 import org.jetbrains.uast.UClass
 import org.jetbrains.uast.UElement
@@ -36,61 +35,39 @@ internal class MissingHiltAnnotationDetector : Detector(), SourceCodeScanner {
     override fun createUastHandler(context: JavaContext): UElementHandler =
         object : UElementHandler() {
             override fun visitClass(node: UClass) {
-                if (
-                    context.evaluator.extendsClass(node, "androidx.lifecycle.ViewModel", true) &&
-                        node.hasInjectedConstructor() &&
-                        !node.hasAnnotation(HILT_VIEW_MODEL)
-                ) {
-                    context.report(
-                        issue = ISSUE,
-                        location = context.getNameLocation(node),
-                        message =
-                            "This class is missing the `@${HILT_VIEW_MODEL.substringAfterLast(".")}`",
-                        quickfixData =
-                            fix()
-                                .name("Add ${HILT_VIEW_MODEL.substringAfterLast(".")} annotation")
-                                .annotate(HILT_VIEW_MODEL)
-                                .range(context.getNameLocation(node))
-                                .build(),
-                    )
-                } else {
-                    context.checkAndroidEntryPoints(node)
+                androidEntryPointSupers.forEach { superClass ->
+                    val isSubClass = context.evaluator.extendsClass(node, superClass, true)
+
+                    val injectedFields =
+                        node.fields.filter { field ->
+                            field.uAnnotations.any { annotation ->
+                                annotation.qualifiedName == INJECT
+                            }
+                        }
+
+                    if (
+                        isSubClass &&
+                            injectedFields.isNotEmpty() &&
+                            !node.hasAnnotation(ANDROID_ENTRY_POINT)
+                    ) {
+                        context.report(
+                            issue = ISSUE,
+                            location = context.getNameLocation(node),
+                            message =
+                                "This class is missing the `@${ANDROID_ENTRY_POINT.substringAfterLast(".")}`",
+                            quickfixData =
+                                fix()
+                                    .name(
+                                        "Add ${ANDROID_ENTRY_POINT.substringAfterLast(".")} annotation"
+                                    )
+                                    .annotate(ANDROID_ENTRY_POINT)
+                                    .range(context.getNameLocation(node))
+                                    .build(),
+                        )
+                    }
                 }
             }
         }
-
-    private fun JavaContext.checkAndroidEntryPoints(node: UClass) {
-        androidEntryPointSupers.forEach { superClass ->
-            val isSubClass = evaluator.extendsClass(node, superClass, true)
-
-            val injectedFields =
-                node.fields.filter { field ->
-                    field.uAnnotations.any { annotation -> annotation.qualifiedName == INJECT }
-                }
-
-            if (
-                isSubClass &&
-                    injectedFields.isNotEmpty() &&
-                    !node.hasAnnotation(ANDROID_ENTRY_POINT)
-            ) {
-                report(
-                    issue = ISSUE,
-                    location = getNameLocation(node),
-                    message =
-                        "This class is missing the `@${ANDROID_ENTRY_POINT.substringAfterLast(".")}`",
-                    quickfixData =
-                        fix()
-                            .name("Add ${ANDROID_ENTRY_POINT.substringAfterLast(".")} annotation")
-                            .annotate(ANDROID_ENTRY_POINT)
-                            .range(getNameLocation(node))
-                            .build(),
-                )
-            }
-        }
-    }
-
-    private fun UClass.hasInjectedConstructor(): Boolean =
-        constructors.any { method -> method.hasAnnotation(INJECT) }
 
     companion object {
         private val implementation =
