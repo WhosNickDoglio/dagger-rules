@@ -62,8 +62,7 @@ internal class MissingHiltAndroidAppAnnotationDetector : Detector(), SourceCodeS
         val ISSUE =
             Issue.create(
                 id = "MissingHiltAndroidAppAnnotation",
-                briefDescription =
-                    "`Application` subclasses need `@HiltAndroidApp`",
+                briefDescription = "`Application` subclasses need `@HiltAndroidApp`",
                 explanation =
                     "When you using Hilt it's required for a `Application` " +
                         "subclass to be annotated with `@HiltAndroidApp.`",

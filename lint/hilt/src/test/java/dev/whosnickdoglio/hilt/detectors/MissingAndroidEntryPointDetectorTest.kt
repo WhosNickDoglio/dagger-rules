@@ -13,30 +13,30 @@ import dev.whosnickdoglio.stubs.injectAnnotation
 import org.junit.Test
 import org.junit.runner.RunWith
 
-@Suppress("JUnitMalformedDeclaration")
 @RunWith(TestParameterInjector::class)
-class MissingHiltAnnotationDetectorTest {
+class MissingAndroidEntryPointDetectorTest {
+
+    @TestParameter(
+        value =
+            [
+                "android.app.Activity",
+                "android.app.Fragment",
+                "android.app.Service",
+                "android.content.ContentProvider",
+                "android.content.BroadcastReceiver",
+                "androidx.fragment.app.Fragment"
+            ]
+    )
+    lateinit var androidEntryPoint: String
 
     @Test
-    fun `java android component using field injection with @AndroidEntryPoint does not trigger error`(
-        @TestParameter(
-            value =
-                [
-                    "android.app.Activity",
-                    "android.app.Fragment",
-                    "android.app.Service",
-                    "android.content.ContentProvider",
-                    "android.content.BroadcastReceiver",
-                    "androidx.fragment.app.Fragment"
-                ]
-        )
-        androidEntryPoint: String
-    ) {
+    fun `java android component using field injection with @AndroidEntryPoint does not trigger error`() {
         val classPackage = androidEntryPoint.substringBeforeLast(".")
         val className = androidEntryPoint.substringAfterLast(".")
 
         TestLintTask.lint()
             .files(
+                injectAnnotation,
                 *hiltAnnotations,
                 TestFiles.java(
                         """
@@ -52,35 +52,25 @@ class MissingHiltAnnotationDetectorTest {
                 package androidx;
 
                 import $androidEntryPoint;
+                import javax.inject.Inject;
                 import $ANDROID_ENTRY_POINT;
 
                 @${ANDROID_ENTRY_POINT.substringAfterLast(".")}
-                class AndroidX$className extends $className {}
+                class AndroidX$className extends $className {
+                    @Inject String myString;
+                }
                     """
                     )
                     .indented(),
             )
-            .issues(MissingHiltAnnotationDetector.ISSUE)
+            .issues(MissingAndroidEntryPointDetector.ISSUE_MISSING_ANNOTATION)
             .run()
             .expectClean()
             .expectErrorCount(0)
     }
 
     @Test
-    fun `java android component using field injection without @AndroidEntryPoint triggers error`(
-        @TestParameter(
-            value =
-                [
-                    "android.app.Activity",
-                    "android.app.Fragment",
-                    "android.app.Service",
-                    "android.content.ContentProvider",
-                    "android.content.BroadcastReceiver",
-                    "androidx.fragment.app.Fragment"
-                ]
-        )
-        androidEntryPoint: String
-    ) {
+    fun `java android component using field injection without @AndroidEntryPoint triggers error`() {
         val classPackage = androidEntryPoint.substringBeforeLast(".")
         val className = androidEntryPoint.substringAfterLast(".")
 
@@ -89,7 +79,7 @@ class MissingHiltAnnotationDetectorTest {
             val errorHighlight = "AndroidX${className}".map { "~" }.joinToString(separator = "")
 
             return """
-                src/androidx/AndroidX$className.java:7: Error: This class is missing the @${ANDROID_ENTRY_POINT.substringAfterLast(".")} [MissingHiltAnnotation]
+                src/androidx/AndroidX$className.java:7: Error: This class is missing the @${ANDROID_ENTRY_POINT.substringAfterLast(".")} [MissingAndroidEntryPointAnnotation]
                 class AndroidX$className extends $className {
                       $errorHighlight
                 1 errors, 0 warnings
@@ -128,14 +118,13 @@ class MissingHiltAnnotationDetectorTest {
 
 
                 class AndroidX$className extends $className {
-                    @Inject
-                    String myString;
+                    @Inject String myString;
                 }
                     """
                     )
                     .indented(),
             )
-            .issues(MissingHiltAnnotationDetector.ISSUE)
+            .issues(MissingAndroidEntryPointDetector.ISSUE_MISSING_ANNOTATION)
             .run()
             .expect(expectedErrorMessage())
             .expectErrorCount(1)
@@ -143,26 +132,14 @@ class MissingHiltAnnotationDetectorTest {
     }
 
     @Test
-    fun `kotlin android component using field injection with @AndroidEntryPoint does not trigger error`(
-        @TestParameter(
-            value =
-                [
-                    "android.app.Activity",
-                    "android.app.Fragment",
-                    "android.app.Service",
-                    "android.content.ContentProvider",
-                    "android.content.BroadcastReceiver",
-                    "androidx.fragment.app.Fragment"
-                ]
-        )
-        androidEntryPoint: String
-    ) {
+    fun `kotlin android component using field injection with @AndroidEntryPoint does not trigger error`() {
         val classPackage = androidEntryPoint.substringBeforeLast(".")
         val className = androidEntryPoint.substringAfterLast(".")
 
         TestLintTask.lint()
             .files(
                 *hiltAnnotations,
+                injectAnnotation,
                 TestFiles.kotlin(
                         """
                 package $classPackage
@@ -177,35 +154,25 @@ class MissingHiltAnnotationDetectorTest {
                 package androidx
 
                 import $androidEntryPoint
+                import javax.inject.Inject
                 import $ANDROID_ENTRY_POINT
 
                 @${ANDROID_ENTRY_POINT.substringAfterLast(".")}
-                class AndroidX$className: $className
+                class AndroidX$className: $className {
+                    @Inject lateinit var string: String
+                }
                     """
                     )
                     .indented(),
             )
-            .issues(MissingHiltAnnotationDetector.ISSUE)
+            .issues(MissingAndroidEntryPointDetector.ISSUE_MISSING_ANNOTATION)
             .run()
             .expectClean()
             .expectErrorCount(0)
     }
 
     @Test
-    fun `kotlin android component using field injection without @AndroidEntryPoint triggers error`(
-        @TestParameter(
-            value =
-                [
-                    "android.app.Activity",
-                    "android.app.Fragment",
-                    "android.app.Service",
-                    "android.content.ContentProvider",
-                    "android.content.BroadcastReceiver",
-                    "androidx.fragment.app.Fragment"
-                ]
-        )
-        androidEntryPoint: String
-    ) {
+    fun `kotlin android component using field injection without @AndroidEntryPoint triggers error`() {
         val classPackage = androidEntryPoint.substringBeforeLast(".")
         val className = androidEntryPoint.substringAfterLast(".")
 
@@ -214,7 +181,7 @@ class MissingHiltAnnotationDetectorTest {
             val errorHighlight = "AndroidX$className".map { "~" }.joinToString(separator = "")
 
             return """
-                src/androidx/AndroidX$className.kt:6: Error: This class is missing the @${ANDROID_ENTRY_POINT.substringAfterLast(".")} [MissingHiltAnnotation]
+                src/androidx/AndroidX$className.kt:6: Error: This class is missing the @${ANDROID_ENTRY_POINT.substringAfterLast(".")} [MissingAndroidEntryPointAnnotation]
                 class AndroidX$className : $className {
                       $errorHighlight
                 1 errors, 0 warnings
@@ -251,14 +218,15 @@ class MissingHiltAnnotationDetectorTest {
                 import javax.inject.Inject
                 import $androidEntryPoint
 
-                class AndroidX${className} : ${className} {
-                    @Inject lateinit var something: String
+                class AndroidX${className} : $className {
+                    @Inject
+                    lateinit var something: String
                 }
                     """
                     )
                     .indented(),
             )
-            .issues(MissingHiltAnnotationDetector.ISSUE)
+            .issues(MissingAndroidEntryPointDetector.ISSUE_MISSING_ANNOTATION)
             .run()
             .expect(expectedErrorMessage())
             .expectErrorCount(1)
@@ -266,20 +234,7 @@ class MissingHiltAnnotationDetectorTest {
     }
 
     @Test
-    fun `kotlin android component not using field injection without @AndroidEntryPoint does not trigger error`(
-        @TestParameter(
-            value =
-                [
-                    "android.app.Activity",
-                    "android.app.Fragment",
-                    "android.app.Service",
-                    "android.content.ContentProvider",
-                    "android.content.BroadcastReceiver",
-                    "androidx.fragment.app.Fragment"
-                ]
-        )
-        androidEntryPoint: String
-    ) {
+    fun `kotlin android component not using field injection without @AndroidEntryPoint does not trigger error`() {
         val classPackage = androidEntryPoint.substringBeforeLast(".")
         val className = androidEntryPoint.substringAfterLast(".")
 
@@ -304,27 +259,14 @@ class MissingHiltAnnotationDetectorTest {
                     )
                     .indented(),
             )
-            .issues(MissingHiltAnnotationDetector.ISSUE)
+            .issues(MissingAndroidEntryPointDetector.ISSUE_MISSING_ANNOTATION)
             .run()
             .expectClean()
             .expectErrorCount(0)
     }
 
     @Test
-    fun `java android component not using field injection without @AndroidEntryPoint does not trigger error`(
-        @TestParameter(
-            value =
-                [
-                    "android.app.Activity",
-                    "android.app.Fragment",
-                    "android.app.Service",
-                    "android.content.ContentProvider",
-                    "android.content.BroadcastReceiver",
-                    "androidx.fragment.app.Fragment"
-                ]
-        )
-        androidEntryPoint: String
-    ) {
+    fun `java android component not using field injection without @AndroidEntryPoint does not trigger error`() {
         val classPackage = androidEntryPoint.substringBeforeLast(".")
         val className = androidEntryPoint.substringAfterLast(".")
 
@@ -349,9 +291,104 @@ class MissingHiltAnnotationDetectorTest {
                     )
                     .indented(),
             )
-            .issues(MissingHiltAnnotationDetector.ISSUE)
+            .issues(MissingAndroidEntryPointDetector.ISSUE_MISSING_ANNOTATION)
             .run()
             .expectClean()
             .expectErrorCount(0)
+    }
+
+    @Test
+    fun `kotlin android component annotated with @AndroidEntryPoint without field injection shows warning`() {
+        val classPackage = androidEntryPoint.substringBeforeLast(".")
+        val className = androidEntryPoint.substringAfterLast(".")
+
+        fun expectedWarningMessage(): String {
+            val errorHighlight = "AndroidX$className".map { "~" }.joinToString(separator = "")
+
+            return """
+                src/androidx/AndroidX$className.kt:7: Warning: This class doesn't need an @${ANDROID_ENTRY_POINT.substringAfterLast(".")} annotation [UnnecessaryAndroidEntryPointAnnotation]
+                class AndroidX$className : $className
+                      $errorHighlight
+                0 errors, 1 warnings
+            """
+        }
+
+        TestLintTask.lint()
+            .files(
+                *hiltAnnotations,
+                TestFiles.kotlin(
+                        """
+                package $classPackage
+
+                class $className
+
+                """
+                    )
+                    .indented(),
+                TestFiles.kotlin(
+                        """
+                package androidx
+
+                import $androidEntryPoint
+                import $ANDROID_ENTRY_POINT
+
+                @${ANDROID_ENTRY_POINT.substringAfterLast(".")}
+                class AndroidX$className : $className
+                    """
+                    )
+                    .indented(),
+            )
+            .issues(MissingAndroidEntryPointDetector.ISSUE_UNNECESSARY_ANNOTATION)
+            .run()
+            .expect(expectedWarningMessage())
+            .expectWarningCount(1)
+    }
+
+    @Test
+    fun `java android component annotated with @AndroidEntryPoint without field injection shows warning`() {
+        val classPackage = androidEntryPoint.substringBeforeLast(".")
+        val className = androidEntryPoint.substringAfterLast(".")
+
+        fun expectedErrorMessage(): String {
+
+            val errorHighlight = "AndroidX${className}".map { "~" }.joinToString(separator = "")
+
+            return """
+                src/androidx/AndroidX$className.java:7: Warning: This class doesn't need an @${ANDROID_ENTRY_POINT.substringAfterLast(".")} annotation [UnnecessaryAndroidEntryPointAnnotation]
+                class AndroidX$className extends $className {}
+                      $errorHighlight
+                0 errors, 1 warnings
+            """
+        }
+
+        TestLintTask.lint()
+            .files(
+                *hiltAnnotations,
+                TestFiles.java(
+                        """
+                package $classPackage;
+
+                class $className {}
+
+                """
+                    )
+                    .indented(),
+                TestFiles.java(
+                        """
+                package androidx;
+
+                import $androidEntryPoint;
+                import $ANDROID_ENTRY_POINT;
+
+                @${ANDROID_ENTRY_POINT.substringAfterLast(".")}
+                class AndroidX$className extends $className {}
+                    """
+                    )
+                    .indented(),
+            )
+            .issues(MissingAndroidEntryPointDetector.ISSUE_UNNECESSARY_ANNOTATION)
+            .run()
+            .expect(expectedErrorMessage())
+            .expectWarningCount(1)
     }
 }
