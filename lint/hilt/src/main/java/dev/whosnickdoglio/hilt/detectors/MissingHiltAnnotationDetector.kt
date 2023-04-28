@@ -14,7 +14,6 @@ import com.android.tools.lint.detector.api.Scope
 import com.android.tools.lint.detector.api.Severity
 import com.android.tools.lint.detector.api.SourceCodeScanner
 import dev.whosnickdoglio.hilt.ANDROID_ENTRY_POINT
-import dev.whosnickdoglio.hilt.HILT_ANDROID_APP
 import dev.whosnickdoglio.hilt.HILT_VIEW_MODEL
 import dev.whosnickdoglio.lint.shared.INJECT
 import org.jetbrains.uast.UClass
@@ -38,22 +37,6 @@ internal class MissingHiltAnnotationDetector : Detector(), SourceCodeScanner {
         object : UElementHandler() {
             override fun visitClass(node: UClass) {
                 if (
-                    context.evaluator.extendsClass(node, "android.app.Application", true) &&
-                        !node.hasAnnotation(HILT_ANDROID_APP)
-                ) {
-                    context.report(
-                        issue = ISSUE,
-                        location = context.getNameLocation(node),
-                        message =
-                            "This class is missing the `@${HILT_ANDROID_APP.substringAfterLast(".")}`",
-                        quickfixData =
-                            fix()
-                                .name("Add ${HILT_ANDROID_APP.substringAfterLast(".")} annotation")
-                                .annotate(HILT_ANDROID_APP)
-                                .range(context.getNameLocation(node))
-                                .build(),
-                    )
-                } else if (
                     context.evaluator.extendsClass(node, "androidx.lifecycle.ViewModel", true) &&
                         node.hasInjectedConstructor() &&
                         !node.hasAnnotation(HILT_VIEW_MODEL)

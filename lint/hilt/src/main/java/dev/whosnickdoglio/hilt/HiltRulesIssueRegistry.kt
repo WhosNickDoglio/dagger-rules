@@ -9,6 +9,7 @@ import com.android.tools.lint.client.api.Vendor
 import com.android.tools.lint.detector.api.CURRENT_API
 import com.android.tools.lint.detector.api.Issue
 import dev.whosnickdoglio.hilt.detectors.EntryPointMustBeAnInterfaceDetector
+import dev.whosnickdoglio.hilt.detectors.MissingHiltAndroidAppAnnotationDetector
 import dev.whosnickdoglio.hilt.detectors.MissingHiltAnnotationDetector
 import dev.whosnickdoglio.hilt.detectors.MissingInstallInDetector
 
@@ -17,6 +18,7 @@ class HiltRulesIssueRegistry : IssueRegistry() {
     override val issues: List<Issue> =
         listOf(
             EntryPointMustBeAnInterfaceDetector.ISSUE,
+            MissingHiltAndroidAppAnnotationDetector.ISSUE,
             MissingHiltAnnotationDetector.ISSUE,
             MissingInstallInDetector.ISSUE,
         )
