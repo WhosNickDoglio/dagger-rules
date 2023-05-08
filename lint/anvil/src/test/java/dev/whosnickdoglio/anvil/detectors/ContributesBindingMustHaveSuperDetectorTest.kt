@@ -76,6 +76,7 @@ class ContributesBindingMustHaveSuperDetectorTest {
             )
             .expectWarningCount(1)
     }
+
     @Test
     fun `dagger module annotated with binding annotation shows error`() {
         TestLintTask.lint()
