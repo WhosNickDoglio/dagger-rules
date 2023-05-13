@@ -10,3 +10,8 @@ plugins {
     alias(libs.plugins.doctor)
     alias(libs.plugins.dependencyAnalysis)
 }
+
+doctor {
+    // https://github.com/runningcode/gradle-doctor/pull/258
+    warnWhenNotUsingParallelGC.set(false)
+}
