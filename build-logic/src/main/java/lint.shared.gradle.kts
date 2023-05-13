@@ -4,6 +4,7 @@
  */
 
 import com.diffplug.gradle.spotless.SpotlessExtension
+import com.diffplug.gradle.spotless.SpotlessTask
 import com.diffplug.spotless.LineEnding
 import io.gitlab.arturbosch.detekt.Detekt
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
@@ -33,6 +34,10 @@ lint {
     checkTestSources = true
     warningsAsErrors = true
     baseline = file("lint-baseline.xml")
+}
+
+tasks.withType<SpotlessTask>().configureEach {
+    notCompatibleWithConfigurationCache("https://github.com/diffplug/spotless/issues/987")
 }
 
 configure<SpotlessExtension> {
