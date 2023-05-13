@@ -12,6 +12,7 @@ import dev.whosnickdoglio.anvil.detectors.ContributesBindingMustHaveSuperDetecto
 import dev.whosnickdoglio.anvil.detectors.FavorContributesBindingOverBindsDetector
 import dev.whosnickdoglio.anvil.detectors.MissingContributesBindingDetector
 import dev.whosnickdoglio.anvil.detectors.MissingContributesToDetector
+import dev.whosnickdoglio.anvil.detectors.NoAnvilInJavaDetector
 
 class AnvilRulesIssueRegistry : IssueRegistry() {
 
@@ -20,6 +21,7 @@ class AnvilRulesIssueRegistry : IssueRegistry() {
             ContributesBindingMustHaveSuperDetector.ISSUE_BINDING_NO_SUPER,
             ContributesBindingMustHaveSuperDetector.ISSUE_CONTRIBUTES_TO_INSTEAD_OF_BINDING,
             FavorContributesBindingOverBindsDetector.ISSUE,
+            NoAnvilInJavaDetector.ISSUE,
             MissingContributesToDetector.ISSUE,
             MissingContributesBindingDetector.ISSUE,
         )

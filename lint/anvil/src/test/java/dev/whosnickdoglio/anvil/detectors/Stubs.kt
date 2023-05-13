@@ -15,7 +15,9 @@ val anvilAnnotations: TestFile =
     annotation class ContributesTo
     annotation class ContributesBinding
     annotation class ContributesMultibinding
-    annotation class ContributesSubcomponent
+    annotation class ContributesSubcomponent {
+        annotation class Factory
+    }
     annotation class MergeComponent
     annotation class MergeSubcomponent
 """

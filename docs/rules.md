@@ -122,6 +122,10 @@ class NetworkRepository @Inject constructor() : Repository
 
 ### A class annotated with `@Module` should also be annotated with `@ContributesTo`
 
+### Anvil cannot be used from Java
+
+[Anvil is a Kotlin compiler plugin and therefor does not support being used within Java code.](https://github.com/square/anvil#no-java-support) 
+
 ## Hilt Rules
 
 ### Android components should be annotated with the correct Hilt annotations
