@@ -5,6 +5,7 @@
     "helpers:pinGitHubActionDigests"
   ],
   "automergeType": "branch",
+  "platformAutomerge": true,
   "packageRules": [
     {
       "description": "Automerge non-major updates",
