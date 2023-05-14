@@ -45,9 +45,16 @@ class MissingModuleAnnotationDetectorTest {
                     .trimIndent()
             )
             .expectErrorCount(1)
-        //            .expectFixDiffs("""
-        //
-        //            """.trimIndent())
+            .expectFixDiffs(
+                """
+                Fix for src/com/test/android/MyModule.kt line 5: Add @Module annotation:
+                @@ -5 +5
+                -  class MyModule {
+                +  class @dagger.Module
+                + MyModule {
+            """
+                    .trimIndent()
+            )
     }
 
     @Test
@@ -119,6 +126,16 @@ class MissingModuleAnnotationDetectorTest {
                     .trimIndent()
             )
             .expectErrorCount(1)
+            .expectFixDiffs(
+                """
+                Fix for src/com/test/android/MyModule.kt line 5: Add @Module annotation:
+                @@ -5 +5
+                -  interface MyModule {
+                +  interface @dagger.Module
+                + MyModule {
+            """
+                    .trimIndent()
+            )
     }
 
     @Test
@@ -201,6 +218,16 @@ class MissingModuleAnnotationDetectorTest {
                     .trimIndent()
             )
             .expectErrorCount(1)
+            .expectFixDiffs(
+                """
+                Fix for src/com/test/android/MyModule.kt line 6: Add @Module annotation:
+                @@ -6 +6
+                -  interface MyModule {
+                +  interface @dagger.Module
+                + MyModule {
+            """
+                    .trimIndent()
+            )
     }
 
     @Test
@@ -278,9 +305,16 @@ class MissingModuleAnnotationDetectorTest {
                     .trimIndent()
             )
             .expectErrorCount(1)
-        //            .expectFixDiffs("""
-        //
-        //            """.trimIndent())
+            .expectFixDiffs(
+                """
+                    Fix for src/com/test/android/MyModule.java line 5: Add @Module annotation:
+                    @@ -5 +5
+                    -  class MyModule {
+                    +  class @dagger.Module
+                    + MyModule {
+                """
+                    .trimIndent()
+            )
     }
 
     @Test
@@ -354,6 +388,16 @@ class MissingModuleAnnotationDetectorTest {
                     .trimIndent()
             )
             .expectErrorCount(1)
+            .expectFixDiffs(
+                """
+                Fix for src/com/test/android/MyModule.java line 5: Add @Module annotation:
+                @@ -5 +5
+                -  interface MyModule {
+                +  interface @dagger.Module
+                + MyModule {
+            """
+                    .trimIndent()
+            )
     }
 
     @Test
