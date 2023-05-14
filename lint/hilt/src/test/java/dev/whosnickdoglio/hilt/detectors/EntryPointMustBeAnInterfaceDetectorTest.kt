@@ -72,7 +72,9 @@ class EntryPointMustBeAnInterfaceDetectorTest {
             .run()
             .expect(
                 """
-                    src/MyEntryPoint.kt:3: Error: The @EntryPoint annotation can only be applied to interfaces, trying to apply it to anything else will cause an error at compile time. [EntryPointMustBeAnInterface]
+                    src/MyEntryPoint.kt:3: Error: The @EntryPoint annotation can only be applied to interfaces, trying to apply it to anything else will cause an error at compile time.
+
+                    See https://whosnickdoglio.dev/dagger-rules/rules/#the-entrypoint-annotation-can-only-be-applied-to-interfaces for more information. [EntryPointMustBeAnInterface]
                     @EntryPoint
                     ^
                     1 errors, 0 warnings
@@ -111,7 +113,9 @@ class EntryPointMustBeAnInterfaceDetectorTest {
             .run()
             .expect(
                 """
-                    src/MyEntryPoint.java:3: Error: The @EntryPoint annotation can only be applied to interfaces, trying to apply it to anything else will cause an error at compile time. [EntryPointMustBeAnInterface]
+                    src/MyEntryPoint.java:3: Error: The @EntryPoint annotation can only be applied to interfaces, trying to apply it to anything else will cause an error at compile time.
+
+                    See https://whosnickdoglio.dev/dagger-rules/rules/#the-entrypoint-annotation-can-only-be-applied-to-interfaces for more information. [EntryPointMustBeAnInterface]
                     @EntryPoint
                     ^
                     1 errors, 0 warnings
@@ -150,7 +154,9 @@ class EntryPointMustBeAnInterfaceDetectorTest {
             .run()
             .expect(
                 """
-                    src/MyEntryPoint.kt:3: Error: The @EntryPoint annotation can only be applied to interfaces, trying to apply it to anything else will cause an error at compile time. [EntryPointMustBeAnInterface]
+                    src/MyEntryPoint.kt:3: Error: The @EntryPoint annotation can only be applied to interfaces, trying to apply it to anything else will cause an error at compile time.
+
+                    See https://whosnickdoglio.dev/dagger-rules/rules/#the-entrypoint-annotation-can-only-be-applied-to-interfaces for more information. [EntryPointMustBeAnInterface]
                     @EntryPoint
                     ^
                     1 errors, 0 warnings
@@ -189,7 +195,9 @@ class EntryPointMustBeAnInterfaceDetectorTest {
             .run()
             .expect(
                 """
-                    src/MyEntryPoint.java:3: Error: The @EntryPoint annotation can only be applied to interfaces, trying to apply it to anything else will cause an error at compile time. [EntryPointMustBeAnInterface]
+                    src/MyEntryPoint.java:3: Error: The @EntryPoint annotation can only be applied to interfaces, trying to apply it to anything else will cause an error at compile time.
+
+                    See https://whosnickdoglio.dev/dagger-rules/rules/#the-entrypoint-annotation-can-only-be-applied-to-interfaces for more information. [EntryPointMustBeAnInterface]
                     @EntryPoint
                     ^
                     1 errors, 0 warnings
@@ -228,7 +236,9 @@ class EntryPointMustBeAnInterfaceDetectorTest {
             .run()
             .expect(
                 """
-                    src/MyEntryPoint.kt:3: Error: The @EntryPoint annotation can only be applied to interfaces, trying to apply it to anything else will cause an error at compile time. [EntryPointMustBeAnInterface]
+                    src/MyEntryPoint.kt:3: Error: The @EntryPoint annotation can only be applied to interfaces, trying to apply it to anything else will cause an error at compile time.
+
+                    See https://whosnickdoglio.dev/dagger-rules/rules/#the-entrypoint-annotation-can-only-be-applied-to-interfaces for more information. [EntryPointMustBeAnInterface]
                     @EntryPoint
                     ^
                     1 errors, 0 warnings
@@ -267,7 +277,9 @@ class EntryPointMustBeAnInterfaceDetectorTest {
             .run()
             .expect(
                 """
-                    src/MyEntryPoint.kt:3: Error: The @EntryPoint annotation can only be applied to interfaces, trying to apply it to anything else will cause an error at compile time. [EntryPointMustBeAnInterface]
+                    src/MyEntryPoint.kt:3: Error: The @EntryPoint annotation can only be applied to interfaces, trying to apply it to anything else will cause an error at compile time.
+
+                    See https://whosnickdoglio.dev/dagger-rules/rules/#the-entrypoint-annotation-can-only-be-applied-to-interfaces for more information. [EntryPointMustBeAnInterface]
                     @EntryPoint
                     ^
                     1 errors, 0 warnings
@@ -306,7 +318,9 @@ class EntryPointMustBeAnInterfaceDetectorTest {
             .run()
             .expect(
                 """
-                    src/MyEntryPoint.java:3: Error: The @EntryPoint annotation can only be applied to interfaces, trying to apply it to anything else will cause an error at compile time. [EntryPointMustBeAnInterface]
+                    src/MyEntryPoint.java:3: Error: The @EntryPoint annotation can only be applied to interfaces, trying to apply it to anything else will cause an error at compile time.
+
+                    See https://whosnickdoglio.dev/dagger-rules/rules/#the-entrypoint-annotation-can-only-be-applied-to-interfaces for more information. [EntryPointMustBeAnInterface]
                     @EntryPoint
                     ^
                     1 errors, 0 warnings
@@ -345,7 +359,9 @@ class EntryPointMustBeAnInterfaceDetectorTest {
             .run()
             .expect(
                 """
-                    src/MyEntryPoint.kt:3: Error: The @EntryPoint annotation can only be applied to interfaces, trying to apply it to anything else will cause an error at compile time. [EntryPointMustBeAnInterface]
+                    src/MyEntryPoint.kt:3: Error: The @EntryPoint annotation can only be applied to interfaces, trying to apply it to anything else will cause an error at compile time.
+
+                    See https://whosnickdoglio.dev/dagger-rules/rules/#the-entrypoint-annotation-can-only-be-applied-to-interfaces for more information. [EntryPointMustBeAnInterface]
                     @EntryPoint
                     ^
                     1 errors, 0 warnings
@@ -384,7 +400,9 @@ class EntryPointMustBeAnInterfaceDetectorTest {
             .run()
             .expect(
                 """
-                    src/MyEntryPoint.kt:3: Error: The @EntryPoint annotation can only be applied to interfaces, trying to apply it to anything else will cause an error at compile time. [EntryPointMustBeAnInterface]
+                    src/MyEntryPoint.kt:3: Error: The @EntryPoint annotation can only be applied to interfaces, trying to apply it to anything else will cause an error at compile time.
+
+                    See https://whosnickdoglio.dev/dagger-rules/rules/#the-entrypoint-annotation-can-only-be-applied-to-interfaces for more information. [EntryPointMustBeAnInterface]
                     @EntryPoint
                     ^
                     1 errors, 0 warnings
@@ -423,7 +441,9 @@ class EntryPointMustBeAnInterfaceDetectorTest {
             .run()
             .expect(
                 """
-                    src/MyEntryPoint.kt:3: Error: The @EntryPoint annotation can only be applied to interfaces, trying to apply it to anything else will cause an error at compile time. [EntryPointMustBeAnInterface]
+                    src/MyEntryPoint.kt:3: Error: The @EntryPoint annotation can only be applied to interfaces, trying to apply it to anything else will cause an error at compile time.
+
+                    See https://whosnickdoglio.dev/dagger-rules/rules/#the-entrypoint-annotation-can-only-be-applied-to-interfaces for more information. [EntryPointMustBeAnInterface]
                     @EntryPoint
                     ^
                     1 errors, 0 warnings

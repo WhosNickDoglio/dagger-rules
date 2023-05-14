@@ -65,8 +65,11 @@ internal class EntryPointMustBeAnInterfaceDetector : Detector(), SourceCodeScann
                 id = "EntryPointMustBeAnInterface",
                 briefDescription = "Hilt entry points must be interfaces",
                 explanation =
-                    "The `@EntryPoint` annotation can only be applied to `interfaces`, " +
-                        "trying to apply it to anything else will cause an error at compile time.",
+                    """
+                    The `@EntryPoint` annotation can only be applied to `interfaces`, trying to apply it to anything else will cause an error at compile time.
+
+                    See https://whosnickdoglio.dev/dagger-rules/rules/#the-entrypoint-annotation-can-only-be-applied-to-interfaces for more information.
+                    """,
                 category = Category.CORRECTNESS,
                 priority = 5,
                 severity = Severity.ERROR,
