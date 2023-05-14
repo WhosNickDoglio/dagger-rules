@@ -87,10 +87,14 @@ class CorrectBindsUsageDetectorTest {
             .run()
             .expect(
                 """
-                    src/MyModule.java:7: Error: @Binds method parameters need to be a subclass of the return type. Make sure you're passing the correct parameter or the intended subclass is implementing the return type interface. [BindsWithCorrectReturnType]
+                    src/MyModule.java:7: Error: @Binds method parameters need to be a subclass of the return type. Make sure you're passing the correct parameter or the intended subclass is implementing the return type interface.
+
+                    See https://whosnickdoglio.dev/dagger-rules/rules/#a-binds-method-parameter-should-be-a-subclass-of-its-return-type for more information. [BindsWithCorrectReturnType]
                         @Binds PizzaMaker bindsPizzaMaker(NotAPizzaMaker impl);
                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                    src/MyModule.java:9: Error: @Binds method parameters need to be a subclass of the return type. Make sure you're passing the correct parameter or the intended subclass is implementing the return type interface. [BindsWithCorrectReturnType]
+                    src/MyModule.java:9: Error: @Binds method parameters need to be a subclass of the return type. Make sure you're passing the correct parameter or the intended subclass is implementing the return type interface.
+
+                    See https://whosnickdoglio.dev/dagger-rules/rules/#a-binds-method-parameter-should-be-a-subclass-of-its-return-type for more information. [BindsWithCorrectReturnType]
                         @Binds Repository bindsRepository(NotARepository impl);
                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
                     2 errors, 0 warnings
@@ -152,7 +156,9 @@ class CorrectBindsUsageDetectorTest {
             .run()
             .expect(
                 """
-                    src/MyModule.kt:7: Error: @Binds method parameters need to be a subclass of the return type. Make sure you're passing the correct parameter or the intended subclass is implementing the return type interface. [BindsWithCorrectReturnType]
+                    src/MyModule.kt:7: Error: @Binds method parameters need to be a subclass of the return type. Make sure you're passing the correct parameter or the intended subclass is implementing the return type interface.
+
+                    See https://whosnickdoglio.dev/dagger-rules/rules/#a-binds-method-parameter-should-be-a-subclass-of-its-return-type for more information. [BindsWithCorrectReturnType]
                         @Binds fun bindsPizzaMaker(impl: NotAPizzaMaker): PizzaMaker
                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
                     1 errors, 0 warnings
@@ -212,7 +218,9 @@ class CorrectBindsUsageDetectorTest {
             .run()
             .expect(
                 """
-                    src/MyModule.kt:7: Error: @Binds method parameters need to be a subclass of the return type. Make sure you're passing the correct parameter or the intended subclass is implementing the return type interface. [BindsWithCorrectReturnType]
+                    src/MyModule.kt:7: Error: @Binds method parameters need to be a subclass of the return type. Make sure you're passing the correct parameter or the intended subclass is implementing the return type interface.
+
+                    See https://whosnickdoglio.dev/dagger-rules/rules/#a-binds-method-parameter-should-be-a-subclass-of-its-return-type for more information. [BindsWithCorrectReturnType]
                         @Binds fun NotPizzaMaker.bindPizzaMaker(): PizzaMaker
                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
                     1 errors, 0 warnings
@@ -246,11 +254,11 @@ class CorrectBindsUsageDetectorTest {
             .run()
             .expect(
                 """
-                src/MyModule.kt:7: Error: Must be abstract [BindsMustBeAbstract]
-                    @Binds fun bindPizzaMaker(): PizzaMaker = PizzaMakerImpl()
-                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                1 errors, 0 warnings
-            """
+                    src/MyModule.kt:7: Error: A @Binds method needs to be abstract or Dagger will throw an error at compile time. See https://whosnickdoglio.dev/dagger-rules/rules/#methods-annotated-with-binds-must-be-abstract for more information. [BindsMustBeAbstract]
+                        @Binds fun bindPizzaMaker(): PizzaMaker = PizzaMakerImpl()
+                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                    1 errors, 0 warnings
+                """
                     .trimIndent()
             )
             .expectErrorCount(1)
@@ -282,11 +290,11 @@ class CorrectBindsUsageDetectorTest {
             .run()
             .expect(
                 """
-                src/MyModule.java:7: Error: Must be abstract [BindsMustBeAbstract]
-                    @Binds PizzaMaker bindPizzaMaker() {
-                    ^
-                1 errors, 0 warnings
-            """
+                    src/MyModule.java:7: Error: A @Binds method needs to be abstract or Dagger will throw an error at compile time. See https://whosnickdoglio.dev/dagger-rules/rules/#methods-annotated-with-binds-must-be-abstract for more information. [BindsMustBeAbstract]
+                        @Binds PizzaMaker bindPizzaMaker() {
+                        ^
+                    1 errors, 0 warnings
+                """
                     .trimIndent()
             )
             .expectErrorCount(1)

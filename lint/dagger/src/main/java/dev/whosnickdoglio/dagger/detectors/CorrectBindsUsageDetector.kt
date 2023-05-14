@@ -68,7 +68,10 @@ internal class CorrectBindsUsageDetector : Detector(), SourceCodeScanner {
                     """
                         `@Binds` method parameters need to be a subclass of the return type. \
                         Make sure you're passing the correct parameter or the intended subclass is implementing \
-                        the return type interface.""",
+                        the return type interface.
+
+                        See https://whosnickdoglio.dev/dagger-rules/rules/#a-binds-method-parameter-should-be-a-subclass-of-its-return-type for more information.
+                        """,
                 category = Category.CORRECTNESS,
                 priority = 5,
                 severity = Severity.ERROR,
@@ -79,7 +82,11 @@ internal class CorrectBindsUsageDetector : Detector(), SourceCodeScanner {
             Issue.create(
                 id = "BindsMustBeAbstract",
                 briefDescription = "@Binds method must be abstract",
-                explanation = "Must be abstract",
+                explanation =
+                    """
+                    A @Binds method needs to be abstract or Dagger will throw an error at compile time. \
+                    See https://whosnickdoglio.dev/dagger-rules/rules/#methods-annotated-with-binds-must-be-abstract for more information.
+                """,
                 category = Category.CORRECTNESS,
                 priority = 5,
                 severity = Severity.ERROR,
