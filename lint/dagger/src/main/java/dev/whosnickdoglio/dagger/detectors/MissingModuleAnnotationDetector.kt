@@ -13,6 +13,7 @@ import com.android.tools.lint.detector.api.JavaContext
 import com.android.tools.lint.detector.api.Scope
 import com.android.tools.lint.detector.api.Severity
 import com.android.tools.lint.detector.api.SourceCodeScanner
+import com.android.tools.lint.detector.api.TextFormat
 import com.android.tools.lint.detector.api.isKotlin
 import dev.whosnickdoglio.lint.shared.BINDS
 import dev.whosnickdoglio.lint.shared.MODULE
@@ -46,7 +47,7 @@ internal class MissingModuleAnnotationDetector : Detector(), SourceCodeScanner {
                         context.report(
                             issue = ISSUE,
                             location = context.getNameLocation(containingClass),
-                            message = "Don't forget the `@Module` annotation!",
+                            message = ISSUE.getExplanation(TextFormat.RAW),
                             quickfixData =
                                 fix()
                                     .name("Add @Module annotation")
@@ -70,7 +71,9 @@ internal class MissingModuleAnnotationDetector : Detector(), SourceCodeScanner {
                 briefDescription = "Missing `@Module` annotation",
                 explanation =
                     """
-                    TODO talk about needing @Module
+                    Provides or binds methods won't be picked up if the class isn't annotated with @Module.
+
+                    See https://whosnickdoglio.dev/dagger-rules/rules/#classes-with-provides-binds-or-multibinds-methods-should-be-annotated-with-module for more information.
                     """,
                 category = Category.CORRECTNESS,
                 priority = 5,

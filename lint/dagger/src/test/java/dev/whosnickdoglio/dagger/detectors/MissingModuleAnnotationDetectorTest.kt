@@ -35,7 +35,9 @@ class MissingModuleAnnotationDetectorTest {
             .run()
             .expect(
                 """
-                    src/com/test/android/MyModule.kt:5: Error: Don't forget the @Module annotation! [MissingModuleAnnotation]
+                    src/com/test/android/MyModule.kt:5: Error: Provides or binds methods won't be picked up if the class isn't annotated with @Module.
+
+                    See https://whosnickdoglio.dev/dagger-rules/rules/#classes-with-provides-binds-or-multibinds-methods-should-be-annotated-with-module for more information. [MissingModuleAnnotation]
                      class MyModule {
                            ~~~~~~~~
                     1 errors, 0 warnings
@@ -107,7 +109,9 @@ class MissingModuleAnnotationDetectorTest {
             .run()
             .expect(
                 """
-                    src/com/test/android/MyModule.kt:5: Error: Don't forget the @Module annotation! [MissingModuleAnnotation]
+                    src/com/test/android/MyModule.kt:5: Error: Provides or binds methods won't be picked up if the class isn't annotated with @Module.
+
+                    See https://whosnickdoglio.dev/dagger-rules/rules/#classes-with-provides-binds-or-multibinds-methods-should-be-annotated-with-module for more information. [MissingModuleAnnotation]
                      interface MyModule {
                                ~~~~~~~~
                     1 errors, 0 warnings
@@ -187,11 +191,13 @@ class MissingModuleAnnotationDetectorTest {
             .run()
             .expect(
                 """
-                src/com/test/android/MyModule.kt:6: Error: Don't forget the @Module annotation! [MissingModuleAnnotation]
-                 interface MyModule {
-                           ~~~~~~~~
-                1 errors, 0 warnings
-            """
+                    src/com/test/android/MyModule.kt:6: Error: Provides or binds methods won't be picked up if the class isn't annotated with @Module.
+
+                    See https://whosnickdoglio.dev/dagger-rules/rules/#classes-with-provides-binds-or-multibinds-methods-should-be-annotated-with-module for more information. [MissingModuleAnnotation]
+                     interface MyModule {
+                               ~~~~~~~~
+                    1 errors, 0 warnings
+                """
                     .trimIndent()
             )
             .expectErrorCount(1)
@@ -262,11 +268,13 @@ class MissingModuleAnnotationDetectorTest {
             .run()
             .expect(
                 """
-                src/com/test/android/MyModule.java:5: Error: Don't forget the @Module annotation! [MissingModuleAnnotation]
-                 class MyModule {
-                       ~~~~~~~~
-                1 errors, 0 warnings
-            """
+                    src/com/test/android/MyModule.java:5: Error: Provides or binds methods won't be picked up if the class isn't annotated with @Module.
+
+                    See https://whosnickdoglio.dev/dagger-rules/rules/#classes-with-provides-binds-or-multibinds-methods-should-be-annotated-with-module for more information. [MissingModuleAnnotation]
+                     class MyModule {
+                           ~~~~~~~~
+                    1 errors, 0 warnings
+                """
                     .trimIndent()
             )
             .expectErrorCount(1)
@@ -336,7 +344,9 @@ class MissingModuleAnnotationDetectorTest {
             .run()
             .expect(
                 """
-                    src/com/test/android/MyModule.java:5: Error: Don't forget the @Module annotation! [MissingModuleAnnotation]
+                    src/com/test/android/MyModule.java:5: Error: Provides or binds methods won't be picked up if the class isn't annotated with @Module.
+
+                    See https://whosnickdoglio.dev/dagger-rules/rules/#classes-with-provides-binds-or-multibinds-methods-should-be-annotated-with-module for more information. [MissingModuleAnnotation]
                      interface MyModule {
                                ~~~~~~~~
                     1 errors, 0 warnings
