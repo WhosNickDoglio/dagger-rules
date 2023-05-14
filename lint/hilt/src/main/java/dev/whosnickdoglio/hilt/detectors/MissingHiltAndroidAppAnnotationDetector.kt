@@ -14,6 +14,7 @@ import com.android.tools.lint.detector.api.JavaContext
 import com.android.tools.lint.detector.api.Scope
 import com.android.tools.lint.detector.api.Severity
 import com.android.tools.lint.detector.api.SourceCodeScanner
+import com.android.tools.lint.detector.api.TextFormat
 import dev.whosnickdoglio.hilt.HILT_ANDROID_APP
 import org.jetbrains.uast.UClass
 import org.jetbrains.uast.UElement
@@ -32,9 +33,7 @@ internal class MissingHiltAndroidAppAnnotationDetector : Detector(), SourceCodeS
                     context.report(
                         Incident(context, ISSUE)
                             .location(context.getNameLocation(node))
-                            .message(
-                                "This class is missing the `@${HILT_ANDROID_APP.substringAfterLast(".")}`"
-                            )
+                            .message(ISSUE.getExplanation(TextFormat.RAW))
                             .fix(
                                 fix()
                                     .name(
@@ -64,8 +63,11 @@ internal class MissingHiltAndroidAppAnnotationDetector : Detector(), SourceCodeS
                 id = "MissingHiltAndroidAppAnnotation",
                 briefDescription = "`Application` subclasses need `@HiltAndroidApp`",
                 explanation =
-                    "When you using Hilt it's required for a `Application` " +
-                        "subclass to be annotated with `@HiltAndroidApp.`",
+                    """
+                    When you using Hilt it's required for a `Application` subclass to be annotated with `@HiltAndroidApp.`
+
+                    See https://whosnickdoglio.dev/dagger-rules/rules/#application-subclasses-should-be-annotated-with-hiltandroidapp for more information.
+                    """,
                 category = Category.CORRECTNESS,
                 priority = 5,
                 severity = Severity.ERROR,
