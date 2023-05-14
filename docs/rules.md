@@ -81,8 +81,6 @@ pick up these methods and apply them to your Dagger graph, without this annotati
 
 ## Anvil Rules
 
-### `@ContributesBinding` needs to have a super
-
 ### Prefer using `@ContributesBinding` over `@Binds`
 
 Anvil provides
@@ -128,6 +126,16 @@ class NetworkRepository @Inject constructor() : Repository
 
 ## Hilt Rules
 
-### Android components should be annotated with the correct Hilt annotations
+### The `@EntryPoint` annotation can only be applied to interfaces
+
+The [`@EntryPoint` annotation](https://dagger.dev/api/latest/dagger/hilt/EntryPoint.html)
+
+[Read more about it in the Hilt documentation](https://dagger.dev/hilt/entry-points)
+
+### Android components should be annotated with `AndroidEntryPoint`
+
+### `Application` subclasses should be annotated with `@HiltAndroidApp`
+
+### `ViewModel` subclasses should be annotated with `@HiltViewModel`
 
 ### A class annotated with `@Module` or `@EntryPoint` should also be annotated with `@InstallIn`
