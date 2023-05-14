@@ -79,7 +79,9 @@ class MissingAndroidEntryPointDetectorTest {
             val errorHighlight = "AndroidX${className}".map { "~" }.joinToString(separator = "")
 
             return """
-                src/androidx/AndroidX$className.java:7: Error: This class is missing the @${ANDROID_ENTRY_POINT.substringAfterLast(".")} [MissingAndroidEntryPointAnnotation]
+                src/androidx/AndroidX$className.java:7: Error: This class needs to be annotated with @AndroidEntryPoint to use field injection with Hilt.
+
+                See https://whosnickdoglio.dev/dagger-rules/rules/#android-components-should-be-annotated-with-androidentrypoint for more information. [MissingAndroidEntryPointAnnotation]
                 class AndroidX$className extends $className {
                       $errorHighlight
                 1 errors, 0 warnings
@@ -181,7 +183,9 @@ class MissingAndroidEntryPointDetectorTest {
             val errorHighlight = "AndroidX$className".map { "~" }.joinToString(separator = "")
 
             return """
-                src/androidx/AndroidX$className.kt:6: Error: This class is missing the @${ANDROID_ENTRY_POINT.substringAfterLast(".")} [MissingAndroidEntryPointAnnotation]
+                src/androidx/AndroidX$className.kt:6: Error: This class needs to be annotated with @AndroidEntryPoint to use field injection with Hilt.
+
+                See https://whosnickdoglio.dev/dagger-rules/rules/#android-components-should-be-annotated-with-androidentrypoint for more information. [MissingAndroidEntryPointAnnotation]
                 class AndroidX$className : $className {
                       $errorHighlight
                 1 errors, 0 warnings

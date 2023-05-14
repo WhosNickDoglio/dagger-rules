@@ -14,6 +14,7 @@ import com.android.tools.lint.detector.api.JavaContext
 import com.android.tools.lint.detector.api.Scope
 import com.android.tools.lint.detector.api.Severity
 import com.android.tools.lint.detector.api.SourceCodeScanner
+import com.android.tools.lint.detector.api.TextFormat
 import dev.whosnickdoglio.hilt.ANDROID_ENTRY_POINT
 import dev.whosnickdoglio.lint.shared.INJECT
 import org.jetbrains.uast.UClass
@@ -58,9 +59,7 @@ internal class MissingAndroidEntryPointDetector : Detector(), SourceCodeScanner 
                         context.report(
                             Incident(context, ISSUE_MISSING_ANNOTATION)
                                 .location(context.getNameLocation(node))
-                                .message(
-                                    "This class is missing the `@${ANDROID_ENTRY_POINT.substringAfterLast(".")}`"
-                                )
+                                .message(ISSUE_MISSING_ANNOTATION.getExplanation(TextFormat.RAW))
                                 .fix(
                                     fix()
                                         .name(
@@ -97,7 +96,12 @@ internal class MissingAndroidEntryPointDetector : Detector(), SourceCodeScanner 
             Issue.create(
                 id = "MissingAndroidEntryPointAnnotation",
                 briefDescription = "Android Component is missing @AndroidEntryPoint annotation",
-                explanation = "Hello friend",
+                explanation =
+                    """
+                    This class needs to be annotated with `@AndroidEntryPoint` to use field injection with Hilt.
+
+                    See https://whosnickdoglio.dev/dagger-rules/rules/#android-components-should-be-annotated-with-androidentrypoint for more information.
+                """,
                 category = Category.CORRECTNESS,
                 priority = 5,
                 severity = Severity.ERROR,
