@@ -14,6 +14,7 @@ import com.android.tools.lint.detector.api.JavaContext
 import com.android.tools.lint.detector.api.Scope
 import com.android.tools.lint.detector.api.Severity
 import com.android.tools.lint.detector.api.SourceCodeScanner
+import com.android.tools.lint.detector.api.TextFormat
 import dev.whosnickdoglio.hilt.HILT_VIEW_MODEL
 import dev.whosnickdoglio.lint.shared.INJECT
 import org.jetbrains.uast.UClass
@@ -42,9 +43,7 @@ internal class MissingHiltViewModelAnnotationDetector : Detector(), SourceCodeSc
                     context.report(
                         Incident(context, ISSUE_MISSING_ANNOTATION)
                             .location(context.getNameLocation(node))
-                            .message(
-                                "This class is missing the `@${HILT_VIEW_MODEL.substringAfterLast(".")}`"
-                            )
+                            .message(ISSUE_MISSING_ANNOTATION.getExplanation(TextFormat.RAW))
                             .fix(
                                 fix()
                                     .name(
@@ -88,7 +87,12 @@ internal class MissingHiltViewModelAnnotationDetector : Detector(), SourceCodeSc
             Issue.create(
                 id = "MissingHiltViewModelAnnotation",
                 briefDescription = "Android Component is missing Hilt annotation",
-                explanation = "Hello friend",
+                explanation =
+                    """
+                    ViewModels using Hilt need to be annotated with `@HiltViewModel`.
+
+                    See https://whosnickdoglio.dev/dagger-rules/rules/#viewmodel-subclasses-should-be-annotated-with-hiltviewmodel for more information.
+                    """,
                 category = Category.CORRECTNESS,
                 priority = 5,
                 severity = Severity.ERROR,

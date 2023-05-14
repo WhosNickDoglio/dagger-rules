@@ -44,7 +44,9 @@ class MissingHiltViewModelAnnotationDetectorTest {
             .run()
             .expect(
                 """
-                    src/MyViewModel.kt:4: Error: This class is missing the @HiltViewModel [MissingHiltViewModelAnnotation]
+                    src/MyViewModel.kt:4: Error: ViewModels using Hilt need to be annotated with @HiltViewModel.
+
+                    See https://whosnickdoglio.dev/dagger-rules/rules/#viewmodel-subclasses-should-be-annotated-with-hiltviewmodel for more information. [MissingHiltViewModelAnnotation]
                     class MyViewModel @Inject constructor(
                           ~~~~~~~~~~~
                     1 errors, 0 warnings
@@ -93,11 +95,13 @@ class MissingHiltViewModelAnnotationDetectorTest {
             .run()
             .expect(
                 """
-                src/MyViewModel.java:4: Error: This class is missing the @HiltViewModel [MissingHiltViewModelAnnotation]
-                class MyViewModel extends ViewModel {
-                      ~~~~~~~~~~~
-                1 errors, 0 warnings
-            """
+                    src/MyViewModel.java:4: Error: ViewModels using Hilt need to be annotated with @HiltViewModel.
+
+                    See https://whosnickdoglio.dev/dagger-rules/rules/#viewmodel-subclasses-should-be-annotated-with-hiltviewmodel for more information. [MissingHiltViewModelAnnotation]
+                    class MyViewModel extends ViewModel {
+                          ~~~~~~~~~~~
+                    1 errors, 0 warnings
+                """
                     .trimIndent()
             )
             .expectErrorCount(1)
