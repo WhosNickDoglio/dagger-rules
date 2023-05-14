@@ -103,6 +103,8 @@ internal class ConstructorInjectionOverFieldInjectionDetector : Detector(), Sour
                 explanation =
                     """
                     Constructor injection should be favored over field injection for classes that support it.
+
+                    See https://whosnickdoglio.dev/dagger-rules/rules/#prefer-constructor-injection-over-field-injection for more information.
                 """,
                 category = Category.CORRECTNESS,
                 priority = 5,

@@ -139,7 +139,9 @@ class ConstructorInjectionOverFieldInjectionDetectorTest {
             .run()
             .expect(
                 """
-                    src/com/test/android/Something.kt:9: Warning: Constructor injection should be favored over field injection for classes that support it. [ConstructorOverField]
+                    src/com/test/android/Something.kt:9: Warning: Constructor injection should be favored over field injection for classes that support it.
+
+                    See https://whosnickdoglio.dev/dagger-rules/rules/#prefer-constructor-injection-over-field-injection for more information. [ConstructorOverField]
                     @Inject lateinit var something: Something
                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
                     0 errors, 1 warnings
@@ -175,7 +177,9 @@ class ConstructorInjectionOverFieldInjectionDetectorTest {
             .run()
             .expect(
                 """
-                    src/com/test/android/Something.java:9: Warning: Constructor injection should be favored over field injection for classes that support it. [ConstructorOverField]
+                    src/com/test/android/Something.java:9: Warning: Constructor injection should be favored over field injection for classes that support it.
+
+                    See https://whosnickdoglio.dev/dagger-rules/rules/#prefer-constructor-injection-over-field-injection for more information. [ConstructorOverField]
                     @Inject Something something;
                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
                     0 errors, 1 warnings
