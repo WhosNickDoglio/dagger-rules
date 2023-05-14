@@ -85,6 +85,8 @@ internal class MissingInstallInDetector : Detector(), SourceCodeScanner {
                     """
                     Hilt modules and entry points require the `@InstallIn` annotation to be properly connected to a Component. Annotate this class with @InstallIn \
                     and the Hilt component you want to connect it to, the most commonly used Component is the `SingletonComponent`.
+
+                    See https://whosnickdoglio.dev/dagger-rules/rules/#a-class-annotated-with-module-or-entrypoint-should-also-be-annotated-with-installin for more information.
                     """,
                 category = Category.CORRECTNESS,
                 priority = 5,

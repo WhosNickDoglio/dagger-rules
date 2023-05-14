@@ -34,7 +34,9 @@ class MissingInstallInDetectorTest {
             .run()
             .expect(
                 """
-                    src/MyModule.kt:5: Error: Hilt modules and entry points require the @InstallIn annotation to be properly connected to a Component. Annotate this class with @InstallIn and the Hilt component you want to connect it to, the most commonly used Component is the SingletonComponent. [MissingInstallInAnnotation]
+                    src/MyModule.kt:5: Error: Hilt modules and entry points require the @InstallIn annotation to be properly connected to a Component. Annotate this class with @InstallIn and the Hilt component you want to connect it to, the most commonly used Component is the SingletonComponent.
+
+                    See https://whosnickdoglio.dev/dagger-rules/rules/#a-class-annotated-with-module-or-entrypoint-should-also-be-annotated-with-installin for more information. [MissingInstallInAnnotation]
                     class MyModule {
                           ~~~~~~~~
                     1 errors, 0 warnings
@@ -131,7 +133,9 @@ class MissingInstallInDetectorTest {
             .run()
             .expect(
                 """
-                    src/PizzaMaker.kt:12: Error: Hilt modules and entry points require the @InstallIn annotation to be properly connected to a Component. Annotate this class with @InstallIn and the Hilt component you want to connect it to, the most commonly used Component is the SingletonComponent. [MissingInstallInAnnotation]
+                    src/PizzaMaker.kt:12: Error: Hilt modules and entry points require the @InstallIn annotation to be properly connected to a Component. Annotate this class with @InstallIn and the Hilt component you want to connect it to, the most commonly used Component is the SingletonComponent.
+
+                    See https://whosnickdoglio.dev/dagger-rules/rules/#a-class-annotated-with-module-or-entrypoint-should-also-be-annotated-with-installin for more information. [MissingInstallInAnnotation]
                     interface MyModule {
                               ~~~~~~~~
                     1 errors, 0 warnings
@@ -270,7 +274,9 @@ class MissingInstallInDetectorTest {
             .run()
             .expect(
                 """
-                    src/PizzaMaker.kt:9: Error: Hilt modules and entry points require the @InstallIn annotation to be properly connected to a Component. Annotate this class with @InstallIn and the Hilt component you want to connect it to, the most commonly used Component is the SingletonComponent. [MissingInstallInAnnotation]
+                    src/PizzaMaker.kt:9: Error: Hilt modules and entry points require the @InstallIn annotation to be properly connected to a Component. Annotate this class with @InstallIn and the Hilt component you want to connect it to, the most commonly used Component is the SingletonComponent.
+
+                    See https://whosnickdoglio.dev/dagger-rules/rules/#a-class-annotated-with-module-or-entrypoint-should-also-be-annotated-with-installin for more information. [MissingInstallInAnnotation]
                     interface MyModule {
                               ~~~~~~~~
                     1 errors, 0 warnings
@@ -333,7 +339,9 @@ class MissingInstallInDetectorTest {
             .run()
             .expect(
                 """
-                    src/MyModule.java:5: Error: Hilt modules and entry points require the @InstallIn annotation to be properly connected to a Component. Annotate this class with @InstallIn and the Hilt component you want to connect it to, the most commonly used Component is the SingletonComponent. [MissingInstallInAnnotation]
+                    src/MyModule.java:5: Error: Hilt modules and entry points require the @InstallIn annotation to be properly connected to a Component. Annotate this class with @InstallIn and the Hilt component you want to connect it to, the most commonly used Component is the SingletonComponent.
+
+                    See https://whosnickdoglio.dev/dagger-rules/rules/#a-class-annotated-with-module-or-entrypoint-should-also-be-annotated-with-installin for more information. [MissingInstallInAnnotation]
                     class MyModule {
                           ~~~~~~~~
                     1 errors, 0 warnings
@@ -428,7 +436,9 @@ class MissingInstallInDetectorTest {
             .run()
             .expect(
                 """
-                    src/PizzaMaker.java:9: Error: Hilt modules and entry points require the @InstallIn annotation to be properly connected to a Component. Annotate this class with @InstallIn and the Hilt component you want to connect it to, the most commonly used Component is the SingletonComponent. [MissingInstallInAnnotation]
+                    src/PizzaMaker.java:9: Error: Hilt modules and entry points require the @InstallIn annotation to be properly connected to a Component. Annotate this class with @InstallIn and the Hilt component you want to connect it to, the most commonly used Component is the SingletonComponent.
+
+                    See https://whosnickdoglio.dev/dagger-rules/rules/#a-class-annotated-with-module-or-entrypoint-should-also-be-annotated-with-installin for more information. [MissingInstallInAnnotation]
                     interface MyModule {
                               ~~~~~~~~
                     1 errors, 0 warnings
@@ -518,11 +528,13 @@ class MissingInstallInDetectorTest {
             .run()
             .expect(
                 """
-                src/MyEntryPoint.kt:4: Error: Hilt modules and entry points require the @InstallIn annotation to be properly connected to a Component. Annotate this class with @InstallIn and the Hilt component you want to connect it to, the most commonly used Component is the SingletonComponent. [MissingInstallInAnnotation]
-                interface MyEntryPoint {
-                          ~~~~~~~~~~~~
-                1 errors, 0 warnings
-            """
+                    src/MyEntryPoint.kt:4: Error: Hilt modules and entry points require the @InstallIn annotation to be properly connected to a Component. Annotate this class with @InstallIn and the Hilt component you want to connect it to, the most commonly used Component is the SingletonComponent.
+
+                    See https://whosnickdoglio.dev/dagger-rules/rules/#a-class-annotated-with-module-or-entrypoint-should-also-be-annotated-with-installin for more information. [MissingInstallInAnnotation]
+                    interface MyEntryPoint {
+                              ~~~~~~~~~~~~
+                    1 errors, 0 warnings
+                """
                     .trimIndent()
             )
             .expectErrorCount(1)
@@ -578,11 +590,13 @@ class MissingInstallInDetectorTest {
             .run()
             .expect(
                 """
-                src/MyEntryPoint.java:4: Error: Hilt modules and entry points require the @InstallIn annotation to be properly connected to a Component. Annotate this class with @InstallIn and the Hilt component you want to connect it to, the most commonly used Component is the SingletonComponent. [MissingInstallInAnnotation]
-                interface MyEntryPoint {
-                          ~~~~~~~~~~~~
-                1 errors, 0 warnings
-            """
+                    src/MyEntryPoint.java:4: Error: Hilt modules and entry points require the @InstallIn annotation to be properly connected to a Component. Annotate this class with @InstallIn and the Hilt component you want to connect it to, the most commonly used Component is the SingletonComponent.
+
+                    See https://whosnickdoglio.dev/dagger-rules/rules/#a-class-annotated-with-module-or-entrypoint-should-also-be-annotated-with-installin for more information. [MissingInstallInAnnotation]
+                    interface MyEntryPoint {
+                              ~~~~~~~~~~~~
+                    1 errors, 0 warnings
+                """
                     .trimIndent()
             )
             .expectErrorCount(1)
