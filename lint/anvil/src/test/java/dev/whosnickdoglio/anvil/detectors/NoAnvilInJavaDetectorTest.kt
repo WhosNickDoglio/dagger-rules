@@ -54,7 +54,9 @@ class NoAnvilInJavaDetectorTest {
             .run()
             .expect(
                 """
-                src/MyJavaClass.java:3: Error: Anvil works as a Kotlin compiler plugin and does not support being used from Java. You can convert this class to Kotlin so it can use Anvil annotations. [NoAnvilJavaUsage]
+                src/MyJavaClass.java:3: Error: Anvil works as a Kotlin compiler plugin and does not support being used from Java. You can convert this class to Kotlin so it can use Anvil annotations.
+
+                See https://whosnickdoglio.dev/dagger-rules/rules/#anvil-cannot-be-used-from-java for more information. [NoAnvilJavaUsage]
                 @${annotation.substringAfterLast(".")}
                 ~${annotation.substringAfterLast(".").map { "~" }.joinToString(separator = "")}
                 1 errors, 0 warnings

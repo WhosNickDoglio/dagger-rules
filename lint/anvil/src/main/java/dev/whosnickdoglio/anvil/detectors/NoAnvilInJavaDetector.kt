@@ -68,6 +68,8 @@ internal class NoAnvilInJavaDetector : Detector(), SourceCodeScanner {
                     """
                         Anvil works as a Kotlin compiler plugin and does not support being used from Java. \
                         You can convert this class to Kotlin so it can use Anvil annotations.
+
+                        See https://whosnickdoglio.dev/dagger-rules/rules/#anvil-cannot-be-used-from-java for more information.
                     """,
                 category = Category.CORRECTNESS,
                 priority = 10,
