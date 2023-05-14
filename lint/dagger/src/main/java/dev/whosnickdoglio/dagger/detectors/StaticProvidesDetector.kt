@@ -71,7 +71,12 @@ internal class StaticProvidesDetector : Detector(), SourceCodeScanner {
             Issue.create(
                 id = "StaticProvides",
                 briefDescription = "Not using static @Provides methods",
-                explanation = "plz use static provides methods",
+                explanation =
+                    """
+                    @Provides methods be static.
+
+                    See https://whosnickdoglio.dev/dagger-rules/rules/#provides-methods-should-be-static for more information.
+                """,
                 category = Category.CORRECTNESS,
                 priority = 5,
                 severity = Severity.WARNING,
