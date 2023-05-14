@@ -64,7 +64,9 @@ internal class MissingContributesToDetector : Detector(), SourceCodeScanner {
                 id = "MissingContributesToAnnotation",
                 briefDescription = "Module missing @ContributesTo annotation",
                 explanation =
-                    "This Dagger module is missing a `@ContributesTo` annotation for Anvil to pick it up",
+                    """
+                    This Dagger module is missing a `@ContributesTo` annotation for Anvil to pick it up. See https://whosnickdoglio.dev/dagger-rules/rules/#a-class-annotated-with-module-should-also-be-annotated-with-contributesto for more information.
+                    """,
                 category = Category.CORRECTNESS,
                 priority = 5,
                 severity = Severity.ERROR,

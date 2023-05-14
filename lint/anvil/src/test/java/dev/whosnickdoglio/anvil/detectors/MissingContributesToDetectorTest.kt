@@ -37,7 +37,7 @@ class MissingContributesToDetectorTest {
             .run()
             .expect(
                 """
-                    src/MyModule.kt:5: Error: This Dagger module is missing a @ContributesTo annotation for Anvil to pick it up [MissingContributesToAnnotation]
+                    src/MyModule.kt:5: Error: This Dagger module is missing a @ContributesTo annotation for Anvil to pick it up. See https://whosnickdoglio.dev/dagger-rules/rules/#a-class-annotated-with-module-should-also-be-annotated-with-contributesto for more information. [MissingContributesToAnnotation]
                     class MyModule {
                           ~~~~~~~~
                     1 errors, 0 warnings
@@ -121,7 +121,7 @@ class MissingContributesToDetectorTest {
             .run()
             .expect(
                 """
-                    src/MyThing.kt:11: Error: This Dagger module is missing a @ContributesTo annotation for Anvil to pick it up [MissingContributesToAnnotation]
+                    src/MyThing.kt:11: Error: This Dagger module is missing a @ContributesTo annotation for Anvil to pick it up. See https://whosnickdoglio.dev/dagger-rules/rules/#a-class-annotated-with-module-should-also-be-annotated-with-contributesto for more information. [MissingContributesToAnnotation]
                     interface MyModule {
                               ~~~~~~~~
                     1 errors, 0 warnings
@@ -242,7 +242,7 @@ class MissingContributesToDetectorTest {
             .run()
             .expect(
                 """
-                    src/MyThing.kt:8: Error: This Dagger module is missing a @ContributesTo annotation for Anvil to pick it up [MissingContributesToAnnotation]
+                    src/MyThing.kt:8: Error: This Dagger module is missing a @ContributesTo annotation for Anvil to pick it up. See https://whosnickdoglio.dev/dagger-rules/rules/#a-class-annotated-with-module-should-also-be-annotated-with-contributesto for more information. [MissingContributesToAnnotation]
                     interface MyModule {
                               ~~~~~~~~
                     1 errors, 0 warnings
