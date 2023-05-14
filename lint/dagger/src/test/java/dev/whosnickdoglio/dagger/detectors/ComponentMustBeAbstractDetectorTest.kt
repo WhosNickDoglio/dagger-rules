@@ -118,11 +118,13 @@ class ComponentMustBeAbstractDetectorTest {
             .run()
             .expect(
                 """
-                src/MyComponent.java:4: Error: Component must be abstract [ComponentMustBeAbstract]
-                class MyComponent {}
-                      ~~~~~~~~~~~
-                1 errors, 0 warnings
-            """
+                    src/MyComponent.java:4: Error: A class annotated with @Component or @Subcomponent need to be abstract.
+
+                    See https://whosnickdoglio.dev/dagger-rules/rules/#classes-annotated-with-component-must-be-abstract for more information. [ComponentMustBeAbstract]
+                    class MyComponent {}
+                          ~~~~~~~~~~~
+                    1 errors, 0 warnings
+                """
                     .trimIndent()
             )
             .expectErrorCount(1)
@@ -147,11 +149,13 @@ class ComponentMustBeAbstractDetectorTest {
             .run()
             .expect(
                 """
-                src/MyComponent.kt:4: Error: Component must be abstract [ComponentMustBeAbstract]
-                class MyComponent
-                      ~~~~~~~~~~~
-                1 errors, 0 warnings
-            """
+                    src/MyComponent.kt:4: Error: A class annotated with @Component or @Subcomponent need to be abstract.
+
+                    See https://whosnickdoglio.dev/dagger-rules/rules/#classes-annotated-with-component-must-be-abstract for more information. [ComponentMustBeAbstract]
+                    class MyComponent
+                          ~~~~~~~~~~~
+                    1 errors, 0 warnings
+                """
                     .trimIndent()
             )
             .expectErrorCount(1)

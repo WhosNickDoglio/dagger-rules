@@ -52,7 +52,12 @@ internal class ComponentMustBeAbstractDetector : Detector(), SourceCodeScanner {
             Issue.create(
                 id = "ComponentMustBeAbstract",
                 briefDescription = "A Dagger `Component` must be an interface or abstract",
-                explanation = "Component must be abstract",
+                explanation =
+                    """
+                    A class annotated with @Component or @Subcomponent need to be abstract.
+
+                    See https://whosnickdoglio.dev/dagger-rules/rules/#classes-annotated-with-component-must-be-abstract for more information.
+                """,
                 category = Category.CORRECTNESS,
                 priority = 5,
                 severity = Severity.ERROR,
