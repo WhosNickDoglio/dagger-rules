@@ -7,7 +7,7 @@ detekt = "1.22.0"
 dagger = "2.46.1"
 ktlint = "0.49.1"
 kover = "0.7.0"
-spotless = "6.18.0"
+spotless = "6.19.0"
 
 [plugins]
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
