@@ -48,7 +48,7 @@ ktlint-core = { module = "com.pinterest.ktlint:ktlint-core", version.ref = "ktli
 ktlint-test = { module = "com.pinterest.ktlint:ktlint-test", version.ref = "ktlint" }
 
 junit = { module = "junit:junit", version = "4.13.2" }
-truth = { module = "com.google.truth:truth", version = "1.1.3" }
+truth = { module = "com.google.truth:truth", version = "1.1.4" }
 testParameterInjector = { module = "com.google.testparameterinjector:test-parameter-injector", version = "1.12" }
 
 [bundles]
