@@ -20,8 +20,7 @@ class HiltRulesIssueRegistry : IssueRegistry() {
         listOf(
             EntryPointMustBeAnInterfaceDetector.ISSUE,
             MissingHiltAndroidAppAnnotationDetector.ISSUE,
-            MissingAndroidEntryPointDetector.ISSUE_MISSING_ANNOTATION,
-            MissingAndroidEntryPointDetector.ISSUE_UNNECESSARY_ANNOTATION,
+            MissingAndroidEntryPointDetector.ISSUE,
             MissingHiltViewModelAnnotationDetector.ISSUE_MISSING_ANNOTATION,
             MissingHiltViewModelAnnotationDetector.ISSUE_UNNECESSARY_ANNOTATION,
             MissingInstallInDetector.ISSUE,

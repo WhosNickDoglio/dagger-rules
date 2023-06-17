@@ -63,7 +63,7 @@ class MissingAndroidEntryPointDetectorTest {
                     )
                     .indented(),
             )
-            .issues(MissingAndroidEntryPointDetector.ISSUE_MISSING_ANNOTATION)
+            .issues(MissingAndroidEntryPointDetector.ISSUE)
             .run()
             .expectClean()
             .expectErrorCount(0)
@@ -126,7 +126,7 @@ class MissingAndroidEntryPointDetectorTest {
                     )
                     .indented(),
             )
-            .issues(MissingAndroidEntryPointDetector.ISSUE_MISSING_ANNOTATION)
+            .issues(MissingAndroidEntryPointDetector.ISSUE)
             .run()
             .expect(expectedErrorMessage())
             .expectErrorCount(1)
@@ -167,7 +167,7 @@ class MissingAndroidEntryPointDetectorTest {
                     )
                     .indented(),
             )
-            .issues(MissingAndroidEntryPointDetector.ISSUE_MISSING_ANNOTATION)
+            .issues(MissingAndroidEntryPointDetector.ISSUE)
             .run()
             .expectClean()
             .expectErrorCount(0)
@@ -230,7 +230,7 @@ class MissingAndroidEntryPointDetectorTest {
                     )
                     .indented(),
             )
-            .issues(MissingAndroidEntryPointDetector.ISSUE_MISSING_ANNOTATION)
+            .issues(MissingAndroidEntryPointDetector.ISSUE)
             .run()
             .expect(expectedErrorMessage())
             .expectErrorCount(1)
@@ -263,7 +263,7 @@ class MissingAndroidEntryPointDetectorTest {
                     )
                     .indented(),
             )
-            .issues(MissingAndroidEntryPointDetector.ISSUE_MISSING_ANNOTATION)
+            .issues(MissingAndroidEntryPointDetector.ISSUE)
             .run()
             .expectClean()
             .expectErrorCount(0)
@@ -295,104 +295,9 @@ class MissingAndroidEntryPointDetectorTest {
                     )
                     .indented(),
             )
-            .issues(MissingAndroidEntryPointDetector.ISSUE_MISSING_ANNOTATION)
+            .issues(MissingAndroidEntryPointDetector.ISSUE)
             .run()
             .expectClean()
             .expectErrorCount(0)
-    }
-
-    @Test
-    fun `kotlin android component annotated with @AndroidEntryPoint without field injection shows warning`() {
-        val classPackage = androidEntryPoint.substringBeforeLast(".")
-        val className = androidEntryPoint.substringAfterLast(".")
-
-        fun expectedWarningMessage(): String {
-            val errorHighlight = "AndroidX$className".map { "~" }.joinToString(separator = "")
-
-            return """
-                src/androidx/AndroidX$className.kt:7: Warning: This class doesn't need an @${ANDROID_ENTRY_POINT.substringAfterLast(".")} annotation [UnnecessaryAndroidEntryPointAnnotation]
-                class AndroidX$className : $className
-                      $errorHighlight
-                0 errors, 1 warnings
-            """
-        }
-
-        TestLintTask.lint()
-            .files(
-                *hiltAnnotations,
-                TestFiles.kotlin(
-                        """
-                package $classPackage
-
-                class $className
-
-                """
-                    )
-                    .indented(),
-                TestFiles.kotlin(
-                        """
-                package androidx
-
-                import $androidEntryPoint
-                import $ANDROID_ENTRY_POINT
-
-                @${ANDROID_ENTRY_POINT.substringAfterLast(".")}
-                class AndroidX$className : $className
-                    """
-                    )
-                    .indented(),
-            )
-            .issues(MissingAndroidEntryPointDetector.ISSUE_UNNECESSARY_ANNOTATION)
-            .run()
-            .expect(expectedWarningMessage())
-            .expectWarningCount(1)
-    }
-
-    @Test
-    fun `java android component annotated with @AndroidEntryPoint without field injection shows warning`() {
-        val classPackage = androidEntryPoint.substringBeforeLast(".")
-        val className = androidEntryPoint.substringAfterLast(".")
-
-        fun expectedErrorMessage(): String {
-
-            val errorHighlight = "AndroidX${className}".map { "~" }.joinToString(separator = "")
-
-            return """
-                src/androidx/AndroidX$className.java:7: Warning: This class doesn't need an @${ANDROID_ENTRY_POINT.substringAfterLast(".")} annotation [UnnecessaryAndroidEntryPointAnnotation]
-                class AndroidX$className extends $className {}
-                      $errorHighlight
-                0 errors, 1 warnings
-            """
-        }
-
-        TestLintTask.lint()
-            .files(
-                *hiltAnnotations,
-                TestFiles.java(
-                        """
-                package $classPackage;
-
-                class $className {}
-
-                """
-                    )
-                    .indented(),
-                TestFiles.java(
-                        """
-                package androidx;
-
-                import $androidEntryPoint;
-                import $ANDROID_ENTRY_POINT;
-
-                @${ANDROID_ENTRY_POINT.substringAfterLast(".")}
-                class AndroidX$className extends $className {}
-                    """
-                    )
-                    .indented(),
-            )
-            .issues(MissingAndroidEntryPointDetector.ISSUE_UNNECESSARY_ANNOTATION)
-            .run()
-            .expect(expectedErrorMessage())
-            .expectWarningCount(1)
     }
 }

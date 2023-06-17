@@ -57,9 +57,9 @@ internal class MissingAndroidEntryPointDetector : Detector(), SourceCodeScanner 
                             isMissingAndroidEntryPointAnnotation
                     ) {
                         context.report(
-                            Incident(context, ISSUE_MISSING_ANNOTATION)
+                            Incident(context, ISSUE)
                                 .location(context.getNameLocation(node))
-                                .message(ISSUE_MISSING_ANNOTATION.getExplanation(TextFormat.RAW))
+                                .message(ISSUE.getExplanation(TextFormat.RAW))
                                 .fix(
                                     fix()
                                         .name(
@@ -70,19 +70,6 @@ internal class MissingAndroidEntryPointDetector : Detector(), SourceCodeScanner 
                                         .build(),
                                 )
                         )
-                    } else if (
-                        isSubClass &&
-                            injectedFields.isEmpty() &&
-                            !isMissingAndroidEntryPointAnnotation
-                    ) {
-                        context.report(
-                            Incident(context, ISSUE_UNNECESSARY_ANNOTATION)
-                                .location(context.getNameLocation(node))
-                                .message(
-                                    "This class doesn't need an `@AndroidEntryPoint` annotation"
-                                )
-                                .fix(null) // TODO
-                        )
                     }
                 }
             }
@@ -92,7 +79,7 @@ internal class MissingAndroidEntryPointDetector : Detector(), SourceCodeScanner 
         private val implementation =
             Implementation(MissingAndroidEntryPointDetector::class.java, Scope.JAVA_FILE_SCOPE)
 
-        internal val ISSUE_MISSING_ANNOTATION =
+        internal val ISSUE =
             Issue.create(
                 id = "MissingAndroidEntryPointAnnotation",
                 briefDescription = "Android Component is missing @AndroidEntryPoint annotation",
@@ -105,17 +92,6 @@ internal class MissingAndroidEntryPointDetector : Detector(), SourceCodeScanner 
                 category = Category.CORRECTNESS,
                 priority = 5,
                 severity = Severity.ERROR,
-                implementation = implementation
-            )
-
-        internal val ISSUE_UNNECESSARY_ANNOTATION =
-            Issue.create(
-                id = "UnnecessaryAndroidEntryPointAnnotation",
-                briefDescription = "Android Component doesn't need @AndroidEntryPoint annotation",
-                explanation = "Hello friend",
-                category = Category.CORRECTNESS,
-                priority = 5,
-                severity = Severity.WARNING,
                 implementation = implementation
             )
     }
