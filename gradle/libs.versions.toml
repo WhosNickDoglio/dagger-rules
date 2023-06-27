@@ -6,7 +6,7 @@ lint = "31.0.2"
 detekt = "1.23.0"
 dagger = "2.46.1"
 ktlint = "0.49.1"
-kover = "0.7.1"
+kover = "0.7.2"
 spotless = "6.19.0"
 
 [plugins]
