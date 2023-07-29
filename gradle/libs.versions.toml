@@ -29,7 +29,7 @@ kotlin-bom = { module = "org.jetbrains.kotlin:kotlin-bom", version.ref = "kotlin
 
 dagger = { module = "com.google.dagger:dagger", version.ref = "dagger" }
 hilt = { module = "com.google.dagger:hilt-android", version.ref = "dagger" }
-anvil = { module = "com.squareup.anvil:annotations", version = "2.4.7-1-8" }
+anvil = { module = "com.squareup.anvil:annotations", version = "2.4.7" }
 
 lint-api = { module = "com.android.tools.lint:lint-api", version.ref = "lint" }
 lint-checks = { module = "com.android.tools.lint:lint-checks", version.ref = "lint" }
