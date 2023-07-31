@@ -68,7 +68,7 @@ configure<SpotlessExtension> {
     }
 }
 
-configure<KotlinJvmProjectExtension> { jvmToolchain(19) }
+configure<KotlinJvmProjectExtension> { jvmToolchain(20) }
 
 tasks.withType<JavaCompile>().configureEach { options.release.set(11) }
 
