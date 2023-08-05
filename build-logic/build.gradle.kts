@@ -11,7 +11,7 @@ plugins {
     alias(libs.plugins.detekt)
 }
 
-kotlin { jvmToolchain(19) }
+kotlin { jvmToolchain(20) }
 
 configure<com.diffplug.gradle.spotless.SpotlessExtension> {
 
