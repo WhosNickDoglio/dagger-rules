@@ -2,7 +2,7 @@
 agp = "8.1.1"
 kotlin = "1.9.0"
 ktfmt = "0.44"
-lint = "31.1.0"
+lint = "31.1.1"
 detekt = "1.23.1"
 dagger = "2.47"
 ktlint = "0.50.0"
