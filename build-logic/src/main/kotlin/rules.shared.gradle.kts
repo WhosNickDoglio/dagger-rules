@@ -3,6 +3,7 @@
  * SPDX-License-Identifier: MIT
  */
 
+import com.android.build.api.dsl.Lint
 import com.diffplug.gradle.spotless.SpotlessExtension
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.gradle.api.tasks.testing.logging.TestLogEvent
@@ -23,7 +24,7 @@ val catalog =
 
 val libs = catalog.named("libs")
 
-lint {
+configure<Lint> {
     htmlReport = false
     xmlReport = false
     textReport = true
@@ -86,7 +87,4 @@ tasks.withType<KotlinCompile>().configureEach {
 
 dependencies {
     "compileOnly"(platform(libs.findLibrary("kotlin-bom").get()))
-    "compileOnly"(libs.findBundle("lintApi").get())
-    "testImplementation"(libs.findBundle("test").get())
-    "testImplementation"(libs.findBundle("lintTest").get())
 }
