@@ -8,12 +8,14 @@ import com.android.tools.lint.client.api.IssueRegistry
 import com.android.tools.lint.client.api.Vendor
 import com.android.tools.lint.detector.api.CURRENT_API
 import com.android.tools.lint.detector.api.Issue
+import com.google.auto.service.AutoService
 import dev.whosnickdoglio.anvil.detectors.ContributesBindingMustHaveSuperDetector
 import dev.whosnickdoglio.anvil.detectors.FavorContributesBindingOverBindsDetector
 import dev.whosnickdoglio.anvil.detectors.MissingContributesBindingDetector
 import dev.whosnickdoglio.anvil.detectors.MissingContributesToDetector
 import dev.whosnickdoglio.anvil.detectors.NoAnvilInJavaDetector
 
+@AutoService(IssueRegistry::class)
 class AnvilRulesIssueRegistry : IssueRegistry() {
 
     override val issues: List<Issue> =
