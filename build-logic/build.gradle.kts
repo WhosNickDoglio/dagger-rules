@@ -36,4 +36,5 @@ dependencies {
     implementation(libs.detekt.gradle)
     implementation(libs.android.gradle)
     implementation(libs.kover.gradle)
+    implementation(libs.sortDependencies.gradle)
 }

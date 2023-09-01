@@ -8,8 +8,10 @@ plugins {
 }
 
 dependencies {
-    implementation(projects.lint.shared)
     ksp(libs.autoService.ksp)
+
     implementation(libs.autoService.annotations)
+    implementation(projects.lint.shared)
+
     testImplementation(projects.lint.testStubs)
 }

@@ -17,6 +17,7 @@ plugins {
     id("com.diffplug.spotless")
     id("com.android.lint")
     id("org.jetbrains.kotlinx.kover")
+    id("com.squareup.sort-dependencies")
 }
 
 val catalog =
