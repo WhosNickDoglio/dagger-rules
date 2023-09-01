@@ -3,8 +3,6 @@
  * SPDX-License-Identifier: MIT
  */
 
-import com.diffplug.spotless.LineEnding
-
 plugins {
     `kotlin-dsl`
     alias(libs.plugins.spotless)
