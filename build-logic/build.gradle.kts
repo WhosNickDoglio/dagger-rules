@@ -14,11 +14,6 @@ plugins {
 kotlin { jvmToolchain(20) }
 
 configure<com.diffplug.gradle.spotless.SpotlessExtension> {
-
-    // https://github.com/diffplug/spotless/issues/1527
-    // https://github.com/diffplug/spotless/issues/1644
-    lineEndings = LineEnding.PLATFORM_NATIVE
-
     format("misc") {
         target("*.md", ".gitignore")
         trimTrailingWhitespace()

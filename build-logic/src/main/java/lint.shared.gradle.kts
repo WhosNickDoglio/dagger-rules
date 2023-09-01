@@ -35,16 +35,7 @@ lint {
     baseline = file("lint-baseline.xml")
 }
 
-tasks.withType<SpotlessTask>().configureEach {
-    notCompatibleWithConfigurationCache("https://github.com/diffplug/spotless/issues/987")
-}
-
 configure<SpotlessExtension> {
-
-    // https://github.com/diffplug/spotless/issues/1527
-    // https://github.com/diffplug/spotless/issues/1644
-    lineEndings = LineEnding.PLATFORM_NATIVE
-
     format("misc") {
         target("*.md", ".gitignore")
         trimTrailingWhitespace()
