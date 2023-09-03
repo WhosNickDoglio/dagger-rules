@@ -53,7 +53,7 @@ class nor could they be reassigned somewhere within the class, because Dagger re
 mutable this gives things outside our class the ability to mutate or reassign our dependencies which could lead to
 unpredictable and hard to debug issues.
 
-More information here: [Keeping the Daggers Sharp](https://developer.squareup.com/blog/keeping-the-daggers-sharp)
+More information here: [Keeping the Daggers Sharp](https://developer.squareup.com/blog/keeping-the-daggers-sharp/#favor-constructor-injection-over-field-injection)
 
 [//]: # (TODO mention `AppComponentFactory` and `FragmentFactory`)
 
@@ -88,6 +88,20 @@ consumers can easily swap out different implementations of an interface in diffe
 parameter of a `@Binds` method **needs** to be a subclass of the return type or else Dagger will throw an error at
 compile time. `error: @Binds methods' parameter type must be assignable to the return type`
 
+```kotlin
+@Module
+interface BindsModule {
+
+    // Safe
+    @Binds
+    fun bindNetworkRepository(impl: NetworkRepository): Repository
+
+    // Not Safe
+    @Binds
+    fun bindRepository(impl: NotARepository): Repository
+}
+```
+
 ### Correct `@Component.Factory`
 
 [//]: # (TODO write this lint rule)
@@ -103,9 +117,9 @@ pick up these methods and apply them to your Dagger graph, without this annotati
 
 ### `@Provides` methods should be static
 
-`@Provides` methods that are static will generate will allow Dagger to generate more efficent code under the hood.
+`@Provides` methods that are static will generate will allow Dagger to generate more efficient code under the hood.
 
-More information here: [Keeping the Daggers Sharp](https://developer.squareup.com/blog/keeping-the-daggers-sharp)
+More information here: [Keeping the Daggers Sharp](https://developer.squareup.com/blog/keeping-the-daggers-sharp/#favor-static-provides-methods)
 
 ### Valid `@Component` methods
 
