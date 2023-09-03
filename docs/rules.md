@@ -67,7 +67,7 @@ not. `error: @Binds methods must be abstract`
 The `@Binds` annotation is used to connect a concrete implementation of a class to it's interface in the Dagger graph so
 consumers can easily swap out different implementations of an interface in different scenarios (prod vs test code). The
 parameter of a `@Binds` method **needs** to be a subclass of the return type or else Dagger will throw an error at
-compile time.
+compile time. `error: @Binds methods' parameter type must be assignable to the return type`
 
 ### Correct `@Component.Factory`
 
