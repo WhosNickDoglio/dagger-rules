@@ -53,7 +53,9 @@ class nor could they be reassigned somewhere within the class, because Dagger re
 mutable this gives things outside our class the ability to mutate or reassign our dependencies which could lead to
 unpredictable and hard to debug issues.
 
-[//]: # (TODO) mention `AppComponentFactory` and `FragmentFactory`
+More information here: [Keeping the Daggers Sharp](https://developer.squareup.com/blog/keeping-the-daggers-sharp)
+
+[//]: # (TODO mention `AppComponentFactory` and `FragmentFactory`)
 
 ### Methods annotated with `@Binds` must be abstract
 
@@ -61,6 +63,23 @@ Methods annotated with the [`@Binds` annotation](https://dagger.dev/api/latest/d
 The `@Binds` annotation is used to tell Dagger to delegate to a concrete implementation when injecting an interface.
 Dagger requires these methods to be abstract and will throw an error at compile time if they are
 not. `error: @Binds methods must be abstract`
+
+```kotlin
+
+// Safe
+@Module
+interface MyModule {
+    fun bindMyThing(impl: MyThingImpl): MyThing
+}
+
+// Not Safe!
+@Module
+object MyModule {
+
+    @Binds
+    fun bindMyThing(): MyThing = MyThingImpl()
+}
+```
 
 ### A `@Binds` method parameter should be a subclass of it's return type
 
@@ -71,7 +90,11 @@ compile time. `error: @Binds methods' parameter type must be assignable to the r
 
 ### Correct `@Component.Factory`
 
+[//]: # (TODO write this lint rule)
+
 ### Correct `@Component.Builder`
+
+[//]: # (TODO write this lint rule)
 
 ### Classes with `@Provides`, `@Binds` or `@Multibinds` methods should be annotated with `@Module`
 
@@ -80,7 +103,40 @@ pick up these methods and apply them to your Dagger graph, without this annotati
 
 ### `@Provides` methods should be static
 
+`@Provides` methods that are static will generate will allow Dagger to generate more efficent code under the hood.
+
+More information here: [Keeping the Daggers Sharp](https://developer.squareup.com/blog/keeping-the-daggers-sharp)
+
 ### Valid `@Component` methods
+
+`@Components` and `@Subcomponents` only support two types of methods, provision methods and members-injection methods.
+Trying to add any other kind of method to your component will lead to a crash at compile time.
+
+#### Provision methods
+
+Provision methods cover exposing specific dependencies from your graph via the `@Component` and are defined as "
+Provision methods have no parameters and return an injected or provided type".
+
+```kotlin
+
+// All valid provision methods
+@Component
+interface AppComponent {
+
+    fun myThing(): MyThing
+
+    fun myMultipleOtherThings(): Set<MyOtherThing>
+
+    @Qualified
+    fun MyQualifiedThing(): MyQualifiedThing
+}
+```
+
+#### Member-injection methods
+
+Member injection methods
+
+More information here: [`@Component` Dagger documentation](https://dagger.dev/api/latest/dagger/Component.html)
 
 ## Anvil Rules
 
@@ -123,6 +179,9 @@ class NetworkRepository @Inject constructor() : Repository
 
 ### A class annotated with `@Module` should also be annotated with `@ContributesTo`
 
+The [`@ContributesTo` annotation from Anvil](https://github.com/square/anvil/blob/main/annotations/src/main/java/com/squareup/anvil/annotations/ContributesTo.kt)
+is how Anvil connects a Dagger `@Module` in the dependency graph to the Dagger `@Component` for the provided scope.
+
 ### Anvil cannot be used from Java
 
 [Anvil is a Kotlin compiler plugin and therefor does not support being used within Java code.](https://github.com/square/anvil#no-java-support)
@@ -135,7 +194,7 @@ The [`@EntryPoint` annotation](https://dagger.dev/api/latest/dagger/hilt/EntryPo
 
 [Read more about it in the Hilt documentation](https://dagger.dev/hilt/entry-points)
 
-### Android components should be annotated with `AndroidEntryPoint`
+### Android components should be annotated with `@AndroidEntryPoint`
 
 ### `Application` subclasses should be annotated with `@HiltAndroidApp`
 
