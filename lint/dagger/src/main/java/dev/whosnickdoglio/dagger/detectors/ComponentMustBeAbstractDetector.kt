@@ -54,7 +54,7 @@ internal class ComponentMustBeAbstractDetector : Detector(), SourceCodeScanner {
                 briefDescription = "A Dagger `Component` must be an interface or abstract",
                 explanation =
                     """
-                    A class annotated with @Component or @Subcomponent need to be abstract.
+                    A type annotated with @Component or @Subcomponent need to be abstract.
 
                     See https://whosnickdoglio.dev/dagger-rules/rules/#classes-annotated-with-component-must-be-abstract for more information.
                 """,

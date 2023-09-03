@@ -2,9 +2,10 @@
 
 [//]: # (TODO add sources or links for rules that them)
 
-### Classes annotated with `@Component` must be abstract
+### Types annotated with `@Component` must be abstract
 
-The [`@Component` annotation](https://dagger.dev/api/latest/dagger/Component.html) needs to be abstract so Dagger can
+Types annotated with the [`@Component` annotation](https://dagger.dev/api/latest/dagger/Component.html) need to be
+abstract so Dagger can
 generate a class that implements it. if a concrete class is annotated with `@Component` Dagger will throw an error at
 compile time. `error: @Component may only be applied to an interface or abstract class`
 
@@ -25,7 +26,8 @@ class MyComponent
 
 ### Prefer constructor injection over field injection
 
-Field injection should only ever be used for classes that you don't manage their creation (`Activities` or `Fragments`)
+Field injection should only ever be used for classes that you don't manage their creation (like Android `Activities`
+or `Fragments`)
 if the creation of the class you're trying to add to the Dagger graph isn't managed by something else like the Android
 OS you should be using constructor injection.
 
@@ -55,9 +57,10 @@ unpredictable and hard to debug issues.
 
 ### Methods annotated with `@Binds` must be abstract
 
-The [`@Binds` annotation](https://dagger.dev/api/latest/dagger/Binds.html)
-
-`error: @Binds methods must be abstract`
+Methods annotated with the [`@Binds` annotation](https://dagger.dev/api/latest/dagger/Binds.html) need to be abstract.
+The `@Binds` annotation is used to tell Dagger to delegate to a concrete implementation when injecting an interface.
+Dagger requires these methods to be abstract and will throw an error at compile time if they are
+not. `error: @Binds methods must be abstract`
 
 ### A `@Binds` method parameter should be a subclass of it's return type
 
@@ -122,7 +125,7 @@ class NetworkRepository @Inject constructor() : Repository
 
 ### Anvil cannot be used from Java
 
-[Anvil is a Kotlin compiler plugin and therefor does not support being used within Java code.](https://github.com/square/anvil#no-java-support) 
+[Anvil is a Kotlin compiler plugin and therefor does not support being used within Java code.](https://github.com/square/anvil#no-java-support)
 
 ## Hilt Rules
 
