@@ -5,7 +5,7 @@ ktfmt = "0.44"
 lint = "31.1.1"
 detekt = "1.23.1"
 dagger = "2.48"
-ktlint = "0.50.0"
+ktlint = "1.0.0"
 kover = "0.7.3"
 spotless = "6.21.0"
 
