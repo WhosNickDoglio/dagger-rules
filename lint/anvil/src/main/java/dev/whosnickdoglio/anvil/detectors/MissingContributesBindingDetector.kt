@@ -36,16 +36,16 @@ internal class MissingContributesBindingDetector : Detector(), SourceCodeScanner
         if (!isKotlin(context.uastFile?.lang)) return null
         return object : UElementHandler() {
             override fun visitClass(node: UClass) {
-                val doesNotHaveBindingAnnotations =
-                    !(node.hasAnnotation(CONTRIBUTES_BINDING) ||
-                        node.hasAnnotation(CONTRIBUTES_MULTI_BINDING))
+                val hasBindingAnnotations =
+                    node.hasAnnotation(CONTRIBUTES_BINDING) ||
+                        node.hasAnnotation(CONTRIBUTES_MULTI_BINDING)
 
                 if (
                     node.constructors.any { method -> method.hasAnnotation(INJECT) } &&
                         // TODO this feels naive
                         // Ignore Any
                         node.superTypes.size > 1 &&
-                        doesNotHaveBindingAnnotations
+                        !hasBindingAnnotations
                 ) {
                     val hasNoGenerics = node.superTypes.filter { !it.hasParameters() }
 
