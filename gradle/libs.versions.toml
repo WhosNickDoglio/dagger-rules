@@ -5,7 +5,7 @@ ktfmt = "0.46"
 lint = "31.1.2"
 detekt = "1.23.1"
 dagger = "2.48.1"
-kover = "0.7.3"
+kover = "0.7.4"
 spotless = "6.22.0"
 
 [plugins]
