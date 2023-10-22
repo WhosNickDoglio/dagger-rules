@@ -308,7 +308,7 @@ exceptions:
 naming:
   active: true
   BooleanPropertyNaming:
-    active: true
+    active: false
     allowedPattern: '^(is|has|are)'
   ClassNaming:
     active: true

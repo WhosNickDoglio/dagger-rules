@@ -11,6 +11,18 @@ import org.junit.Test
 
 class MissingModuleAnnotationDetectorTest {
 
+    private val bindsTestFile =
+        TestFiles.kotlin(
+                """
+                     interface PizzaMaker
+                     class PizzaMakerImpl: PizzaMaker
+
+                    interface CoffeeMaker
+                    class CoffeeMakerImpl: CoffeeMaker
+                    """
+            )
+            .indented()
+
     @Test
     fun `kotlin @Module with @Provides method and without annotation shows an error`() {
         TestLintTask.lint()
@@ -26,6 +38,9 @@ class MissingModuleAnnotationDetectorTest {
 
                         @Provides
                         fun doSomething(): String = "Hello"
+
+                        @Provides
+                        fun doSomethingElse(): String = "World"
                 }
                 """
                     )
@@ -74,6 +89,9 @@ class MissingModuleAnnotationDetectorTest {
 
                         @Provides
                         fun doSomething(): String = "Hello"
+
+                        @Provides
+                        fun doSomethingElse(): String = "World"
                 }
                 """
                     )
@@ -90,13 +108,7 @@ class MissingModuleAnnotationDetectorTest {
         TestLintTask.lint()
             .files(
                 daggerAnnotations,
-                TestFiles.kotlin(
-                        """
-                 interface PizzaMaker
-                 class PizzaMakerImpl: PizzaMaker
-                """
-                    )
-                    .indented(),
+                bindsTestFile,
                 TestFiles.kotlin(
                         """
                 package com.test.android
@@ -106,7 +118,10 @@ class MissingModuleAnnotationDetectorTest {
                  interface MyModule {
 
                         @Binds
-                        fun doSomething(impl: PizzaMakerImpl): PizzaMaker
+                        fun bindPizza(impl: PizzaMakerImpl): PizzaMaker
+
+                        @Binds
+                        fun bindCoffee(impl: CoffeeMakerImpl): CoffeeMaker
                 }
                 """
                     )
@@ -143,13 +158,7 @@ class MissingModuleAnnotationDetectorTest {
         TestLintTask.lint()
             .files(
                 daggerAnnotations,
-                TestFiles.kotlin(
-                        """
-                 interface PizzaMaker
-                 class PizzaMakerImpl
-                """
-                    )
-                    .indented(),
+                bindsTestFile,
                 TestFiles.kotlin(
                         """
                 package com.test.android
@@ -161,7 +170,10 @@ class MissingModuleAnnotationDetectorTest {
                  interface MyModule {
 
                         @Binds
-                        fun doSomething(impl: PizzaMakerImpl): PizzaMaker
+                        fun bindPizza(impl: PizzaMakerImpl): PizzaMaker
+
+                        @Binds
+                        fun bindCoffee(impl: CoffeeMakerImpl): CoffeeMaker
                 }
                 """
                     )
@@ -195,6 +207,9 @@ class MissingModuleAnnotationDetectorTest {
 
                         @Binds
                         fun doSomething(impl: PizzaMakerImpl): PizzaMaker
+
+                        @Binds
+                        fun coffee(impl: CoffeMakerImpl): CoffeeMaker
 
                         companion object {
                             @Provides fun provideMyThing(): String = "Hello World"
@@ -235,13 +250,7 @@ class MissingModuleAnnotationDetectorTest {
         TestLintTask.lint()
             .files(
                 daggerAnnotations,
-                TestFiles.kotlin(
-                        """
-                 interface PizzaMaker
-                 class PizzaMakerImpl
-                """
-                    )
-                    .indented(),
+                bindsTestFile,
                 TestFiles.kotlin(
                         """
                 package com.test.android
@@ -255,6 +264,9 @@ class MissingModuleAnnotationDetectorTest {
 
                         @Binds
                         fun doSomething(impl: PizzaMakerImpl): PizzaMaker
+
+                        @Binds
+                        fun coffee(impl: CoffeeMakerImpl): CoffeeMaker
 
                         companion object {
                             @Provides fun provideMyThing(): String = "Hello World"
@@ -285,6 +297,11 @@ class MissingModuleAnnotationDetectorTest {
                         @Provides
                         String doSomething() {
                             return "Hell World";
+                        }
+
+                        @Provides
+                        Boolean isDebug() {
+                            return false;
                         }
                 }
                 """
@@ -336,6 +353,11 @@ class MissingModuleAnnotationDetectorTest {
                         String doSomething() {
                             return "Hello World";
                         }
+
+                        @Provides
+                        Boolean isDebug() {
+                            return false;
+                        }
                 }
                 """
                     )
@@ -352,13 +374,7 @@ class MissingModuleAnnotationDetectorTest {
         TestLintTask.lint()
             .files(
                 daggerAnnotations,
-                TestFiles.kotlin(
-                        """
-                 interface PizzaMaker
-                 class PizzaMakerImpl: PizzaMaker
-                """
-                    )
-                    .indented(),
+                bindsTestFile,
                 TestFiles.java(
                         """
                 package com.test.android;
@@ -369,6 +385,9 @@ class MissingModuleAnnotationDetectorTest {
 
                         @Binds
                         PizzaMaker doSomething(PizzaMakerImpl impl);
+
+                        @Binds
+                        CoffeeMaker coffee(CoffeeMakerImpl impl);
                 }
                 """
                     )
@@ -405,13 +424,7 @@ class MissingModuleAnnotationDetectorTest {
         TestLintTask.lint()
             .files(
                 daggerAnnotations,
-                TestFiles.kotlin(
-                        """
-                 interface PizzaMaker
-                 class PizzaMakerImpl
-                """
-                    )
-                    .indented(),
+                bindsTestFile,
                 TestFiles.java(
                         """
                 package com.test.android;
@@ -424,6 +437,9 @@ class MissingModuleAnnotationDetectorTest {
 
                         @Binds
                         PizzaMaker doSomething(PizzaMakerImpl impl);
+
+                        @Binds
+                        CoffeeMaker coffee(CoffeeMakerImpl impl);
                 }
                 """
                     )
