@@ -13,7 +13,7 @@ detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
 lint = { id = "com.android.lint", version.ref = "agp" }
 doctor = { id = "com.osacky.doctor", version = "0.9.0" }
 spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
-dependencyAnalysis = { id = "com.autonomousapps.dependency-analysis", version = "1.25.0" }
+dependencyAnalysis = { id = "com.autonomousapps.dependency-analysis", version = "1.26.0" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
 ksp = { id = "com.google.devtools.ksp", version = "1.9.20-1.0.14" }
