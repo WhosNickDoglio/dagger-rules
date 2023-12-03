@@ -9,7 +9,7 @@ plugins {
     alias(libs.plugins.detekt)
 }
 
-kotlin { jvmToolchain(20) }
+kotlin { jvmToolchain(21) }
 
 configure<com.diffplug.gradle.spotless.SpotlessExtension> {
     format("misc") {
