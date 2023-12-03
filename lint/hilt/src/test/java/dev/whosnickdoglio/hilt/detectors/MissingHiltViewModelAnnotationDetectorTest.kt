@@ -7,7 +7,7 @@ package dev.whosnickdoglio.hilt.detectors
 import com.android.tools.lint.checks.infrastructure.TestFiles
 import com.android.tools.lint.checks.infrastructure.TestLintTask
 import dev.whosnickdoglio.hilt.HILT_VIEW_MODEL
-import dev.whosnickdoglio.stubs.injectAnnotation
+import dev.whosnickdoglio.stubs.javaxAnnotations
 import org.junit.Test
 
 class MissingHiltViewModelAnnotationDetectorTest {
@@ -26,7 +26,7 @@ class MissingHiltViewModelAnnotationDetectorTest {
         TestLintTask.lint()
             .files(
                 *hiltAnnotations,
-                injectAnnotation,
+                javaxAnnotations,
                 viewModelStub,
                 TestFiles.kotlin(
                         """
@@ -71,7 +71,7 @@ class MissingHiltViewModelAnnotationDetectorTest {
         TestLintTask.lint()
             .files(
                 *hiltAnnotations,
-                injectAnnotation,
+                javaxAnnotations,
                 viewModelStub,
                 TestFiles.java(
                         """
@@ -164,7 +164,7 @@ class MissingHiltViewModelAnnotationDetectorTest {
         TestLintTask.lint()
             .files(
                 *hiltAnnotations,
-                injectAnnotation,
+                javaxAnnotations,
                 viewModelStub,
                 TestFiles.kotlin(
                         """
@@ -213,7 +213,7 @@ class MissingHiltViewModelAnnotationDetectorTest {
             .files(
                 *hiltAnnotations,
                 viewModelStub,
-                injectAnnotation,
+                javaxAnnotations,
                 TestFiles.kotlin(
                         """
                 import androidx.lifecycle.ViewModel
@@ -237,7 +237,7 @@ class MissingHiltViewModelAnnotationDetectorTest {
         TestLintTask.lint()
             .files(
                 *hiltAnnotations,
-                injectAnnotation,
+                javaxAnnotations,
                 viewModelStub,
                 TestFiles.java(
                         """

@@ -10,7 +10,7 @@ import com.google.testing.junit.testparameterinjector.TestParameter
 import com.google.testing.junit.testparameterinjector.TestParameterInjector
 import dev.whosnickdoglio.anvil.CONTRIBUTES_BINDING
 import dev.whosnickdoglio.anvil.CONTRIBUTES_MULTI_BINDING
-import dev.whosnickdoglio.stubs.injectAnnotation
+import dev.whosnickdoglio.stubs.javaxAnnotations
 import org.junit.Test
 import org.junit.runner.RunWith
 
@@ -23,7 +23,7 @@ class MissingContributesBindingDetectorTest {
         TestLintTask.lint()
             .files(
                 anvilAnnotations,
-                injectAnnotation,
+                javaxAnnotations,
                 TestFiles.kotlin(
                         """
                     import javax.inject.Inject
@@ -71,7 +71,7 @@ class MissingContributesBindingDetectorTest {
         TestLintTask.lint()
             .files(
                 anvilAnnotations,
-                injectAnnotation,
+                javaxAnnotations,
                 TestFiles.kotlin(
                         """
                     import javax.inject.Inject
@@ -94,7 +94,7 @@ class MissingContributesBindingDetectorTest {
         TestLintTask.lint()
             .files(
                 anvilAnnotations,
-                injectAnnotation,
+                javaxAnnotations,
                 TestFiles.kotlin(
                         """
                     import javax.inject.Inject
@@ -118,7 +118,7 @@ class MissingContributesBindingDetectorTest {
     fun `kotlin class without @ContributesBinding annotation but only super takes generics shows no warning`() {
         TestLintTask.lint()
             .files(
-                injectAnnotation,
+                javaxAnnotations,
                 TestFiles.kotlin(
                         """
                     import javax.inject.Inject
@@ -140,7 +140,7 @@ class MissingContributesBindingDetectorTest {
     fun `kotlin class without @ContributesBinding annotation with a multiple supers shows a warning`() {
         TestLintTask.lint()
             .files(
-                injectAnnotation,
+                javaxAnnotations,
                 TestFiles.kotlin(
                         """
                     import javax.inject.Inject
@@ -191,7 +191,7 @@ class MissingContributesBindingDetectorTest {
         TestLintTask.lint()
             .files(
                 anvilAnnotations,
-                injectAnnotation,
+                javaxAnnotations,
                 TestFiles.kotlin(
                         """
                     import javax.inject.Inject
@@ -237,7 +237,7 @@ class MissingContributesBindingDetectorTest {
         TestLintTask.lint()
             .files(
                 anvilAnnotations,
-                injectAnnotation,
+                javaxAnnotations,
                 TestFiles.java(
                         """
                     import javax.inject.Inject;
@@ -264,7 +264,7 @@ class MissingContributesBindingDetectorTest {
         TestLintTask.lint()
             .files(
                 anvilAnnotations,
-                injectAnnotation,
+                javaxAnnotations,
                 TestFiles.java(
                         """
                     import javax.inject.Inject;

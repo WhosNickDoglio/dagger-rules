@@ -8,7 +8,7 @@ import com.android.tools.lint.checks.infrastructure.TestFiles
 import com.android.tools.lint.checks.infrastructure.TestLintTask
 import com.google.testing.junit.testparameterinjector.TestParameter
 import com.google.testing.junit.testparameterinjector.TestParameterInjector
-import dev.whosnickdoglio.stubs.injectAnnotation
+import dev.whosnickdoglio.stubs.javaxAnnotations
 import org.junit.Test
 import org.junit.runner.RunWith
 
@@ -21,7 +21,7 @@ class ConstructorInjectionOverFieldInjectionDetectorTest {
     fun `android component subclass in kotlin does not triggers member injection warning`() {
         TestLintTask.lint()
             .files(
-                injectAnnotation,
+                javaxAnnotations,
                 TestFiles.kotlin(
                         """
                 package ${component.classPackage}
@@ -69,7 +69,7 @@ class ConstructorInjectionOverFieldInjectionDetectorTest {
     fun `android component subclass in java does not triggers member injection warning`() {
         TestLintTask.lint()
             .files(
-                injectAnnotation,
+                javaxAnnotations,
                 TestFiles.java(
                         """
                 package ${component.classPackage};
@@ -117,7 +117,7 @@ class ConstructorInjectionOverFieldInjectionDetectorTest {
     fun `kotlin class that could use constructor injection triggers member injection warning`() {
         TestLintTask.lint()
             .files(
-                injectAnnotation,
+                javaxAnnotations,
                 TestFiles.kotlin(
                         """
             package com.test.android
@@ -155,7 +155,7 @@ class ConstructorInjectionOverFieldInjectionDetectorTest {
     fun `java class that could use constructor injection triggers member injection warning`() {
         TestLintTask.lint()
             .files(
-                injectAnnotation,
+                javaxAnnotations,
                 TestFiles.java(
                         """
             package com.test.android;

@@ -35,12 +35,25 @@ val daggerMultibindingAnnotations: TestFile =
             .trimIndent()
     )
 
-val injectAnnotation: TestFile =
+val daggerAssistedAnnotations: TestFile =
+    TestFiles.kotlin(
+        """
+    package  dagger.assisted
+
+    annotation class Assisted
+    annotation class AssistedFactory
+    annotation class AssistedInject
+"""
+            .trimIndent()
+    )
+
+val javaxAnnotations: TestFile =
     TestFiles.kotlin(
         """
     package javax.inject
 
     annotation class Inject
+    annotation class Scope
 """
             .trimIndent()
     )

@@ -11,7 +11,7 @@ import com.google.testing.junit.testparameterinjector.TestParameterInjector
 import dev.whosnickdoglio.anvil.CONTRIBUTES_BINDING
 import dev.whosnickdoglio.anvil.CONTRIBUTES_MULTI_BINDING
 import dev.whosnickdoglio.stubs.daggerAnnotations
-import dev.whosnickdoglio.stubs.injectAnnotation
+import dev.whosnickdoglio.stubs.javaxAnnotations
 import org.junit.Test
 import org.junit.runner.RunWith
 
@@ -26,7 +26,7 @@ class ContributesBindingMustHaveSuperDetectorTest {
         TestLintTask.lint()
             .files(
                 anvilAnnotations,
-                injectAnnotation,
+                javaxAnnotations,
                 TestFiles.kotlin(
                         """
                     import javax.inject.Inject
@@ -51,7 +51,7 @@ class ContributesBindingMustHaveSuperDetectorTest {
         TestLintTask.lint()
             .files(
                 anvilAnnotations,
-                injectAnnotation,
+                javaxAnnotations,
                 TestFiles.kotlin(
                         """
                     import javax.inject.Inject

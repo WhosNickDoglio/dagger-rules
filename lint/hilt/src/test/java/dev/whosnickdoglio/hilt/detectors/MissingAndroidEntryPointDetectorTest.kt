@@ -9,7 +9,7 @@ import com.android.tools.lint.checks.infrastructure.TestLintTask
 import com.google.testing.junit.testparameterinjector.TestParameter
 import com.google.testing.junit.testparameterinjector.TestParameterInjector
 import dev.whosnickdoglio.hilt.ANDROID_ENTRY_POINT
-import dev.whosnickdoglio.stubs.injectAnnotation
+import dev.whosnickdoglio.stubs.javaxAnnotations
 import org.junit.Test
 import org.junit.runner.RunWith
 
@@ -36,7 +36,7 @@ class MissingAndroidEntryPointDetectorTest {
 
         TestLintTask.lint()
             .files(
-                injectAnnotation,
+                javaxAnnotations,
                 *hiltAnnotations,
                 TestFiles.java(
                         """
@@ -101,7 +101,7 @@ class MissingAndroidEntryPointDetectorTest {
         TestLintTask.lint()
             .files(
                 *hiltAnnotations,
-                injectAnnotation,
+                javaxAnnotations,
                 TestFiles.java(
                         """
                 package $classPackage;
@@ -141,7 +141,7 @@ class MissingAndroidEntryPointDetectorTest {
         TestLintTask.lint()
             .files(
                 *hiltAnnotations,
-                injectAnnotation,
+                javaxAnnotations,
                 TestFiles.kotlin(
                         """
                 package $classPackage
@@ -205,7 +205,7 @@ class MissingAndroidEntryPointDetectorTest {
         TestLintTask.lint()
             .files(
                 *hiltAnnotations,
-                injectAnnotation,
+                javaxAnnotations,
                 TestFiles.kotlin(
                         """
                 package $classPackage
