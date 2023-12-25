@@ -49,10 +49,9 @@ detekt-test = { module = "io.gitlab.arturbosch.detekt:detekt-test", version.ref 
 ktfmt = { module = "com.facebook:ktfmt", version.ref = "ktfmt" }
 
 junit = { module = "junit:junit", version = "4.13.2" }
-truth = { module = "com.google.truth:truth", version = "1.2.0" }
 testParameterInjector = { module = "com.google.testparameterinjector:test-parameter-injector", version = "1.14" }
 
 [bundles]
 lintApi = ["lint-api", "lint-checks"]
 lintTest = ["lint", "lint-tests", "lint-testUtils"]
-test = ["junit", "truth", "testParameterInjector"]
+test = ["junit", "testParameterInjector"]
