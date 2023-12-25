@@ -16,7 +16,7 @@ spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
 dependencyAnalysis = { id = "com.autonomousapps.dependency-analysis", version = "1.28.0" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
-ksp = { id = "com.google.devtools.ksp", version = "1.9.21-1.0.16" }
+ksp = { id = "com.google.devtools.ksp", version = "1.9.22-1.0.16" }
 
 [libraries]
 spotless-gradle = { module = "com.diffplug.spotless:spotless-plugin-gradle", version.ref = "spotless" }
