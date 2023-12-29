@@ -14,7 +14,6 @@ import dev.whosnickdoglio.stubs.javaxAnnotations
 import org.junit.Test
 import org.junit.runner.RunWith
 
-@Suppress("JUnitMalformedDeclaration")
 @RunWith(TestParameterInjector::class)
 class MissingContributesBindingDetectorTest {
 
