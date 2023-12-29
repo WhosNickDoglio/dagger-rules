@@ -105,14 +105,6 @@ interface BindModule {
 }
 ```
 
-### Correct `@Component.Factory`
-
-[//]: # (TODO write this lint rule)
-
-### Correct `@Component.Builder`
-
-[//]: # (TODO write this lint rule)
-
 ### Classes with `@Provides`, `@Binds` or `@Multibinds` methods should be annotated with `@Module`
 
 A class or interface that contains `@Provides`, `@Binds` or `@Multibinds` methods requires the `@Module` for Dagger to
@@ -123,37 +115,6 @@ pick up these methods and apply them to your Dagger graph, without this annotati
 `@Provides` methods that are static will generate will allow Dagger to generate more efficient code under the hood.
 
 More information here: [Keeping the Daggers Sharp](https://developer.squareup.com/blog/keeping-the-daggers-sharp/#favor-static-provides-methods)
-
-### Valid `@Component` methods
-
-`@Components` and `@Subcomponents` only support two types of methods, provision methods and members-injection methods.
-Trying to add any other kind of method to your component will lead to a crash at compile time.
-
-#### Provision methods
-
-Provision methods cover exposing specific dependencies from your graph via the `@Component`
-and are defined as "Provision methods have no parameters and return an injected or provided type."
-
-```kotlin
-
-// All valid provision methods
-@Component
-interface AppComponent {
-
-    fun myThing(): MyThing
-
-    fun myMultipleOtherThings(): Set<MyOtherThing>
-
-    @Qualified
-    fun MyQualifiedThing(): MyQualifiedThing
-}
-```
-
-#### Member-injection methods
-
-Member injection methods
-
-More information here: [`@Component` Dagger documentation](https://dagger.dev/api/latest/dagger/Component.html)
 
 ## Anvil Rules
 
