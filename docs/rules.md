@@ -8,7 +8,9 @@ Types annotated with the [`@Component` annotation](https://dagger.dev/api/latest
 abstract so Dagger can
 generate a class that implements it.
 If a concrete class is annotated with `@Component` Dagger will throw an error at
-compile time. `error: @Component may only be applied to an interface or abstract class`
+compile time.
+
+`error: @Component may only be applied to an interface or abstract class`
 
 ```kotlin
 
@@ -51,12 +53,13 @@ a class constructor as a contract of sorts, "if I provide you these dependencies
 of this class", if we're doing field injection this resides **outside** the constructor and isn't intuitive that this
 class requires additional setup which can lead to consumers misusing it or bugs.
 The second being with constructor
- injection, we can make our dependencies both private and immutable, so they cannot be altered by anything outside this
+injection, we can make our dependencies both private and immutable, so they cannot be altered by anything outside this
 class nor could they be reassigned somewhere within the class, because Dagger requires field injection to be public and
 mutable this gives things outside our class the ability to mutate or reassign our dependencies which could lead to
 unpredictable and hard to debug issues.
 
-More information here: [Keeping the Daggers Sharp](https://developer.squareup.com/blog/keeping-the-daggers-sharp/#favor-constructor-injection-over-field-injection)
+More information
+here: [Keeping the Daggers Sharp](https://developer.squareup.com/blog/keeping-the-daggers-sharp/#favor-constructor-injection-over-field-injection)
 
 [//]: # (TODO mention `AppComponentFactory` and `FragmentFactory`)
 
@@ -65,7 +68,9 @@ More information here: [Keeping the Daggers Sharp](https://developer.squareup.co
 Methods annotated with the [`@Binds` annotation](https://dagger.dev/api/latest/dagger/Binds.html) need to be abstract.
 The `@Binds` annotation is used to tell Dagger to delegate to a concrete implementation when injecting an interface.
 Dagger requires these methods to be abstract and will throw an error at compile time if they are
-not. `error: @Binds methods must be abstract`
+not.
+
+`error: @Binds methods must be abstract`
 
 ```kotlin
 
@@ -89,7 +94,9 @@ object MyModule {
 The `@Binds` annotation is used to connect a concrete implementation of a class to it's interface in the Dagger graph so
 consumers can easily swap out different implementations of an interface in different scenarios (prod vs test code). The
 parameter of a `@Binds` method **needs** to be a subclass of the return type or else Dagger will throw an error at
-compile time. `error: @Binds methods' parameter type must be assignable to the return type`
+compile time.
+
+`error: @Binds methods' parameter type must be assignable to the return type`
 
 ```kotlin
 @Module
@@ -110,11 +117,62 @@ interface BindModule {
 A class or interface that contains `@Provides`, `@Binds` or `@Multibinds` methods requires the `@Module` for Dagger to
 pick up these methods and apply them to your Dagger graph, without this annotation Dagger will fail at compile time.
 
+```kotlin
+
+// Missing @Module annotation, nothing is added to DI graph
+interface MyBrokenModule {
+    @Binds
+    fun bind(impl: ThingImpl): Thing
+
+    companion object {
+        @Provides
+        fun provideMyFactory(): MyFactory = MyFactory.create()
+    }
+}
+
+@Module // everything added to DI graph!
+interface MyWorkingModule {
+    @Binds
+    fun bind(impl: ThingImpl): Thing
+
+    companion object {
+        @Provides
+        fun provideMyFactory(): MyFactory = MyFactory.create()
+    }
+}
+```
+
 ### `@Provides` methods should be static
 
 `@Provides` methods that are static will generate will allow Dagger to generate more efficient code under the hood.
 
-More information here: [Keeping the Daggers Sharp](https://developer.squareup.com/blog/keeping-the-daggers-sharp/#favor-static-provides-methods)
+In Java this would just be adding the `static` keyword to your provides method like so:
+
+```java
+
+@Module
+public final class StaticModule {
+
+    @Provides
+    public static MyFactory provideMyFactory() {
+        return MyFactory.create();
+    }
+}
+```
+
+In Kotlin as of Dagger [2.26](https://github.com/google/dagger/releases/tag/dagger-2.26) you only need to make your
+module a Kotlin `object` to get the same benefits as `static` in Java.
+
+```kotlin
+@Module
+object StaticModule {
+    @Provides
+    fun provideMyFactory(): MyFactory = MyFactory.create()
+}
+```
+
+More information
+here: [Keeping the Daggers Sharp](https://developer.squareup.com/blog/keeping-the-daggers-sharp/#favor-static-provides-methods)
 
 ## Anvil Rules
 
