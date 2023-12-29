@@ -4,4 +4,4 @@
  */
 plugins { id("lint.shared") }
 
-dependencies { implementation(libs.lint.tests) }
+dependencies { api(libs.lint.tests) }
