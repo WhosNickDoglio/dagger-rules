@@ -1,12 +1,13 @@
 ## Dagger Rules
 
-[//]: # (TODO add sources or links for rules that them)
+[//]: # (TODO add sources or links for rules that have them)
 
 ### Types annotated with `@Component` must be abstract
 
 Types annotated with the [`@Component` annotation](https://dagger.dev/api/latest/dagger/Component.html) need to be
 abstract so Dagger can
-generate a class that implements it. if a concrete class is annotated with `@Component` Dagger will throw an error at
+generate a class that implements it.
+If a concrete class is annotated with `@Component` Dagger will throw an error at
 compile time. `error: @Component may only be applied to an interface or abstract class`
 
 ```kotlin
@@ -44,11 +45,13 @@ class MyClass @Inject constructor(private val foo: Foo)
 
 ```
 
-There's a few reasons we want to favor constructor injection over field injection. The first being is we should think of
+There are a few reasons we want to favor constructor injection over field injection.
+The first being is we should think of
 a class constructor as a contract of sorts, "if I provide you these dependencies then in return you give me an instance
 of this class", if we're doing field injection this resides **outside** the constructor and isn't intuitive that this
-class requires additional setup which can lead to consumers misusing it or bugs. The second being with constructor
-injection we can make our dependencies both private and immutable, so they cannot be altered by anything outside this
+class requires additional setup which can lead to consumers misusing it or bugs.
+The second being with constructor
+ injection, we can make our dependencies both private and immutable, so they cannot be altered by anything outside this
 class nor could they be reassigned somewhere within the class, because Dagger requires field injection to be public and
 mutable this gives things outside our class the ability to mutate or reassign our dependencies which could lead to
 unpredictable and hard to debug issues.
@@ -90,7 +93,7 @@ compile time. `error: @Binds methods' parameter type must be assignable to the r
 
 ```kotlin
 @Module
-interface BindsModule {
+interface BindModule {
 
     // Safe
     @Binds
@@ -128,8 +131,8 @@ Trying to add any other kind of method to your component will lead to a crash at
 
 #### Provision methods
 
-Provision methods cover exposing specific dependencies from your graph via the `@Component` and are defined as "
-Provision methods have no parameters and return an injected or provided type".
+Provision methods cover exposing specific dependencies from your graph via the `@Component`
+and are defined as "Provision methods have no parameters and return an injected or provided type."
 
 ```kotlin
 
@@ -198,7 +201,7 @@ is how Anvil connects a Dagger `@Module` in the dependency graph to the Dagger `
 
 ### Anvil cannot be used from Java
 
-[Anvil is a Kotlin compiler plugin and therefor does not support being used within Java code.](https://github.com/square/anvil#no-java-support)
+[Anvil is a Kotlin compiler plugin, and therefore does not support being used within Java code.](https://github.com/square/anvil#no-java-support)
 
 ## Hilt Rules
 
