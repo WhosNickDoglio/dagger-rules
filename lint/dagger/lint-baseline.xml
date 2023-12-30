@@ -4,6 +4,7 @@
   ~ SPDX-License-Identifier: MIT
   -->
 
-<issues format="6" by="lint 7.4.2" type="baseline" client="gradle" dependencies="false" name="AGP (7.4.2)" variant="all" version="7.4.2">
+<issues format="6" by="lint 7.4.2" type="baseline" client="gradle" dependencies="false" name="AGP (7.4.2)" variant="all"
+        version="7.4.2">
 
 </issues>
