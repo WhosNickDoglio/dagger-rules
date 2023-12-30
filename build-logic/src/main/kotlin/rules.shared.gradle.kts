@@ -85,7 +85,3 @@ tasks.withType<KotlinCompile>().configureEach {
         languageVersion.set(org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_1_7)
     }
 }
-
-dependencies {
-    "compileOnly"(platform(libs.findLibrary("kotlin-bom").get()))
-}
