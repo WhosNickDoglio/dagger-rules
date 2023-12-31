@@ -54,13 +54,11 @@ internal class ContributesBindingMustHaveSuperDetector : Detector(), SourceCodeS
                         checkIsDaggerModule(clazz, context, node)
 
                         val annotationArguments =
-                            annotation.valueArguments.map {
-                                Pair(
-                                    it.getArgumentName()?.asName?.asString(),
-                                    it.getArgumentExpression()?.text
-                                )
+                            annotation.valueArguments.map { valueArgument ->
+                                valueArgument.getArgumentName()?.asName?.asString() to
+                                    valueArgument.getArgumentExpression()?.text
                             }
-                        if (!annotationArguments.contains(Pair(BOUND_TYPE, ANY_CLASS))) {
+                        if (!annotationArguments.contains(BOUND_TYPE to ANY_CLASS)) {
                             context.report(
                                 Incident(context, ISSUE_BINDING_NO_SUPER)
                                     .location(context.getNameLocation(clazz))
