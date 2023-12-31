@@ -217,10 +217,33 @@ class NetworkRepository @Inject constructor() : Repository
 
 The [`@ContributesTo` annotation from Anvil](https://github.com/square/anvil/blob/main/annotations/src/main/java/com/squareup/anvil/annotations/ContributesTo.kt)
 is how Anvil connects a Dagger `@Module` in the dependency graph to the Dagger `@Component` for the provided scope.
+Without this annotation, anything defined in the given module **won't** be added to the Dagger graph.
+
+```kotlin
+
+// Missing @ContributesTo annotation and will not be automatically added to the Dagger graph
+@Module
+object MyModule {
+    
+    @Provides
+    fun provideMyFactory(): MyFactory = MyFactory.create()
+}
+
+// With the @ContributesTo annotation included here, this module will be added the Dagger graph scoped with AppScope
+@ContributesTo(AppScope::class)
+@Module
+object MyOtherModule {
+
+    @Provides
+    fun provideMyFactory(): MyFactory = MyFactory.create()
+}
+```
 
 ### Anvil cannot be used from Java
 
 [Anvil is a Kotlin compiler plugin, and therefore does not support being used within Java code.](https://github.com/square/anvil#no-java-support)
+
+You can, however, use Anvil in Kotlin files in modules with a mixed Java/Kotlin source set.
 
 ## Hilt Rules
 
