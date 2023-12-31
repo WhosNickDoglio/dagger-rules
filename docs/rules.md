@@ -211,7 +211,34 @@ interface Repository
 class NetworkRepository @Inject constructor() : Repository
 ```
 
-### Classes annotated with `@ContributesBinding` should have a supertype to be bound to
+### Classes annotated with `@ContributesBinding` or `@ContributesMultibinding` should have a supertype to be bound to
+
+The [`@ContributesBinding`](https://github.com/square/anvil/blob/main/annotations/src/main/java/com/squareup/anvil/annotations/ContributesBinding.kt)
+and [`@ContributesMultibinding`](https://github.com/square/anvil/blob/main/annotations/src/main/java/com/squareup/anvil/annotations/ContributesMultibinding.kt)
+annotations are used to bind a concrete implementation of an interface or abstract class to it's super in the DI graph.
+If you attempt to use one of these annotations with a class without a super, it will crash at compile time.
+
+`dev.whosnickdoglio.dagger.MyThing contributes a binding, but does not specify the bound type. This is only allowed with exactly one direct super type. 
+If there are multiple or none, then the bound type must be explicitly defined in the @ContributesBinding annotation.`
+
+There is one notable exception to this
+where you can set the `boundType` to `Any` since it's a super for all Kotlin classes.
+
+```kotlin
+interface Thing
+
+// Not safe and will crash at compile time
+@ContributesBinding(AppScope::class)
+class MyThing @Inject constructor()
+
+// Safe!
+@ContributesBinding(AppScope::class)
+class MyOtherThing @Inject constructor(): Thing
+
+// Also safe!
+@ContributesBinding(AppScope::class, boundType = Any::class)
+class SomethingElse @Inject constructor()
+```
 
 ### A class annotated with `@Module` should also be annotated with `@ContributesTo`
 

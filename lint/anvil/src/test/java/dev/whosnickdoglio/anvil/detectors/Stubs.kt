@@ -12,14 +12,16 @@ val anvilAnnotations: TestFile =
             """
     package com.squareup.anvil.annotations
 
-    annotation class ContributesTo
-    annotation class ContributesBinding
-    annotation class ContributesMultibinding
+    import kotlin.reflect.KClass
+
+    annotation class ContributesTo(val scope: KClass<*> = Int::class)
+    annotation class ContributesBinding(val scope: KClass<*> = Int::class, boundType: KClass<*> = Unit::class)
+    annotation class ContributesMultibinding(val scope: KClass<*> = Int::class, boundType: KClass<*> = Unit::class)
     annotation class ContributesSubcomponent {
         annotation class Factory
     }
-    annotation class MergeComponent
-    annotation class MergeSubcomponent
+    annotation class MergeComponent(val scope: KClass<*> = Int::class)
+    annotation class MergeSubcomponent(val scope: KClass<*> = Int::class)
 """
         )
         .indented()

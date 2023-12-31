@@ -34,7 +34,7 @@ class ContributesBindingMustHaveSuperDetectorTest {
 
                     interface Authenticator
 
-                    @${annotation.substringAfterLast(".")}
+                    @${annotation.substringAfterLast(".")}(AppScope::class)
                     class AuthenticatorImpl @Inject constructor(): Authenticator
                     """
                     )
@@ -57,7 +57,7 @@ class ContributesBindingMustHaveSuperDetectorTest {
                     import javax.inject.Inject
                     import $annotation
 
-                    @${annotation.substringAfterLast(".")}
+                    @${annotation.substringAfterLast(".")}(AppScope::class)
                     class AuthenticatorImpl @Inject constructor()
                     """
                     )
@@ -67,7 +67,7 @@ class ContributesBindingMustHaveSuperDetectorTest {
             .run()
             .expect(
                 """
-                src/AuthenticatorImpl.kt:5: Warning: Hello friend [ContributesBindingMustHaveSuper]
+                src/AuthenticatorImpl.kt:5: Warning: The ContributesBinding annotation is used to bind concrete implementations to an interface/abstract they implement if there is no interface or abstract class to implement using @ContributesBinding will throw an error at compile time.  [ContributesBindingMustHaveSuper]
                 class AuthenticatorImpl @Inject constructor()
                       ~~~~~~~~~~~~~~~~~
                 0 errors, 1 warnings
@@ -99,24 +99,48 @@ class ContributesBindingMustHaveSuperDetectorTest {
             .run()
             .expect(
                 """
-                src/MyModule.kt:6: Error: Hello friend [UseContributesToInstead]
-                class MyModule
-                      ~~~~~~~~
-                1 errors, 0 warnings
-            """
+                    src/MyModule.kt:4: Error: The ContributesTo annotation is used to contribute Dagger modules to the DI graph whereas the ContributesBinding annotation is used to bind specific classes to one of their super interfaces/abstract classes in the DI graph and would not work with a Dagger module. [UseContributesToInstead]
+                    @${annotation.substringAfterLast(".")}
+                    ~${annotation.substringAfterLast(".").map { "~" }.joinToString(separator = "")}
+                    1 errors, 0 warnings
+                """
                     .trimIndent()
             )
             .expectWarningCount(0)
             .expectFixDiffs(
                 """
-                Fix for src/MyModule.kt line 6: Did you mean `@ContributesTo` annotation?:
-                @@ -6 +6
-                - class MyModule
-                @@ -7 +6
-                + class @com.squareup.anvil.annotations.ContributesTo
-                + MyModule
-            """
+                    Fix for src/MyModule.kt line 4: Did you mean to use the `@ContributesTo` annotation?:
+                    @@ -4 +4
+                    - @${annotation.substringAfterLast(".")}
+                    +
+                    - class MyModule
+                    + class @com.squareup.anvil.annotations.ContributesTo
+                    + MyModule
+                """
                     .trimIndent()
             )
+    }
+
+    @Test
+    fun `boundType = Any does not show an error despite no declared super`() {
+        TestLintTask.lint()
+            .files(
+                anvilAnnotations,
+                javaxAnnotations,
+                TestFiles.kotlin(
+                        """
+                    import javax.inject.Inject
+                    import $annotation
+
+                    @${annotation.substringAfterLast(".")}(boundType = Any::class)
+                    class AuthenticatorImpl @Inject constructor()
+                    """
+                    )
+                    .indented()
+            )
+            .issues(ContributesBindingMustHaveSuperDetector.ISSUE_BINDING_NO_SUPER)
+            .run()
+            .expectClean()
+            .expectWarningCount(0)
     }
 }
