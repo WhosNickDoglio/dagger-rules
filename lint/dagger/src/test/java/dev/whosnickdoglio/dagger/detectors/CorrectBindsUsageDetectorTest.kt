@@ -299,4 +299,83 @@ class CorrectBindsUsageDetectorTest {
             )
             .expectErrorCount(1)
     }
+
+    @Test
+    fun `kotlin @Binds method that returns Unit triggers error`() {
+        TestLintTask.lint()
+            .files(
+                daggerAnnotations,
+                pizzaMakerStubs,
+                repositoryStubs,
+                TestFiles.kotlin(
+                        """
+                    import dagger.Module
+                    import dagger.Binds
+
+                    @Module
+                    interface MyModule {
+
+                        @Binds fun bindsPizzaMaker(impl: PizzaMakerImpl): Unit
+
+                        @Binds fun bindsRepository(impl: InMemoryRepository)
+                    }
+                """
+                    )
+                    .indented()
+            )
+            .issues(CorrectBindsUsageDetector.ISSUE_CORRECT_RETURN_TYPE)
+            .run()
+            .expect(
+                """
+                src/MyModule.kt:7: Error: @Binds method parameters need to be a subclass of the return type. Make sure you're passing the correct parameter or the intended subclass is implementing the return type interface.
+
+                See https://whosnickdoglio.dev/dagger-rules/rules/#a-binds-method-parameter-should-be-a-subclass-of-its-return-type for more information. [BindsWithCorrectReturnType]
+                    @Binds fun bindsPizzaMaker(impl: PizzaMakerImpl): Unit
+                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                src/MyModule.kt:9: Error: @Binds method parameters need to be a subclass of the return type. Make sure you're passing the correct parameter or the intended subclass is implementing the return type interface.
+
+                See https://whosnickdoglio.dev/dagger-rules/rules/#a-binds-method-parameter-should-be-a-subclass-of-its-return-type for more information. [BindsWithCorrectReturnType]
+                    @Binds fun bindsRepository(impl: InMemoryRepository)
+                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                2 errors, 0 warnings
+            """
+                    .trimIndent()
+            )
+            .expectErrorCount(2)
+    }
+
+    @Test
+    fun `java @Binds method that returns Void triggers error`() {
+        TestLintTask.lint()
+            .files(
+                daggerAnnotations,
+                repositoryStubs,
+                TestFiles.java(
+                        """
+                    import dagger.Module;
+                    import dagger.Binds;
+
+                    @Module
+                    interface MyModule {
+                        @Binds Void bindsRepository(InMemoryRepository impl);
+                    }
+                """
+                    )
+                    .indented()
+            )
+            .issues(CorrectBindsUsageDetector.ISSUE_CORRECT_RETURN_TYPE)
+            .run()
+            .expect(
+                """
+                src/MyModule.java:6: Error: @Binds method parameters need to be a subclass of the return type. Make sure you're passing the correct parameter or the intended subclass is implementing the return type interface.
+
+                See https://whosnickdoglio.dev/dagger-rules/rules/#a-binds-method-parameter-should-be-a-subclass-of-its-return-type for more information. [BindsWithCorrectReturnType]
+                    @Binds Void bindsRepository(InMemoryRepository impl);
+                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                1 errors, 0 warnings
+            """
+                    .trimIndent()
+            )
+            .expectErrorCount(1)
+    }
 }
