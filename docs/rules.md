@@ -174,6 +174,30 @@ object StaticModule {
 More information
 here: [Keeping the Daggers Sharp](https://developer.squareup.com/blog/keeping-the-daggers-sharp/#favor-static-provides-methods)
 
+### Objects on the DI graph can only have one `@Scope` annotation
+
+Dagger supports the concept of scoping classes to the lifecycle of `Components` by annotating them with the same scope
+annotation. This means when you access a dependency that shares the same scope annotation as a `Component` you will get
+the same instance each time. Scopes, however, are not repeatable, and you are unable to connect a class to multiple scopes;
+Dagger will fail at compile time when attempting to do this.
+
+`error: A single binding may not declare more than one @Scope`
+
+```kotlin
+@Scope annotation class AppScope
+
+@Scope annotation class FeatureScope
+
+// Unsafe will error at compile time
+@FeatureScope
+@AppScope
+class MyThing @Inject constructor()
+
+// Safe
+@AppScope
+class MyOtherThing @Inject constructor()
+```
+
 ## Anvil Rules
 
 ### Prefer using `@ContributesBinding` over `@Binds`
