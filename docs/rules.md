@@ -270,6 +270,14 @@ annotated with `@Inject` will be supplied.
 More information here: [
 `@Component` Dagger documentation](https://dagger.dev/api/latest/dagger/Component.html)
 
+### Classes that use `@AssistedInject` cannot be scoped
+
+The [`@AssistedInject`](https://dagger.dev/api/latest/dagger/assisted/AssistedInject.html)
+annotation is used to denote a class needs some assistance to be constructed, Dagger will supply
+most of the dependencies and anything annotated with `@Assisted` will be provided at runtime. Due to
+how these classes classes not being fully constructed by Dagger we can't scope them, trying to do so
+will result in a compile time error.
+
 ## Anvil Rules
 
 ### Prefer using `@ContributesBinding` over `@Binds`
