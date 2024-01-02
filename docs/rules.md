@@ -334,7 +334,8 @@ class MyFragment : Fragment() {
     }
 }
 
-// Unsafe will throw UninitializedPropertyAccessException when trying to use `something`
+// Unsafe will throw UninitializedPropertyAccessException 
+// when trying to use `something`
 class MyOtherFragment : Fragment() {
 
     @Inject
@@ -376,13 +377,18 @@ Without this annotation you'll get a crash at runtime when you try to access the
 
 ```kotlin
 // Unsafe
-class MyViewModel @Inject constructor(private val something: Something) : ViewModel()
+class MyViewModel @Inject constructor(
+    private val something: Something
+) : ViewModel()
 
 // Safe
 @HiltViewModel
-class MyViewModel @Inject constructor(private val something: Something) : ViewModel()
+class MyViewModel @Inject constructor(
+    private val something: Something
+) : ViewModel()
 
-// Also safe! If your ViewModel doesn't take any dependencies, it doesn't need any annotations
+// Also safe! If your ViewModel doesn't take any dependencies,
+// it doesn't need any annotations
 class MyOtherViewModel : ViewModel()
 ```
 
