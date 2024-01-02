@@ -218,7 +218,7 @@ and [`@ContributesMultibinding`](https://github.com/square/anvil/blob/main/annot
 annotations are used to bind a concrete implementation of an interface or abstract class to it's super in the DI graph.
 If you attempt to use one of these annotations with a class without a super, it will crash at compile time.
 
-`dev.whosnickdoglio.dagger.MyThing contributes a binding, but does not specify the bound type. This is only allowed with exactly one direct super type. 
+`dev.whosnickdoglio.dagger.MyThing contributes a binding, but does not specify the bound type. This is only allowed with exactly one direct super type.
 If there are multiple or none, then the bound type must be explicitly defined in the @ContributesBinding annotation.`
 
 There is one notable exception to this
@@ -233,7 +233,7 @@ class MyThing @Inject constructor()
 
 // Safe!
 @ContributesBinding(AppScope::class)
-class MyOtherThing @Inject constructor(): Thing
+class MyOtherThing @Inject constructor() : Thing
 
 // Also safe!
 @ContributesBinding(AppScope::class, boundType = Any::class)
@@ -251,7 +251,7 @@ Without this annotation, anything defined in the given module **won't** be added
 // Missing @ContributesTo annotation and will not be automatically added to the Dagger graph
 @Module
 object MyModule {
-    
+
     @Provides
     fun provideMyFactory(): MyFactory = MyFactory.create()
 }
@@ -276,14 +276,153 @@ You can, however, use Anvil in Kotlin files in modules with a mixed Java/Kotlin 
 
 ### The `@EntryPoint` annotation can only be applied to interfaces
 
-The [`@EntryPoint` annotation](https://dagger.dev/api/latest/dagger/hilt/EntryPoint.html)
+The [`@EntryPoint` annotation](https://dagger.dev/api/latest/dagger/hilt/EntryPoint.html) can be used
+to define an interface that exposes a dependency on the DI graph to make it easier to consume in places where you
+currently can't use constructor injection or fully migrate a class to Hilt. This `interface` will be implemented by the
+Hilt component it's scoped to, so it's important it's defined as an interface otherwise an error will be thrown at
+compile time.
+
+`error: [Hilt] Only interfaces can be annotated with @EntryPoint: dev.whosnickdoglio.hilterrors.MyEntryPoint`
+
+```kotlin
+// Unsafe and will crash at compile time
+@InstallIn(SingletonComponent::class)
+@EntryPoint
+class MyEntryPoint {
+
+    fun getMyClass(): MyClass = MyClass()
+}
+
+// Also unsafe and will crash at compile time
+@InstallIn(SingletonComponent::class)
+@EntryPoint
+abstract class MyOtherEntryPoint {
+
+    abstract fun getMyClass(): MyClass
+}
+
+// Safe
+@InstallIn(SingletonComponent::class)
+@EntryPoint
+interface MySafeEntryPoint {
+
+    fun getMyClass(): MyClass
+}
+```
 
 [Read more about it in the Hilt documentation](https://dagger.dev/hilt/entry-points)
 
 ### Android components should be annotated with `@AndroidEntryPoint`
 
+For member injection to work in classes such as `Activites`, `Fragments`, `Views`, `Services`
+and `BroadcastRecievers` they need to be annotated with
+the [`@AndroidEntryPoint` annotation](https://dagger.dev/api/latest/dagger/hilt/android/AndroidEntryPoint.html),
+otherwise you'll hit an issue at runtime when trying to use the injected dependencies.
+
+```kotlin
+
+// Safe
+@AndroidEntryPoint
+class MyFragment : Fragment() {
+
+    @Inject
+    lateinit var something: Something
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        something.doSomething()
+    }
+}
+
+// Unsafe will throw UninitializedPropertyAccessException when trying to use `something`
+class MyOtherFragment : Fragment() {
+
+    @Inject
+    lateinit var something: Something
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        something.doSomething()
+    }
+}
+```
+
 ### `Application` subclasses should be annotated with `@HiltAndroidApp`
+
+Hilt requires the `Application` subclass in your be annotated with
+the [`@HiltAndroidApp` annotation](https://dagger.dev/api/latest/dagger/hilt/android/HiltAndroidApp.html), this
+annotation is necessary for generating all the Hilt components and wiring them up.
+Without this annotation, you'll hit a crash at runtime when the app is first launched.
+
+`java.lang.IllegalStateException: Hilt Activity must be attached to an @HiltAndroidApp Application`
+
+```kotlin
+
+// Unsafe, will crash at runtime
+class HiltApp : Application()
+
+// Safe
+@HiltAndroidApp
+class HiltApp : Application()
+```
 
 ### `ViewModel` subclasses should be annotated with `@HiltViewModel`
 
+For `ViewModels` to be correctly wired up by Hilt with their necessary dependencies they need to be annotated with
+the [`@HiltViewModel` annotation](https://dagger.dev/api/latest/dagger/hilt/android/lifecycle/HiltViewModel.html).
+Without this annotation you'll get a crash at runtime when you try to access the given `ViewModel`.
+
+`Caused by: java.lang.RuntimeException: Cannot create an instance of class dev.whosnickdoglio.hilterrors.MyViewModel`
+
+```kotlin
+// Unsafe
+class MyViewModel @Inject constructor(private val something: Something) : ViewModel()
+
+// Safe
+@HiltViewModel
+class MyViewModel @Inject constructor(private val something: Something) : ViewModel()
+
+// Also safe! If your ViewModel doesn't take any dependencies, it doesn't need any annotations
+class MyOtherViewModel : ViewModel()
+```
+
 ### A class annotated with `@Module` or `@EntryPoint` should also be annotated with `@InstallIn`
+
+The [`@InstallIn` annotation](https://dagger.dev/api/latest/dagger/hilt/InstallIn.html) is how you contribute modules or
+entry points to the Hilt DI graph, without the `@InstallIn` annotation these classes won't be connected to the Hilt DI
+graph and their dependencies won't be available to other classes. Hilt will throw an error at compile time if it notices
+an entry point or module missing the `@InstallIn annotation`
+
+`error: [Hilt] @EntryPoint dev.whosnickdoglio.hilterrors.TestEntryPoint must also be annotated with @InstallIn`
+
+`error: [Hilt] dev.whosnickdoglio.hilterrors.MyModule is missing an @InstallIn annotation. If this was intentional, see https://dagger.dev/hilt/flags#disable-install-in-check for how to disable this check.`
+
+```kotlin
+// Will crash at compile time
+@EntryPoint
+interface MyUnsafeEntryPoint {
+    fun getMyClass(): MyClass
+}
+
+// Safe 
+@InstallIn(SingletonComponent::class)
+@EntryPoint
+interface MySafeEntryPoint {
+    fun getMyClass(): MyClass
+}
+
+// Will crash at compile time
+@Module
+object MyUnsafeModule {
+    @Provides
+    fun provideMyFactory(): MyFactory = MyFactory.create()
+}
+
+// Safe
+@InstallIn(SingletonComponent::class)
+@Module
+object MySafeModule {
+    @Provides
+    fun provideMyFactory(): MyFactory = MyFactory.create()
+}
+```
