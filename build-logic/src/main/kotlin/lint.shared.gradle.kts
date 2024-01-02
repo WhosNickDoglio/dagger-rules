@@ -11,7 +11,7 @@ val catalog =
 val libs = catalog.named("libs")
 
 dependencies {
-    "compileOnly"(libs.findBundle("lintApi").get())
+    "compileOnly"(libs.findLibrary("lint-api").get())
     "testImplementation"(libs.findBundle("test").get())
     "testImplementation"(libs.findBundle("lintTest").get())
 }

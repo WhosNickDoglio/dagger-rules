@@ -29,10 +29,7 @@ autoService-annotations = { module = "com.google.auto.service:auto-service-annot
 autoService-ksp = { module = "dev.zacsweers.autoservice:auto-service-ksp", version = "1.1.0" }
 
 lint-api = { module = "com.android.tools.lint:lint-api", version.ref = "lint" }
-lint-checks = { module = "com.android.tools.lint:lint-checks", version.ref = "lint" }
-lint = { module = "com.android.tools.lint:lint", version.ref = "lint" }
 lint-tests = { module = "com.android.tools.lint:lint-tests", version.ref = "lint" }
-lint-testUtils = { module = "com.android.tools:testutils", version.ref = "lint" }
 
 detekt-ruleauthors = { module = "io.gitlab.arturbosch.detekt:detekt-rules-ruleauthors", version.ref = "detekt" }
 detekt-api = { module = "io.gitlab.arturbosch.detekt:detekt-api", version.ref = "detekt" }
@@ -45,6 +42,5 @@ junit = { module = "junit:junit", version = "4.13.2" }
 testParameterInjector = { module = "com.google.testparameterinjector:test-parameter-injector", version = "1.14" }
 
 [bundles]
-lintApi = ["lint-api", "lint-checks"]
-lintTest = ["lint", "lint-tests", "lint-testUtils"]
+lintTest = ["lint-api", "lint-tests"]
 test = ["junit", "testParameterInjector"]
