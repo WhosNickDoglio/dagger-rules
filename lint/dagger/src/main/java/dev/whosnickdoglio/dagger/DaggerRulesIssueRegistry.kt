@@ -14,6 +14,7 @@ import dev.whosnickdoglio.dagger.detectors.ConstructorInjectionOverFieldInjectio
 import dev.whosnickdoglio.dagger.detectors.CorrectBindsUsageDetector
 import dev.whosnickdoglio.dagger.detectors.MissingModuleAnnotationDetector
 import dev.whosnickdoglio.dagger.detectors.MultipleScopesDetector
+import dev.whosnickdoglio.dagger.detectors.ScopedAssistedInjectedDetector
 import dev.whosnickdoglio.dagger.detectors.ScopedWithoutInjectAnnotationDetector
 import dev.whosnickdoglio.dagger.detectors.StaticProvidesDetector
 
@@ -29,6 +30,7 @@ class DaggerRulesIssueRegistry : IssueRegistry() {
             MissingModuleAnnotationDetector.ISSUE,
             MultipleScopesDetector.ISSUE,
             StaticProvidesDetector.ISSUE,
+            ScopedAssistedInjectedDetector.ISSUE,
             ScopedWithoutInjectAnnotationDetector.ISSUE,
         )
 
