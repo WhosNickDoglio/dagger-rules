@@ -15,6 +15,7 @@ import com.android.tools.lint.detector.api.LintFix
 import com.android.tools.lint.detector.api.Scope
 import com.android.tools.lint.detector.api.Severity
 import com.android.tools.lint.detector.api.SourceCodeScanner
+import com.android.tools.lint.detector.api.StringOption
 import com.android.tools.lint.detector.api.TextFormat
 import dev.whosnickdoglio.hilt.ENTRY_POINT
 import dev.whosnickdoglio.hilt.INSTALL_IN
@@ -25,7 +26,6 @@ import org.jetbrains.uast.UElement
 
 internal class MissingInstallInDetector : Detector(), SourceCodeScanner {
 
-    // TODO configure custom components
     private val defaultHiltComponents =
         setOf(
             "dagger.hilt.components.SingletonComponent",
@@ -64,34 +64,53 @@ internal class MissingInstallInDetector : Detector(), SourceCodeScanner {
             }
         }
 
-    private fun quickFixes(context: JavaContext, node: UAnnotation): List<LintFix> =
-        defaultHiltComponents.map { component ->
+    private fun quickFixes(context: JavaContext, node: UAnnotation): List<LintFix> {
+        val customHiltComponents =
+            customComponentOptions.getValue(context).orEmpty().split(",").toSet().filter {
+                it.isNotEmpty()
+            }
+
+        return (defaultHiltComponents + customHiltComponents).map { component ->
             fix()
                 .name("Install in the ${component.substringAfterLast(".")} ")
                 .annotate("$INSTALL_IN($component::class)")
                 .range(context.getNameLocation(node))
                 .build()
         }
+    }
 
     companion object {
+        internal const val CUSTOM_HILT_COMPONENTS_OPTION_KEY = "customHiltComponents"
+
+        private val customComponentOptions =
+            StringOption(
+                name = CUSTOM_HILT_COMPONENTS_OPTION_KEY,
+                description = "A comma separated list of fully qualified custom Hilt components",
+                explanation =
+                    "Hilt provides you the ability to define custom Components if the " +
+                        "preexisting ones don't work for your use case, If you have any custom Hilt components " +
+                        "defined they can be added to the quickfix suggestions with this option. "
+            )
+
         private val implementation =
             Implementation(MissingInstallInDetector::class.java, Scope.JAVA_FILE_SCOPE)
 
         internal val ISSUE =
             Issue.create(
-                id = "MissingInstallInAnnotation",
-                briefDescription = "Missing @InstallIn annotation",
-                explanation =
-                    """
+                    id = "MissingInstallInAnnotation",
+                    briefDescription = "Missing @InstallIn annotation",
+                    explanation =
+                        """
                     Hilt modules and entry points require the `@InstallIn` annotation to be properly connected to a Component. Annotate this class with @InstallIn \
                     and the Hilt component you want to connect it to, the most commonly used Component is the `SingletonComponent`.
 
                     See https://whosnickdoglio.dev/dagger-rules/rules/#a-class-annotated-with-module-or-entrypoint-should-also-be-annotated-with-installin for more information.
                     """,
-                category = Category.CORRECTNESS,
-                priority = 5,
-                severity = Severity.ERROR,
-                implementation = implementation
-            )
+                    category = Category.CORRECTNESS,
+                    priority = 5,
+                    severity = Severity.ERROR,
+                    implementation = implementation
+                )
+                .setOptions(listOf(customComponentOptions))
     }
 }

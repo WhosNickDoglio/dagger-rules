@@ -680,4 +680,75 @@ class MissingInstallInDetectorTest {
             .expectClean()
             .expectErrorCount(0)
     }
+
+    @Test
+    fun `java @EntryPoint has quick fix for custom component when one is provided`() {
+        TestLintTask.lint()
+            .allowNonAlphabeticalFixOrder(true)
+            .files(
+                *hiltAnnotations,
+                TestFiles.java(
+                    """
+                    import dagger.hilt.EntryPoint;
+
+                    @EntryPoint
+                    interface MyEntryPoint {
+                        String myString();
+                    }
+            """
+                        .trimIndent()
+                )
+            )
+            .issues(MissingInstallInDetector.ISSUE)
+            .configureOption(
+                MissingInstallInDetector.CUSTOM_HILT_COMPONENTS_OPTION_KEY,
+                "dev.whosnickdoglio.hilt.CustomComponent"
+            )
+            .run()
+            .expect(
+                """
+                src/MyEntryPoint.java:4: Error: Hilt modules and entry points require the @InstallIn annotation to be properly connected to a Component. Annotate this class with @InstallIn and the Hilt component you want to connect it to, the most commonly used Component is the SingletonComponent.
+
+                See https://whosnickdoglio.dev/dagger-rules/rules/#a-class-annotated-with-module-or-entrypoint-should-also-be-annotated-with-installin for more information. [MissingInstallInAnnotation]
+                interface MyEntryPoint {
+                          ~~~~~~~~~~~~
+                1 errors, 0 warnings
+
+            """
+                    .trimIndent()
+            )
+            .expectErrorCount(1)
+            .expectFixDiffs(
+                """
+                Fix for src/MyEntryPoint.java line 4: Install in the SingletonComponent :
+                @@ -3 +3
+                + @dagger.hilt.InstallIn(dagger.hilt.components.SingletonComponent::class)
+                Fix for src/MyEntryPoint.java line 4: Install in the ActivityComponent :
+                @@ -3 +3
+                + @dagger.hilt.InstallIn(dagger.hilt.android.components.ActivityComponent::class)
+                Fix for src/MyEntryPoint.java line 4: Install in the ActivityRetainedComponent :
+                @@ -3 +3
+                + @dagger.hilt.InstallIn(dagger.hilt.android.components.ActivityRetainedComponent::class)
+                Fix for src/MyEntryPoint.java line 4: Install in the FragmentComponent :
+                @@ -3 +3
+                + @dagger.hilt.InstallIn(dagger.hilt.android.components.FragmentComponent::class)
+                Fix for src/MyEntryPoint.java line 4: Install in the ServiceComponent :
+                @@ -3 +3
+                + @dagger.hilt.InstallIn(dagger.hilt.android.components.ServiceComponent::class)
+                Fix for src/MyEntryPoint.java line 4: Install in the ViewComponent :
+                @@ -3 +3
+                + @dagger.hilt.InstallIn(dagger.hilt.android.components.ViewComponent::class)
+                Fix for src/MyEntryPoint.java line 4: Install in the ViewModelComponent :
+                @@ -3 +3
+                + @dagger.hilt.InstallIn(dagger.hilt.android.components.ViewModelComponent::class)
+                Fix for src/MyEntryPoint.java line 4: Install in the ViewWithFragmentComponent :
+                @@ -3 +3
+                + @dagger.hilt.InstallIn(dagger.hilt.android.components.ViewWithFragmentComponent::class)
+                Fix for src/MyEntryPoint.java line 4: Install in the CustomComponent :
+                @@ -3 +3
+                + @dagger.hilt.InstallIn(dev.whosnickdoglio.hilt.CustomComponent::class)
+            """
+                    .trimIndent()
+            )
+    }
 }
