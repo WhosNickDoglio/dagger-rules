@@ -223,6 +223,11 @@ interface AppComponent
 @Singleton MyOtherClass @Inject constructor()
 ```
 
+### Classes that use `@AssistedInject` cannot be scoped
+
+[//]: # (TODO)
+
+
 ## Anvil Rules
 
 ### Prefer using `@ContributesBinding` over `@Binds`
