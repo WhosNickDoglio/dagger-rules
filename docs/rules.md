@@ -34,7 +34,7 @@ or `Fragments`)
 if the creation of the class you're trying to add to the Dagger graph isn't managed by something else like the Android
 OS you should be using constructor injection.
 
-```kotlin 
+```kotlin
 
 class MyClass {
     // BAD! don't do this!
@@ -223,6 +223,53 @@ interface AppComponent
 @Singleton MyOtherClass @Inject constructor()
 ```
 
+### Valid `@Component` methods
+
+`@Components` and `@Subcomponents` only support two types of methods, provision methods and members-injection methods.
+Trying to add any other kind of method to your component will lead to a crash at compile time.
+
+#### Provision methods
+
+Provision methods cover exposing specific dependencies from your graph via the `@Component`
+and are defined as "Provision methods have no parameters and return an injected or provided type."
+
+```kotlin
+
+// All valid provision methods
+@Component
+interface AppComponent {
+
+    fun myThing(): MyThing
+
+    fun myMultipleOtherThings(): Set<MyOtherThing>
+
+    @Qualified
+    fun MyQualifiedThing(): MyQualifiedThing
+}
+```
+
+#### Member-injection methods
+
+Member injection methods are used to supply dependencies to the parameter supplied to the method.
+Method injection methods are defined as "Members-injection methods have a single parameter and
+inject dependencies into each of the Inject-annotated fields and methods of the passed instance. A
+members-injection method may be void or return its single parameter as a convenience for chaining"
+
+```kotlin
+// All valid member injection methods
+@Component
+interface AppComponent {
+    fun inject(target: MyFragment)
+    fun inject(target: MyOtherFragment): MyOtherFragment
+}
+```
+
+In the example above when you call `AppComponent.inject` in `MyFragment` any dependencies
+annotated with `@Inject` will be supplied.
+
+More information here: [
+`@Component` Dagger documentation](https://dagger.dev/api/latest/dagger/Component.html)
+
 ## Anvil Rules
 
 ### Prefer using `@ContributesBinding` over `@Binds`
@@ -383,7 +430,7 @@ class MyFragment : Fragment() {
     }
 }
 
-// Unsafe will throw UninitializedPropertyAccessException 
+// Unsafe will throw UninitializedPropertyAccessException
 // when trying to use `something`
 class MyOtherFragment : Fragment() {
 
@@ -459,7 +506,7 @@ interface MyUnsafeEntryPoint {
     fun getMyClass(): MyClass
 }
 
-// Safe 
+// Safe
 @InstallIn(SingletonComponent::class)
 @EntryPoint
 interface MySafeEntryPoint {

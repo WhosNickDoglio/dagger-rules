@@ -7,6 +7,7 @@ package dev.whosnickdoglio.hilt.detectors
 import com.android.tools.lint.checks.infrastructure.TestFiles
 import com.android.tools.lint.checks.infrastructure.TestLintTask
 import dev.whosnickdoglio.stubs.daggerAnnotations
+import dev.whosnickdoglio.stubs.hiltAnnotations
 import org.junit.Test
 
 class MissingInstallInDetectorTest {

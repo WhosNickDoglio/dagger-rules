@@ -9,6 +9,7 @@ import com.android.tools.lint.checks.infrastructure.TestLintTask
 import com.google.testing.junit.testparameterinjector.TestParameter
 import com.google.testing.junit.testparameterinjector.TestParameterInjector
 import dev.whosnickdoglio.lint.annotations.hilt.ANDROID_ENTRY_POINT
+import dev.whosnickdoglio.stubs.hiltAnnotations
 import dev.whosnickdoglio.stubs.javaxAnnotations
 import org.junit.Test
 import org.junit.runner.RunWith

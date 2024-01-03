@@ -2,7 +2,7 @@
  * Copyright (C) 2024 Nicholas Doglio
  * SPDX-License-Identifier: MIT
  */
-package dev.whosnickdoglio.hilt.detectors
+package dev.whosnickdoglio.stubs
 
 import com.android.tools.lint.checks.infrastructure.TestFiles
 
