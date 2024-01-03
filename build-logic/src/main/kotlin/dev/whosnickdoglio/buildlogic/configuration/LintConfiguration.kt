@@ -10,6 +10,7 @@ import org.gradle.api.Project
 
 internal fun Project.configureLint() {
     pluginManager.apply("com.android.lint")
+    dependOnBuildLogicTask("lint")
     extensions.getByType(Lint::class.java).apply {
         htmlReport = false
         xmlReport = false

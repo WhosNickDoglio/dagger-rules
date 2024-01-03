@@ -10,7 +10,8 @@ import org.gradle.api.Project
 
 internal fun Project.configureSpotless(ktfmtVersion: String) {
     pluginManager.apply("com.diffplug.spotless")
-
+    dependOnBuildLogicTask("spotlessCheck")
+    dependOnBuildLogicTask("spotlessApply")
     extensions.getByType(SpotlessExtension::class.java).apply {
         format("misc") { formatExtension ->
             with(formatExtension) {

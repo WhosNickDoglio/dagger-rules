@@ -14,3 +14,9 @@ internal fun Project.getVersionCatalog(catalogName: String = "libs"): VersionCat
 
     return catalog.named(catalogName)
 }
+
+internal fun Project.dependOnBuildLogicTask(taskName: String) {
+    tasks.named(taskName).configure {
+        it.dependsOn(gradle.includedBuild("build-logic").task(":$taskName"))
+    }
+}
