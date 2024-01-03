@@ -15,6 +15,7 @@ import dev.whosnickdoglio.dagger.detectors.CorrectBindsUsageDetector
 import dev.whosnickdoglio.dagger.detectors.MissingModuleAnnotationDetector
 import dev.whosnickdoglio.dagger.detectors.MultipleScopesDetector
 import dev.whosnickdoglio.dagger.detectors.StaticProvidesDetector
+import dev.whosnickdoglio.dagger.detectors.ValidComponentMethodDetector
 
 @AutoService(IssueRegistry::class)
 class DaggerRulesIssueRegistry : IssueRegistry() {
@@ -28,6 +29,7 @@ class DaggerRulesIssueRegistry : IssueRegistry() {
             MissingModuleAnnotationDetector.ISSUE,
             MultipleScopesDetector.ISSUE,
             StaticProvidesDetector.ISSUE,
+            ValidComponentMethodDetector.ISSUE,
         )
 
     override val api: Int = CURRENT_API
