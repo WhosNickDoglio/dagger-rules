@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: MIT
  */
 plugins {
-    id("lint.shared")
+    id("dev.whosnickdoglio.lint")
     alias(libs.plugins.ksp)
 }
 

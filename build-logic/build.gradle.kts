@@ -4,14 +4,41 @@
  */
 
 plugins {
-    `kotlin-dsl`
+    `java-gradle-plugin`
+    alias(libs.plugins.kotlin.jvm)
     alias(libs.plugins.spotless)
     alias(libs.plugins.detekt)
+    alias(libs.plugins.lint)
+    alias(libs.plugins.sortDependencies)
 }
 
-kotlin { jvmToolchain(21) }
+kotlin { jvmToolchain(libs.versions.jdk.get().toInt()) }
 
-configure<com.diffplug.gradle.spotless.SpotlessExtension> {
+gradlePlugin {
+    plugins {
+        register("lint") {
+            id = "dev.whosnickdoglio.lint"
+            implementationClass = "dev.whosnickdoglio.buildlogic.LintPlugin"
+        }
+
+        register("rules") {
+            id = "dev.whosnickdoglio.rules"
+            implementationClass = "dev.whosnickdoglio.buildlogic.RulesPlugin"
+        }
+    }
+}
+
+lint {
+    htmlReport = false
+    xmlReport = false
+    textReport = true
+    absolutePaths = false
+    checkTestSources = true
+    warningsAsErrors = true
+    baseline = file("lint-baseline.xml")
+}
+
+spotless {
     format("misc") {
         target("*.md", ".gitignore")
         trimTrailingWhitespace()
@@ -31,10 +58,10 @@ configure<com.diffplug.gradle.spotless.SpotlessExtension> {
 }
 
 dependencies {
-    implementation(libs.spotless.gradle)
-    implementation(libs.kotlin.gradle)
-    implementation(libs.detekt.gradle)
     implementation(libs.android.gradle)
+    implementation(libs.detekt.gradle)
+    implementation(libs.kotlin.gradle)
     implementation(libs.kover.gradle)
     implementation(libs.sortDependencies.gradle)
+    implementation(libs.spotless.gradle)
 }
