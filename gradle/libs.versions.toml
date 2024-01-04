@@ -8,17 +8,23 @@ kover = "0.7.4"
 spotless = "6.23.3"
 jdk = "21"
 sort = "0.6"
+dagger = "2.50"
 
 [plugins]
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
 lint = { id = "com.android.lint", version.ref = "agp" }
+android-app = { id = "com.android.application", version.ref = "agp" }
 doctor = { id = "com.osacky.doctor", version = "0.9.1" }
 spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
 dependencyAnalysis = { id = "com.autonomousapps.dependency-analysis", version = "1.28.0" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
 kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
 ksp = { id = "com.google.devtools.ksp", version = "1.9.22-1.0.16" }
 sortDependencies = { id = "com.squareup.sort-dependencies", version.ref = "sort" }
+anvil = { id = "com.squareup.anvil", version = "2.4.8" }
+hilt = { id = "com.google.dagger.hilt.android", version.ref = "dagger" }
 
 [libraries]
 spotless-gradle = { module = "com.diffplug.spotless:spotless-plugin-gradle", version.ref = "spotless" }
@@ -37,6 +43,12 @@ lint-tests = { module = "com.android.tools.lint:lint-tests", version.ref = "lint
 detekt-ruleauthors = { module = "io.gitlab.arturbosch.detekt:detekt-rules-ruleauthors", version.ref = "detekt" }
 detekt-api = { module = "io.gitlab.arturbosch.detekt:detekt-api", version.ref = "detekt" }
 detekt-test = { module = "io.gitlab.arturbosch.detekt:detekt-test", version.ref = "detekt" }
+
+androidx-core = { module = "androidx.core:core-ktx", version = "1.12.0" }
+androidx-appcompat = { module = "androidx.appcompat:appcompat", version = "1.6.1" }
+androidx-activity = { module = "androidx.activity:activity", version = "1.8.2" }
+hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "dagger" }
+hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "dagger" }
 
 # Only present to trigger automatic renovate updates
 ktfmt = { module = "com.facebook:ktfmt", version.ref = "ktfmt" }

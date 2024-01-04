@@ -1,0 +1,8 @@
+<!--
+  ~ Copyright (C) 2024 Nicholas Doglio
+  ~ SPDX-License-Identifier: MIT
+  -->
+
+<resources>
+    <string name="app_name">TestApp</string>
+</resources>

@@ -43,5 +43,6 @@ include(
     ":lint:anvil",
     ":lint:hilt",
     ":lint:shared",
-    ":lint:test-stubs"
+    ":lint:test-stubs",
+    ":test-app",
 )
