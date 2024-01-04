@@ -23,7 +23,7 @@ kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
 kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
 ksp = { id = "com.google.devtools.ksp", version = "1.9.22-1.0.16" }
 sortDependencies = { id = "com.squareup.sort-dependencies", version.ref = "sort" }
-anvil = { id = "com.squareup.anvil", version = "2.4.8" }
+anvil = { id = "com.squareup.anvil", version = "2.4.8-1-8" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "dagger" }
 
 [libraries]
