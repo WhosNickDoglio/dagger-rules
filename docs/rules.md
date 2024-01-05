@@ -198,6 +198,28 @@ class MyThing @Inject constructor()
 class MyOtherThing @Inject constructor()
 ```
 
+### Classes annotated with scopes require their constructors to be annotated with `@Inject` to be added to the Dagger graph
+
+Dagger supports the concept of scoping classes to the lifecycle of `Components` by annotating them with the same scope
+annotation **and adding them to the DI graph**.
+For example, if there is an `AppComponent` annotated with the `@Singleton` scope
+and another class in the project is annotated with `@Singleton` the same instance of that class will be
+retained as long as `AppComponent` is.
+Adding the same scope annotation is only part of the process, we must all ensure the class is added to the Dagger graph
+by annotating one of its constructors with the `@Inject` annotation.
+
+```kotlin
+@Singleton
+@Component
+interface AppComponent
+
+// Is not part of the DI graph and won't be scoped as a singleton
+@Singleton MyClass()
+
+// is part of the DI graph and will be scoped as a singleton
+@Singleton MyOtherClass @Inject constructor()
+```
+
 ## Anvil Rules
 
 ### Prefer using `@ContributesBinding` over `@Binds`
