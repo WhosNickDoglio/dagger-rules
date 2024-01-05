@@ -178,15 +178,18 @@ here: [Keeping the Daggers Sharp](https://developer.squareup.com/blog/keeping-th
 
 Dagger supports the concept of scoping classes to the lifecycle of `Components` by annotating them with the same scope
 annotation. This means when you access a dependency that shares the same scope annotation as a `Component` you will get
-the same instance each time. Scopes, however, are not repeatable, and you are unable to connect a class to multiple scopes;
+the same instance each time. Scopes, however, are not repeatable, and you are unable to connect a class to multiple
+scopes;
 Dagger will fail at compile time when attempting to do this.
 
 `error: A single binding may not declare more than one @Scope`
 
 ```kotlin
-@Scope annotation class AppScope
+@Scope
+annotation class AppScope
 
-@Scope annotation class FeatureScope
+@Scope
+annotation class FeatureScope
 
 // Unsafe will error at compile time
 @FeatureScope
@@ -478,3 +481,19 @@ object MySafeModule {
     fun provideMyFactory(): MyFactory = MyFactory.create()
 }
 ```
+
+This rule is also configurable if you have custom Hilt components already defined!
+In your `lint.xml` file you can add a
+list of fully qualified class names for any custom Hilt components to be included in the quick fix suggestions.
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<lint>
+    <issue id="MissingInstallInAnnotation">
+        <option name="customHiltComponents" value="dev.whosnickdoglio.testapp.hilt.MyCustomComponent"/>
+    </issue>
+</lint>
+```
+
+You can read more about this
+in [the Lint API guide](https://googlesamples.github.io/android-custom-lint-rules/api-guide.html#options/usage).
