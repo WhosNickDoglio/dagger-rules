@@ -39,9 +39,6 @@ internal class MissingAndroidEntryPointDetector : Detector(), SourceCodeScanner 
             override fun visitClass(node: UClass) {
                 androidEntryPointSupers.forEach { superClass ->
                     val isSubClass = context.evaluator.extendsClass(node, superClass, true)
-                    // TODO why
-                    //                    val injectedFields = node.fields.filter { field ->
-                    // field.hasAnnotation(INJECT) }
                     val injectedFields =
                         node.fields.filter { field ->
                             field.uAnnotations.any { annotation ->
