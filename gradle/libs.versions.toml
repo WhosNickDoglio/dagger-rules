@@ -54,7 +54,7 @@ hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "dag
 ktfmt = { module = "com.facebook:ktfmt", version.ref = "ktfmt" }
 
 junit = { module = "junit:junit", version = "4.13.2" }
-testParameterInjector = { module = "com.google.testparameterinjector:test-parameter-injector", version = "1.14" }
+testParameterInjector = { module = "com.google.testparameterinjector:test-parameter-injector", version = "1.15" }
 
 [bundles]
 lintTest = ["lint-api", "lint-tests"]
