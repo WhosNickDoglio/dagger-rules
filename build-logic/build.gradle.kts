@@ -36,6 +36,7 @@ lint {
     checkTestSources = true
     warningsAsErrors = true
     baseline = file("lint-baseline.xml")
+    disable.add("GradleDependency")
 }
 
 spotless {
