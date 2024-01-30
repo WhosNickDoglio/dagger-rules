@@ -47,7 +47,7 @@ jobs:
       - name: Run Unit Tests
         run: ./gradlew kover-aggregate:koverXmlReport --no-build-cache
       - name: Codecov
-        uses: codecov/codecov-action@4fe8c5f003fae66aa5ebb77cfd3e7bfbbda0b6b0 # v3.1.5
+        uses: codecov/codecov-action@ab904c41d6ece82784817410c45d8b8c02684457 # v3.1.6
         with:
           files: ./kover-aggregate/build/reports/kover/report.xml
           token: ${{ secrets.CODE_COV_TOKEN  }}
