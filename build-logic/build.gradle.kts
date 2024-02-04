@@ -15,7 +15,12 @@ plugins {
     alias(libs.plugins.sortDependencies)
 }
 
-kotlin { jvmToolchain(libs.versions.jdk.get().toInt()) }
+kotlin {
+    jvmToolchain {
+        languageVersion = JavaLanguageVersion.of(libs.versions.jdk.get().toInt())
+        vendor = JvmVendorSpec.AZUL
+    }
+}
 
 gradlePlugin {
     plugins {
