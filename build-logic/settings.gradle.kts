@@ -6,20 +6,20 @@
 rootProject.name = "build-logic"
 
 pluginManagement {
-    repositories {
-        mavenCentral()
-        google()
-        gradlePluginPortal()
-    }
+  repositories {
+    mavenCentral()
+    google()
+    gradlePluginPortal()
+  }
 }
 
 dependencyResolutionManagement {
-    repositories {
-        mavenCentral()
-        google()
-    }
+  repositories {
+    mavenCentral()
+    google()
+  }
 
-    versionCatalogs { create("libs") { from(files("../gradle/libs.versions.toml")) } }
+  versionCatalogs { create("libs") { from(files("../gradle/libs.versions.toml")) } }
 }
 
 plugins { id("org.gradle.toolchains.foojay-resolver-convention") version "0.8.0" }

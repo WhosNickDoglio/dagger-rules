@@ -24,73 +24,71 @@ import org.jetbrains.uast.UMethod
  * subclass of the method return type.
  */
 internal class CorrectBindsUsageDetector : Detector(), SourceCodeScanner {
+  override fun getApplicableUastTypes(): List<Class<out UElement>> = listOf(UAnnotation::class.java)
 
-    override fun getApplicableUastTypes(): List<Class<out UElement>> =
-        listOf(UAnnotation::class.java)
+  override fun createUastHandler(context: JavaContext): UElementHandler =
+    object : UElementHandler() {
+      override fun visitAnnotation(node: UAnnotation) {
+        if (node.qualifiedName == BINDS) {
+          val bindsMethod = node.uastParent as? UMethod ?: return
 
-    override fun createUastHandler(context: JavaContext): UElementHandler =
-        object : UElementHandler() {
-            override fun visitAnnotation(node: UAnnotation) {
-                if (node.qualifiedName == BINDS) {
-                    val bindsMethod = node.uastParent as? UMethod ?: return
+          if (!context.evaluator.isAbstract(bindsMethod)) {
+            context.report(
+              issue = ISSUE_BINDS_ABSTRACT,
+              location = context.getLocation(bindsMethod),
+              message = ISSUE_BINDS_ABSTRACT.getExplanation(TextFormat.TEXT),
+            )
+          }
 
-                    if (!context.evaluator.isAbstract(bindsMethod)) {
-                        context.report(
-                            issue = ISSUE_BINDS_ABSTRACT,
-                            location = context.getLocation(bindsMethod),
-                            message = ISSUE_BINDS_ABSTRACT.getExplanation(TextFormat.TEXT),
-                        )
-                    }
+          val returnType = bindsMethod.returnType
+          val parameter = bindsMethod.parameterList.getParameter(0)?.type
 
-                    val returnType = bindsMethod.returnType
-                    val parameter = bindsMethod.parameterList.getParameter(0)?.type
-
-                    if (parameter?.superTypes?.contains(returnType) == false) {
-                        context.report(
-                            issue = ISSUE_CORRECT_RETURN_TYPE,
-                            location = context.getLocation(bindsMethod),
-                            message = ISSUE_CORRECT_RETURN_TYPE.getExplanation(TextFormat.TEXT),
-                        )
-                    }
-                }
-            }
+          if (parameter?.superTypes?.contains(returnType) == false) {
+            context.report(
+              issue = ISSUE_CORRECT_RETURN_TYPE,
+              location = context.getLocation(bindsMethod),
+              message = ISSUE_CORRECT_RETURN_TYPE.getExplanation(TextFormat.TEXT),
+            )
+          }
         }
+      }
+    }
 
-    companion object {
-        private val implementation =
-            Implementation(CorrectBindsUsageDetector::class.java, Scope.JAVA_FILE_SCOPE)
+  companion object {
+    private val implementation =
+      Implementation(CorrectBindsUsageDetector::class.java, Scope.JAVA_FILE_SCOPE)
 
-        internal val ISSUE_CORRECT_RETURN_TYPE =
-            Issue.create(
-                id = "BindsWithCorrectReturnType",
-                briefDescription = " parameter is not a subclass of return type",
-                explanation =
-                    """
+    internal val ISSUE_CORRECT_RETURN_TYPE =
+      Issue.create(
+        id = "BindsWithCorrectReturnType",
+        briefDescription = " parameter is not a subclass of return type",
+        explanation =
+          """
                         `@Binds` method parameters need to be a subclass of the return type. \
                         Make sure you're passing the correct parameter or the intended subclass is implementing \
                         the return type interface.
 
                         See https://whosnickdoglio.dev/dagger-rules/rules/#a-binds-method-parameter-should-be-a-subclass-of-its-return-type for more information.
                         """,
-                category = Category.CORRECTNESS,
-                priority = 5,
-                severity = Severity.ERROR,
-                implementation = implementation
-            )
+        category = Category.CORRECTNESS,
+        priority = 5,
+        severity = Severity.ERROR,
+        implementation = implementation,
+      )
 
-        internal val ISSUE_BINDS_ABSTRACT =
-            Issue.create(
-                id = "BindsMustBeAbstract",
-                briefDescription = "@Binds method must be abstract",
-                explanation =
-                    """
+    internal val ISSUE_BINDS_ABSTRACT =
+      Issue.create(
+        id = "BindsMustBeAbstract",
+        briefDescription = "@Binds method must be abstract",
+        explanation =
+          """
                     A @Binds method needs to be abstract or Dagger will throw an error at compile time. \
                     See https://whosnickdoglio.dev/dagger-rules/rules/#methods-annotated-with-binds-must-be-abstract for more information.
                 """,
-                category = Category.CORRECTNESS,
-                priority = 5,
-                severity = Severity.ERROR,
-                implementation = implementation
-            )
-    }
+        category = Category.CORRECTNESS,
+        priority = 5,
+        severity = Severity.ERROR,
+        implementation = implementation,
+      )
+  }
 }

@@ -20,58 +20,56 @@ import org.jetbrains.uast.UClass
 import org.jetbrains.uast.UElement
 
 internal class MissingHiltAndroidAppAnnotationDetector : Detector(), SourceCodeScanner {
+  override fun getApplicableUastTypes(): List<Class<out UElement>> = listOf(UClass::class.java)
 
-    override fun getApplicableUastTypes(): List<Class<out UElement>> = listOf(UClass::class.java)
-
-    override fun createUastHandler(context: JavaContext): UElementHandler =
-        object : UElementHandler() {
-            override fun visitClass(node: UClass) {
-                if (
-                    context.evaluator.extendsClass(node, ANDROID_APP, true) &&
-                        !node.hasAnnotation(HILT_ANDROID_APP)
-                ) {
-                    context.report(
-                        Incident(context, ISSUE)
-                            .location(context.getNameLocation(node))
-                            .message(ISSUE.getBriefDescription(TextFormat.RAW))
-                            .fix(
-                                fix()
-                                    .name(
-                                        "Add ${HILT_ANDROID_APP.substringAfterLast(".")} annotation"
-                                    )
-                                    .annotate(HILT_ANDROID_APP)
-                                    .range(context.getNameLocation(node))
-                                    .build(),
-                            )
-                    )
-                }
-            }
+  override fun createUastHandler(context: JavaContext): UElementHandler =
+    object : UElementHandler() {
+      override fun visitClass(node: UClass) {
+        if (
+          context.evaluator.extendsClass(node, ANDROID_APP, true) &&
+          !node.hasAnnotation(HILT_ANDROID_APP)
+        ) {
+          context.report(
+            Incident(context, ISSUE)
+              .location(context.getNameLocation(node))
+              .message(ISSUE.getBriefDescription(TextFormat.RAW))
+              .fix(
+                fix()
+                  .name(
+                    "Add ${HILT_ANDROID_APP.substringAfterLast(".")} annotation",
+                  )
+                  .annotate(HILT_ANDROID_APP)
+                  .range(context.getNameLocation(node))
+                  .build(),
+              ),
+          )
         }
+      }
+    }
 
-    companion object {
+  companion object {
+    private const val ANDROID_APP = "android.app.Application"
 
-        private const val ANDROID_APP = "android.app.Application"
+    private val implementation =
+      Implementation(
+        MissingHiltAndroidAppAnnotationDetector::class.java,
+        Scope.JAVA_FILE_SCOPE,
+      )
 
-        private val implementation =
-            Implementation(
-                MissingHiltAndroidAppAnnotationDetector::class.java,
-                Scope.JAVA_FILE_SCOPE
-            )
-
-        val ISSUE =
-            Issue.create(
-                id = "MissingHiltAndroidAppAnnotation",
-                briefDescription = "`Application` subclasses need `@HiltAndroidApp`",
-                explanation =
-                    """
+    val ISSUE =
+      Issue.create(
+        id = "MissingHiltAndroidAppAnnotation",
+        briefDescription = "`Application` subclasses need `@HiltAndroidApp`",
+        explanation =
+          """
                     When you using Hilt it's required for a `Application` subclass to be annotated with `@HiltAndroidApp.`
 
                     See https://whosnickdoglio.dev/dagger-rules/rules/#application-subclasses-should-be-annotated-with-hiltandroidapp for more information.
                     """,
-                category = Category.CORRECTNESS,
-                priority = 5,
-                severity = Severity.ERROR,
-                implementation = implementation
-            )
-    }
+        category = Category.CORRECTNESS,
+        priority = 5,
+        severity = Severity.ERROR,
+        implementation = implementation,
+      )
+  }
 }

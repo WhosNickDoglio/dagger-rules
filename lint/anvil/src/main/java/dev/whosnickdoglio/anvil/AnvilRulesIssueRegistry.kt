@@ -17,24 +17,23 @@ import dev.whosnickdoglio.anvil.detectors.NoAnvilInJavaDetector
 
 @AutoService(IssueRegistry::class)
 class AnvilRulesIssueRegistry : IssueRegistry() {
+  override val issues: List<Issue> =
+    listOf(
+      ContributesBindingMustHaveSuperDetector.ISSUE_BINDING_NO_SUPER,
+      ContributesBindingMustHaveSuperDetector.ISSUE_CONTRIBUTES_TO_INSTEAD_OF_BINDING,
+      FavorContributesBindingOverBindsDetector.ISSUE,
+      NoAnvilInJavaDetector.ISSUE,
+      MissingContributesToDetector.ISSUE,
+      MissingContributesBindingDetector.ISSUE,
+    )
 
-    override val issues: List<Issue> =
-        listOf(
-            ContributesBindingMustHaveSuperDetector.ISSUE_BINDING_NO_SUPER,
-            ContributesBindingMustHaveSuperDetector.ISSUE_CONTRIBUTES_TO_INSTEAD_OF_BINDING,
-            FavorContributesBindingOverBindsDetector.ISSUE,
-            NoAnvilInJavaDetector.ISSUE,
-            MissingContributesToDetector.ISSUE,
-            MissingContributesBindingDetector.ISSUE,
-        )
+  override val api: Int = CURRENT_API
 
-    override val api: Int = CURRENT_API
-
-    override val vendor: Vendor
-        get() =
-            Vendor(
-                vendorName = "Nicholas Doglio",
-                identifier = "dev.whosnickdoglio:anvil-lint",
-                feedbackUrl = "https://github.com/WhosNickDoglio/dagger-rules/issues"
-            )
+  override val vendor: Vendor
+    get() =
+      Vendor(
+        vendorName = "Nicholas Doglio",
+        identifier = "dev.whosnickdoglio:anvil-lint",
+        feedbackUrl = "https://github.com/WhosNickDoglio/dagger-rules/issues",
+      )
 }

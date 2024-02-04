@@ -1,7 +1,7 @@
 [versions]
 agp = "8.2.2"
 kotlin = "1.9.22"
-ktfmt = "0.47"
+ktlint = "1.1.1"
 lint = "31.2.2"
 detekt = "1.23.5"
 kover = "0.7.6"
@@ -49,9 +49,6 @@ androidx-appcompat = { module = "androidx.appcompat:appcompat", version = "1.6.1
 androidx-activity = { module = "androidx.activity:activity", version = "1.8.2" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "dagger" }
 hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "dagger" }
-
-# Only present to trigger automatic renovate updates
-ktfmt = { module = "com.facebook:ktfmt", version.ref = "ktfmt" }
 
 junit = { module = "junit:junit", version = "4.13.2" }
 testParameterInjector = { module = "com.google.testparameterinjector:test-parameter-injector", version = "1.15" }

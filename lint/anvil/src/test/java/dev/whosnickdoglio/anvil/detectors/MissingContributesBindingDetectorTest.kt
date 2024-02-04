@@ -16,38 +16,37 @@ import org.junit.runner.RunWith
 
 @RunWith(TestParameterInjector::class)
 class MissingContributesBindingDetectorTest {
-
-    @Test
-    fun `kotlin class with super using dagger is missing @ContributesBinding annotation shows warning`() {
-        TestLintTask.lint()
-            .files(
-                anvilAnnotations,
-                javaxAnnotations,
-                TestFiles.kotlin(
-                        """
+  @Test
+  fun `kotlin class with super using dagger is missing @ContributesBinding annotation shows warning`() {
+    TestLintTask.lint()
+      .files(
+        anvilAnnotations,
+        javaxAnnotations,
+        TestFiles.kotlin(
+          """
                     import javax.inject.Inject
 
                     interface Authenticator
 
                     class AuthenticatorImpl @Inject constructor(): Authenticator
-                    """
-                    )
-                    .indented()
-            )
-            .issues(MissingContributesBindingDetector.ISSUE)
-            .run()
-            .expect(
-                """
+                    """,
+        )
+          .indented(),
+      )
+      .issues(MissingContributesBindingDetector.ISSUE)
+      .run()
+      .expect(
+        """
                     src/Authenticator.kt:5: Warning: Contribute this binding to the Dagger graph using an Anvil annotation [MissingContributesBindingAnnotation]
                     class AuthenticatorImpl @Inject constructor(): Authenticator
                           ~~~~~~~~~~~~~~~~~
                     0 errors, 1 warnings
                 """
-                    .trimIndent()
-            )
-            .expectWarningCount(1)
-            .expectFixDiffs(
-                """
+          .trimIndent(),
+      )
+      .expectWarningCount(1)
+      .expectFixDiffs(
+        """
                 Fix for src/Authenticator.kt line 5: Add @ContributesBinding annotation:
                 @@ -5 +5
                 - class AuthenticatorImpl @Inject constructor(): Authenticator
@@ -61,41 +60,41 @@ class MissingContributesBindingDetectorTest {
                 + class @com.squareup.anvil.annotations.ContributesMultibinding
                 + AuthenticatorImpl @Inject constructor(): Authenticator
             """
-                    .trimIndent()
-            )
-    }
+          .trimIndent(),
+      )
+  }
 
-    @Test
-    fun `kotlin class without super using dagger and no @ContributesBinding annotation shows no warning`() {
-        TestLintTask.lint()
-            .files(
-                anvilAnnotations,
-                javaxAnnotations,
-                TestFiles.kotlin(
-                        """
+  @Test
+  fun `kotlin class without super using dagger and no @ContributesBinding annotation shows no warning`() {
+    TestLintTask.lint()
+      .files(
+        anvilAnnotations,
+        javaxAnnotations,
+        TestFiles.kotlin(
+          """
                     import javax.inject.Inject
 
                     class AuthenticatorImpl @Inject constructor()
-                    """
-                    )
-                    .indented()
-            )
-            .issues(MissingContributesBindingDetector.ISSUE)
-            .run()
-            .expectClean()
-            .expectErrorCount(0)
-    }
+                    """,
+        )
+          .indented(),
+      )
+      .issues(MissingContributesBindingDetector.ISSUE)
+      .run()
+      .expectClean()
+      .expectErrorCount(0)
+  }
 
-    @Test
-    fun `kotlin class with super using dagger with @ContributesBinding annotation shows no warning`(
-        @TestParameter(value = [CONTRIBUTES_BINDING, CONTRIBUTES_MULTI_BINDING]) annotation: String
-    ) {
-        TestLintTask.lint()
-            .files(
-                anvilAnnotations,
-                javaxAnnotations,
-                TestFiles.kotlin(
-                        """
+  @Test
+  fun `kotlin class with super using dagger with @ContributesBinding annotation shows no warning`(
+    @TestParameter(value = [CONTRIBUTES_BINDING, CONTRIBUTES_MULTI_BINDING]) annotation: String,
+  ) {
+    TestLintTask.lint()
+      .files(
+        anvilAnnotations,
+        javaxAnnotations,
+        TestFiles.kotlin(
+          """
                     import javax.inject.Inject
                     import $annotation
 
@@ -103,69 +102,69 @@ class MissingContributesBindingDetectorTest {
 
                     @${annotation.substringAfterLast(".")}
                     class AuthenticatorImpl @Inject constructor(): Authenticator
-                    """
-                    )
-                    .indented()
-            )
-            .issues(MissingContributesBindingDetector.ISSUE)
-            .run()
-            .expectClean()
-            .expectWarningCount(0)
-    }
+                    """,
+        )
+          .indented(),
+      )
+      .issues(MissingContributesBindingDetector.ISSUE)
+      .run()
+      .expectClean()
+      .expectWarningCount(0)
+  }
 
-    @Test
-    fun `kotlin class without @ContributesBinding annotation but only super takes generics shows no warning`() {
-        TestLintTask.lint()
-            .files(
-                javaxAnnotations,
-                TestFiles.kotlin(
-                        """
+  @Test
+  fun `kotlin class without @ContributesBinding annotation but only super takes generics shows no warning`() {
+    TestLintTask.lint()
+      .files(
+        javaxAnnotations,
+        TestFiles.kotlin(
+          """
                     import javax.inject.Inject
 
                     interface JsonAdapter<T>
 
                     class MyJsonAdapter @Inject constructor(): JsonAdapter<String>
-                    """
-                    )
-                    .indented()
-            )
-            .issues(MissingContributesBindingDetector.ISSUE)
-            .run()
-            .expectClean()
-            .expectWarningCount(0)
-    }
+                    """,
+        )
+          .indented(),
+      )
+      .issues(MissingContributesBindingDetector.ISSUE)
+      .run()
+      .expectClean()
+      .expectWarningCount(0)
+  }
 
-    @Test
-    fun `kotlin class without @ContributesBinding annotation with a multiple supers shows a warning`() {
-        TestLintTask.lint()
-            .files(
-                javaxAnnotations,
-                TestFiles.kotlin(
-                        """
+  @Test
+  fun `kotlin class without @ContributesBinding annotation with a multiple supers shows a warning`() {
+    TestLintTask.lint()
+      .files(
+        javaxAnnotations,
+        TestFiles.kotlin(
+          """
                     import javax.inject.Inject
 
                     interface JsonAdapter<T>
                     interface CustomAdapter
 
                     class MyJsonAdapter @Inject constructor(): JsonAdapter<String>, CustomAdapter
-                    """
-                    )
-                    .indented()
-            )
-            .issues(MissingContributesBindingDetector.ISSUE)
-            .run()
-            .expect(
-                """
+                    """,
+        )
+          .indented(),
+      )
+      .issues(MissingContributesBindingDetector.ISSUE)
+      .run()
+      .expect(
+        """
                 src/JsonAdapter.kt:6: Warning: Contribute this binding to the Dagger graph using an Anvil annotation [MissingContributesBindingAnnotation]
                 class MyJsonAdapter @Inject constructor(): JsonAdapter<String>, CustomAdapter
                       ~~~~~~~~~~~~~
                 0 errors, 1 warnings
             """
-                    .trimIndent()
-            )
-            .expectWarningCount(1)
-            .expectFixDiffs(
-                """
+          .trimIndent(),
+      )
+      .expectWarningCount(1)
+      .expectFixDiffs(
+        """
                 Fix for src/JsonAdapter.kt line 6: Add @ContributesBinding annotation:
                 @@ -6 +6
                 - class MyJsonAdapter @Inject constructor(): JsonAdapter<String>, CustomAdapter
@@ -179,20 +178,20 @@ class MissingContributesBindingDetectorTest {
                 + class @com.squareup.anvil.annotations.ContributesMultibinding
                 + MyJsonAdapter @Inject constructor(): JsonAdapter<String>, CustomAdapter
             """
-                    .trimIndent()
-            )
-    }
+          .trimIndent(),
+      )
+  }
 
-    @Test
-    fun `kotlin class with @ContributesBinding annotation with a multiple supers does not show a warning`(
-        @TestParameter(value = [CONTRIBUTES_BINDING, CONTRIBUTES_MULTI_BINDING]) annotation: String
-    ) {
-        TestLintTask.lint()
-            .files(
-                anvilAnnotations,
-                javaxAnnotations,
-                TestFiles.kotlin(
-                        """
+  @Test
+  fun `kotlin class with @ContributesBinding annotation with a multiple supers does not show a warning`(
+    @TestParameter(value = [CONTRIBUTES_BINDING, CONTRIBUTES_MULTI_BINDING]) annotation: String,
+  ) {
+    TestLintTask.lint()
+      .files(
+        anvilAnnotations,
+        javaxAnnotations,
+        TestFiles.kotlin(
+          """
                     import javax.inject.Inject
                     import $annotation
 
@@ -201,44 +200,44 @@ class MissingContributesBindingDetectorTest {
 
                     @${annotation.substringAfterLast(".")}
                     class MyJsonAdapter @Inject constructor(): JsonAdapter<String>, CustomAdapter
-                    """
-                    )
-                    .indented()
-            )
-            .issues(MissingContributesBindingDetector.ISSUE)
-            .run()
-            .expectClean()
-            .expectWarningCount(0)
-    }
+                    """,
+        )
+          .indented(),
+      )
+      .issues(MissingContributesBindingDetector.ISSUE)
+      .run()
+      .expectClean()
+      .expectWarningCount(0)
+  }
 
-    @Test
-    fun `kotlin class with a super not using dagger without @ContributesBinding annotation does not show a warning`() {
-        TestLintTask.lint()
-            .files(
-                TestFiles.kotlin(
-                        """
+  @Test
+  fun `kotlin class with a super not using dagger without @ContributesBinding annotation does not show a warning`() {
+    TestLintTask.lint()
+      .files(
+        TestFiles.kotlin(
+          """
 
                     interface Authenticator
 
                     class AuthenticatorImpl: Authenticator
-                    """
-                    )
-                    .indented()
-            )
-            .issues(MissingContributesBindingDetector.ISSUE)
-            .run()
-            .expectClean()
-            .expectErrorCount(0)
-    }
+                    """,
+        )
+          .indented(),
+      )
+      .issues(MissingContributesBindingDetector.ISSUE)
+      .run()
+      .expectClean()
+      .expectErrorCount(0)
+  }
 
-    @Test
-    fun `java class with super using dagger without @ContributesBinding annotation shows no warning`() {
-        TestLintTask.lint()
-            .files(
-                anvilAnnotations,
-                javaxAnnotations,
-                TestFiles.java(
-                        """
+  @Test
+  fun `java class with super using dagger without @ContributesBinding annotation shows no warning`() {
+    TestLintTask.lint()
+      .files(
+        anvilAnnotations,
+        javaxAnnotations,
+        TestFiles.java(
+          """
                     import javax.inject.Inject;
 
                     interface Authenticator {}
@@ -248,24 +247,24 @@ class MissingContributesBindingDetectorTest {
                         @Inject
                         public AuthenticatorImpl() {}
                     }
-                    """
-                    )
-                    .indented()
-            )
-            .issues(MissingContributesBindingDetector.ISSUE)
-            .run()
-            .expectClean()
-            .expectWarningCount(0)
-    }
+                    """,
+        )
+          .indented(),
+      )
+      .issues(MissingContributesBindingDetector.ISSUE)
+      .run()
+      .expectClean()
+      .expectWarningCount(0)
+  }
 
-    @Test
-    fun `java class without super using dagger and no @ContributesBinding annotation shows no warning`() {
-        TestLintTask.lint()
-            .files(
-                anvilAnnotations,
-                javaxAnnotations,
-                TestFiles.java(
-                        """
+  @Test
+  fun `java class without super using dagger and no @ContributesBinding annotation shows no warning`() {
+    TestLintTask.lint()
+      .files(
+        anvilAnnotations,
+        javaxAnnotations,
+        TestFiles.java(
+          """
                     import javax.inject.Inject;
 
                     class AuthenticatorImpl {
@@ -273,13 +272,13 @@ class MissingContributesBindingDetectorTest {
                     @Inject
                     public AuthenticatorImpl() {}
                     }
-                    """
-                    )
-                    .indented()
-            )
-            .issues(MissingContributesBindingDetector.ISSUE)
-            .run()
-            .expectClean()
-            .expectErrorCount(0)
-    }
+                    """,
+        )
+          .indented(),
+      )
+      .issues(MissingContributesBindingDetector.ISSUE)
+      .run()
+      .expectClean()
+      .expectErrorCount(0)
+  }
 }

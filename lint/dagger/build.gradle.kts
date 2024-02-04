@@ -3,16 +3,16 @@
  * SPDX-License-Identifier: MIT
  */
 plugins {
-    id("dev.whosnickdoglio.lint")
-    alias(libs.plugins.ksp)
+  id("dev.whosnickdoglio.lint")
+  alias(libs.plugins.ksp)
 }
 
 dependencies {
-    ksp(libs.autoService.ksp)
+  ksp(libs.autoService.ksp)
 
-    implementation(projects.lint.shared)
+  implementation(projects.lint.shared)
 
-    compileOnly(libs.autoService.annotations)
+  compileOnly(libs.autoService.annotations)
 
-    testImplementation(projects.lint.testStubs)
+  testImplementation(projects.lint.testStubs)
 }

@@ -27,54 +27,52 @@ import org.jetbrains.uast.UAnnotation
 import org.jetbrains.uast.UElement
 
 internal class NoAnvilInJavaDetector : Detector(), SourceCodeScanner {
-    override fun getApplicableUastTypes(): List<Class<out UElement>> =
-        listOf(UAnnotation::class.java)
+  override fun getApplicableUastTypes(): List<Class<out UElement>> = listOf(UAnnotation::class.java)
 
-    override fun createUastHandler(context: JavaContext): UElementHandler? {
-        if (isKotlin(context.uastFile?.lang)) return null
-        return object : UElementHandler() {
-            override fun visitAnnotation(node: UAnnotation) {
-                if (node.qualifiedName in anvilAnnotations) {
-                    context.report(
-                        Incident(context, ISSUE)
-                            .location(context.getLocation(node))
-                            .message(ISSUE.getExplanation(TextFormat.RAW))
-                    )
-                }
-            }
+  override fun createUastHandler(context: JavaContext): UElementHandler? {
+    if (isKotlin(context.uastFile?.lang)) return null
+    return object : UElementHandler() {
+      override fun visitAnnotation(node: UAnnotation) {
+        if (node.qualifiedName in anvilAnnotations) {
+          context.report(
+            Incident(context, ISSUE)
+              .location(context.getLocation(node))
+              .message(ISSUE.getExplanation(TextFormat.RAW)),
+          )
         }
+      }
     }
+  }
 
-    companion object {
+  companion object {
+    internal val anvilAnnotations =
+      setOf(
+        CONTRIBUTES_TO,
+        CONTRIBUTES_BINDING,
+        CONTRIBUTES_MULTI_BINDING,
+        CONTRIBUTES_SUBCOMPONENT,
+        CONTRIBUTES_SUBCOMPONENT_FACTORY,
+        MERGE_COMPONENT,
+        MERGE_SUBCOMPONENT,
+      )
+    private val implementation =
+      Implementation(NoAnvilInJavaDetector::class.java, Scope.JAVA_FILE_SCOPE)
 
-        internal val anvilAnnotations =
-            setOf(
-                CONTRIBUTES_TO,
-                CONTRIBUTES_BINDING,
-                CONTRIBUTES_MULTI_BINDING,
-                CONTRIBUTES_SUBCOMPONENT,
-                CONTRIBUTES_SUBCOMPONENT_FACTORY,
-                MERGE_COMPONENT,
-                MERGE_SUBCOMPONENT,
-            )
-        private val implementation =
-            Implementation(NoAnvilInJavaDetector::class.java, Scope.JAVA_FILE_SCOPE)
-
-        internal val ISSUE =
-            Issue.create(
-                id = "NoAnvilJavaUsage",
-                briefDescription = "Anvil doesn't support Java",
-                explanation =
-                    """
+    internal val ISSUE =
+      Issue.create(
+        id = "NoAnvilJavaUsage",
+        briefDescription = "Anvil doesn't support Java",
+        explanation =
+          """
                         Anvil works as a Kotlin compiler plugin and does not support being used from Java. \
                         You can convert this class to Kotlin so it can use Anvil annotations.
 
                         See https://whosnickdoglio.dev/dagger-rules/rules/#anvil-cannot-be-used-from-java for more information.
                     """,
-                category = Category.CORRECTNESS,
-                priority = 10,
-                severity = Severity.ERROR,
-                implementation = implementation
-            )
-    }
+        category = Category.CORRECTNESS,
+        priority = 10,
+        severity = Severity.ERROR,
+        implementation = implementation,
+      )
+  }
 }

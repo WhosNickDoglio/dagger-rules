@@ -10,14 +10,13 @@ import dev.whosnickdoglio.stubs.daggerAnnotations
 import org.junit.Test
 
 class MissingContributesToDetectorTest {
-
-    @Test
-    fun `kotlin provides module without @ContributesTo annotation shows an error`() {
-        TestLintTask.lint()
-            .files(
-                daggerAnnotations,
-                TestFiles.kotlin(
-                        """
+  @Test
+  fun `kotlin provides module without @ContributesTo annotation shows an error`() {
+    TestLintTask.lint()
+      .files(
+        daggerAnnotations,
+        TestFiles.kotlin(
+          """
                 import dagger.Module
                 import dagger.Provides
 
@@ -29,42 +28,42 @@ class MissingContributesToDetectorTest {
                 @Provides fun provideAnotherThing(): Int = 1
 
                 }
-            """
-                    )
-                    .indented()
-            )
-            .issues(MissingContributesToDetector.ISSUE)
-            .run()
-            .expect(
-                """
+            """,
+        )
+          .indented(),
+      )
+      .issues(MissingContributesToDetector.ISSUE)
+      .run()
+      .expect(
+        """
                     src/MyModule.kt:5: Error: This Dagger module is missing a @ContributesTo annotation for Anvil to pick it up. See https://whosnickdoglio.dev/dagger-rules/rules/#a-class-annotated-with-module-should-also-be-annotated-with-contributesto for more information. [MissingContributesToAnnotation]
                     class MyModule {
                           ~~~~~~~~
                     1 errors, 0 warnings
                 """
-                    .trimIndent()
-            )
-            .expectErrorCount(1)
-            .expectFixDiffs(
-                """
+          .trimIndent(),
+      )
+      .expectErrorCount(1)
+      .expectFixDiffs(
+        """
                 Fix for src/MyModule.kt line 5: Add @ContributesTo annotation:
                 @@ -5 +5
                 - class MyModule {
                 + class @com.squareup.anvil.annotations.ContributesTo
                 + MyModule {
             """
-                    .trimIndent()
-            )
-    }
+          .trimIndent(),
+      )
+  }
 
-    @Test
-    fun `kotlin provides module with @ContributesTo annotation shows no error`() {
-        TestLintTask.lint()
-            .files(
-                daggerAnnotations,
-                anvilAnnotations,
-                TestFiles.kotlin(
-                        """
+  @Test
+  fun `kotlin provides module with @ContributesTo annotation shows no error`() {
+    TestLintTask.lint()
+      .files(
+        daggerAnnotations,
+        anvilAnnotations,
+        TestFiles.kotlin(
+          """
                 import dagger.Module
                 import dagger.Provides
                 import com.squareup.anvil.annotations.ContributesTo
@@ -78,24 +77,24 @@ class MissingContributesToDetectorTest {
                 @Provides fun provideAnotherThing(): Int = 1
 
                 }
-            """
-                    )
-                    .indented()
-            )
-            .issues(MissingContributesToDetector.ISSUE)
-            .run()
-            .expectClean()
-            .expectErrorCount(0)
-    }
+            """,
+        )
+          .indented(),
+      )
+      .issues(MissingContributesToDetector.ISSUE)
+      .run()
+      .expectClean()
+      .expectErrorCount(0)
+  }
 
-    @Test
-    fun `kotlin @Binds module without @ContributesTo annotation shows an error`() {
-        TestLintTask.lint()
-            .files(
-                daggerAnnotations,
-                anvilAnnotations,
-                TestFiles.kotlin(
-                        """
+  @Test
+  fun `kotlin @Binds module without @ContributesTo annotation shows an error`() {
+    TestLintTask.lint()
+      .files(
+        daggerAnnotations,
+        anvilAnnotations,
+        TestFiles.kotlin(
+          """
                 import dagger.Module
                 import dagger.Binds
 
@@ -113,42 +112,42 @@ class MissingContributesToDetectorTest {
                 @Binds fun provideMyOtherThing(impl: MyOtherThingImpl): OtherThing
 
                 }
-            """
-                    )
-                    .indented()
-            )
-            .issues(MissingContributesToDetector.ISSUE)
-            .run()
-            .expect(
-                """
+            """,
+        )
+          .indented(),
+      )
+      .issues(MissingContributesToDetector.ISSUE)
+      .run()
+      .expect(
+        """
                     src/MyThing.kt:11: Error: This Dagger module is missing a @ContributesTo annotation for Anvil to pick it up. See https://whosnickdoglio.dev/dagger-rules/rules/#a-class-annotated-with-module-should-also-be-annotated-with-contributesto for more information. [MissingContributesToAnnotation]
                     interface MyModule {
                               ~~~~~~~~
                     1 errors, 0 warnings
                 """
-                    .trimIndent()
-            )
-            .expectErrorCount(1)
-            .expectFixDiffs(
-                """
+          .trimIndent(),
+      )
+      .expectErrorCount(1)
+      .expectFixDiffs(
+        """
                 Fix for src/MyThing.kt line 11: Add @ContributesTo annotation:
                 @@ -11 +11
                 - interface MyModule {
                 + interface @com.squareup.anvil.annotations.ContributesTo
                 + MyModule {
             """
-                    .trimIndent()
-            )
-    }
+          .trimIndent(),
+      )
+  }
 
-    @Test
-    fun `kotlin @Binds module with @ContributesTo annotation shows no error`() {
-        TestLintTask.lint()
-            .files(
-                daggerAnnotations,
-                anvilAnnotations,
-                TestFiles.kotlin(
-                        """
+  @Test
+  fun `kotlin @Binds module with @ContributesTo annotation shows no error`() {
+    TestLintTask.lint()
+      .files(
+        daggerAnnotations,
+        anvilAnnotations,
+        TestFiles.kotlin(
+          """
                 import dagger.Module
                 import dagger.Binds
                 import com.squareup.anvil.annotations.ContributesTo
@@ -166,24 +165,24 @@ class MissingContributesToDetectorTest {
 
                     @Binds fun provideMyOtherThing(impl: MyOtherThingImpl): OtherThing
                 }
-            """
-                    )
-                    .indented()
-            )
-            .issues(MissingContributesToDetector.ISSUE)
-            .run()
-            .expectClean()
-            .expectErrorCount(0)
-    }
+            """,
+        )
+          .indented(),
+      )
+      .issues(MissingContributesToDetector.ISSUE)
+      .run()
+      .expectClean()
+      .expectErrorCount(0)
+  }
 
-    @Test
-    fun `kotlin companion object @Binds module with @ContributesTo annotation shows no error`() {
-        TestLintTask.lint()
-            .files(
-                daggerAnnotations,
-                anvilAnnotations,
-                TestFiles.kotlin(
-                        """
+  @Test
+  fun `kotlin companion object @Binds module with @ContributesTo annotation shows no error`() {
+    TestLintTask.lint()
+      .files(
+        daggerAnnotations,
+        anvilAnnotations,
+        TestFiles.kotlin(
+          """
                 import dagger.Module
                 import dagger.Binds
                 import com.squareup.anvil.annotations.ContributesTo
@@ -201,24 +200,24 @@ class MissingContributesToDetectorTest {
                         @Provides fun provideSomething(): String = "Hello world"
                     }
                 }
-            """
-                    )
-                    .indented()
-            )
-            .issues(MissingContributesToDetector.ISSUE)
-            .run()
-            .expectClean()
-            .expectErrorCount(0)
-    }
+            """,
+        )
+          .indented(),
+      )
+      .issues(MissingContributesToDetector.ISSUE)
+      .run()
+      .expectClean()
+      .expectErrorCount(0)
+  }
 
-    @Test
-    fun `kotlin companion object @Binds module without @ContributesTo annotation shows an error`() {
-        TestLintTask.lint()
-            .files(
-                daggerAnnotations,
-                anvilAnnotations,
-                TestFiles.kotlin(
-                        """
+  @Test
+  fun `kotlin companion object @Binds module without @ContributesTo annotation shows an error`() {
+    TestLintTask.lint()
+      .files(
+        daggerAnnotations,
+        anvilAnnotations,
+        TestFiles.kotlin(
+          """
                 import dagger.Module
                 import dagger.Binds
 
@@ -234,41 +233,41 @@ class MissingContributesToDetectorTest {
                         @Provides fun provideSomething(): String = "Hell World"
                     }
                 }
-            """
-                    )
-                    .indented()
-            )
-            .issues(MissingContributesToDetector.ISSUE)
-            .run()
-            .expect(
-                """
+            """,
+        )
+          .indented(),
+      )
+      .issues(MissingContributesToDetector.ISSUE)
+      .run()
+      .expect(
+        """
                     src/MyThing.kt:8: Error: This Dagger module is missing a @ContributesTo annotation for Anvil to pick it up. See https://whosnickdoglio.dev/dagger-rules/rules/#a-class-annotated-with-module-should-also-be-annotated-with-contributesto for more information. [MissingContributesToAnnotation]
                     interface MyModule {
                               ~~~~~~~~
                     1 errors, 0 warnings
                 """
-                    .trimIndent()
-            )
-            .expectErrorCount(1)
-            .expectFixDiffs(
-                """
+          .trimIndent(),
+      )
+      .expectErrorCount(1)
+      .expectFixDiffs(
+        """
                 Fix for src/MyThing.kt line 8: Add @ContributesTo annotation:
                 @@ -8 +8
                 - interface MyModule {
                 + interface @com.squareup.anvil.annotations.ContributesTo
                 + MyModule {
             """
-                    .trimIndent()
-            )
-    }
+          .trimIndent(),
+      )
+  }
 
-    @Test
-    fun `java provides module without @ContributesTo annotation shows an error`() {
-        TestLintTask.lint()
-            .files(
-                daggerAnnotations,
-                TestFiles.java(
-                        """
+  @Test
+  fun `java provides module without @ContributesTo annotation shows an error`() {
+    TestLintTask.lint()
+      .files(
+        daggerAnnotations,
+        TestFiles.java(
+          """
                 import dagger.Module;
                 import dagger.Provides;
 
@@ -281,24 +280,24 @@ class MissingContributesToDetectorTest {
                         return "Hello World";
                     }
                 }
-            """
-                    )
-                    .indented()
-            )
-            .issues(MissingContributesToDetector.ISSUE)
-            .run()
-            .expectClean()
-            .expectErrorCount(0)
-    }
+            """,
+        )
+          .indented(),
+      )
+      .issues(MissingContributesToDetector.ISSUE)
+      .run()
+      .expectClean()
+      .expectErrorCount(0)
+  }
 
-    @Test
-    fun `java @Binds module without @ContributesTo annotation shows no error`() {
-        TestLintTask.lint()
-            .files(
-                daggerAnnotations,
-                anvilAnnotations,
-                TestFiles.java(
-                        """
+  @Test
+  fun `java @Binds module without @ContributesTo annotation shows no error`() {
+    TestLintTask.lint()
+      .files(
+        daggerAnnotations,
+        anvilAnnotations,
+        TestFiles.java(
+          """
                 import dagger.Module;
                 import dagger.Binds;
 
@@ -311,13 +310,13 @@ class MissingContributesToDetectorTest {
                     @Binds
                     MyThing provideMyThing(MyThingImpl impl);
                 }
-            """
-                    )
-                    .indented()
-            )
-            .issues(MissingContributesToDetector.ISSUE)
-            .run()
-            .expectClean()
-            .expectErrorCount(0)
-    }
+            """,
+        )
+          .indented(),
+      )
+      .issues(MissingContributesToDetector.ISSUE)
+      .run()
+      .expectClean()
+      .expectErrorCount(0)
+  }
 }

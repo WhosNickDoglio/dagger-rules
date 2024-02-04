@@ -23,61 +23,60 @@ import org.jetbrains.uast.UClass
 import org.jetbrains.uast.UElement
 
 internal class MissingModuleAnnotationDetector : Detector(), SourceCodeScanner {
+  private val daggerAnnotations = listOf(BINDS, PROVIDES, MULTIBINDS)
 
-    private val daggerAnnotations = listOf(BINDS, PROVIDES, MULTIBINDS)
+  override fun getApplicableUastTypes(): List<Class<out UElement>> = listOf(UClass::class.java)
 
-    override fun getApplicableUastTypes(): List<Class<out UElement>> = listOf(UClass::class.java)
+  override fun createUastHandler(context: JavaContext): UElementHandler {
+    return object : UElementHandler() {
+      override fun visitClass(node: UClass) {
+        if (!node.hasAnnotation(MODULE)) {
+          if (isKotlin(node.lang) && context.evaluator.isCompanion(node)) {
+            // Early out, other methods should already trigger lint warning?
+            return
+          }
 
-    override fun createUastHandler(context: JavaContext): UElementHandler {
-        return object : UElementHandler() {
-            override fun visitClass(node: UClass) {
-                if (!node.hasAnnotation(MODULE)) {
-                    if (isKotlin(node.lang) && context.evaluator.isCompanion(node)) {
-                        // Early out, other methods should already trigger lint warning?
-                        return
-                    }
-
-                    val needsModuleAnnotation =
-                        node.methods.any { method ->
-                            daggerAnnotations.any { annotation -> method.hasAnnotation(annotation) }
-                        }
-
-                    if (needsModuleAnnotation) {
-                        context.report(
-                            issue = ISSUE,
-                            location = context.getNameLocation(node),
-                            message = ISSUE.getExplanation(TextFormat.RAW),
-                            quickfixData =
-                                fix()
-                                    .name("Add @Module annotation")
-                                    .annotate(MODULE)
-                                    .range(context.getNameLocation(node))
-                                    .build()
-                        )
-                    }
-                }
+          val needsModuleAnnotation =
+            node.methods.any { method ->
+              daggerAnnotations.any { annotation -> method.hasAnnotation(annotation) }
             }
+
+          if (needsModuleAnnotation) {
+            context.report(
+              issue = ISSUE,
+              location = context.getNameLocation(node),
+              message = ISSUE.getExplanation(TextFormat.RAW),
+              quickfixData =
+                fix()
+                  .name("Add @Module annotation")
+                  .annotate(MODULE)
+                  .range(context.getNameLocation(node))
+                  .build(),
+            )
+          }
         }
+      }
     }
+  }
 
-    companion object {
-        private val implementation =
-            Implementation(MissingModuleAnnotationDetector::class.java, Scope.JAVA_FILE_SCOPE)
+  companion object {
+    private val implementation =
+      Implementation(MissingModuleAnnotationDetector::class.java, Scope.JAVA_FILE_SCOPE)
 
-        internal val ISSUE =
-            Issue.create(
-                id = "MissingModuleAnnotation",
-                briefDescription = "Missing `@Module` annotation",
-                explanation =
-                    """
+    internal val ISSUE =
+      Issue.create(
+        id = "MissingModuleAnnotation",
+        briefDescription = "Missing `@Module` annotation",
+        explanation =
+          """
                     Provides or binds methods won't be picked up if the class isn't annotated with @Module.
 
                     See https://whosnickdoglio.dev/dagger-rules/rules/#classes-with-provides-binds-or-multibinds-methods-should-be-annotated-with-module for more information.
                     """,
-                category = Category.CORRECTNESS,
-                priority = 5,
-                severity = Severity.ERROR,
-                implementation = implementation
-            )
-    }
+        category = Category.CORRECTNESS,
+        priority = 5,
+        severity = Severity.ERROR,
+        implementation = implementation,
+      )
+  }
 }

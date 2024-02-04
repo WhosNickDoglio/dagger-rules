@@ -30,56 +30,57 @@ import org.jetbrains.uast.resolveToUElement
  * DI graph with multiple scopes.
  */
 internal class MultipleScopesDetector : Detector(), SourceCodeScanner {
-    override fun getApplicableUastTypes(): List<Class<out UElement>> =
-        listOf(UClass::class.java, UMethod::class.java)
+  override fun getApplicableUastTypes(): List<Class<out UElement>> = listOf(UClass::class.java, UMethod::class.java)
 
-    override fun createUastHandler(context: JavaContext): UElementHandler =
-        object : UElementHandler() {
-            override fun visitClass(node: UClass) {
-                node.report(context, context.getNameLocation(node))
-            }
+  override fun createUastHandler(context: JavaContext): UElementHandler =
+    object : UElementHandler() {
+      override fun visitClass(node: UClass) {
+        node.report(context, context.getNameLocation(node))
+      }
 
-            override fun visitMethod(node: UMethod) {
-                if (node.hasAnnotation(BINDS) || node.hasAnnotation(PROVIDES)) {
-                    node.report(context, context.getNameLocation(node))
-                }
-            }
+      override fun visitMethod(node: UMethod) {
+        if (node.hasAnnotation(BINDS) || node.hasAnnotation(PROVIDES)) {
+          node.report(context, context.getNameLocation(node))
         }
-
-    private fun UAnnotated.report(context: JavaContext, location: Location) {
-        val scopeAnnotations =
-            uAnnotations
-                .map { annotation -> annotation.resolveToUElement() }
-                .filterIsInstance<UAnnotated>()
-                .filter { annotated ->
-                    annotated.uAnnotations.any { annotation -> annotation.qualifiedName == SCOPE }
-                }
-
-        if (scopeAnnotations.size > 1) {
-            context.report(
-                incident =
-                    Incident(context)
-                        .location(location)
-                        .message(ISSUE.getExplanation(TextFormat.RAW))
-            )
-        }
+      }
     }
 
-    companion object {
+  private fun UAnnotated.report(
+    context: JavaContext,
+    location: Location,
+  ) {
+    val scopeAnnotations =
+      uAnnotations
+        .map { annotation -> annotation.resolveToUElement() }
+        .filterIsInstance<UAnnotated>()
+        .filter { annotated ->
+          annotated.uAnnotations.any { annotation -> annotation.qualifiedName == SCOPE }
+        }
 
-        private val implementation =
-            Implementation(MultipleScopesDetector::class.java, Scope.JAVA_FILE_SCOPE)
-
-        internal val ISSUE =
-            Issue.create(
-                id = "MultipleScopes",
-                briefDescription = "An object cannot declare more than one `@Scope`",
-                explanation =
-                    "Objects on the DI graph can only have one `@Scope` annotation, please remove one",
-                category = Category.CORRECTNESS,
-                priority = 5,
-                severity = Severity.ERROR,
-                implementation = implementation
-            )
+    if (scopeAnnotations.size > 1) {
+      context.report(
+        incident =
+          Incident(context)
+            .location(location)
+            .message(ISSUE.getExplanation(TextFormat.RAW)),
+      )
     }
+  }
+
+  companion object {
+    private val implementation =
+      Implementation(MultipleScopesDetector::class.java, Scope.JAVA_FILE_SCOPE)
+
+    internal val ISSUE =
+      Issue.create(
+        id = "MultipleScopes",
+        briefDescription = "An object cannot declare more than one `@Scope`",
+        explanation =
+          "Objects on the DI graph can only have one `@Scope` annotation, please remove one",
+        category = Category.CORRECTNESS,
+        priority = 5,
+        severity = Severity.ERROR,
+        implementation = implementation,
+      )
+  }
 }

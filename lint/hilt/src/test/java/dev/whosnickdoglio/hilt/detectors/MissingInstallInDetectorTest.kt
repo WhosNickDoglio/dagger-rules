@@ -10,14 +10,13 @@ import dev.whosnickdoglio.stubs.daggerAnnotations
 import org.junit.Test
 
 class MissingInstallInDetectorTest {
-
-    @Test
-    fun `kotlin provides @Module but is missing @InstallIn annotation shows an error`() {
-        TestLintTask.lint()
-            .files(
-                daggerAnnotations,
-                TestFiles.kotlin(
-                        """
+  @Test
+  fun `kotlin provides @Module but is missing @InstallIn annotation shows an error`() {
+    TestLintTask.lint()
+      .files(
+        daggerAnnotations,
+        TestFiles.kotlin(
+          """
                 import dagger.Module
                 import dagger.Provides
 
@@ -26,14 +25,14 @@ class MissingInstallInDetectorTest {
                     @Provides fun provideMyThing(): String = "Hello World"
                     @Provides fun provideMyOtherThing(): Int = 1
                 }
-            """
-                    )
-                    .indented()
-            )
-            .issues(MissingInstallInDetector.ISSUE)
-            .run()
-            .expect(
-                """
+            """,
+        )
+          .indented(),
+      )
+      .issues(MissingInstallInDetector.ISSUE)
+      .run()
+      .expect(
+        """
                     src/MyModule.kt:5: Error: Hilt modules and entry points require the @InstallIn annotation to be properly connected to a Component. Annotate this class with @InstallIn and the Hilt component you want to connect it to, the most commonly used Component is the SingletonComponent.
 
                     See https://whosnickdoglio.dev/dagger-rules/rules/#a-class-annotated-with-module-or-entrypoint-should-also-be-annotated-with-installin for more information. [MissingInstallInAnnotation]
@@ -41,11 +40,11 @@ class MissingInstallInDetectorTest {
                           ~~~~~~~~
                     1 errors, 0 warnings
                 """
-                    .trimIndent()
-            )
-            .expectErrorCount(1)
-            .expectFixDiffs(
-                """
+          .trimIndent(),
+      )
+      .expectErrorCount(1)
+      .expectFixDiffs(
+        """
                 Fix for src/MyModule.kt line 5: Install in the SingletonComponent :
                 @@ -4 +4
                 + @dagger.hilt.InstallIn(dagger.hilt.components.SingletonComponent::class)
@@ -71,18 +70,18 @@ class MissingInstallInDetectorTest {
                 @@ -4 +4
                 + @dagger.hilt.InstallIn(dagger.hilt.android.components.ViewWithFragmentComponent::class)
             """
-                    .trimIndent()
-            )
-    }
+          .trimIndent(),
+      )
+  }
 
-    @Test
-    fun `kotlin provides has both @Module and @InstallIn annotation does not show an error`() {
-        TestLintTask.lint()
-            .files(
-                *hiltAnnotations,
-                daggerAnnotations,
-                TestFiles.kotlin(
-                        """
+  @Test
+  fun `kotlin provides has both @Module and @InstallIn annotation does not show an error`() {
+    TestLintTask.lint()
+      .files(
+        *hiltAnnotations,
+        daggerAnnotations,
+        TestFiles.kotlin(
+          """
                 import dagger.Module
                 import dagger.Provides
                 import dagger.hilt.InstallIn
@@ -93,23 +92,23 @@ class MissingInstallInDetectorTest {
                     @Provides fun provideMyThing(): String = "Hello World"
                     @Provides fun provideMyOtherThing(): Int = 1
                 }
-            """
-                    )
-                    .indented()
-            )
-            .issues(MissingInstallInDetector.ISSUE)
-            .run()
-            .expectClean()
-            .expectErrorCount(0)
-    }
+            """,
+        )
+          .indented(),
+      )
+      .issues(MissingInstallInDetector.ISSUE)
+      .run()
+      .expectClean()
+      .expectErrorCount(0)
+  }
 
-    @Test
-    fun `kotlin @Binds @Module but is missing @InstallIn annotation shows an error`() {
-        TestLintTask.lint()
-            .files(
-                daggerAnnotations,
-                TestFiles.kotlin(
-                        """
+  @Test
+  fun `kotlin @Binds @Module but is missing @InstallIn annotation shows an error`() {
+    TestLintTask.lint()
+      .files(
+        daggerAnnotations,
+        TestFiles.kotlin(
+          """
                 import dagger.Module
                 import dagger.Binds
 
@@ -125,14 +124,14 @@ class MissingInstallInDetectorTest {
                     @Binds fun bindsPizza(impl: PizzaMakerImpl): PizzaMaker
                     @Binds fun bindsRepository(impl: SqlRepository): Repository
                 }
-            """
-                    )
-                    .indented()
-            )
-            .issues(MissingInstallInDetector.ISSUE)
-            .run()
-            .expect(
-                """
+            """,
+        )
+          .indented(),
+      )
+      .issues(MissingInstallInDetector.ISSUE)
+      .run()
+      .expect(
+        """
                     src/PizzaMaker.kt:12: Error: Hilt modules and entry points require the @InstallIn annotation to be properly connected to a Component. Annotate this class with @InstallIn and the Hilt component you want to connect it to, the most commonly used Component is the SingletonComponent.
 
                     See https://whosnickdoglio.dev/dagger-rules/rules/#a-class-annotated-with-module-or-entrypoint-should-also-be-annotated-with-installin for more information. [MissingInstallInAnnotation]
@@ -140,11 +139,11 @@ class MissingInstallInDetectorTest {
                               ~~~~~~~~
                     1 errors, 0 warnings
                 """
-                    .trimIndent()
-            )
-            .expectErrorCount(1)
-            .expectFixDiffs(
-                """
+          .trimIndent(),
+      )
+      .expectErrorCount(1)
+      .expectFixDiffs(
+        """
                 Fix for src/PizzaMaker.kt line 12: Install in the SingletonComponent :
                 @@ -11 +11
                 + @dagger.hilt.InstallIn(dagger.hilt.components.SingletonComponent::class)
@@ -170,18 +169,18 @@ class MissingInstallInDetectorTest {
                 @@ -11 +11
                 + @dagger.hilt.InstallIn(dagger.hilt.android.components.ViewWithFragmentComponent::class)
             """
-                    .trimIndent()
-            )
-    }
+          .trimIndent(),
+      )
+  }
 
-    @Test
-    fun `kotlin @Binds has both @Module and @InstallIn annotation does not show an error`() {
-        TestLintTask.lint()
-            .files(
-                *hiltAnnotations,
-                daggerAnnotations,
-                TestFiles.kotlin(
-                        """
+  @Test
+  fun `kotlin @Binds has both @Module and @InstallIn annotation does not show an error`() {
+    TestLintTask.lint()
+      .files(
+        *hiltAnnotations,
+        daggerAnnotations,
+        TestFiles.kotlin(
+          """
                 import dagger.Module
                 import dagger.Binds
                 import dagger.hilt.InstallIn
@@ -194,24 +193,24 @@ class MissingInstallInDetectorTest {
                 interface MyModule {
                     @Binds fun bindsPizza(impl: PizzaMakerImpl): PizzaMaker
                 }
-            """
-                    )
-                    .indented()
-            )
-            .issues(MissingInstallInDetector.ISSUE)
-            .run()
-            .expectClean()
-            .expectErrorCount(0)
-    }
+            """,
+        )
+          .indented(),
+      )
+      .issues(MissingInstallInDetector.ISSUE)
+      .run()
+      .expectClean()
+      .expectErrorCount(0)
+  }
 
-    @Test
-    fun `kotlin companion object @Binds has both @Module and @InstallIn annotation does not show an error`() {
-        TestLintTask.lint()
-            .files(
-                *hiltAnnotations,
-                daggerAnnotations,
-                TestFiles.kotlin(
-                        """
+  @Test
+  fun `kotlin companion object @Binds has both @Module and @InstallIn annotation does not show an error`() {
+    TestLintTask.lint()
+      .files(
+        *hiltAnnotations,
+        daggerAnnotations,
+        TestFiles.kotlin(
+          """
                 import dagger.Module
                 import dagger.Binds
                 import dagger.Provides
@@ -231,24 +230,24 @@ class MissingInstallInDetectorTest {
                     }
 
                 }
-            """
-                    )
-                    .indented()
-            )
-            .issues(MissingInstallInDetector.ISSUE)
-            .run()
-            .expectClean()
-            .expectErrorCount(0)
-    }
+            """,
+        )
+          .indented(),
+      )
+      .issues(MissingInstallInDetector.ISSUE)
+      .run()
+      .expectClean()
+      .expectErrorCount(0)
+  }
 
-    @Test
-    fun `kotlin companion object @Binds has @Module but no  @InstallIn annotation show an error`() {
-        TestLintTask.lint()
-            .files(
-                *hiltAnnotations,
-                daggerAnnotations,
-                TestFiles.kotlin(
-                        """
+  @Test
+  fun `kotlin companion object @Binds has @Module but no  @InstallIn annotation show an error`() {
+    TestLintTask.lint()
+      .files(
+        *hiltAnnotations,
+        daggerAnnotations,
+        TestFiles.kotlin(
+          """
                 import dagger.Module
                 import dagger.Binds
                 import dagger.Provides
@@ -266,14 +265,14 @@ class MissingInstallInDetectorTest {
                     }
 
                 }
-            """
-                    )
-                    .indented()
-            )
-            .issues(MissingInstallInDetector.ISSUE)
-            .run()
-            .expect(
-                """
+            """,
+        )
+          .indented(),
+      )
+      .issues(MissingInstallInDetector.ISSUE)
+      .run()
+      .expect(
+        """
                     src/PizzaMaker.kt:9: Error: Hilt modules and entry points require the @InstallIn annotation to be properly connected to a Component. Annotate this class with @InstallIn and the Hilt component you want to connect it to, the most commonly used Component is the SingletonComponent.
 
                     See https://whosnickdoglio.dev/dagger-rules/rules/#a-class-annotated-with-module-or-entrypoint-should-also-be-annotated-with-installin for more information. [MissingInstallInAnnotation]
@@ -281,11 +280,11 @@ class MissingInstallInDetectorTest {
                               ~~~~~~~~
                     1 errors, 0 warnings
                 """
-                    .trimIndent()
-            )
-            .expectErrorCount(1)
-            .expectFixDiffs(
-                """
+          .trimIndent(),
+      )
+      .expectErrorCount(1)
+      .expectFixDiffs(
+        """
                 Fix for src/PizzaMaker.kt line 9: Install in the SingletonComponent :
                 @@ -8 +8
                 + @dagger.hilt.InstallIn(dagger.hilt.components.SingletonComponent::class)
@@ -311,17 +310,17 @@ class MissingInstallInDetectorTest {
                 @@ -8 +8
                 + @dagger.hilt.InstallIn(dagger.hilt.android.components.ViewWithFragmentComponent::class)
             """
-                    .trimIndent()
-            )
-    }
+          .trimIndent(),
+      )
+  }
 
-    @Test
-    fun `java provides @Module but is missing @InstallIn annotation shows an error`() {
-        TestLintTask.lint()
-            .files(
-                daggerAnnotations,
-                TestFiles.java(
-                        """
+  @Test
+  fun `java provides @Module but is missing @InstallIn annotation shows an error`() {
+    TestLintTask.lint()
+      .files(
+        daggerAnnotations,
+        TestFiles.java(
+          """
                 import dagger.Module;
                 import dagger.Provides;
 
@@ -331,14 +330,14 @@ class MissingInstallInDetectorTest {
                         return "Hello World";
                     }
                 }
-            """
-                    )
-                    .indented()
-            )
-            .issues(MissingInstallInDetector.ISSUE)
-            .run()
-            .expect(
-                """
+            """,
+        )
+          .indented(),
+      )
+      .issues(MissingInstallInDetector.ISSUE)
+      .run()
+      .expect(
+        """
                     src/MyModule.java:5: Error: Hilt modules and entry points require the @InstallIn annotation to be properly connected to a Component. Annotate this class with @InstallIn and the Hilt component you want to connect it to, the most commonly used Component is the SingletonComponent.
 
                     See https://whosnickdoglio.dev/dagger-rules/rules/#a-class-annotated-with-module-or-entrypoint-should-also-be-annotated-with-installin for more information. [MissingInstallInAnnotation]
@@ -346,11 +345,11 @@ class MissingInstallInDetectorTest {
                           ~~~~~~~~
                     1 errors, 0 warnings
                 """
-                    .trimIndent()
-            )
-            .expectErrorCount(1)
-            .expectFixDiffs(
-                """
+          .trimIndent(),
+      )
+      .expectErrorCount(1)
+      .expectFixDiffs(
+        """
                 Fix for src/MyModule.java line 5: Install in the SingletonComponent :
                 @@ -4 +4
                 + @dagger.hilt.InstallIn(dagger.hilt.components.SingletonComponent::class)
@@ -376,18 +375,18 @@ class MissingInstallInDetectorTest {
                 @@ -4 +4
                 + @dagger.hilt.InstallIn(dagger.hilt.android.components.ViewWithFragmentComponent::class)
             """
-                    .trimIndent()
-            )
-    }
+          .trimIndent(),
+      )
+  }
 
-    @Test
-    fun `java provides has both @Module and @InstallIn annotation does not show an error`() {
-        TestLintTask.lint()
-            .files(
-                *hiltAnnotations,
-                daggerAnnotations,
-                TestFiles.java(
-                        """
+  @Test
+  fun `java provides has both @Module and @InstallIn annotation does not show an error`() {
+    TestLintTask.lint()
+      .files(
+        *hiltAnnotations,
+        daggerAnnotations,
+        TestFiles.java(
+          """
                 import dagger.Module;
                 import dagger.Provides;
                 import dagger.hilt.InstallIn;
@@ -399,24 +398,24 @@ class MissingInstallInDetectorTest {
                         return "Hello World";
                     }
                 }
-            """
-                    )
-                    .indented()
-            )
-            .issues(MissingInstallInDetector.ISSUE)
-            .run()
-            .expectClean()
-            .expectErrorCount(0)
-            .expectFixDiffs("")
-    }
+            """,
+        )
+          .indented(),
+      )
+      .issues(MissingInstallInDetector.ISSUE)
+      .run()
+      .expectClean()
+      .expectErrorCount(0)
+      .expectFixDiffs("")
+  }
 
-    @Test
-    fun `java @Binds @Module but is missing @InstallIn annotation shows an error`() {
-        TestLintTask.lint()
-            .files(
-                daggerAnnotations,
-                TestFiles.java(
-                        """
+  @Test
+  fun `java @Binds @Module but is missing @InstallIn annotation shows an error`() {
+    TestLintTask.lint()
+      .files(
+        daggerAnnotations,
+        TestFiles.java(
+          """
                 import dagger.Module;
                 import dagger.Binds;
 
@@ -428,14 +427,14 @@ class MissingInstallInDetectorTest {
                 interface MyModule {
                     @Binds PizzaMaker binds(PizzaMakerImpl impl);
                 }
-            """
-                    )
-                    .indented()
-            )
-            .issues(MissingInstallInDetector.ISSUE)
-            .run()
-            .expect(
-                """
+            """,
+        )
+          .indented(),
+      )
+      .issues(MissingInstallInDetector.ISSUE)
+      .run()
+      .expect(
+        """
                     src/PizzaMaker.java:9: Error: Hilt modules and entry points require the @InstallIn annotation to be properly connected to a Component. Annotate this class with @InstallIn and the Hilt component you want to connect it to, the most commonly used Component is the SingletonComponent.
 
                     See https://whosnickdoglio.dev/dagger-rules/rules/#a-class-annotated-with-module-or-entrypoint-should-also-be-annotated-with-installin for more information. [MissingInstallInAnnotation]
@@ -443,11 +442,11 @@ class MissingInstallInDetectorTest {
                               ~~~~~~~~
                     1 errors, 0 warnings
                 """
-                    .trimIndent()
-            )
-            .expectErrorCount(1)
-            .expectFixDiffs(
-                """
+          .trimIndent(),
+      )
+      .expectErrorCount(1)
+      .expectFixDiffs(
+        """
                 Fix for src/PizzaMaker.java line 9: Install in the SingletonComponent :
                 @@ -8 +8
                 + @dagger.hilt.InstallIn(dagger.hilt.components.SingletonComponent::class)
@@ -473,18 +472,18 @@ class MissingInstallInDetectorTest {
                 @@ -8 +8
                 + @dagger.hilt.InstallIn(dagger.hilt.android.components.ViewWithFragmentComponent::class)
             """
-                    .trimIndent()
-            )
-    }
+          .trimIndent(),
+      )
+  }
 
-    @Test
-    fun `java @Binds has both @Module and @InstallIn annotation does not show an error`() {
-        TestLintTask.lint()
-            .files(
-                *hiltAnnotations,
-                daggerAnnotations,
-                TestFiles.java(
-                    """
+  @Test
+  fun `java @Binds has both @Module and @InstallIn annotation does not show an error`() {
+    TestLintTask.lint()
+      .files(
+        *hiltAnnotations,
+        daggerAnnotations,
+        TestFiles.java(
+          """
                 import dagger.Module;
                 import dagger.Binds;
                 import dagger.hilt.InstallIn;
@@ -498,22 +497,22 @@ class MissingInstallInDetectorTest {
                     @Binds PizzaMaker binds(PizzaMakerImpl impl);
                 }
             """
-                        .trimIndent()
-                )
-            )
-            .issues(MissingInstallInDetector.ISSUE)
-            .run()
-            .expectClean()
-            .expectErrorCount(0)
-    }
+            .trimIndent(),
+        ),
+      )
+      .issues(MissingInstallInDetector.ISSUE)
+      .run()
+      .expectClean()
+      .expectErrorCount(0)
+  }
 
-    @Test
-    fun `kotlin entry point is missing @InstallIn annotation shows an error`() {
-        TestLintTask.lint()
-            .files(
-                *hiltAnnotations,
-                TestFiles.kotlin(
-                    """
+  @Test
+  fun `kotlin entry point is missing @InstallIn annotation shows an error`() {
+    TestLintTask.lint()
+      .files(
+        *hiltAnnotations,
+        TestFiles.kotlin(
+          """
                     import dagger.hilt.EntryPoint
 
                     @EntryPoint
@@ -521,13 +520,13 @@ class MissingInstallInDetectorTest {
                         fun myString(): String
                     }
             """
-                        .trimIndent()
-                )
-            )
-            .issues(MissingInstallInDetector.ISSUE)
-            .run()
-            .expect(
-                """
+            .trimIndent(),
+        ),
+      )
+      .issues(MissingInstallInDetector.ISSUE)
+      .run()
+      .expect(
+        """
                     src/MyEntryPoint.kt:4: Error: Hilt modules and entry points require the @InstallIn annotation to be properly connected to a Component. Annotate this class with @InstallIn and the Hilt component you want to connect it to, the most commonly used Component is the SingletonComponent.
 
                     See https://whosnickdoglio.dev/dagger-rules/rules/#a-class-annotated-with-module-or-entrypoint-should-also-be-annotated-with-installin for more information. [MissingInstallInAnnotation]
@@ -535,11 +534,11 @@ class MissingInstallInDetectorTest {
                               ~~~~~~~~~~~~
                     1 errors, 0 warnings
                 """
-                    .trimIndent()
-            )
-            .expectErrorCount(1)
-            .expectFixDiffs(
-                """
+          .trimIndent(),
+      )
+      .expectErrorCount(1)
+      .expectFixDiffs(
+        """
                 Fix for src/MyEntryPoint.kt line 4: Install in the SingletonComponent :
                 @@ -3 +3
                 + @dagger.hilt.InstallIn(dagger.hilt.components.SingletonComponent::class)
@@ -565,17 +564,17 @@ class MissingInstallInDetectorTest {
                 @@ -3 +3
                 + @dagger.hilt.InstallIn(dagger.hilt.android.components.ViewWithFragmentComponent::class)
             """
-                    .trimIndent()
-            )
-    }
+          .trimIndent(),
+      )
+  }
 
-    @Test
-    fun `java entry point is missing @InstallIn annotation shows an error`() {
-        TestLintTask.lint()
-            .files(
-                *hiltAnnotations,
-                TestFiles.java(
-                    """
+  @Test
+  fun `java entry point is missing @InstallIn annotation shows an error`() {
+    TestLintTask.lint()
+      .files(
+        *hiltAnnotations,
+        TestFiles.java(
+          """
                     import dagger.hilt.EntryPoint;
 
                     @EntryPoint
@@ -583,13 +582,13 @@ class MissingInstallInDetectorTest {
                         String myString();
                     }
             """
-                        .trimIndent()
-                )
-            )
-            .issues(MissingInstallInDetector.ISSUE)
-            .run()
-            .expect(
-                """
+            .trimIndent(),
+        ),
+      )
+      .issues(MissingInstallInDetector.ISSUE)
+      .run()
+      .expect(
+        """
                     src/MyEntryPoint.java:4: Error: Hilt modules and entry points require the @InstallIn annotation to be properly connected to a Component. Annotate this class with @InstallIn and the Hilt component you want to connect it to, the most commonly used Component is the SingletonComponent.
 
                     See https://whosnickdoglio.dev/dagger-rules/rules/#a-class-annotated-with-module-or-entrypoint-should-also-be-annotated-with-installin for more information. [MissingInstallInAnnotation]
@@ -597,11 +596,11 @@ class MissingInstallInDetectorTest {
                               ~~~~~~~~~~~~
                     1 errors, 0 warnings
                 """
-                    .trimIndent()
-            )
-            .expectErrorCount(1)
-            .expectFixDiffs(
-                """
+          .trimIndent(),
+      )
+      .expectErrorCount(1)
+      .expectFixDiffs(
+        """
                 Fix for src/MyEntryPoint.java line 4: Install in the SingletonComponent :
                 @@ -3 +3
                 + @dagger.hilt.InstallIn(dagger.hilt.components.SingletonComponent::class)
@@ -627,17 +626,17 @@ class MissingInstallInDetectorTest {
                 @@ -3 +3
                 + @dagger.hilt.InstallIn(dagger.hilt.android.components.ViewWithFragmentComponent::class)
             """
-                    .trimIndent()
-            )
-    }
+          .trimIndent(),
+      )
+  }
 
-    @Test
-    fun `kotlin entry point has @InstallIn annotation does not shows an error`() {
-        TestLintTask.lint()
-            .files(
-                *hiltAnnotations,
-                TestFiles.kotlin(
-                    """
+  @Test
+  fun `kotlin entry point has @InstallIn annotation does not shows an error`() {
+    TestLintTask.lint()
+      .files(
+        *hiltAnnotations,
+        TestFiles.kotlin(
+          """
                     import dagger.hilt.EntryPoint
                     import dagger.hilt.InstallIn
 
@@ -647,22 +646,22 @@ class MissingInstallInDetectorTest {
                         fun myString(): String
                     }
             """
-                        .trimIndent()
-                )
-            )
-            .issues(MissingInstallInDetector.ISSUE)
-            .run()
-            .expectClean()
-            .expectErrorCount(0)
-    }
+            .trimIndent(),
+        ),
+      )
+      .issues(MissingInstallInDetector.ISSUE)
+      .run()
+      .expectClean()
+      .expectErrorCount(0)
+  }
 
-    @Test
-    fun `java entry point has @InstallIn annotation does not shows an error`() {
-        TestLintTask.lint()
-            .files(
-                *hiltAnnotations,
-                TestFiles.java(
-                    """
+  @Test
+  fun `java entry point has @InstallIn annotation does not shows an error`() {
+    TestLintTask.lint()
+      .files(
+        *hiltAnnotations,
+        TestFiles.java(
+          """
                     import dagger.hilt.EntryPoint;
                     import dagger.hilt.InstallIn;
 
@@ -672,23 +671,23 @@ class MissingInstallInDetectorTest {
                         String myString();
                     }
             """
-                        .trimIndent()
-                )
-            )
-            .issues(MissingInstallInDetector.ISSUE)
-            .run()
-            .expectClean()
-            .expectErrorCount(0)
-    }
+            .trimIndent(),
+        ),
+      )
+      .issues(MissingInstallInDetector.ISSUE)
+      .run()
+      .expectClean()
+      .expectErrorCount(0)
+  }
 
-    @Test
-    fun `java @EntryPoint has quick fix for custom component when one is provided`() {
-        TestLintTask.lint()
-            .allowNonAlphabeticalFixOrder(true)
-            .files(
-                *hiltAnnotations,
-                TestFiles.java(
-                    """
+  @Test
+  fun `java @EntryPoint has quick fix for custom component when one is provided`() {
+    TestLintTask.lint()
+      .allowNonAlphabeticalFixOrder(true)
+      .files(
+        *hiltAnnotations,
+        TestFiles.java(
+          """
                     import dagger.hilt.EntryPoint;
 
                     @EntryPoint
@@ -696,17 +695,17 @@ class MissingInstallInDetectorTest {
                         String myString();
                     }
             """
-                        .trimIndent()
-                )
-            )
-            .issues(MissingInstallInDetector.ISSUE)
-            .configureOption(
-                MissingInstallInDetector.CUSTOM_HILT_COMPONENTS_OPTION_KEY,
-                "dev.whosnickdoglio.hilt.CustomComponent"
-            )
-            .run()
-            .expect(
-                """
+            .trimIndent(),
+        ),
+      )
+      .issues(MissingInstallInDetector.ISSUE)
+      .configureOption(
+        MissingInstallInDetector.CUSTOM_HILT_COMPONENTS_OPTION_KEY,
+        "dev.whosnickdoglio.hilt.CustomComponent",
+      )
+      .run()
+      .expect(
+        """
                 src/MyEntryPoint.java:4: Error: Hilt modules and entry points require the @InstallIn annotation to be properly connected to a Component. Annotate this class with @InstallIn and the Hilt component you want to connect it to, the most commonly used Component is the SingletonComponent.
 
                 See https://whosnickdoglio.dev/dagger-rules/rules/#a-class-annotated-with-module-or-entrypoint-should-also-be-annotated-with-installin for more information. [MissingInstallInAnnotation]
@@ -715,11 +714,11 @@ class MissingInstallInDetectorTest {
                 1 errors, 0 warnings
 
             """
-                    .trimIndent()
-            )
-            .expectErrorCount(1)
-            .expectFixDiffs(
-                """
+          .trimIndent(),
+      )
+      .expectErrorCount(1)
+      .expectFixDiffs(
+        """
                 Fix for src/MyEntryPoint.java line 4: Install in the SingletonComponent :
                 @@ -3 +3
                 + @dagger.hilt.InstallIn(dagger.hilt.components.SingletonComponent::class)
@@ -748,7 +747,7 @@ class MissingInstallInDetectorTest {
                 @@ -3 +3
                 + @dagger.hilt.InstallIn(dev.whosnickdoglio.hilt.CustomComponent::class)
             """
-                    .trimIndent()
-            )
-    }
+          .trimIndent(),
+      )
+  }
 }

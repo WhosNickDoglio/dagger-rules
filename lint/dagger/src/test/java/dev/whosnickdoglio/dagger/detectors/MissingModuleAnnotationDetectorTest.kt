@@ -10,26 +10,25 @@ import dev.whosnickdoglio.stubs.daggerAnnotations
 import org.junit.Test
 
 class MissingModuleAnnotationDetectorTest {
-
-    private val bindsTestFile =
-        TestFiles.kotlin(
-                """
+  private val bindsTestFile =
+    TestFiles.kotlin(
+      """
                      interface PizzaMaker
                      class PizzaMakerImpl: PizzaMaker
 
                     interface CoffeeMaker
                     class CoffeeMakerImpl: CoffeeMaker
-                    """
-            )
-            .indented()
+                    """,
+    )
+      .indented()
 
-    @Test
-    fun `kotlin @Module with @Provides method and without annotation shows an error`() {
-        TestLintTask.lint()
-            .files(
-                daggerAnnotations,
-                TestFiles.kotlin(
-                        """
+  @Test
+  fun `kotlin @Module with @Provides method and without annotation shows an error`() {
+    TestLintTask.lint()
+      .files(
+        daggerAnnotations,
+        TestFiles.kotlin(
+          """
                 package com.test.android
 
                 import dagger.Provides
@@ -42,14 +41,14 @@ class MissingModuleAnnotationDetectorTest {
                         @Provides
                         fun doSomethingElse(): String = "World"
                 }
-                """
-                    )
-                    .indented()
-            )
-            .issues(MissingModuleAnnotationDetector.ISSUE)
-            .run()
-            .expect(
-                """
+                """,
+        )
+          .indented(),
+      )
+      .issues(MissingModuleAnnotationDetector.ISSUE)
+      .run()
+      .expect(
+        """
                     src/com/test/android/MyModule.kt:5: Error: Provides or binds methods won't be picked up if the class isn't annotated with @Module.
 
                     See https://whosnickdoglio.dev/dagger-rules/rules/#classes-with-provides-binds-or-multibinds-methods-should-be-annotated-with-module for more information. [MissingModuleAnnotation]
@@ -57,28 +56,28 @@ class MissingModuleAnnotationDetectorTest {
                            ~~~~~~~~
                     1 errors, 0 warnings
                 """
-                    .trimIndent()
-            )
-            .expectErrorCount(1)
-            .expectFixDiffs(
-                """
+          .trimIndent(),
+      )
+      .expectErrorCount(1)
+      .expectFixDiffs(
+        """
                 Fix for src/com/test/android/MyModule.kt line 5: Add @Module annotation:
                 @@ -5 +5
                 -  class MyModule {
                 +  class @dagger.Module
                 + MyModule {
             """
-                    .trimIndent()
-            )
-    }
+          .trimIndent(),
+      )
+  }
 
-    @Test
-    fun `kotlin @Module with @Provides method and annotation shows no error`() {
-        TestLintTask.lint()
-            .files(
-                daggerAnnotations,
-                TestFiles.kotlin(
-                        """
+  @Test
+  fun `kotlin @Module with @Provides method and annotation shows no error`() {
+    TestLintTask.lint()
+      .files(
+        daggerAnnotations,
+        TestFiles.kotlin(
+          """
                 package com.test.android
 
                 import dagger.Provides
@@ -93,24 +92,24 @@ class MissingModuleAnnotationDetectorTest {
                         @Provides
                         fun doSomethingElse(): String = "World"
                 }
-                """
-                    )
-                    .indented()
-            )
-            .issues(MissingModuleAnnotationDetector.ISSUE)
-            .run()
-            .expectErrorCount(0)
-            .expectClean()
-    }
+                """,
+        )
+          .indented(),
+      )
+      .issues(MissingModuleAnnotationDetector.ISSUE)
+      .run()
+      .expectErrorCount(0)
+      .expectClean()
+  }
 
-    @Test
-    fun `kotlin @Module with @Binds method and no module annotation shows an error`() {
-        TestLintTask.lint()
-            .files(
-                daggerAnnotations,
-                bindsTestFile,
-                TestFiles.kotlin(
-                        """
+  @Test
+  fun `kotlin @Module with @Binds method and no module annotation shows an error`() {
+    TestLintTask.lint()
+      .files(
+        daggerAnnotations,
+        bindsTestFile,
+        TestFiles.kotlin(
+          """
                 package com.test.android
 
                 import dagger.Binds
@@ -123,14 +122,14 @@ class MissingModuleAnnotationDetectorTest {
                         @Binds
                         fun bindCoffee(impl: CoffeeMakerImpl): CoffeeMaker
                 }
-                """
-                    )
-                    .indented()
-            )
-            .issues(MissingModuleAnnotationDetector.ISSUE)
-            .run()
-            .expect(
-                """
+                """,
+        )
+          .indented(),
+      )
+      .issues(MissingModuleAnnotationDetector.ISSUE)
+      .run()
+      .expect(
+        """
                     src/com/test/android/MyModule.kt:5: Error: Provides or binds methods won't be picked up if the class isn't annotated with @Module.
 
                     See https://whosnickdoglio.dev/dagger-rules/rules/#classes-with-provides-binds-or-multibinds-methods-should-be-annotated-with-module for more information. [MissingModuleAnnotation]
@@ -138,29 +137,29 @@ class MissingModuleAnnotationDetectorTest {
                                ~~~~~~~~
                     1 errors, 0 warnings
                 """
-                    .trimIndent()
-            )
-            .expectErrorCount(1)
-            .expectFixDiffs(
-                """
+          .trimIndent(),
+      )
+      .expectErrorCount(1)
+      .expectFixDiffs(
+        """
                 Fix for src/com/test/android/MyModule.kt line 5: Add @Module annotation:
                 @@ -5 +5
                 -  interface MyModule {
                 +  interface @dagger.Module
                 + MyModule {
             """
-                    .trimIndent()
-            )
-    }
+          .trimIndent(),
+      )
+  }
 
-    @Test
-    fun `kotlin @Module with @Binds method and module annotation shows no error`() {
-        TestLintTask.lint()
-            .files(
-                daggerAnnotations,
-                bindsTestFile,
-                TestFiles.kotlin(
-                        """
+  @Test
+  fun `kotlin @Module with @Binds method and module annotation shows no error`() {
+    TestLintTask.lint()
+      .files(
+        daggerAnnotations,
+        bindsTestFile,
+        TestFiles.kotlin(
+          """
                 package com.test.android
 
                 import dagger.Binds
@@ -175,29 +174,29 @@ class MissingModuleAnnotationDetectorTest {
                         @Binds
                         fun bindCoffee(impl: CoffeeMakerImpl): CoffeeMaker
                 }
-                """
-                    )
-                    .indented()
-            )
-            .issues(MissingModuleAnnotationDetector.ISSUE)
-            .run()
-            .expectClean()
-    }
+                """,
+        )
+          .indented(),
+      )
+      .issues(MissingModuleAnnotationDetector.ISSUE)
+      .run()
+      .expectClean()
+  }
 
-    @Test
-    fun `kotlin @Module that uses companion object without module annotation shows an error`() {
-        TestLintTask.lint()
-            .files(
-                daggerAnnotations,
-                TestFiles.kotlin(
-                        """
+  @Test
+  fun `kotlin @Module that uses companion object without module annotation shows an error`() {
+    TestLintTask.lint()
+      .files(
+        daggerAnnotations,
+        TestFiles.kotlin(
+          """
                  interface PizzaMaker
                  class PizzaMakerImpl
-                """
-                    )
-                    .indented(),
-                TestFiles.kotlin(
-                        """
+                """,
+        )
+          .indented(),
+        TestFiles.kotlin(
+          """
                 package com.test.android
 
                 import dagger.Binds
@@ -215,14 +214,14 @@ class MissingModuleAnnotationDetectorTest {
                             @Provides fun provideMyThing(): String = "Hello World"
                         }
                 }
-                """
-                    )
-                    .indented()
-            )
-            .issues(MissingModuleAnnotationDetector.ISSUE)
-            .run()
-            .expect(
-                """
+                """,
+        )
+          .indented(),
+      )
+      .issues(MissingModuleAnnotationDetector.ISSUE)
+      .run()
+      .expect(
+        """
                     src/com/test/android/MyModule.kt:6: Error: Provides or binds methods won't be picked up if the class isn't annotated with @Module.
 
                     See https://whosnickdoglio.dev/dagger-rules/rules/#classes-with-provides-binds-or-multibinds-methods-should-be-annotated-with-module for more information. [MissingModuleAnnotation]
@@ -230,29 +229,29 @@ class MissingModuleAnnotationDetectorTest {
                                ~~~~~~~~
                     1 errors, 0 warnings
                 """
-                    .trimIndent()
-            )
-            .expectErrorCount(1)
-            .expectFixDiffs(
-                """
+          .trimIndent(),
+      )
+      .expectErrorCount(1)
+      .expectFixDiffs(
+        """
                 Fix for src/com/test/android/MyModule.kt line 6: Add @Module annotation:
                 @@ -6 +6
                 -  interface MyModule {
                 +  interface @dagger.Module
                 + MyModule {
             """
-                    .trimIndent()
-            )
-    }
+          .trimIndent(),
+      )
+  }
 
-    @Test
-    fun `kotlin @Module that uses companion object without module annotation shows no error`() {
-        TestLintTask.lint()
-            .files(
-                daggerAnnotations,
-                bindsTestFile,
-                TestFiles.kotlin(
-                        """
+  @Test
+  fun `kotlin @Module that uses companion object without module annotation shows no error`() {
+    TestLintTask.lint()
+      .files(
+        daggerAnnotations,
+        bindsTestFile,
+        TestFiles.kotlin(
+          """
                 package com.test.android
 
                 import dagger.Binds
@@ -272,22 +271,22 @@ class MissingModuleAnnotationDetectorTest {
                             @Provides fun provideMyThing(): String = "Hello World"
                         }
                 }
-                """
-                    )
-                    .indented()
-            )
-            .issues(MissingModuleAnnotationDetector.ISSUE)
-            .run()
-            .expectClean()
-    }
+                """,
+        )
+          .indented(),
+      )
+      .issues(MissingModuleAnnotationDetector.ISSUE)
+      .run()
+      .expectClean()
+  }
 
-    @Test
-    fun `java @Module with @Provides method and without annotation shows an error`() {
-        TestLintTask.lint()
-            .files(
-                daggerAnnotations,
-                TestFiles.java(
-                        """
+  @Test
+  fun `java @Module with @Provides method and without annotation shows an error`() {
+    TestLintTask.lint()
+      .files(
+        daggerAnnotations,
+        TestFiles.java(
+          """
                 package com.test.android;
 
                 import dagger.Provides;
@@ -304,14 +303,14 @@ class MissingModuleAnnotationDetectorTest {
                             return false;
                         }
                 }
-                """
-                    )
-                    .indented()
-            )
-            .issues(MissingModuleAnnotationDetector.ISSUE)
-            .run()
-            .expect(
-                """
+                """,
+        )
+          .indented(),
+      )
+      .issues(MissingModuleAnnotationDetector.ISSUE)
+      .run()
+      .expect(
+        """
                     src/com/test/android/MyModule.java:5: Error: Provides or binds methods won't be picked up if the class isn't annotated with @Module.
 
                     See https://whosnickdoglio.dev/dagger-rules/rules/#classes-with-provides-binds-or-multibinds-methods-should-be-annotated-with-module for more information. [MissingModuleAnnotation]
@@ -319,28 +318,28 @@ class MissingModuleAnnotationDetectorTest {
                            ~~~~~~~~
                     1 errors, 0 warnings
                 """
-                    .trimIndent()
-            )
-            .expectErrorCount(1)
-            .expectFixDiffs(
-                """
+          .trimIndent(),
+      )
+      .expectErrorCount(1)
+      .expectFixDiffs(
+        """
                     Fix for src/com/test/android/MyModule.java line 5: Add @Module annotation:
                     @@ -5 +5
                     -  class MyModule {
                     +  class @dagger.Module
                     + MyModule {
                 """
-                    .trimIndent()
-            )
-    }
+          .trimIndent(),
+      )
+  }
 
-    @Test
-    fun `java @Module with @Provides method and annotation shows no error`() {
-        TestLintTask.lint()
-            .files(
-                daggerAnnotations,
-                TestFiles.java(
-                        """
+  @Test
+  fun `java @Module with @Provides method and annotation shows no error`() {
+    TestLintTask.lint()
+      .files(
+        daggerAnnotations,
+        TestFiles.java(
+          """
                 package com.test.android;
 
                 import dagger.Provides;
@@ -359,24 +358,24 @@ class MissingModuleAnnotationDetectorTest {
                             return false;
                         }
                 }
-                """
-                    )
-                    .indented()
-            )
-            .issues(MissingModuleAnnotationDetector.ISSUE)
-            .run()
-            .expectErrorCount(0)
-            .expectClean()
-    }
+                """,
+        )
+          .indented(),
+      )
+      .issues(MissingModuleAnnotationDetector.ISSUE)
+      .run()
+      .expectErrorCount(0)
+      .expectClean()
+  }
 
-    @Test
-    fun `java @Module with @Binds method and no module annotation shows an error`() {
-        TestLintTask.lint()
-            .files(
-                daggerAnnotations,
-                bindsTestFile,
-                TestFiles.java(
-                        """
+  @Test
+  fun `java @Module with @Binds method and no module annotation shows an error`() {
+    TestLintTask.lint()
+      .files(
+        daggerAnnotations,
+        bindsTestFile,
+        TestFiles.java(
+          """
                 package com.test.android;
 
                 import dagger.Binds;
@@ -389,14 +388,14 @@ class MissingModuleAnnotationDetectorTest {
                         @Binds
                         CoffeeMaker coffee(CoffeeMakerImpl impl);
                 }
-                """
-                    )
-                    .indented()
-            )
-            .issues(MissingModuleAnnotationDetector.ISSUE)
-            .run()
-            .expect(
-                """
+                """,
+        )
+          .indented(),
+      )
+      .issues(MissingModuleAnnotationDetector.ISSUE)
+      .run()
+      .expect(
+        """
                     src/com/test/android/MyModule.java:5: Error: Provides or binds methods won't be picked up if the class isn't annotated with @Module.
 
                     See https://whosnickdoglio.dev/dagger-rules/rules/#classes-with-provides-binds-or-multibinds-methods-should-be-annotated-with-module for more information. [MissingModuleAnnotation]
@@ -404,29 +403,29 @@ class MissingModuleAnnotationDetectorTest {
                                ~~~~~~~~
                     1 errors, 0 warnings
                 """
-                    .trimIndent()
-            )
-            .expectErrorCount(1)
-            .expectFixDiffs(
-                """
+          .trimIndent(),
+      )
+      .expectErrorCount(1)
+      .expectFixDiffs(
+        """
                 Fix for src/com/test/android/MyModule.java line 5: Add @Module annotation:
                 @@ -5 +5
                 -  interface MyModule {
                 +  interface @dagger.Module
                 + MyModule {
             """
-                    .trimIndent()
-            )
-    }
+          .trimIndent(),
+      )
+  }
 
-    @Test
-    fun `java @Module with @Binds method and module annotation shows no error`() {
-        TestLintTask.lint()
-            .files(
-                daggerAnnotations,
-                bindsTestFile,
-                TestFiles.java(
-                        """
+  @Test
+  fun `java @Module with @Binds method and module annotation shows no error`() {
+    TestLintTask.lint()
+      .files(
+        daggerAnnotations,
+        bindsTestFile,
+        TestFiles.java(
+          """
                 package com.test.android;
 
                 import dagger.Binds;
@@ -441,12 +440,12 @@ class MissingModuleAnnotationDetectorTest {
                         @Binds
                         CoffeeMaker coffee(CoffeeMakerImpl impl);
                 }
-                """
-                    )
-                    .indented()
-            )
-            .issues(MissingModuleAnnotationDetector.ISSUE)
-            .run()
-            .expectClean()
-    }
+                """,
+        )
+          .indented(),
+      )
+      .issues(MissingModuleAnnotationDetector.ISSUE)
+      .run()
+      .expectClean()
+  }
 }

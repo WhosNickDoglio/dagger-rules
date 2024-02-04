@@ -10,14 +10,13 @@ import dev.whosnickdoglio.stubs.daggerAnnotations
 import org.junit.Test
 
 class StaticProvidesDetectorTest {
-
-    @Test
-    fun `kotlin @Provides methods in an object do not show a warning`() {
-        TestLintTask.lint()
-            .files(
-                daggerAnnotations,
-                TestFiles.kotlin(
-                        """
+  @Test
+  fun `kotlin @Provides methods in an object do not show a warning`() {
+    TestLintTask.lint()
+      .files(
+        daggerAnnotations,
+        TestFiles.kotlin(
+          """
                 package com.test.android
 
                 import dagger.Provides
@@ -28,23 +27,23 @@ class StaticProvidesDetectorTest {
                         @Provides fun myString(): String = "Hello World"
                         @Provides fun myInt(): Int = 1
                 }
-                """
-                    )
-                    .indented()
-            )
-            .issues(StaticProvidesDetector.ISSUE)
-            .run()
-            .expectClean()
-            .expectWarningCount(0)
-    }
+                """,
+        )
+          .indented(),
+      )
+      .issues(StaticProvidesDetector.ISSUE)
+      .run()
+      .expectClean()
+      .expectWarningCount(0)
+  }
 
-    @Test
-    fun `kotlin @Provides methods in a class show a warning`() {
-        TestLintTask.lint()
-            .files(
-                daggerAnnotations,
-                TestFiles.kotlin(
-                        """
+  @Test
+  fun `kotlin @Provides methods in a class show a warning`() {
+    TestLintTask.lint()
+      .files(
+        daggerAnnotations,
+        TestFiles.kotlin(
+          """
                 package com.test.android
 
                 import dagger.Provides
@@ -55,14 +54,14 @@ class StaticProvidesDetectorTest {
                         @Provides fun myString(): String = "Hello World"
                         @Provides fun myInt(): Int = 1
                 }
-                """
-                    )
-                    .indented()
-            )
-            .issues(StaticProvidesDetector.ISSUE)
-            .run()
-            .expect(
-                """
+                """,
+        )
+          .indented(),
+      )
+      .issues(StaticProvidesDetector.ISSUE)
+      .run()
+      .expect(
+        """
                     src/com/test/android/MyModule.kt:8: Warning: @Provides methods be static.
 
                     See https://whosnickdoglio.dev/dagger-rules/rules/#provides-methods-should-be-static for more information. [StaticProvides]
@@ -75,18 +74,18 @@ class StaticProvidesDetectorTest {
                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
                     0 errors, 2 warnings
                 """
-                    .trimIndent()
-            )
-            .expectWarningCount(2)
-    }
+          .trimIndent(),
+      )
+      .expectWarningCount(2)
+  }
 
-    @Test
-    fun `kotlin companion object with @Binds and @Provides method does not show warning`() {
-        TestLintTask.lint()
-            .files(
-                daggerAnnotations,
-                TestFiles.kotlin(
-                        """
+  @Test
+  fun `kotlin companion object with @Binds and @Provides method does not show warning`() {
+    TestLintTask.lint()
+      .files(
+        daggerAnnotations,
+        TestFiles.kotlin(
+          """
                 package com.test.android
 
                 import dagger.Provides
@@ -105,23 +104,23 @@ class StaticProvidesDetectorTest {
                         @Provides fun myInt(): Int = 1
                     }
                 }
-                """
-                    )
-                    .indented()
-            )
-            .issues(StaticProvidesDetector.ISSUE)
-            .run()
-            .expectClean()
-            .expectWarningCount(0)
-    }
+                """,
+        )
+          .indented(),
+      )
+      .issues(StaticProvidesDetector.ISSUE)
+      .run()
+      .expectClean()
+      .expectWarningCount(0)
+  }
 
-    @Test
-    fun `java @Provides methods that are static do not show a warning`() {
-        TestLintTask.lint()
-            .files(
-                daggerAnnotations,
-                TestFiles.java(
-                        """
+  @Test
+  fun `java @Provides methods that are static do not show a warning`() {
+    TestLintTask.lint()
+      .files(
+        daggerAnnotations,
+        TestFiles.java(
+          """
                 package com.test.android;
 
                 import dagger.Provides;
@@ -140,22 +139,22 @@ class StaticProvidesDetectorTest {
                             return 100L;
                         }
                 }
-                """
-                    )
-                    .indented()
-            )
-            .issues(StaticProvidesDetector.ISSUE)
-            .run()
-            .expectClean()
-    }
+                """,
+        )
+          .indented(),
+      )
+      .issues(StaticProvidesDetector.ISSUE)
+      .run()
+      .expectClean()
+  }
 
-    @Test
-    fun `java @Provides methods that are not static show a warning`() {
-        TestLintTask.lint()
-            .files(
-                daggerAnnotations,
-                TestFiles.java(
-                        """
+  @Test
+  fun `java @Provides methods that are not static show a warning`() {
+    TestLintTask.lint()
+      .files(
+        daggerAnnotations,
+        TestFiles.java(
+          """
                 package com.test.android;
 
                 import dagger.Provides;
@@ -175,14 +174,14 @@ class StaticProvidesDetectorTest {
                         }
 
                 }
-                """
-                    )
-                    .indented()
-            )
-            .issues(StaticProvidesDetector.ISSUE)
-            .run()
-            .expect(
-                """
+                """,
+        )
+          .indented(),
+      )
+      .issues(StaticProvidesDetector.ISSUE)
+      .run()
+      .expect(
+        """
                     src/com/test/android/MyModule.java:10: Warning: @Provides methods be static.
 
                     See https://whosnickdoglio.dev/dagger-rules/rules/#provides-methods-should-be-static for more information. [StaticProvides]
@@ -195,8 +194,8 @@ class StaticProvidesDetectorTest {
                                         ~~~~~~
                     0 errors, 2 warnings
                 """
-                    .trimIndent()
-            )
-            .expectWarningCount(2)
-    }
+          .trimIndent(),
+      )
+      .expectWarningCount(2)
+  }
 }

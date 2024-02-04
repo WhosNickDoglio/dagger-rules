@@ -15,25 +15,25 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 
 class RulesPlugin : Plugin<Project> {
-    override fun apply(target: Project) {
-        val libs = target.getVersionCatalog()
-        with(target) {
-            pluginManager.apply("org.jetbrains.kotlin.jvm")
-            pluginManager.apply("org.jetbrains.kotlinx.kover")
+  override fun apply(target: Project) {
+    val libs = target.getVersionCatalog()
+    with(target) {
+      pluginManager.apply("org.jetbrains.kotlin.jvm")
+      pluginManager.apply("org.jetbrains.kotlinx.kover")
 
-            pluginManager.apply("io.gitlab.arturbosch.detekt")
-            dependOnBuildLogicTask("detekt")
-            dependOnBuildLogicTask("detektMain")
-            dependOnBuildLogicTask("detektTest")
+      pluginManager.apply("io.gitlab.arturbosch.detekt")
+      dependOnBuildLogicTask("detekt")
+      dependOnBuildLogicTask("detektMain")
+      dependOnBuildLogicTask("detektTest")
 
-            pluginManager.apply("com.squareup.sort-dependencies")
-            dependOnBuildLogicTask("sortDependencies")
-            dependOnBuildLogicTask("checkSortDependencies")
+      pluginManager.apply("com.squareup.sort-dependencies")
+      dependOnBuildLogicTask("sortDependencies")
+      dependOnBuildLogicTask("checkSortDependencies")
 
-            configureJvm(libs.findVersion("jdk").get().requiredVersion.toInt())
-            configureLint()
-            configureSpotless(libs.findVersion("ktfmt").get().requiredVersion)
-            configureTests()
-        }
+      configureJvm(libs.findVersion("jdk").get().requiredVersion.toInt())
+      configureLint()
+      configureSpotless(libs.findVersion("ktlint").get().requiredVersion)
+      configureTests()
     }
+  }
 }

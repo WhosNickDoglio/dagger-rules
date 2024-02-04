@@ -11,99 +11,98 @@ import dev.whosnickdoglio.stubs.javaxAnnotations
 import org.junit.Test
 
 class MultipleScopesDetectorTest {
-
-    private val scopes =
-        TestFiles.kotlin(
-            """
+  private val scopes =
+    TestFiles.kotlin(
+      """
             import javax.inject.Scope
             @Scope annotation class MyScope
             @Scope annotation class MyOtherScope
             """
-                .trimIndent()
-        )
+        .trimIndent(),
+    )
 
-    @Test
-    fun `kotlin class with multiple scopes triggers an error`() {
-        TestLintTask.lint()
-            .files(
-                scopes,
-                javaxAnnotations,
-                TestFiles.kotlin(
-                    """
+  @Test
+  fun `kotlin class with multiple scopes triggers an error`() {
+    TestLintTask.lint()
+      .files(
+        scopes,
+        javaxAnnotations,
+        TestFiles.kotlin(
+          """
                     import javax.inject.Inject
 
                     @MyScope
                     @MyOtherScope
                     class MyClass @Inject constructor()
                     """
-                        .trimIndent()
-                )
-            )
-            .issues(MultipleScopesDetector.ISSUE)
-            .run()
-            .expect(
-                """
+            .trimIndent(),
+        ),
+      )
+      .issues(MultipleScopesDetector.ISSUE)
+      .run()
+      .expect(
+        """
                 src/MyClass.kt:5: Error: Objects on the DI graph can only have one @Scope annotation, please remove one [LintError]
                 class MyClass @Inject constructor()
                       ~~~~~~~
                 1 errors, 0 warnings
             """
-                    .trimIndent()
-            )
-            .expectErrorCount(1)
-    }
+          .trimIndent(),
+      )
+      .expectErrorCount(1)
+  }
 
-    @Test
-    fun `kotlin class with single scope does not trigger an error`() {
-        TestLintTask.lint()
-            .files(
-                scopes,
-                javaxAnnotations,
-                TestFiles.kotlin(
-                    """
+  @Test
+  fun `kotlin class with single scope does not trigger an error`() {
+    TestLintTask.lint()
+      .files(
+        scopes,
+        javaxAnnotations,
+        TestFiles.kotlin(
+          """
                     import javax.inject.Inject
 
                     @MyScope
                     class MyClass @Inject constructor()
                     """
-                        .trimIndent()
-                )
-            )
-            .issues(MultipleScopesDetector.ISSUE)
-            .run()
-            .expectClean()
-            .expectErrorCount(0)
-    }
+            .trimIndent(),
+        ),
+      )
+      .issues(MultipleScopesDetector.ISSUE)
+      .run()
+      .expectClean()
+      .expectErrorCount(0)
+  }
 
-    @Test
-    fun `kotlin class with no scopes does not trigger an error`() {
-        TestLintTask.lint()
-            .files(
-                javaxAnnotations,
-                TestFiles.kotlin(
-                    """
+  @Test
+  fun `kotlin class with no scopes does not trigger an error`() {
+    TestLintTask.lint()
+      .files(
+        javaxAnnotations,
+        TestFiles.kotlin(
+          """
                     import javax.inject.Inject
 
                     class MyClass @Inject constructor()
                     """
-                        .trimIndent()
-                )
-            )
-            .issues(MultipleScopesDetector.ISSUE)
-            .run()
-            .expectClean()
-            .expectErrorCount(0)
-    }
+            .trimIndent(),
+        ),
+      )
+      .issues(MultipleScopesDetector.ISSUE)
+      .run()
+      .expectClean()
+      .expectErrorCount(0)
+  }
 
-    @Test
-    fun `kotlin module with multiple scopes triggers an error`() {
-        TestLintTask.lint()
-            .files(
-                scopes,
-                javaxAnnotations,
-                daggerAnnotations,
-                TestFiles.kotlin(
-                    """
+  @Test
+  fun `kotlin module with multiple scopes triggers an error`() {
+    TestLintTask.lint()
+      .files(
+        scopes,
+        javaxAnnotations,
+        daggerAnnotations,
+        TestFiles.kotlin(
+          """
                     import dagger.Module
                     import dagger.Provides
                     import dagger.Binds
@@ -128,13 +127,13 @@ class MultipleScopesDetectorTest {
                        }
                     }
                     """
-                        .trimIndent()
-                )
-            )
-            .issues(MultipleScopesDetector.ISSUE)
-            .run()
-            .expect(
-                """
+            .trimIndent(),
+        ),
+      )
+      .issues(MultipleScopesDetector.ISSUE)
+      .run()
+      .expect(
+        """
                     src/MyInterface.kt:15: Error: Objects on the DI graph can only have one @Scope annotation, please remove one [LintError]
                         fun bind(impl: MyClass): MyInterface
                             ~~~~
@@ -143,20 +142,20 @@ class MultipleScopesDetectorTest {
                                ~~~~~~~
                     2 errors, 0 warnings
                 """
-                    .trimIndent()
-            )
-            .expectErrorCount(2)
-    }
+          .trimIndent(),
+      )
+      .expectErrorCount(2)
+  }
 
-    @Test
-    fun `kotlin module with single scope does not trigger an error`() {
-        TestLintTask.lint()
-            .files(
-                scopes,
-                javaxAnnotations,
-                daggerAnnotations,
-                TestFiles.kotlin(
-                    """
+  @Test
+  fun `kotlin module with single scope does not trigger an error`() {
+    TestLintTask.lint()
+      .files(
+        scopes,
+        javaxAnnotations,
+        daggerAnnotations,
+        TestFiles.kotlin(
+          """
                     import dagger.Module
                     import dagger.Provides
                     import dagger.Binds
@@ -179,24 +178,24 @@ class MultipleScopesDetectorTest {
                        }
                     }
                     """
-                        .trimIndent()
-                )
-            )
-            .issues(MultipleScopesDetector.ISSUE)
-            .run()
-            .expectClean()
-            .expectErrorCount(0)
-    }
+            .trimIndent(),
+        ),
+      )
+      .issues(MultipleScopesDetector.ISSUE)
+      .run()
+      .expectClean()
+      .expectErrorCount(0)
+  }
 
-    @Test
-    fun `kotlin module with no scopes does not trigger an error`() {
-        TestLintTask.lint()
-            .files(
-                scopes,
-                javaxAnnotations,
-                daggerAnnotations,
-                TestFiles.kotlin(
-                    """
+  @Test
+  fun `kotlin module with no scopes does not trigger an error`() {
+    TestLintTask.lint()
+      .files(
+        scopes,
+        javaxAnnotations,
+        daggerAnnotations,
+        TestFiles.kotlin(
+          """
                     import dagger.Module
                     import dagger.Provides
                     import dagger.Binds
@@ -217,23 +216,23 @@ class MultipleScopesDetectorTest {
                        }
                     }
                     """
-                        .trimIndent()
-                )
-            )
-            .issues(MultipleScopesDetector.ISSUE)
-            .run()
-            .expectClean()
-            .expectErrorCount(0)
-    }
+            .trimIndent(),
+        ),
+      )
+      .issues(MultipleScopesDetector.ISSUE)
+      .run()
+      .expectClean()
+      .expectErrorCount(0)
+  }
 
-    @Test
-    fun `java class with multiple scopes triggers an error`() {
-        TestLintTask.lint()
-            .files(
-                scopes,
-                javaxAnnotations,
-                TestFiles.java(
-                    """
+  @Test
+  fun `java class with multiple scopes triggers an error`() {
+    TestLintTask.lint()
+      .files(
+        scopes,
+        javaxAnnotations,
+        TestFiles.java(
+          """
                     import javax.inject.Inject;
 
                     @MyScope
@@ -242,31 +241,31 @@ class MultipleScopesDetectorTest {
                         @Inject MyClass() {}
                     }
                     """
-                        .trimIndent()
-                )
-            )
-            .issues(MultipleScopesDetector.ISSUE)
-            .run()
-            .expect(
-                """
+            .trimIndent(),
+        ),
+      )
+      .issues(MultipleScopesDetector.ISSUE)
+      .run()
+      .expect(
+        """
                     src/MyClass.java:5: Error: Objects on the DI graph can only have one @Scope annotation, please remove one [LintError]
                     class MyClass {
                           ~~~~~~~
                     1 errors, 0 warnings
                 """
-                    .trimIndent()
-            )
-            .expectErrorCount(1)
-    }
+          .trimIndent(),
+      )
+      .expectErrorCount(1)
+  }
 
-    @Test
-    fun `java class with single scope does not trigger an error`() {
-        TestLintTask.lint()
-            .files(
-                scopes,
-                javaxAnnotations,
-                TestFiles.java(
-                    """
+  @Test
+  fun `java class with single scope does not trigger an error`() {
+    TestLintTask.lint()
+      .files(
+        scopes,
+        javaxAnnotations,
+        TestFiles.java(
+          """
                     import javax.inject.Inject;
 
                     @MyScope
@@ -274,46 +273,46 @@ class MultipleScopesDetectorTest {
                         @Inject MyClass() {}
                     }
                     """
-                        .trimIndent()
-                )
-            )
-            .issues(MultipleScopesDetector.ISSUE)
-            .run()
-            .expectClean()
-            .expectErrorCount(0)
-    }
+            .trimIndent(),
+        ),
+      )
+      .issues(MultipleScopesDetector.ISSUE)
+      .run()
+      .expectClean()
+      .expectErrorCount(0)
+  }
 
-    @Test
-    fun `java class with no scopes does not trigger an error`() {
-        TestLintTask.lint()
-            .files(
-                javaxAnnotations,
-                TestFiles.java(
-                    """
+  @Test
+  fun `java class with no scopes does not trigger an error`() {
+    TestLintTask.lint()
+      .files(
+        javaxAnnotations,
+        TestFiles.java(
+          """
                     import javax.inject.Inject;
 
                    class MyClass {
                         @Inject MyClass() {}
                     }
                     """
-                        .trimIndent()
-                )
-            )
-            .issues(MultipleScopesDetector.ISSUE)
-            .run()
-            .expectClean()
-            .expectErrorCount(0)
-    }
+            .trimIndent(),
+        ),
+      )
+      .issues(MultipleScopesDetector.ISSUE)
+      .run()
+      .expectClean()
+      .expectErrorCount(0)
+  }
 
-    @Test
-    fun `java @Provides method with multiple scopes triggers an error`() {
-        TestLintTask.lint()
-            .files(
-                scopes,
-                javaxAnnotations,
-                daggerAnnotations,
-                TestFiles.java(
-                    """
+  @Test
+  fun `java @Provides method with multiple scopes triggers an error`() {
+    TestLintTask.lint()
+      .files(
+        scopes,
+        javaxAnnotations,
+        daggerAnnotations,
+        TestFiles.java(
+          """
                     import dagger.Module;
                     import dagger.Provides;
 
@@ -329,32 +328,32 @@ class MultipleScopesDetectorTest {
                            }
                     }
                     """
-                        .trimIndent()
-                )
-            )
-            .issues(MultipleScopesDetector.ISSUE)
-            .run()
-            .expect(
-                """
+            .trimIndent(),
+        ),
+      )
+      .issues(MultipleScopesDetector.ISSUE)
+      .run()
+      .expect(
+        """
                     src/MyModule.java:11: Error: Objects on the DI graph can only have one @Scope annotation, please remove one [LintError]
                            MyClass provide() {
                                    ~~~~~~~
                     1 errors, 0 warnings
                 """
-                    .trimIndent()
-            )
-            .expectErrorCount(1)
-    }
+          .trimIndent(),
+      )
+      .expectErrorCount(1)
+  }
 
-    @Test
-    fun `java @Binds method with multiple scopes triggers an error`() {
-        TestLintTask.lint()
-            .files(
-                scopes,
-                javaxAnnotations,
-                daggerAnnotations,
-                TestFiles.java(
-                    """
+  @Test
+  fun `java @Binds method with multiple scopes triggers an error`() {
+    TestLintTask.lint()
+      .files(
+        scopes,
+        javaxAnnotations,
+        daggerAnnotations,
+        TestFiles.java(
+          """
                     import dagger.Module;
                     import dagger.Binds;
 
@@ -371,32 +370,32 @@ class MultipleScopesDetectorTest {
                         MyInterface bind(MyClass impl);
                     }
                     """
-                        .trimIndent()
-                )
-            )
-            .issues(MultipleScopesDetector.ISSUE)
-            .run()
-            .expect(
-                """
+            .trimIndent(),
+        ),
+      )
+      .issues(MultipleScopesDetector.ISSUE)
+      .run()
+      .expect(
+        """
                     src/MyModule.java:14: Error: Objects on the DI graph can only have one @Scope annotation, please remove one [LintError]
                         MyInterface bind(MyClass impl);
                                     ~~~~
                     1 errors, 0 warnings
                 """
-                    .trimIndent()
-            )
-            .expectErrorCount(1)
-    }
+          .trimIndent(),
+      )
+      .expectErrorCount(1)
+  }
 
-    @Test
-    fun `java @Provides method with a single scope does not trigger an error`() {
-        TestLintTask.lint()
-            .files(
-                scopes,
-                javaxAnnotations,
-                daggerAnnotations,
-                TestFiles.java(
-                    """
+  @Test
+  fun `java @Provides method with a single scope does not trigger an error`() {
+    TestLintTask.lint()
+      .files(
+        scopes,
+        javaxAnnotations,
+        daggerAnnotations,
+        TestFiles.java(
+          """
                     import dagger.Module;
                     import dagger.Provides;
 
@@ -411,24 +410,24 @@ class MultipleScopesDetectorTest {
                            }
                     }
                     """
-                        .trimIndent()
-                )
-            )
-            .issues(MultipleScopesDetector.ISSUE)
-            .run()
-            .expectClean()
-            .expectErrorCount(0)
-    }
+            .trimIndent(),
+        ),
+      )
+      .issues(MultipleScopesDetector.ISSUE)
+      .run()
+      .expectClean()
+      .expectErrorCount(0)
+  }
 
-    @Test
-    fun `java @Binds method with single scope does not trigger an error`() {
-        TestLintTask.lint()
-            .files(
-                scopes,
-                javaxAnnotations,
-                daggerAnnotations,
-                TestFiles.java(
-                    """
+  @Test
+  fun `java @Binds method with single scope does not trigger an error`() {
+    TestLintTask.lint()
+      .files(
+        scopes,
+        javaxAnnotations,
+        daggerAnnotations,
+        TestFiles.java(
+          """
                     import dagger.Module;
                     import dagger.Binds;
 
@@ -444,23 +443,23 @@ class MultipleScopesDetectorTest {
                         MyInterface bind(MyClass impl);
                     }
                     """
-                        .trimIndent()
-                )
-            )
-            .issues(MultipleScopesDetector.ISSUE)
-            .run()
-            .expectClean()
-            .expectErrorCount(0)
-    }
+            .trimIndent(),
+        ),
+      )
+      .issues(MultipleScopesDetector.ISSUE)
+      .run()
+      .expectClean()
+      .expectErrorCount(0)
+  }
 
-    @Test
-    fun `java @Provides method with no scopes does not trigger an error`() {
-        TestLintTask.lint()
-            .files(
-                javaxAnnotations,
-                daggerAnnotations,
-                TestFiles.java(
-                    """
+  @Test
+  fun `java @Provides method with no scopes does not trigger an error`() {
+    TestLintTask.lint()
+      .files(
+        javaxAnnotations,
+        daggerAnnotations,
+        TestFiles.java(
+          """
                     import dagger.Module;
                     import dagger.Provides;
 
@@ -474,23 +473,23 @@ class MultipleScopesDetectorTest {
                            }
                     }
                     """
-                        .trimIndent()
-                )
-            )
-            .issues(MultipleScopesDetector.ISSUE)
-            .run()
-            .expectClean()
-            .expectErrorCount(0)
-    }
+            .trimIndent(),
+        ),
+      )
+      .issues(MultipleScopesDetector.ISSUE)
+      .run()
+      .expectClean()
+      .expectErrorCount(0)
+  }
 
-    @Test
-    fun `java @Binds method with no scopes does not trigger an error`() {
-        TestLintTask.lint()
-            .files(
-                javaxAnnotations,
-                daggerAnnotations,
-                TestFiles.java(
-                    """
+  @Test
+  fun `java @Binds method with no scopes does not trigger an error`() {
+    TestLintTask.lint()
+      .files(
+        javaxAnnotations,
+        daggerAnnotations,
+        TestFiles.java(
+          """
                     import dagger.Module;
                     import dagger.Binds;
 
@@ -505,12 +504,12 @@ class MultipleScopesDetectorTest {
                         MyInterface bind(MyClass impl);
                     }
                     """
-                        .trimIndent()
-                )
-            )
-            .issues(MultipleScopesDetector.ISSUE)
-            .run()
-            .expectClean()
-            .expectErrorCount(0)
-    }
+            .trimIndent(),
+        ),
+      )
+      .issues(MultipleScopesDetector.ISSUE)
+      .run()
+      .expectClean()
+      .expectErrorCount(0)
+  }
 }
