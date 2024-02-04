@@ -36,9 +36,7 @@ class MissingHiltAndroidAppAnnotationDetectorTest {
             .run()
             .expect(
                 """
-                    src/MyApplication.java:3: Error: When you using Hilt it's required for a Application subclass to be annotated with @HiltAndroidApp.
-
-                    See https://whosnickdoglio.dev/dagger-rules/rules/#application-subclasses-should-be-annotated-with-hiltandroidapp for more information. [MissingHiltAndroidAppAnnotation]
+                    src/MyApplication.java:3: Error: Application subclasses need @HiltAndroidApp [MissingHiltAndroidAppAnnotation]
                     class MyApplication extends Application {}
                           ~~~~~~~~~~~~~
                     1 errors, 0 warnings
@@ -113,9 +111,7 @@ class MissingHiltAndroidAppAnnotationDetectorTest {
             .run()
             .expect(
                 """
-                    src/MyApplication.kt:3: Error: When you using Hilt it's required for a Application subclass to be annotated with @HiltAndroidApp.
-
-                    See https://whosnickdoglio.dev/dagger-rules/rules/#application-subclasses-should-be-annotated-with-hiltandroidapp for more information. [MissingHiltAndroidAppAnnotation]
+                    src/MyApplication.kt:3: Error: Application subclasses need @HiltAndroidApp [MissingHiltAndroidAppAnnotation]
                     class MyApplication : Application
                           ~~~~~~~~~~~~~
                     1 errors, 0 warnings

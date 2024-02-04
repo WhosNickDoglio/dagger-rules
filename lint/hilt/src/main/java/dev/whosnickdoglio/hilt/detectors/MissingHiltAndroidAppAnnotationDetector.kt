@@ -33,7 +33,7 @@ internal class MissingHiltAndroidAppAnnotationDetector : Detector(), SourceCodeS
                     context.report(
                         Incident(context, ISSUE)
                             .location(context.getNameLocation(node))
-                            .message(ISSUE.getExplanation(TextFormat.RAW))
+                            .message(ISSUE.getBriefDescription(TextFormat.RAW))
                             .fix(
                                 fix()
                                     .name(
