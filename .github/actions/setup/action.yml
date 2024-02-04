@@ -1,5 +1,9 @@
 name: Setup
 description: 'Setup stuff'
+inputs:
+  encryption_key:
+    default: ""
+    description: "Encryption key for Gradle Configuration Cache"
 runs:
   using: "composite"
   steps:
@@ -11,4 +15,4 @@ runs:
     - name: Setup Gradle
       uses: gradle/actions/setup-gradle@ec92e829475ac0c2315ea8f9eced72db85bb337a # v3
       with:
-        cache-encryption-key: ${{ secrets.GRADLE_ENCRYPTION_KEY }}
+        cache-encryption-key: ${{ inputs.encryption_key }}

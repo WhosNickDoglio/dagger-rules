@@ -17,6 +17,8 @@ jobs:
     steps:
       - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
       - uses: ./.github/actions/setup
+        with:
+          encryption_key: ${{ secrets.GRADLE_ENCRYPTION_KEY }}
       - name: Gradle Wrapper Validation
         uses: gradle/wrapper-validation-action@27152f6fa06a6b8062ef7195c795692e51fc2c81 # v2.0.0
   Build:
@@ -25,6 +27,8 @@ jobs:
     steps:
       - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
       - uses: ./.github/actions/setup
+        with:
+          encryption_key: ${{ secrets.GRADLE_ENCRYPTION_KEY }}
       - name: Build
         run: ./gradlew assemble
   Lint:
@@ -36,6 +40,8 @@ jobs:
     steps:
       - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
       - uses: ./.github/actions/setup
+        with:
+          encryption_key: ${{ secrets.GRADLE_ENCRYPTION_KEY }}
       - name: Lint
         run: ./gradlew ${{ matrix.command }}
   Tests:
@@ -44,6 +50,8 @@ jobs:
     steps:
       - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
       - uses: ./.github/actions/setup
+        with:
+          encryption_key: ${{ secrets.GRADLE_ENCRYPTION_KEY }}
       - name: Run Unit Tests
         run: ./gradlew kover-aggregate:koverXmlReport --no-build-cache
       - name: Codecov
