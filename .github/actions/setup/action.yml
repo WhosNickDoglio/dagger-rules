@@ -9,4 +9,6 @@ runs:
         distribution: 'zulu'
         java-version: '21'
     - name: Setup Gradle
-      uses: gradle/gradle-build-action@3b1b3b9a2104c2b47fbae53f3938079c00c9bb87 # v3.0.0
+      uses: gradle/actions/setup-gradle@v3
+      with:
+        cache-encryption-key: ${{ secrets.GRADLE_ENCRYPTION_KEY }}
