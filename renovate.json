@@ -1,21 +1,5 @@
 {
-  "extends": [
-    "config:base",
-    ":dependencyDashboard",
-    "helpers:pinGitHubActionDigests"
-  ],
-  "automergeType": "branch",
-  "platformAutomerge": true,
-  "packageRules": [
-    {
-      "description": "Automerge non-major updates",
-      "matchUpdateTypes": [
-        "minor",
-        "patch",
-        "digest",
-        "lockFileMaintenance"
-      ],
-      "automerge": true
-    }
+  "extends" : [
+    "config:best-practices"
   ]
 }
