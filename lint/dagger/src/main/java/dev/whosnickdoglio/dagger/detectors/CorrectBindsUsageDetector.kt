@@ -8,6 +8,7 @@ import com.android.tools.lint.client.api.UElementHandler
 import com.android.tools.lint.detector.api.Category
 import com.android.tools.lint.detector.api.Detector
 import com.android.tools.lint.detector.api.Implementation
+import com.android.tools.lint.detector.api.Incident
 import com.android.tools.lint.detector.api.Issue
 import com.android.tools.lint.detector.api.JavaContext
 import com.android.tools.lint.detector.api.Scope
@@ -24,7 +25,8 @@ import org.jetbrains.uast.UMethod
  * subclass of the method return type.
  */
 internal class CorrectBindsUsageDetector : Detector(), SourceCodeScanner {
-    override fun getApplicableUastTypes(): List<Class<out UElement>> = listOf(UAnnotation::class.java)
+    override fun getApplicableUastTypes(): List<Class<out UElement>> =
+        listOf(UAnnotation::class.java)
 
     override fun createUastHandler(context: JavaContext): UElementHandler =
         object : UElementHandler() {
@@ -34,9 +36,12 @@ internal class CorrectBindsUsageDetector : Detector(), SourceCodeScanner {
 
                     if (!context.evaluator.isAbstract(bindsMethod)) {
                         context.report(
-                            issue = ISSUE_BINDS_ABSTRACT,
-                            location = context.getLocation(bindsMethod),
-                            message = ISSUE_BINDS_ABSTRACT.getExplanation(TextFormat.TEXT),
+                            Incident(
+                                issue = ISSUE_BINDS_ABSTRACT,
+                                scope = bindsMethod,
+                                location = context.getLocation(bindsMethod),
+                                message = ISSUE_BINDS_ABSTRACT.getExplanation(TextFormat.TEXT),
+                            ),
                         )
                     }
 
@@ -45,9 +50,12 @@ internal class CorrectBindsUsageDetector : Detector(), SourceCodeScanner {
 
                     if (parameter?.superTypes?.contains(returnType) == false) {
                         context.report(
-                            issue = ISSUE_CORRECT_RETURN_TYPE,
-                            location = context.getLocation(bindsMethod),
-                            message = ISSUE_CORRECT_RETURN_TYPE.getExplanation(TextFormat.TEXT),
+                            Incident(
+                                issue = ISSUE_CORRECT_RETURN_TYPE,
+                                scope = bindsMethod,
+                                location = context.getLocation(bindsMethod),
+                                message = ISSUE_CORRECT_RETURN_TYPE.getExplanation(TextFormat.TEXT),
+                            ),
                         )
                     }
                 }

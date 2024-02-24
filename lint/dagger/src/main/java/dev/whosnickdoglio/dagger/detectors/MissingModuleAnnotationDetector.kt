@@ -8,6 +8,7 @@ import com.android.tools.lint.client.api.UElementHandler
 import com.android.tools.lint.detector.api.Category
 import com.android.tools.lint.detector.api.Detector
 import com.android.tools.lint.detector.api.Implementation
+import com.android.tools.lint.detector.api.Incident
 import com.android.tools.lint.detector.api.Issue
 import com.android.tools.lint.detector.api.JavaContext
 import com.android.tools.lint.detector.api.Scope
@@ -43,15 +44,18 @@ internal class MissingModuleAnnotationDetector : Detector(), SourceCodeScanner {
 
                     if (needsModuleAnnotation) {
                         context.report(
-                            issue = ISSUE,
-                            location = context.getNameLocation(node),
-                            message = ISSUE.getExplanation(TextFormat.RAW),
-                            quickfixData =
-                            fix()
-                                .name("Add @Module annotation")
-                                .annotate(MODULE)
-                                .range(context.getNameLocation(node))
-                                .build(),
+                            Incident(
+                                issue = ISSUE,
+                                scope = node,
+                                location = context.getNameLocation(node),
+                                message = ISSUE.getExplanation(TextFormat.RAW),
+                                fix =
+                                fix()
+                                    .name("Add @Module annotation")
+                                    .annotate(MODULE)
+                                    .range(context.getNameLocation(node))
+                                    .build(),
+                            ),
                         )
                     }
                 }

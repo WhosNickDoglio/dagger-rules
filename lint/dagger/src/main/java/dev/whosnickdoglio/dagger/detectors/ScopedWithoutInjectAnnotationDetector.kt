@@ -8,6 +8,7 @@ import com.android.tools.lint.client.api.UElementHandler
 import com.android.tools.lint.detector.api.Category
 import com.android.tools.lint.detector.api.Detector
 import com.android.tools.lint.detector.api.Implementation
+import com.android.tools.lint.detector.api.Incident
 import com.android.tools.lint.detector.api.Issue
 import com.android.tools.lint.detector.api.JavaContext
 import com.android.tools.lint.detector.api.Scope
@@ -56,16 +57,19 @@ internal class ScopedWithoutInjectAnnotationDetector : Detector(), SourceCodeSca
                     if (scopeAnnotations.isNotEmpty() && !isInjected) {
                         scopeAnnotations.forEach { annotation ->
                             context.report(
-                                issue = ISSUE,
-                                location = context.getLocation(annotation),
-                                message = ISSUE.getExplanation(TextFormat.TEXT),
-                                quickfixData =
-                                fix()
-                                    .name("Remove unnecessary scope annotation")
-                                    .replace()
-                                    .text(annotation.asRenderString())
-                                    .with("")
-                                    .build(),
+                                Incident(
+                                    issue = ISSUE,
+                                    scope = annotation,
+                                    location = context.getLocation(annotation),
+                                    message = ISSUE.getExplanation(TextFormat.TEXT),
+                                    fix =
+                                    fix()
+                                        .name("Remove unnecessary scope annotation")
+                                        .replace()
+                                        .text(annotation.asRenderString())
+                                        .with("")
+                                        .build(),
+                                ),
                             )
                         }
                     }

@@ -8,6 +8,7 @@ import com.android.tools.lint.client.api.UElementHandler
 import com.android.tools.lint.detector.api.Category
 import com.android.tools.lint.detector.api.Detector
 import com.android.tools.lint.detector.api.Implementation
+import com.android.tools.lint.detector.api.Incident
 import com.android.tools.lint.detector.api.Issue
 import com.android.tools.lint.detector.api.JavaContext
 import com.android.tools.lint.detector.api.Scope
@@ -24,7 +25,8 @@ import org.jetbrains.uast.UMethod
 import org.jetbrains.uast.getContainingUClass
 
 internal class StaticProvidesDetector : Detector(), SourceCodeScanner {
-    override fun getApplicableUastTypes(): List<Class<out UElement>> = listOf(UAnnotation::class.java)
+    override fun getApplicableUastTypes(): List<Class<out UElement>> =
+        listOf(UAnnotation::class.java)
 
     override fun createUastHandler(context: JavaContext): UElementHandler =
         object : UElementHandler() {
@@ -45,9 +47,12 @@ internal class StaticProvidesDetector : Detector(), SourceCodeScanner {
     ) {
         if (!context.evaluator.isStatic(method)) {
             context.report(
-                issue = ISSUE,
-                location = context.getNameLocation(method),
-                message = ISSUE.getExplanation(TextFormat.TEXT),
+                Incident(
+                    issue = ISSUE,
+                    scope = method,
+                    location = context.getNameLocation(method),
+                    message = ISSUE.getExplanation(TextFormat.TEXT),
+                ),
             )
         }
     }
@@ -60,9 +65,12 @@ internal class StaticProvidesDetector : Detector(), SourceCodeScanner {
         val sourcePsi = containingClass?.sourcePsi ?: return
         if (sourcePsi !is KtObjectDeclaration) {
             context.report(
-                issue = ISSUE,
-                location = context.getLocation(method),
-                message = ISSUE.getExplanation(TextFormat.TEXT),
+                Incident(
+                    issue = ISSUE,
+                    scope = method,
+                    location = context.getLocation(method),
+                    message = ISSUE.getExplanation(TextFormat.TEXT),
+                ),
             )
         }
     }
