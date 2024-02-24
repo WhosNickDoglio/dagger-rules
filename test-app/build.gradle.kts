@@ -83,9 +83,9 @@ spotless {
 }
 
 dependencies {
-    lintChecks(project(":lint:anvil"))
-    lintChecks(project(":lint:dagger"))
-    lintChecks(project(":lint:hilt"))
+    lintChecks(projects.lint.anvil)
+    lintChecks(projects.lint.dagger)
+    lintChecks(projects.lint.hilt)
 
     implementation(libs.androidx.activity)
     implementation(libs.androidx.appcompat)
