@@ -27,70 +27,70 @@ import org.jetbrains.uast.UElement
  * implement an interface or abstract class.
  */
 internal class MissingContributesBindingDetector : Detector(), SourceCodeScanner {
-  override fun getApplicableUastTypes(): List<Class<out UElement>> = listOf(UClass::class.java)
+    override fun getApplicableUastTypes(): List<Class<out UElement>> = listOf(UClass::class.java)
 
-  override fun createUastHandler(context: JavaContext): UElementHandler? {
-    // Anvil is Kotlin only
-    if (!isKotlin(context.uastFile?.lang)) return null
-    return object : UElementHandler() {
-      override fun visitClass(node: UClass) {
-        val hasBindingAnnotations =
-          node.hasAnnotation(CONTRIBUTES_BINDING) ||
-            node.hasAnnotation(CONTRIBUTES_MULTI_BINDING)
+    override fun createUastHandler(context: JavaContext): UElementHandler? {
+        // Anvil is Kotlin only
+        if (!isKotlin(context.uastFile?.lang)) return null
+        return object : UElementHandler() {
+            override fun visitClass(node: UClass) {
+                val hasBindingAnnotations =
+                    node.hasAnnotation(CONTRIBUTES_BINDING) ||
+                        node.hasAnnotation(CONTRIBUTES_MULTI_BINDING)
 
-        if (
-          node.constructors.any { method -> method.hasAnnotation(INJECT) } &&
-          // TODO this feels naive
-          // Ignore Any
-          node.superTypes.size > 1 &&
-          !hasBindingAnnotations
-        ) {
-          val hasNoGenerics = node.superTypes.filter { !it.hasParameters() }
+                if (
+                    node.constructors.any { method -> method.hasAnnotation(INJECT) } &&
+                    // TODO this feels naive
+                    // Ignore Any
+                    node.superTypes.size > 1 &&
+                    !hasBindingAnnotations
+                ) {
+                    val hasNoGenerics = node.superTypes.filter { !it.hasParameters() }
 
-          // Ignore Any
-          if (hasNoGenerics.size > 1) {
-            context.report(
-              Incident(context, ISSUE)
-                .location(context.getNameLocation(node))
-                .message(
-                  "Contribute this binding to the Dagger graph using an Anvil annotation",
-                )
-                .fix(
-                  fix()
-                    // TODO try and give better fixes
-                    .alternatives(
-                      fix()
-                        .name("Add @ContributesBinding annotation")
-                        .annotate(CONTRIBUTES_BINDING)
-                        .range(context.getNameLocation(node))
-                        .build(),
-                      fix()
-                        .name("Add @ContributesMultibinding annotation")
-                        .annotate(CONTRIBUTES_MULTI_BINDING)
-                        .range(context.getNameLocation(node))
-                        .build(),
-                    ),
-                ),
-            )
-          }
+                    // Ignore Any
+                    if (hasNoGenerics.size > 1) {
+                        context.report(
+                            Incident(context, ISSUE)
+                                .location(context.getNameLocation(node))
+                                .message(
+                                    "Contribute this binding to the Dagger graph using an Anvil annotation",
+                                )
+                                .fix(
+                                    fix()
+                                        // TODO try and give better fixes
+                                        .alternatives(
+                                            fix()
+                                                .name("Add @ContributesBinding annotation")
+                                                .annotate(CONTRIBUTES_BINDING)
+                                                .range(context.getNameLocation(node))
+                                                .build(),
+                                            fix()
+                                                .name("Add @ContributesMultibinding annotation")
+                                                .annotate(CONTRIBUTES_MULTI_BINDING)
+                                                .range(context.getNameLocation(node))
+                                                .build(),
+                                        ),
+                                ),
+                        )
+                    }
+                }
+            }
         }
-      }
     }
-  }
 
-  companion object {
-    private val implementation =
-      Implementation(MissingContributesBindingDetector::class.java, Scope.JAVA_FILE_SCOPE)
+    companion object {
+        private val implementation =
+            Implementation(MissingContributesBindingDetector::class.java, Scope.JAVA_FILE_SCOPE)
 
-    internal val ISSUE =
-      Issue.create(
-        id = "MissingContributesBindingAnnotation",
-        briefDescription = "Hello friend",
-        explanation = "Hello friend",
-        category = Category.CORRECTNESS,
-        priority = 5,
-        severity = Severity.WARNING,
-        implementation = implementation,
-      )
-  }
+        internal val ISSUE =
+            Issue.create(
+                id = "MissingContributesBindingAnnotation",
+                briefDescription = "Hello friend",
+                explanation = "Hello friend",
+                category = Category.CORRECTNESS,
+                priority = 5,
+                severity = Severity.WARNING,
+                implementation = implementation,
+            )
+    }
 }

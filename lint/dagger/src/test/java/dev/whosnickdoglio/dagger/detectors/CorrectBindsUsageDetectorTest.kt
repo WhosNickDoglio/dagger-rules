@@ -10,35 +10,35 @@ import dev.whosnickdoglio.stubs.daggerAnnotations
 import org.junit.Test
 
 class CorrectBindsUsageDetectorTest {
-  private val pizzaMakerStubs =
-    TestFiles.kotlin(
-      """
+    private val pizzaMakerStubs =
+        TestFiles.kotlin(
+            """
                     interface PizzaMaker
                     class PizzaMakerImpl: PizzaMaker
                     class NotAPizzaMaker
                     """,
-    )
-      .indented()
+        )
+            .indented()
 
-  private val repositoryStubs =
-    TestFiles.kotlin(
-      """
+    private val repositoryStubs =
+        TestFiles.kotlin(
+            """
                 interface Repository
                 class InMemoryRepository : Repository
                 class NotARepository
                 """
-        .trimIndent(),
-    )
+                .trimIndent(),
+        )
 
-  @Test
-  fun `java @Binds method with a parameter that is a subclass of the return type does not trigger error`() {
-    TestLintTask.lint()
-      .files(
-        daggerAnnotations,
-        pizzaMakerStubs,
-        repositoryStubs,
-        TestFiles.java(
-          """
+    @Test
+    fun `java @Binds method with a parameter that is a subclass of the return type does not trigger error`() {
+        TestLintTask.lint()
+            .files(
+                daggerAnnotations,
+                pizzaMakerStubs,
+                repositoryStubs,
+                TestFiles.java(
+                    """
                     import dagger.Module;
                     import dagger.Binds;
 
@@ -50,24 +50,24 @@ class CorrectBindsUsageDetectorTest {
                         @Binds Repository bindsRepository(InMemoryRepository impl);
                     }
                 """,
-        )
-          .indented(),
-      )
-      .issues(CorrectBindsUsageDetector.ISSUE_CORRECT_RETURN_TYPE)
-      .run()
-      .expectClean()
-      .expectErrorCount(0)
-  }
+                )
+                    .indented(),
+            )
+            .issues(CorrectBindsUsageDetector.ISSUE_CORRECT_RETURN_TYPE)
+            .run()
+            .expectClean()
+            .expectErrorCount(0)
+    }
 
-  @Test
-  fun `java @Binds method with a parameter that is not a subclass of the return type triggers error`() {
-    TestLintTask.lint()
-      .files(
-        daggerAnnotations,
-        pizzaMakerStubs,
-        repositoryStubs,
-        TestFiles.java(
-          """
+    @Test
+    fun `java @Binds method with a parameter that is not a subclass of the return type triggers error`() {
+        TestLintTask.lint()
+            .files(
+                daggerAnnotations,
+                pizzaMakerStubs,
+                repositoryStubs,
+                TestFiles.java(
+                    """
                     import dagger.Module;
                     import dagger.Binds;
 
@@ -79,13 +79,13 @@ class CorrectBindsUsageDetectorTest {
                         @Binds Repository bindsRepository(NotARepository impl);
                     }
                 """,
-        )
-          .indented(),
-      )
-      .issues(CorrectBindsUsageDetector.ISSUE_CORRECT_RETURN_TYPE)
-      .run()
-      .expect(
-        """
+                )
+                    .indented(),
+            )
+            .issues(CorrectBindsUsageDetector.ISSUE_CORRECT_RETURN_TYPE)
+            .run()
+            .expect(
+                """
                     src/MyModule.java:7: Error: @Binds method parameters need to be a subclass of the return type. Make sure you're passing the correct parameter or the intended subclass is implementing the return type interface.
 
                     See https://whosnickdoglio.dev/dagger-rules/rules/#a-binds-method-parameter-should-be-a-subclass-of-its-return-type for more information. [BindsWithCorrectReturnType]
@@ -98,20 +98,20 @@ class CorrectBindsUsageDetectorTest {
                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
                     2 errors, 0 warnings
                 """
-          .trimIndent(),
-      )
-      .expectErrorCount(2)
-  }
+                    .trimIndent(),
+            )
+            .expectErrorCount(2)
+    }
 
-  @Test
-  fun `kotlin @Binds method with a parameter that is a subclass of the return type does not trigger error`() {
-    TestLintTask.lint()
-      .files(
-        daggerAnnotations,
-        pizzaMakerStubs,
-        repositoryStubs,
-        TestFiles.kotlin(
-          """
+    @Test
+    fun `kotlin @Binds method with a parameter that is a subclass of the return type does not trigger error`() {
+        TestLintTask.lint()
+            .files(
+                daggerAnnotations,
+                pizzaMakerStubs,
+                repositoryStubs,
+                TestFiles.kotlin(
+                    """
 
                     @Module
                     interface MyModule {
@@ -121,24 +121,24 @@ class CorrectBindsUsageDetectorTest {
                         @Binds fun bindsRepository(impl: InMemoryRepository): Repository
                     }
                 """,
-        )
-          .indented(),
-      )
-      .issues(CorrectBindsUsageDetector.ISSUE_CORRECT_RETURN_TYPE)
-      .run()
-      .expectClean()
-      .expectErrorCount(0)
-  }
+                )
+                    .indented(),
+            )
+            .issues(CorrectBindsUsageDetector.ISSUE_CORRECT_RETURN_TYPE)
+            .run()
+            .expectClean()
+            .expectErrorCount(0)
+    }
 
-  @Test
-  fun `kotlin @Binds method with a parameter that is not a subclass of the return type triggers error`() {
-    TestLintTask.lint()
-      .files(
-        daggerAnnotations,
-        pizzaMakerStubs,
-        repositoryStubs,
-        TestFiles.kotlin(
-          """
+    @Test
+    fun `kotlin @Binds method with a parameter that is not a subclass of the return type triggers error`() {
+        TestLintTask.lint()
+            .files(
+                daggerAnnotations,
+                pizzaMakerStubs,
+                repositoryStubs,
+                TestFiles.kotlin(
+                    """
                     import dagger.Module
                     import dagger.Binds
 
@@ -148,13 +148,13 @@ class CorrectBindsUsageDetectorTest {
                         @Binds fun bindsPizzaMaker(impl: NotAPizzaMaker): PizzaMaker
                     }
                 """,
-        )
-          .indented(),
-      )
-      .issues(CorrectBindsUsageDetector.ISSUE_CORRECT_RETURN_TYPE)
-      .run()
-      .expect(
-        """
+                )
+                    .indented(),
+            )
+            .issues(CorrectBindsUsageDetector.ISSUE_CORRECT_RETURN_TYPE)
+            .run()
+            .expect(
+                """
                     src/MyModule.kt:7: Error: @Binds method parameters need to be a subclass of the return type. Make sure you're passing the correct parameter or the intended subclass is implementing the return type interface.
 
                     See https://whosnickdoglio.dev/dagger-rules/rules/#a-binds-method-parameter-should-be-a-subclass-of-its-return-type for more information. [BindsWithCorrectReturnType]
@@ -162,19 +162,19 @@ class CorrectBindsUsageDetectorTest {
                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
                     1 errors, 0 warnings
                 """
-          .trimIndent(),
-      )
-      .expectErrorCount(1)
-  }
+                    .trimIndent(),
+            )
+            .expectErrorCount(1)
+    }
 
-  @Test
-  fun `kotlin @Binds extension method with a parameter that is a subclass of the return type no error`() {
-    TestLintTask.lint()
-      .files(
-        daggerAnnotations,
-        pizzaMakerStubs,
-        TestFiles.kotlin(
-          """
+    @Test
+    fun `kotlin @Binds extension method with a parameter that is a subclass of the return type no error`() {
+        TestLintTask.lint()
+            .files(
+                daggerAnnotations,
+                pizzaMakerStubs,
+                TestFiles.kotlin(
+                    """
                     import dagger.Module
                     import dagger.Binds
 
@@ -184,23 +184,23 @@ class CorrectBindsUsageDetectorTest {
                         @Binds fun PizzaMakerImpl.bindPizzaMaker(): PizzaMaker
                     }
                 """,
-        )
-          .indented(),
-      )
-      .issues(CorrectBindsUsageDetector.ISSUE_CORRECT_RETURN_TYPE)
-      .run()
-      .expectClean()
-      .expectErrorCount(0)
-  }
+                )
+                    .indented(),
+            )
+            .issues(CorrectBindsUsageDetector.ISSUE_CORRECT_RETURN_TYPE)
+            .run()
+            .expectClean()
+            .expectErrorCount(0)
+    }
 
-  @Test
-  fun `kotlin @Binds extension method with a parameter that is not a subclass of the return type triggers error`() {
-    TestLintTask.lint()
-      .files(
-        daggerAnnotations,
-        pizzaMakerStubs,
-        TestFiles.kotlin(
-          """
+    @Test
+    fun `kotlin @Binds extension method with a parameter that is not a subclass of the return type triggers error`() {
+        TestLintTask.lint()
+            .files(
+                daggerAnnotations,
+                pizzaMakerStubs,
+                TestFiles.kotlin(
+                    """
                     import dagger.Module
                     import dagger.Binds
 
@@ -210,13 +210,13 @@ class CorrectBindsUsageDetectorTest {
                         @Binds fun NotPizzaMaker.bindPizzaMaker(): PizzaMaker
                     }
                 """,
-        )
-          .indented(),
-      )
-      .issues(CorrectBindsUsageDetector.ISSUE_CORRECT_RETURN_TYPE)
-      .run()
-      .expect(
-        """
+                )
+                    .indented(),
+            )
+            .issues(CorrectBindsUsageDetector.ISSUE_CORRECT_RETURN_TYPE)
+            .run()
+            .expect(
+                """
                     src/MyModule.kt:7: Error: @Binds method parameters need to be a subclass of the return type. Make sure you're passing the correct parameter or the intended subclass is implementing the return type interface.
 
                     See https://whosnickdoglio.dev/dagger-rules/rules/#a-binds-method-parameter-should-be-a-subclass-of-its-return-type for more information. [BindsWithCorrectReturnType]
@@ -224,19 +224,19 @@ class CorrectBindsUsageDetectorTest {
                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
                     1 errors, 0 warnings
                 """
-          .trimIndent(),
-      )
-      .expectErrorCount(1)
-  }
+                    .trimIndent(),
+            )
+            .expectErrorCount(1)
+    }
 
-  @Test
-  fun `kotlin non-abstract @Binds method triggers error`() {
-    TestLintTask.lint()
-      .files(
-        daggerAnnotations,
-        pizzaMakerStubs,
-        TestFiles.kotlin(
-          """
+    @Test
+    fun `kotlin non-abstract @Binds method triggers error`() {
+        TestLintTask.lint()
+            .files(
+                daggerAnnotations,
+                pizzaMakerStubs,
+                TestFiles.kotlin(
+                    """
                     import dagger.Module
                     import dagger.Binds
 
@@ -246,31 +246,31 @@ class CorrectBindsUsageDetectorTest {
                         @Binds fun bindPizzaMaker(): PizzaMaker = PizzaMakerImpl()
                     }
                 """,
-        )
-          .indented(),
-      )
-      .issues(CorrectBindsUsageDetector.ISSUE_BINDS_ABSTRACT)
-      .run()
-      .expect(
-        """
+                )
+                    .indented(),
+            )
+            .issues(CorrectBindsUsageDetector.ISSUE_BINDS_ABSTRACT)
+            .run()
+            .expect(
+                """
                     src/MyModule.kt:7: Error: A @Binds method needs to be abstract or Dagger will throw an error at compile time. See https://whosnickdoglio.dev/dagger-rules/rules/#methods-annotated-with-binds-must-be-abstract for more information. [BindsMustBeAbstract]
                         @Binds fun bindPizzaMaker(): PizzaMaker = PizzaMakerImpl()
                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
                     1 errors, 0 warnings
                 """
-          .trimIndent(),
-      )
-      .expectErrorCount(1)
-  }
+                    .trimIndent(),
+            )
+            .expectErrorCount(1)
+    }
 
-  @Test
-  fun `java non-abstract @Binds method triggers error`() {
-    TestLintTask.lint()
-      .files(
-        daggerAnnotations,
-        pizzaMakerStubs,
-        TestFiles.java(
-          """
+    @Test
+    fun `java non-abstract @Binds method triggers error`() {
+        TestLintTask.lint()
+            .files(
+                daggerAnnotations,
+                pizzaMakerStubs,
+                TestFiles.java(
+                    """
                     import dagger.Module;
                     import dagger.Binds;
 
@@ -282,32 +282,32 @@ class CorrectBindsUsageDetectorTest {
                         }
                     }
                 """,
-        )
-          .indented(),
-      )
-      .issues(CorrectBindsUsageDetector.ISSUE_BINDS_ABSTRACT)
-      .run()
-      .expect(
-        """
+                )
+                    .indented(),
+            )
+            .issues(CorrectBindsUsageDetector.ISSUE_BINDS_ABSTRACT)
+            .run()
+            .expect(
+                """
                     src/MyModule.java:7: Error: A @Binds method needs to be abstract or Dagger will throw an error at compile time. See https://whosnickdoglio.dev/dagger-rules/rules/#methods-annotated-with-binds-must-be-abstract for more information. [BindsMustBeAbstract]
                         @Binds PizzaMaker bindPizzaMaker() {
                         ^
                     1 errors, 0 warnings
                 """
-          .trimIndent(),
-      )
-      .expectErrorCount(1)
-  }
+                    .trimIndent(),
+            )
+            .expectErrorCount(1)
+    }
 
-  @Test
-  fun `kotlin @Binds method that returns Unit triggers error`() {
-    TestLintTask.lint()
-      .files(
-        daggerAnnotations,
-        pizzaMakerStubs,
-        repositoryStubs,
-        TestFiles.kotlin(
-          """
+    @Test
+    fun `kotlin @Binds method that returns Unit triggers error`() {
+        TestLintTask.lint()
+            .files(
+                daggerAnnotations,
+                pizzaMakerStubs,
+                repositoryStubs,
+                TestFiles.kotlin(
+                    """
                     import dagger.Module
                     import dagger.Binds
 
@@ -319,13 +319,13 @@ class CorrectBindsUsageDetectorTest {
                         @Binds fun bindsRepository(impl: InMemoryRepository)
                     }
                 """,
-        )
-          .indented(),
-      )
-      .issues(CorrectBindsUsageDetector.ISSUE_CORRECT_RETURN_TYPE)
-      .run()
-      .expect(
-        """
+                )
+                    .indented(),
+            )
+            .issues(CorrectBindsUsageDetector.ISSUE_CORRECT_RETURN_TYPE)
+            .run()
+            .expect(
+                """
                 src/MyModule.kt:7: Error: @Binds method parameters need to be a subclass of the return type. Make sure you're passing the correct parameter or the intended subclass is implementing the return type interface.
 
                 See https://whosnickdoglio.dev/dagger-rules/rules/#a-binds-method-parameter-should-be-a-subclass-of-its-return-type for more information. [BindsWithCorrectReturnType]
@@ -338,19 +338,19 @@ class CorrectBindsUsageDetectorTest {
                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
                 2 errors, 0 warnings
             """
-          .trimIndent(),
-      )
-      .expectErrorCount(2)
-  }
+                    .trimIndent(),
+            )
+            .expectErrorCount(2)
+    }
 
-  @Test
-  fun `java @Binds method that returns Void triggers error`() {
-    TestLintTask.lint()
-      .files(
-        daggerAnnotations,
-        repositoryStubs,
-        TestFiles.java(
-          """
+    @Test
+    fun `java @Binds method that returns Void triggers error`() {
+        TestLintTask.lint()
+            .files(
+                daggerAnnotations,
+                repositoryStubs,
+                TestFiles.java(
+                    """
                     import dagger.Module;
                     import dagger.Binds;
 
@@ -359,13 +359,13 @@ class CorrectBindsUsageDetectorTest {
                         @Binds Void bindsRepository(InMemoryRepository impl);
                     }
                 """,
-        )
-          .indented(),
-      )
-      .issues(CorrectBindsUsageDetector.ISSUE_CORRECT_RETURN_TYPE)
-      .run()
-      .expect(
-        """
+                )
+                    .indented(),
+            )
+            .issues(CorrectBindsUsageDetector.ISSUE_CORRECT_RETURN_TYPE)
+            .run()
+            .expect(
+                """
                 src/MyModule.java:6: Error: @Binds method parameters need to be a subclass of the return type. Make sure you're passing the correct parameter or the intended subclass is implementing the return type interface.
 
                 See https://whosnickdoglio.dev/dagger-rules/rules/#a-binds-method-parameter-should-be-a-subclass-of-its-return-type for more information. [BindsWithCorrectReturnType]
@@ -373,8 +373,8 @@ class CorrectBindsUsageDetectorTest {
                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
                 1 errors, 0 warnings
             """
-          .trimIndent(),
-      )
-      .expectErrorCount(1)
-  }
+                    .trimIndent(),
+            )
+            .expectErrorCount(1)
+    }
 }

@@ -28,56 +28,56 @@ import org.jetbrains.uast.UMethod
  * `@Module` to bind the implementation to an interface.
  */
 internal class FavorContributesBindingOverBindsDetector : Detector(), SourceCodeScanner {
-  override fun getApplicableUastTypes(): List<Class<out UElement>> = listOf(UAnnotation::class.java)
+    override fun getApplicableUastTypes(): List<Class<out UElement>> = listOf(UAnnotation::class.java)
 
-  override fun createUastHandler(context: JavaContext): UElementHandler? {
-    // Anvil is Kotlin only
-    if (!isKotlin(context.uastFile?.lang)) return null
-    return object : UElementHandler() {
-      override fun visitAnnotation(node: UAnnotation) {
-        if (node.qualifiedName == BINDS) {
-          val method = node.uastParent as? UMethod ?: return
-          val returnType = context.evaluator.getTypeClass(method.returnType)
-          // Anvils binding annotations do not support super types that type parameters
-          // TODO document this better
-          if (returnType?.typeParameters?.isEmpty() == true) {
-            if (method.hasAnnotation(INTO_MAP) || method.hasAnnotation(INTO_SET)) {
-              context.report(
-                Incident(context, ISSUE)
-                  // TODO try range location
-                  .location(context.getLocation(node.uastParent))
-                  .message("You can use `@ContributesMultibinding` over `@Binds`"),
-              )
-            } else {
-              context.report(
-                Incident(context, ISSUE)
-                  // TODO try range location
-                  .location(context.getLocation(node.uastParent))
-                  .message("You can use `@ContributesBinding` over `@Binds`"),
-              )
+    override fun createUastHandler(context: JavaContext): UElementHandler? {
+        // Anvil is Kotlin only
+        if (!isKotlin(context.uastFile?.lang)) return null
+        return object : UElementHandler() {
+            override fun visitAnnotation(node: UAnnotation) {
+                if (node.qualifiedName == BINDS) {
+                    val method = node.uastParent as? UMethod ?: return
+                    val returnType = context.evaluator.getTypeClass(method.returnType)
+                    // Anvils binding annotations do not support super types that type parameters
+                    // TODO document this better
+                    if (returnType?.typeParameters?.isEmpty() == true) {
+                        if (method.hasAnnotation(INTO_MAP) || method.hasAnnotation(INTO_SET)) {
+                            context.report(
+                                Incident(context, ISSUE)
+                                    // TODO try range location
+                                    .location(context.getLocation(node.uastParent))
+                                    .message("You can use `@ContributesMultibinding` over `@Binds`"),
+                            )
+                        } else {
+                            context.report(
+                                Incident(context, ISSUE)
+                                    // TODO try range location
+                                    .location(context.getLocation(node.uastParent))
+                                    .message("You can use `@ContributesBinding` over `@Binds`"),
+                            )
+                        }
+                    }
+                }
             }
-          }
         }
-      }
     }
-  }
 
-  companion object {
-    private val implementation =
-      Implementation(
-        FavorContributesBindingOverBindsDetector::class.java,
-        Scope.JAVA_FILE_SCOPE,
-      )
+    companion object {
+        private val implementation =
+            Implementation(
+                FavorContributesBindingOverBindsDetector::class.java,
+                Scope.JAVA_FILE_SCOPE,
+            )
 
-    internal val ISSUE =
-      Issue.create(
-        id = "ContributesBindingOverBinds",
-        briefDescription = "Hello friend",
-        explanation = "Hello friend",
-        category = Category.CORRECTNESS,
-        priority = 5,
-        severity = Severity.WARNING,
-        implementation = implementation,
-      )
-  }
+        internal val ISSUE =
+            Issue.create(
+                id = "ContributesBindingOverBinds",
+                briefDescription = "Hello friend",
+                explanation = "Hello friend",
+                category = Category.CORRECTNESS,
+                priority = 5,
+                severity = Severity.WARNING,
+                implementation = implementation,
+            )
+    }
 }

@@ -16,96 +16,96 @@ import org.junit.runner.RunWith
 
 @RunWith(TestParameterInjector::class)
 class ScopedWithoutInjectAnnotationDetectorTest {
-  @Test
-  fun `kotlin scoped class without inject annotation triggers error message`(
-    @TestParameter scopeFile: ScopeTestFile,
-  ) {
-    TestLintTask.lint()
-      .files(javaxAnnotations, scopeFile.file, TestFiles.kotlin("@MyScope class MyClass"))
-      .issues(ScopedWithoutInjectAnnotationDetector.ISSUE)
-      .run()
-      .expect(
-        """
+    @Test
+    fun `kotlin scoped class without inject annotation triggers error message`(
+        @TestParameter scopeFile: ScopeTestFile,
+    ) {
+        TestLintTask.lint()
+            .files(javaxAnnotations, scopeFile.file, TestFiles.kotlin("@MyScope class MyClass"))
+            .issues(ScopedWithoutInjectAnnotationDetector.ISSUE)
+            .run()
+            .expect(
+                """
                     src/MyClass.kt:1: Error: Without the @Inject annotation this class is not added to the DI graph which means the scope annotation doesn't do anything. [ScopedWithoutInjection]
                     @MyScope class MyClass
                     ~~~~~~~~
                     1 errors, 0 warnings
                 """
-          .trimIndent(),
-      )
-      .expectErrorCount(1)
-      .expectFixDiffs(
-        """
+                    .trimIndent(),
+            )
+            .expectErrorCount(1)
+            .expectFixDiffs(
+                """
                     Fix for src/MyClass.kt line 1: Remove unnecessary scope annotation:
                     @@ -1 +1
                     - @MyScope class MyClass
                     +  class MyClass
                 """
-          .trimIndent(),
-      )
-  }
+                    .trimIndent(),
+            )
+    }
 
-  @Test
-  fun `java scoped class without inject annotation triggers error message`(
-    @TestParameter scopeFile: ScopeTestFile,
-  ) {
-    TestLintTask.lint()
-      .files(javaxAnnotations, scopeFile.file, TestFiles.java("@MyScope class MyClass {}"))
-      .issues(ScopedWithoutInjectAnnotationDetector.ISSUE)
-      .run()
-      .expect(
-        """
+    @Test
+    fun `java scoped class without inject annotation triggers error message`(
+        @TestParameter scopeFile: ScopeTestFile,
+    ) {
+        TestLintTask.lint()
+            .files(javaxAnnotations, scopeFile.file, TestFiles.java("@MyScope class MyClass {}"))
+            .issues(ScopedWithoutInjectAnnotationDetector.ISSUE)
+            .run()
+            .expect(
+                """
                     src/MyClass.java:1: Error: Without the @Inject annotation this class is not added to the DI graph which means the scope annotation doesn't do anything. [ScopedWithoutInjection]
                     @MyScope class MyClass {}
                     ~~~~~~~~
                     1 errors, 0 warnings
                 """
-          .trimIndent(),
-      )
-      .expectFixDiffs(
-        """
+                    .trimIndent(),
+            )
+            .expectFixDiffs(
+                """
                     Fix for src/MyClass.java line 1: Remove unnecessary scope annotation:
                     @@ -1 +1
                     - @MyScope class MyClass {}
                     +  class MyClass {}
                 """
-          .trimIndent(),
-      )
-  }
+                    .trimIndent(),
+            )
+    }
 
-  @Test
-  fun `kotlin scoped class with inject annotation does not trigger error message`(
-    @TestParameter scopeFile: ScopeTestFile,
-  ) {
-    TestLintTask.lint()
-      .files(
-        javaxAnnotations,
-        scopeFile.file,
-        TestFiles.kotlin(
-          """
+    @Test
+    fun `kotlin scoped class with inject annotation does not trigger error message`(
+        @TestParameter scopeFile: ScopeTestFile,
+    ) {
+        TestLintTask.lint()
+            .files(
+                javaxAnnotations,
+                scopeFile.file,
+                TestFiles.kotlin(
+                    """
                 import javax.inject.Inject
 
                 @MyScope class MyClass @Inject constructor()
                     """
-            .trimIndent(),
-        ),
-      )
-      .issues(ScopedWithoutInjectAnnotationDetector.ISSUE)
-      .run()
-      .expectClean()
-      .expectErrorCount(0)
-  }
+                        .trimIndent(),
+                ),
+            )
+            .issues(ScopedWithoutInjectAnnotationDetector.ISSUE)
+            .run()
+            .expectClean()
+            .expectErrorCount(0)
+    }
 
-  @Test
-  fun `java scoped class with inject annotation does not trigger error message`(
-    @TestParameter scopeFile: ScopeTestFile,
-  ) {
-    TestLintTask.lint()
-      .files(
-        javaxAnnotations,
-        scopeFile.file,
-        TestFiles.java(
-          """
+    @Test
+    fun `java scoped class with inject annotation does not trigger error message`(
+        @TestParameter scopeFile: ScopeTestFile,
+    ) {
+        TestLintTask.lint()
+            .files(
+                javaxAnnotations,
+                scopeFile.file,
+                TestFiles.java(
+                    """
                     import javax.inject.Inject;
 
                     @MyScope class MyClass {
@@ -113,40 +113,40 @@ class ScopedWithoutInjectAnnotationDetectorTest {
                         @Inject public MyClass() {}
                     }
                 """
-            .trimIndent(),
-        ),
-      )
-      .issues(ScopedWithoutInjectAnnotationDetector.ISSUE)
-      .run()
-      .expectClean()
-  }
+                        .trimIndent(),
+                ),
+            )
+            .issues(ScopedWithoutInjectAnnotationDetector.ISSUE)
+            .run()
+            .expectClean()
+    }
 
-  @Test
-  fun `kotlin class without scope but with inject annotation does not trigger error message`() {
-    TestLintTask.lint()
-      .files(
-        javaxAnnotations,
-        TestFiles.kotlin(
-          """
+    @Test
+    fun `kotlin class without scope but with inject annotation does not trigger error message`() {
+        TestLintTask.lint()
+            .files(
+                javaxAnnotations,
+                TestFiles.kotlin(
+                    """
                     import javax.inject.Inject
 
                     class MyClass @Inject constructor()
                 """
-            .trimIndent(),
-        ),
-      )
-      .issues(ScopedWithoutInjectAnnotationDetector.ISSUE)
-      .run()
-      .expectClean()
-  }
+                        .trimIndent(),
+                ),
+            )
+            .issues(ScopedWithoutInjectAnnotationDetector.ISSUE)
+            .run()
+            .expectClean()
+    }
 
-  @Test
-  fun `java class without scope with inject annotation does not trigger error message`() {
-    TestLintTask.lint()
-      .files(
-        javaxAnnotations,
-        TestFiles.java(
-          """
+    @Test
+    fun `java class without scope with inject annotation does not trigger error message`() {
+        TestLintTask.lint()
+            .files(
+                javaxAnnotations,
+                TestFiles.java(
+                    """
                     import javax.inject.Inject;
 
                     class MyClass {
@@ -154,102 +154,102 @@ class ScopedWithoutInjectAnnotationDetectorTest {
                         @Inject public MyClass() {}
                     }
                 """
-            .trimIndent(),
-        ),
-      )
-      .issues(ScopedWithoutInjectAnnotationDetector.ISSUE)
-      .run()
-      .expectClean()
-  }
+                        .trimIndent(),
+                ),
+            )
+            .issues(ScopedWithoutInjectAnnotationDetector.ISSUE)
+            .run()
+            .expectClean()
+    }
 
-  @Test
-  fun `kotlin class with no scope or inject annotations shows no error message`() {
-    TestLintTask.lint()
-      .files(TestFiles.kotlin("class MyClass"))
-      .issues(ScopedWithoutInjectAnnotationDetector.ISSUE)
-      .run()
-      .expectClean()
-      .expectErrorCount(0)
-  }
+    @Test
+    fun `kotlin class with no scope or inject annotations shows no error message`() {
+        TestLintTask.lint()
+            .files(TestFiles.kotlin("class MyClass"))
+            .issues(ScopedWithoutInjectAnnotationDetector.ISSUE)
+            .run()
+            .expectClean()
+            .expectErrorCount(0)
+    }
 
-  @Test
-  fun `java class with no scope or inject annotations shows no error message`() {
-    TestLintTask.lint()
-      .files(TestFiles.java("class MyClass {}"))
-      .issues(ScopedWithoutInjectAnnotationDetector.ISSUE)
-      .run()
-      .expectClean()
-  }
+    @Test
+    fun `java class with no scope or inject annotations shows no error message`() {
+        TestLintTask.lint()
+            .files(TestFiles.java("class MyClass {}"))
+            .issues(ScopedWithoutInjectAnnotationDetector.ISSUE)
+            .run()
+            .expectClean()
+    }
 
-  @Test
-  fun `kotlin @Component definition with a scope does not show an error message`(
-    @TestParameter scopeFile: ScopeTestFile,
-  ) {
-    TestLintTask.lint()
-      .files(
-        javaxAnnotations,
-        scopeFile.file,
-        daggerAnnotations,
-        TestFiles.kotlin(
-          """
+    @Test
+    fun `kotlin @Component definition with a scope does not show an error message`(
+        @TestParameter scopeFile: ScopeTestFile,
+    ) {
+        TestLintTask.lint()
+            .files(
+                javaxAnnotations,
+                scopeFile.file,
+                daggerAnnotations,
+                TestFiles.kotlin(
+                    """
                 import dagger.Component
 
                 @MyScope @Component interface MyComponent
             """
-            .trimIndent(),
-        ),
-      )
-      .issues(ScopedWithoutInjectAnnotationDetector.ISSUE)
-      .run()
-      .expectClean()
-      .expectErrorCount(0)
-  }
+                        .trimIndent(),
+                ),
+            )
+            .issues(ScopedWithoutInjectAnnotationDetector.ISSUE)
+            .run()
+            .expectClean()
+            .expectErrorCount(0)
+    }
 
-  @Test
-  fun `java @Component definition with a scope does not show an error message`(
-    @TestParameter scopeFile: ScopeTestFile,
-  ) {
-    TestLintTask.lint()
-      .files(
-        javaxAnnotations,
-        scopeFile.file,
-        daggerAnnotations,
-        TestFiles.java(
-          """
+    @Test
+    fun `java @Component definition with a scope does not show an error message`(
+        @TestParameter scopeFile: ScopeTestFile,
+    ) {
+        TestLintTask.lint()
+            .files(
+                javaxAnnotations,
+                scopeFile.file,
+                daggerAnnotations,
+                TestFiles.java(
+                    """
                 import dagger.Component;
 
                 @MyScope @Component interface MyComponent {}
             """
-            .trimIndent(),
-        ),
-      )
-      .issues(ScopedWithoutInjectAnnotationDetector.ISSUE)
-      .run()
-      .expectClean()
-      .expectErrorCount(0)
-  }
+                        .trimIndent(),
+                ),
+            )
+            .issues(ScopedWithoutInjectAnnotationDetector.ISSUE)
+            .run()
+            .expectClean()
+            .expectErrorCount(0)
+    }
 }
 
 @Suppress("unused")
 enum class ScopeTestFile(val file: TestFile) {
-  KOTLIN(
-    TestFiles.kotlin(
-      """
+    KOTLIN(
+        TestFiles.kotlin(
+            """
         import javax.inject.Scope
         @Scope annotation class MyScope
         """
-        .trimIndent(),
+                .trimIndent(),
+        ),
     ),
-  ),
-  JAVA(
-    TestFiles.java(
-      """
+    JAVA(
+        TestFiles.java(
+            """
         import javax.inject.Scope;
 
         @Scope
         public @interface MyScope {}
         """
-        .trimIndent(),
+                .trimIndent(),
+        ),
     ),
-  ),
 }

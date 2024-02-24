@@ -24,67 +24,67 @@ import org.jetbrains.uast.UMethod
 import org.jetbrains.uast.getContainingUClass
 
 internal class StaticProvidesDetector : Detector(), SourceCodeScanner {
-  override fun getApplicableUastTypes(): List<Class<out UElement>> = listOf(UAnnotation::class.java)
+    override fun getApplicableUastTypes(): List<Class<out UElement>> = listOf(UAnnotation::class.java)
 
-  override fun createUastHandler(context: JavaContext): UElementHandler =
-    object : UElementHandler() {
-      override fun visitAnnotation(node: UAnnotation) {
-        if (node.qualifiedName == PROVIDES) {
-          val method = node.uastParent as? UMethod ?: return
-          when {
-            isJava(method.language) -> javaCheck(context, method)
-            isKotlin(method.language) -> kotlinCheck(context, method)
-          }
+    override fun createUastHandler(context: JavaContext): UElementHandler =
+        object : UElementHandler() {
+            override fun visitAnnotation(node: UAnnotation) {
+                if (node.qualifiedName == PROVIDES) {
+                    val method = node.uastParent as? UMethod ?: return
+                    when {
+                        isJava(method.language) -> javaCheck(context, method)
+                        isKotlin(method.language) -> kotlinCheck(context, method)
+                    }
+                }
+            }
         }
-      }
+
+    private fun javaCheck(
+        context: JavaContext,
+        method: UMethod,
+    ) {
+        if (!context.evaluator.isStatic(method)) {
+            context.report(
+                issue = ISSUE,
+                location = context.getNameLocation(method),
+                message = ISSUE.getExplanation(TextFormat.TEXT),
+            )
+        }
     }
 
-  private fun javaCheck(
-    context: JavaContext,
-    method: UMethod,
-  ) {
-    if (!context.evaluator.isStatic(method)) {
-      context.report(
-        issue = ISSUE,
-        location = context.getNameLocation(method),
-        message = ISSUE.getExplanation(TextFormat.TEXT),
-      )
+    private fun kotlinCheck(
+        context: JavaContext,
+        method: UMethod,
+    ) {
+        val containingClass = method.getContainingUClass()
+        val sourcePsi = containingClass?.sourcePsi ?: return
+        if (sourcePsi !is KtObjectDeclaration) {
+            context.report(
+                issue = ISSUE,
+                location = context.getLocation(method),
+                message = ISSUE.getExplanation(TextFormat.TEXT),
+            )
+        }
     }
-  }
 
-  private fun kotlinCheck(
-    context: JavaContext,
-    method: UMethod,
-  ) {
-    val containingClass = method.getContainingUClass()
-    val sourcePsi = containingClass?.sourcePsi ?: return
-    if (sourcePsi !is KtObjectDeclaration) {
-      context.report(
-        issue = ISSUE,
-        location = context.getLocation(method),
-        message = ISSUE.getExplanation(TextFormat.TEXT),
-      )
-    }
-  }
+    companion object {
+        private val implementation =
+            Implementation(StaticProvidesDetector::class.java, Scope.JAVA_FILE_SCOPE)
 
-  companion object {
-    private val implementation =
-      Implementation(StaticProvidesDetector::class.java, Scope.JAVA_FILE_SCOPE)
-
-    internal val ISSUE =
-      Issue.create(
-        id = "StaticProvides",
-        briefDescription = "Not using static @Provides methods",
-        explanation =
-          """
+        internal val ISSUE =
+            Issue.create(
+                id = "StaticProvides",
+                briefDescription = "Not using static @Provides methods",
+                explanation =
+                """
                     @Provides methods be static.
 
                     See https://whosnickdoglio.dev/dagger-rules/rules/#provides-methods-should-be-static for more information.
                 """,
-        category = Category.CORRECTNESS,
-        priority = 5,
-        severity = Severity.WARNING,
-        implementation = implementation,
-      )
-  }
+                category = Category.CORRECTNESS,
+                priority = 5,
+                severity = Severity.WARNING,
+                implementation = implementation,
+            )
+    }
 }

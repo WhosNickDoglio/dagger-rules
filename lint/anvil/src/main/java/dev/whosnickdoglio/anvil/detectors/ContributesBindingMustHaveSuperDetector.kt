@@ -33,111 +33,111 @@ import org.jetbrains.uast.UElement
  * with no super type.
  */
 internal class ContributesBindingMustHaveSuperDetector : Detector(), SourceCodeScanner {
-  override fun getApplicableUastTypes(): List<Class<out UElement>> = listOf(UAnnotation::class.java)
+    override fun getApplicableUastTypes(): List<Class<out UElement>> = listOf(UAnnotation::class.java)
 
-  override fun createUastHandler(context: JavaContext): UElementHandler? {
-    // Anvil is Kotlin only
-    if (!isKotlin(context.uastFile?.lang)) return null
-    return object : UElementHandler() {
-      override fun visitAnnotation(node: UAnnotation) {
-        if (
-          node.qualifiedName == CONTRIBUTES_BINDING ||
-          node.qualifiedName == CONTRIBUTES_MULTI_BINDING
-        ) {
-          val clazz = node.uastParent as? UClass ?: return
-          val annotation = node.sourcePsi as? KtAnnotationEntry ?: return
+    override fun createUastHandler(context: JavaContext): UElementHandler? {
+        // Anvil is Kotlin only
+        if (!isKotlin(context.uastFile?.lang)) return null
+        return object : UElementHandler() {
+            override fun visitAnnotation(node: UAnnotation) {
+                if (
+                    node.qualifiedName == CONTRIBUTES_BINDING ||
+                    node.qualifiedName == CONTRIBUTES_MULTI_BINDING
+                ) {
+                    val clazz = node.uastParent as? UClass ?: return
+                    val annotation = node.sourcePsi as? KtAnnotationEntry ?: return
 
-          // Accounts for Any supertype
-          if (clazz.supers.size == 1) {
-            checkIsDaggerModule(clazz, context, node)
+                    // Accounts for Any supertype
+                    if (clazz.supers.size == 1) {
+                        checkIsDaggerModule(clazz, context, node)
 
-            val annotationArguments =
-              annotation.valueArguments.map { valueArgument ->
-                valueArgument.getArgumentName()?.asName?.asString() to
-                  valueArgument.getArgumentExpression()?.text
-              }
-            if (!annotationArguments.contains(BOUND_TYPE to ANY_CLASS)) {
-              context.report(
-                Incident(context, ISSUE_BINDING_NO_SUPER)
-                  .location(context.getNameLocation(clazz))
-                  .message(ISSUE_BINDING_NO_SUPER.getExplanation(TextFormat.RAW))
-                  .fix(null),
-              )
+                        val annotationArguments =
+                            annotation.valueArguments.map { valueArgument ->
+                                valueArgument.getArgumentName()?.asName?.asString() to
+                                    valueArgument.getArgumentExpression()?.text
+                            }
+                        if (!annotationArguments.contains(BOUND_TYPE to ANY_CLASS)) {
+                            context.report(
+                                Incident(context, ISSUE_BINDING_NO_SUPER)
+                                    .location(context.getNameLocation(clazz))
+                                    .message(ISSUE_BINDING_NO_SUPER.getExplanation(TextFormat.RAW))
+                                    .fix(null),
+                            )
+                        }
+                    }
+                }
             }
-          }
         }
-      }
     }
-  }
 
-  private fun checkIsDaggerModule(
-    clazz: UClass,
-    context: JavaContext,
-    node: UAnnotation,
-  ) {
-    if (clazz.hasAnnotation(MODULE)) {
-      context.report(
-        Incident(context, ISSUE_CONTRIBUTES_TO_INSTEAD_OF_BINDING)
-          .location(context.getLocation(node))
-          .message(ISSUE_CONTRIBUTES_TO_INSTEAD_OF_BINDING.getExplanation(TextFormat.RAW))
-          .fix(
-            fix()
-              .name("Did you mean to use the `@ContributesTo` annotation?")
-              .composite(
-                fix()
-                  .replace()
-                  .pattern(
-                    "(?i)(.*${node.qualifiedName?.substringAfterLast(".")})",
-                  )
-                  .with("")
-                  .build(),
-                fix()
-                  .annotate(CONTRIBUTES_TO)
-                  .range(context.getNameLocation(clazz))
-                  .build(),
-              ),
-          ),
-      )
+    private fun checkIsDaggerModule(
+        clazz: UClass,
+        context: JavaContext,
+        node: UAnnotation,
+    ) {
+        if (clazz.hasAnnotation(MODULE)) {
+            context.report(
+                Incident(context, ISSUE_CONTRIBUTES_TO_INSTEAD_OF_BINDING)
+                    .location(context.getLocation(node))
+                    .message(ISSUE_CONTRIBUTES_TO_INSTEAD_OF_BINDING.getExplanation(TextFormat.RAW))
+                    .fix(
+                        fix()
+                            .name("Did you mean to use the `@ContributesTo` annotation?")
+                            .composite(
+                                fix()
+                                    .replace()
+                                    .pattern(
+                                        "(?i)(.*${node.qualifiedName?.substringAfterLast(".")})",
+                                    )
+                                    .with("")
+                                    .build(),
+                                fix()
+                                    .annotate(CONTRIBUTES_TO)
+                                    .range(context.getNameLocation(clazz))
+                                    .build(),
+                            ),
+                    ),
+            )
+        }
     }
-  }
 
-  companion object {
-    private const val BOUND_TYPE = "boundType"
-    private const val ANY_CLASS = "Any::class"
+    companion object {
+        private const val BOUND_TYPE = "boundType"
+        private const val ANY_CLASS = "Any::class"
 
-    private val implementation =
-      Implementation(
-        ContributesBindingMustHaveSuperDetector::class.java,
-        Scope.JAVA_FILE_SCOPE,
-      )
+        private val implementation =
+            Implementation(
+                ContributesBindingMustHaveSuperDetector::class.java,
+                Scope.JAVA_FILE_SCOPE,
+            )
 
-    internal val ISSUE_BINDING_NO_SUPER =
-      Issue.create(
-        id = "ContributesBindingMustHaveSuper",
-        briefDescription = "Classes annotated with ContributesBinding need a super",
-        explanation =
-          "The `ContributesBinding` annotation is used to bind concrete implementations to " +
-            "an interface/abstract they implement if there is no interface or abstract class to " +
-            "implement using `@ContributesBinding` will throw an error at compile time. ",
-        category = Category.CORRECTNESS,
-        priority = 5,
-        severity = Severity.WARNING,
-        implementation = implementation,
-      )
+        internal val ISSUE_BINDING_NO_SUPER =
+            Issue.create(
+                id = "ContributesBindingMustHaveSuper",
+                briefDescription = "Classes annotated with ContributesBinding need a super",
+                explanation =
+                "The `ContributesBinding` annotation is used to bind concrete implementations to " +
+                    "an interface/abstract they implement if there is no interface or abstract class to " +
+                    "implement using `@ContributesBinding` will throw an error at compile time. ",
+                category = Category.CORRECTNESS,
+                priority = 5,
+                severity = Severity.WARNING,
+                implementation = implementation,
+            )
 
-    internal val ISSUE_CONTRIBUTES_TO_INSTEAD_OF_BINDING =
-      Issue.create(
-        id = "UseContributesToInstead",
-        briefDescription = "Use ContributesTo for Dagger modules",
-        explanation =
-          "The `ContributesTo` annotation is used to contribute Dagger modules to the DI " +
-            "graph whereas the `ContributesBinding` annotation is used to bind specific classes to " +
-            "one of their super interfaces/abstract classes in the DI graph and would not work " +
-            "with a Dagger module.",
-        category = Category.CORRECTNESS,
-        priority = 5,
-        severity = Severity.ERROR,
-        implementation = implementation,
-      )
-  }
+        internal val ISSUE_CONTRIBUTES_TO_INSTEAD_OF_BINDING =
+            Issue.create(
+                id = "UseContributesToInstead",
+                briefDescription = "Use ContributesTo for Dagger modules",
+                explanation =
+                "The `ContributesTo` annotation is used to contribute Dagger modules to the DI " +
+                    "graph whereas the `ContributesBinding` annotation is used to bind specific classes to " +
+                    "one of their super interfaces/abstract classes in the DI graph and would not work " +
+                    "with a Dagger module.",
+                category = Category.CORRECTNESS,
+                priority = 5,
+                severity = Severity.ERROR,
+                implementation = implementation,
+            )
+    }
 }

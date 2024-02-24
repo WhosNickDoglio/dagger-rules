@@ -19,25 +19,25 @@ import dev.whosnickdoglio.dagger.detectors.StaticProvidesDetector
 
 @AutoService(IssueRegistry::class)
 class DaggerRulesIssueRegistry : IssueRegistry() {
-  override val issues: List<Issue> =
-    listOf(
-      ComponentMustBeAbstractDetector.ISSUE,
-      ConstructorInjectionOverFieldInjectionDetector.ISSUE,
-      CorrectBindsUsageDetector.ISSUE_BINDS_ABSTRACT,
-      CorrectBindsUsageDetector.ISSUE_CORRECT_RETURN_TYPE,
-      MissingModuleAnnotationDetector.ISSUE,
-      MultipleScopesDetector.ISSUE,
-      StaticProvidesDetector.ISSUE,
-      ScopedWithoutInjectAnnotationDetector.ISSUE,
-    )
+    override val issues: List<Issue> =
+        listOf(
+            ComponentMustBeAbstractDetector.ISSUE,
+            ConstructorInjectionOverFieldInjectionDetector.ISSUE,
+            CorrectBindsUsageDetector.ISSUE_BINDS_ABSTRACT,
+            CorrectBindsUsageDetector.ISSUE_CORRECT_RETURN_TYPE,
+            MissingModuleAnnotationDetector.ISSUE,
+            MultipleScopesDetector.ISSUE,
+            StaticProvidesDetector.ISSUE,
+            ScopedWithoutInjectAnnotationDetector.ISSUE,
+        )
 
-  override val api: Int = CURRENT_API
+    override val api: Int = CURRENT_API
 
-  override val vendor: Vendor
-    get() =
-      Vendor(
-        vendorName = "Nicholas Doglio",
-        identifier = "dev.whosnickdoglio.dagger.rules:dagger-lint",
-        feedbackUrl = "https://github.com/WhosNickDoglio/dagger-rules/issues",
-      )
+    override val vendor: Vendor
+        get() =
+            Vendor(
+                vendorName = "Nicholas Doglio",
+                identifier = "dev.whosnickdoglio.dagger.rules:dagger-lint",
+                feedbackUrl = "https://github.com/WhosNickDoglio/dagger-rules/issues",
+            )
 }

@@ -17,23 +17,23 @@ import dev.whosnickdoglio.hilt.detectors.MissingInstallInDetector
 
 @AutoService(IssueRegistry::class)
 class HiltRulesIssueRegistry : IssueRegistry() {
-  override val issues: List<Issue> =
-    listOf(
-      EntryPointMustBeAnInterfaceDetector.ISSUE,
-      MissingHiltAndroidAppAnnotationDetector.ISSUE,
-      MissingAndroidEntryPointDetector.ISSUE,
-      MissingHiltViewModelAnnotationDetector.ISSUE_MISSING_ANNOTATION,
-      MissingHiltViewModelAnnotationDetector.ISSUE_UNNECESSARY_ANNOTATION,
-      MissingInstallInDetector.ISSUE,
-    )
+    override val issues: List<Issue> =
+        listOf(
+            EntryPointMustBeAnInterfaceDetector.ISSUE,
+            MissingHiltAndroidAppAnnotationDetector.ISSUE,
+            MissingAndroidEntryPointDetector.ISSUE,
+            MissingHiltViewModelAnnotationDetector.ISSUE_MISSING_ANNOTATION,
+            MissingHiltViewModelAnnotationDetector.ISSUE_UNNECESSARY_ANNOTATION,
+            MissingInstallInDetector.ISSUE,
+        )
 
-  override val api: Int = CURRENT_API
+    override val api: Int = CURRENT_API
 
-  override val vendor: Vendor
-    get() =
-      Vendor(
-        vendorName = "Nicholas Doglio",
-        identifier = "dev.whosnickdoglio.dagger.rules:hilt-lint",
-        feedbackUrl = "https://github.com/WhosNickDoglio/dagger-rules/issues/",
-      )
+    override val vendor: Vendor
+        get() =
+            Vendor(
+                vendorName = "Nicholas Doglio",
+                identifier = "dev.whosnickdoglio.dagger.rules:hilt-lint",
+                feedbackUrl = "https://github.com/WhosNickDoglio/dagger-rules/issues/",
+            )
 }

@@ -8,8 +8,8 @@ import com.android.tools.lint.checks.infrastructure.TestFile
 import com.android.tools.lint.checks.infrastructure.TestFiles
 
 val daggerAnnotations: TestFile =
-  TestFiles.kotlin(
-    """
+    TestFiles.kotlin(
+        """
         package  dagger
 
         annotation class Provides
@@ -19,12 +19,12 @@ val daggerAnnotations: TestFile =
         annotation class Component
         annotation class Subcomponent
     """
-      .trimIndent(),
-  )
+            .trimIndent(),
+    )
 
 val daggerMultibindingAnnotations: TestFile =
-  TestFiles.kotlin(
-    """
+    TestFiles.kotlin(
+        """
     package dagger.multibindings
 
     annotation class IntoMap
@@ -32,28 +32,28 @@ val daggerMultibindingAnnotations: TestFile =
     annotation class StringKey(val key: String)
     annotation class IntKey(val key: Int)
 """
-      .trimIndent(),
-  )
+            .trimIndent(),
+    )
 
 val daggerAssistedAnnotations: TestFile =
-  TestFiles.kotlin(
-    """
+    TestFiles.kotlin(
+        """
     package  dagger.assisted
 
     annotation class Assisted
     annotation class AssistedFactory
     annotation class AssistedInject
 """
-      .trimIndent(),
-  )
+            .trimIndent(),
+    )
 
 val javaxAnnotations: TestFile =
-  TestFiles.kotlin(
-    """
+    TestFiles.kotlin(
+        """
     package javax.inject
 
     annotation class Inject
     annotation class Scope
 """
-      .trimIndent(),
-  )
+            .trimIndent(),
+    )
