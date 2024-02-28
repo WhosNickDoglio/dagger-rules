@@ -14,7 +14,7 @@ dagger = "2.51"
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
 lint = { id = "com.android.lint", version.ref = "agp" }
 android-app = { id = "com.android.application", version.ref = "agp" }
-doctor = { id = "com.osacky.doctor", version = "0.9.1" }
+doctor = { id = "com.osacky.doctor", version = "0.9.2" }
 spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
 dependencyAnalysis = { id = "com.autonomousapps.dependency-analysis", version = "1.30.0" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
