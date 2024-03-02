@@ -43,7 +43,7 @@ internal class ContributesBindingMustHaveSuperDetector : Detector(), SourceCodeS
             override fun visitAnnotation(node: UAnnotation) {
                 if (
                     node.qualifiedName == CONTRIBUTES_BINDING ||
-                        node.qualifiedName == CONTRIBUTES_MULTI_BINDING
+                    node.qualifiedName == CONTRIBUTES_MULTI_BINDING
                 ) {
                     val clazz = node.uastParent as? UClass ?: return
                     val annotation = node.sourcePsi as? KtAnnotationEntry ?: return
@@ -117,9 +117,9 @@ internal class ContributesBindingMustHaveSuperDetector : Detector(), SourceCodeS
                 id = "ContributesBindingMustHaveSuper",
                 briefDescription = "Classes annotated with ContributesBinding need a super",
                 explanation =
-                    "The `ContributesBinding` annotation is used to bind concrete implementations to " +
-                        "an interface/abstract they implement if there is no interface or abstract class to " +
-                        "implement using `@ContributesBinding` will throw an error at compile time. ",
+                "The `ContributesBinding` annotation is used to bind concrete implementations to " +
+                    "an interface/abstract they implement if there is no interface or abstract class to " +
+                    "implement using `@ContributesBinding` will throw an error at compile time. ",
                 category = Category.CORRECTNESS,
                 priority = 5,
                 severity = Severity.WARNING,
@@ -131,10 +131,10 @@ internal class ContributesBindingMustHaveSuperDetector : Detector(), SourceCodeS
                 id = "UseContributesToInstead",
                 briefDescription = "Use ContributesTo for Dagger modules",
                 explanation =
-                    "The `ContributesTo` annotation is used to contribute Dagger modules to the DI " +
-                        "graph whereas the `ContributesBinding` annotation is used to bind specific classes to " +
-                        "one of their super interfaces/abstract classes in the DI graph and would not work " +
-                        "with a Dagger module.",
+                "The `ContributesTo` annotation is used to contribute Dagger modules to the DI " +
+                    "graph whereas the `ContributesBinding` annotation is used to bind specific classes to " +
+                    "one of their super interfaces/abstract classes in the DI graph and would not work " +
+                    "with a Dagger module.",
                 category = Category.CORRECTNESS,
                 priority = 5,
                 severity = Severity.ERROR,
