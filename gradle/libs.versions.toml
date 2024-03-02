@@ -1,7 +1,7 @@
 [versions]
 agp = "8.3.0"
 kotlin = "1.9.22"
-ktlint = "1.1.1"
+ktlint = "1.2.1"
 lint = "31.2.2"
 detekt = "1.23.5"
 kover = "0.7.6"
@@ -39,6 +39,8 @@ autoService-ksp = { module = "dev.zacsweers.autoservice:auto-service-ksp", versi
 
 lint-api = { module = "com.android.tools.lint:lint-api", version.ref = "lint" }
 lint-tests = { module = "com.android.tools.lint:lint-tests", version.ref = "lint" }
+
+ktlint = { module = "com.pinterest.ktlint:ktlint-cli", version.ref = "ktlint" }
 
 detekt-ruleauthors = { module = "io.gitlab.arturbosch.detekt:detekt-rules-ruleauthors", version.ref = "detekt" }
 detekt-api = { module = "io.gitlab.arturbosch.detekt:detekt-api", version.ref = "detekt" }
