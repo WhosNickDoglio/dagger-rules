@@ -43,7 +43,7 @@ internal class MissingContributesToDetector : Detector(), SourceCodeScanner {
                                     fix()
                                         .name("Add @ContributesTo annotation")
                                         .annotate(CONTRIBUTES_TO, context, element)
-                                        .range(context.getNameLocation(element))
+                                        .autoFix(robot = true, independent = true)
                                         .build(),
                                 ),
                         )

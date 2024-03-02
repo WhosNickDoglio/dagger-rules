@@ -45,13 +45,10 @@ class MissingHiltAndroidAppAnnotationDetectorTest {
             .expectErrorCount(1)
             .expectFixDiffs(
                 """
-                Fix for src/MyApplication.java line 3: Add HiltAndroidApp annotation:
-                @@ -3 +3
-                - class MyApplication extends Application {}
-                @@ -4 +3
-                + class @dagger.hilt.android.HiltAndroidApp
-                + MyApplication extends Application {}
-            """
+                    Autofix for src/MyApplication.java line 3: Add HiltAndroidApp annotation:
+                    @@ -3 +3
+                    + @dagger.hilt.android.HiltAndroidApp
+                """
                     .trimIndent(),
             )
     }
@@ -120,12 +117,9 @@ class MissingHiltAndroidAppAnnotationDetectorTest {
             .expectErrorCount(1)
             .expectFixDiffs(
                 """
-                    Fix for src/MyApplication.kt line 3: Add HiltAndroidApp annotation:
+                    Autofix for src/MyApplication.kt line 3: Add HiltAndroidApp annotation:
                     @@ -3 +3
-                    - class MyApplication : Application
-                    @@ -4 +3
-                    + class @dagger.hilt.android.HiltAndroidApp
-                    + MyApplication : Application
+                    + @dagger.hilt.android.HiltAndroidApp
                 """
                     .trimIndent(),
             )

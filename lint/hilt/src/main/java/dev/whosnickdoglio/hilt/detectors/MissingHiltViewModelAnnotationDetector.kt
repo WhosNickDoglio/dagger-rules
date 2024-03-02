@@ -49,7 +49,6 @@ internal class MissingHiltViewModelAnnotationDetector : Detector(), SourceCodeSc
                                         "Add ${HILT_VIEW_MODEL.substringAfterLast(".")} annotation",
                                     )
                                     .annotate(HILT_VIEW_MODEL, context, node)
-                                    .range(context.getNameLocation(node))
                                     .build(),
                             ),
                     )

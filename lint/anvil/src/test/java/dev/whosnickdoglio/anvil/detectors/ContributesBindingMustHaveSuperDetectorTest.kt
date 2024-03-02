@@ -10,6 +10,7 @@ import com.google.testing.junit.testparameterinjector.TestParameter
 import com.google.testing.junit.testparameterinjector.TestParameterInjector
 import dev.whosnickdoglio.anvil.CONTRIBUTES_BINDING
 import dev.whosnickdoglio.anvil.CONTRIBUTES_MULTI_BINDING
+import dev.whosnickdoglio.anvil.CONTRIBUTES_TO
 import dev.whosnickdoglio.stubs.daggerAnnotations
 import dev.whosnickdoglio.stubs.javaxAnnotations
 import org.junit.Test
@@ -111,10 +112,8 @@ class ContributesBindingMustHaveSuperDetectorTest {
                     Fix for src/MyModule.kt line 4: Did you mean to use the `@ContributesTo` annotation?:
                     @@ -4 +4
                     - @${annotation.substringAfterLast(".")}
+                    + @${CONTRIBUTES_TO}
                     +
-                    - class MyModule
-                    + class @com.squareup.anvil.annotations.ContributesTo
-                    + MyModule
                 """
                     .trimIndent(),
             )

@@ -57,9 +57,7 @@ class MissingHiltViewModelAnnotationDetectorTest {
                 """
                     Fix for src/MyViewModel.kt line 4: Add HiltViewModel annotation:
                     @@ -4 +4
-                    - class MyViewModel @Inject constructor(
-                    + class @dagger.hilt.android.lifecycle.HiltViewModel
-                    + MyViewModel @Inject constructor(
+                    + @dagger.hilt.android.lifecycle.HiltViewModel
                 """
                     .trimIndent(),
             )
@@ -106,12 +104,10 @@ class MissingHiltViewModelAnnotationDetectorTest {
             .expectErrorCount(1)
             .expectFixDiffs(
                 """
-                Fix for src/MyViewModel.java line 4: Add HiltViewModel annotation:
-                @@ -4 +4
-                - class MyViewModel extends ViewModel {
-                + class @dagger.hilt.android.lifecycle.HiltViewModel
-                + MyViewModel extends ViewModel {
-            """
+                    Fix for src/MyViewModel.java line 4: Add HiltViewModel annotation:
+                    @@ -4 +4
+                    + @dagger.hilt.android.lifecycle.HiltViewModel
+                """
                     .trimIndent(),
             )
     }

@@ -88,11 +88,9 @@ class MissingAndroidEntryPointDetectorTest {
 
         fun expectedFixDiff(): String =
             """
-            Fix for src/androidx/AndroidX$className.java line 7: Add AndroidEntryPoint annotation:
+            Autofix for src/androidx/AndroidX$className.java line 7: Add AndroidEntryPoint annotation:
             @@ -7 +7
-            - class AndroidX$className extends $className {
-            + class @dagger.hilt.android.AndroidEntryPoint
-            + AndroidX$className extends $className {
+            + @dagger.hilt.android.AndroidEntryPoint
         """
                 .trimIndent()
 
@@ -191,11 +189,9 @@ class MissingAndroidEntryPointDetectorTest {
 
         fun expectedFixDiff(): String =
             """
-                Fix for src/androidx/AndroidX$className.kt line 6: Add AndroidEntryPoint annotation:
+                Autofix for src/androidx/AndroidX$className.kt line 6: Add AndroidEntryPoint annotation:
                 @@ -6 +6
-                - class AndroidX$className : $className {
-                + class @dagger.hilt.android.AndroidEntryPoint
-                + AndroidX$className : $className {
+                + @dagger.hilt.android.AndroidEntryPoint
             """
                 .trimIndent()
 

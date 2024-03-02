@@ -47,19 +47,13 @@ class MissingContributesBindingDetectorTest {
             .expectWarningCount(1)
             .expectFixDiffs(
                 """
-                Fix for src/Authenticator.kt line 5: Add @ContributesBinding annotation:
-                @@ -5 +5
-                - class AuthenticatorImpl @Inject constructor(): Authenticator
-                @@ -6 +5
-                + class @com.squareup.anvil.annotations.ContributesBinding
-                + AuthenticatorImpl @Inject constructor(): Authenticator
-                Fix for src/Authenticator.kt line 5: Add @ContributesMultibinding annotation:
-                @@ -5 +5
-                - class AuthenticatorImpl @Inject constructor(): Authenticator
-                @@ -6 +5
-                + class @com.squareup.anvil.annotations.ContributesMultibinding
-                + AuthenticatorImpl @Inject constructor(): Authenticator
-            """
+                    Autofix for src/Authenticator.kt line 5: Add @ContributesBinding annotation:
+                    @@ -5 +5
+                    + @com.squareup.anvil.annotations.ContributesBinding
+                    Autofix for src/Authenticator.kt line 5: Add @ContributesMultibinding annotation:
+                    @@ -5 +5
+                    + @com.squareup.anvil.annotations.ContributesMultibinding
+                """
                     .trimIndent(),
             )
     }
@@ -165,19 +159,13 @@ class MissingContributesBindingDetectorTest {
             .expectWarningCount(1)
             .expectFixDiffs(
                 """
-                Fix for src/JsonAdapter.kt line 6: Add @ContributesBinding annotation:
-                @@ -6 +6
-                - class MyJsonAdapter @Inject constructor(): JsonAdapter<String>, CustomAdapter
-                @@ -7 +6
-                + class @com.squareup.anvil.annotations.ContributesBinding
-                + MyJsonAdapter @Inject constructor(): JsonAdapter<String>, CustomAdapter
-                Fix for src/JsonAdapter.kt line 6: Add @ContributesMultibinding annotation:
-                @@ -6 +6
-                - class MyJsonAdapter @Inject constructor(): JsonAdapter<String>, CustomAdapter
-                @@ -7 +6
-                + class @com.squareup.anvil.annotations.ContributesMultibinding
-                + MyJsonAdapter @Inject constructor(): JsonAdapter<String>, CustomAdapter
-            """
+                    Autofix for src/JsonAdapter.kt line 6: Add @ContributesBinding annotation:
+                    @@ -6 +6
+                    + @com.squareup.anvil.annotations.ContributesBinding
+                    Autofix for src/JsonAdapter.kt line 6: Add @ContributesMultibinding annotation:
+                    @@ -6 +6
+                    + @com.squareup.anvil.annotations.ContributesMultibinding
+                """
                     .trimIndent(),
             )
     }

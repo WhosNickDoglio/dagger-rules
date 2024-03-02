@@ -46,12 +46,10 @@ class MissingContributesToDetectorTest {
             .expectErrorCount(1)
             .expectFixDiffs(
                 """
-                Fix for src/MyModule.kt line 5: Add @ContributesTo annotation:
-                @@ -5 +5
-                - class MyModule {
-                + class @com.squareup.anvil.annotations.ContributesTo
-                + MyModule {
-            """
+                    Autofix for src/MyModule.kt line 5: Add @ContributesTo annotation:
+                    @@ -4 +4
+                    + @com.squareup.anvil.annotations.ContributesTo
+                """
                     .trimIndent(),
             )
     }
@@ -130,12 +128,10 @@ class MissingContributesToDetectorTest {
             .expectErrorCount(1)
             .expectFixDiffs(
                 """
-                Fix for src/MyThing.kt line 11: Add @ContributesTo annotation:
-                @@ -11 +11
-                - interface MyModule {
-                + interface @com.squareup.anvil.annotations.ContributesTo
-                + MyModule {
-            """
+                    Autofix for src/MyThing.kt line 11: Add @ContributesTo annotation:
+                    @@ -10 +10
+                    + @com.squareup.anvil.annotations.ContributesTo
+                """
                     .trimIndent(),
             )
     }
@@ -251,12 +247,10 @@ class MissingContributesToDetectorTest {
             .expectErrorCount(1)
             .expectFixDiffs(
                 """
-                Fix for src/MyThing.kt line 8: Add @ContributesTo annotation:
-                @@ -8 +8
-                - interface MyModule {
-                + interface @com.squareup.anvil.annotations.ContributesTo
-                + MyModule {
-            """
+                    Autofix for src/MyThing.kt line 8: Add @ContributesTo annotation:
+                    @@ -7 +7
+                    + @com.squareup.anvil.annotations.ContributesTo
+                """
                     .trimIndent(),
             )
     }
