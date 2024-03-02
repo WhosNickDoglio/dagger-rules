@@ -38,7 +38,7 @@ internal class MissingHiltAndroidAppAnnotationDetector : Detector(), SourceCodeS
                                     .name(
                                         "Add ${HILT_ANDROID_APP.substringAfterLast(".")} annotation",
                                     )
-                                    .annotate(HILT_ANDROID_APP)
+                                    .annotate(HILT_ANDROID_APP, context, node)
                                     .range(context.getNameLocation(node))
                                     .build(),
                             ),

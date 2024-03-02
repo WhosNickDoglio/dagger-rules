@@ -61,12 +61,12 @@ internal class MissingContributesBindingDetector : Detector(), SourceCodeScanner
                                         .alternatives(
                                             fix()
                                                 .name("Add @ContributesBinding annotation")
-                                                .annotate(CONTRIBUTES_BINDING)
+                                                .annotate(CONTRIBUTES_BINDING, context, node)
                                                 .range(context.getNameLocation(node))
                                                 .build(),
                                             fix()
                                                 .name("Add @ContributesMultibinding annotation")
-                                                .annotate(CONTRIBUTES_MULTI_BINDING)
+                                                .annotate(CONTRIBUTES_MULTI_BINDING, context, node)
                                                 .range(context.getNameLocation(node))
                                                 .build(),
                                         ),

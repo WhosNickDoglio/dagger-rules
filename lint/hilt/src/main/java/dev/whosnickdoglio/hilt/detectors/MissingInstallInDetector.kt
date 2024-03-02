@@ -53,7 +53,7 @@ internal class MissingInstallInDetector : Detector(), SourceCodeScanner {
                                 .fix(
                                     fix()
                                         .alternatives()
-                                        .apply { quickFixes(context, node).forEach { add(it) } }
+                                        .apply { quickFixes(context, daggerModule, node).forEach { add(it) } }
                                         .build(),
                                 ),
                         )
@@ -64,7 +64,8 @@ internal class MissingInstallInDetector : Detector(), SourceCodeScanner {
 
     private fun quickFixes(
         context: JavaContext,
-        node: UAnnotation,
+        classToBeAnnotated: UClass,
+        annotation: UAnnotation,
     ): List<LintFix> {
         val customHiltComponents =
             customComponentOptions.getValue(context).orEmpty().split(",").toSet().filter {
@@ -74,8 +75,8 @@ internal class MissingInstallInDetector : Detector(), SourceCodeScanner {
         return (defaultHiltComponents + customHiltComponents).map { component ->
             fix()
                 .name("Install in the ${component.substringAfterLast(".")} ")
-                .annotate("$INSTALL_IN($component::class)")
-                .range(context.getNameLocation(node))
+                .annotate("$INSTALL_IN($component::class)", context, classToBeAnnotated)
+                .range(context.getNameLocation(annotation))
                 .build()
         }
     }
