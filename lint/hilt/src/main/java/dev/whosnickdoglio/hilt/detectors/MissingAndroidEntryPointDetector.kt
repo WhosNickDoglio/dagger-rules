@@ -61,7 +61,7 @@ internal class MissingAndroidEntryPointDetector : Detector(), SourceCodeScanner 
                                         .name(
                                             "Add ${ANDROID_ENTRY_POINT.substringAfterLast(".")} annotation",
                                         )
-                                        .annotate(ANDROID_ENTRY_POINT)
+                                        .annotate(ANDROID_ENTRY_POINT, context, node)
                                         .range(context.getNameLocation(node))
                                         .build(),
                                 ),

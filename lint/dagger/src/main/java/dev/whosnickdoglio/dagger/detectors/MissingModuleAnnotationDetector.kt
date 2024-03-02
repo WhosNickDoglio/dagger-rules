@@ -52,7 +52,7 @@ internal class MissingModuleAnnotationDetector : Detector(), SourceCodeScanner {
                                 fix =
                                 fix()
                                     .name("Add @Module annotation")
-                                    .annotate(MODULE)
+                                    .annotate(MODULE, context, node)
                                     .range(context.getNameLocation(node))
                                     .build(),
                             ),

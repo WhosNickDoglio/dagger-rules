@@ -92,7 +92,7 @@ internal class ContributesBindingMustHaveSuperDetector : Detector(), SourceCodeS
                                     .with("")
                                     .build(),
                                 fix()
-                                    .annotate(CONTRIBUTES_TO)
+                                    .annotate(CONTRIBUTES_TO, context, clazz)
                                     .range(context.getNameLocation(clazz))
                                     .build(),
                             ),
