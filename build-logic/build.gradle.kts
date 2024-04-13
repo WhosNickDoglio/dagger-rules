@@ -1,3 +1,4 @@
+import io.gitlab.arturbosch.detekt.Detekt
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
@@ -65,6 +66,8 @@ spotless {
         endWithNewline()
     }
 }
+
+tasks.withType<Detekt>().configureEach { jvmTarget = JvmTarget.JVM_17.target }
 
 tasks.withType<KotlinCompile>().configureEach {
     compilerOptions {
