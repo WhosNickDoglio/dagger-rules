@@ -1,3 +1,4 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 import org.jetbrains.kotlin.gradle.internal.KaptGenerateStubsTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
@@ -71,22 +72,6 @@ android {
     }
 }
 
-tasks.withType<KaptGenerateStubsTask>().configureEach {
-    // TODO necessary until anvil supports something for K2 contribution merging
-    compilerOptions {
-        progressiveMode.set(false)
-        languageVersion.set(KotlinVersion.KOTLIN_1_9)
-    }
-}
-
-tasks.withType<KotlinCompile>().configureEach {
-    // TODO necessary until anvil supports something for K2 contribution merging
-    compilerOptions {
-        progressiveMode.set(false)
-        languageVersion.set(KotlinVersion.KOTLIN_1_9)
-    }
-}
-
 spotless {
     format("misc") {
         target("*.md", ".gitignore")
@@ -103,6 +88,29 @@ spotless {
         ktlint(libs.versions.ktlint.get())
         trimTrailingWhitespace()
         endWithNewline()
+    }
+}
+
+tasks.withType<JavaCompile>().configureEach {
+    sourceCompatibility = JavaVersion.VERSION_17.toString()
+    targetCompatibility = JavaVersion.VERSION_17.toString()
+}
+
+tasks.withType<KotlinCompile>().configureEach {
+    compilerOptions {
+        allWarningsAsErrors = true
+        jvmTarget = JvmTarget.JVM_17
+        // TODO necessary until anvil supports something for K2 contribution merging
+        progressiveMode.set(false)
+        languageVersion.set(KotlinVersion.KOTLIN_1_9)
+    }
+}
+
+tasks.withType<KaptGenerateStubsTask>().configureEach {
+    // TODO necessary until anvil supports something for K2 contribution merging
+    compilerOptions {
+        progressiveMode.set(false)
+        languageVersion.set(KotlinVersion.KOTLIN_1_9)
     }
 }
 
