@@ -22,6 +22,10 @@ import org.jetbrains.uast.UClass
 import org.jetbrains.uast.UElement
 
 internal class ComponentMustBeAbstractDetector : Detector(), SourceCodeScanner {
+    private val oldClassPattern =
+        "(object|enum\\s+class|annotation\\s+class|sealed\\s+class|data\\s+class|enum|class)"
+            .toRegex()
+
     override fun getApplicableUastTypes(): List<Class<out UElement>> =
         listOf(UAnnotation::class.java)
 
@@ -36,10 +40,15 @@ internal class ComponentMustBeAbstractDetector : Detector(), SourceCodeScanner {
                             Incident(
                                 issue = ISSUE,
                                 scope = component,
-                                location = context.getNameLocation(component),
+                                location = context.getLocation(element = component),
                                 message = ISSUE.getExplanation(TextFormat.TEXT),
-                                fix = null,
-                                // TODO
+                                fix =
+                                fix()
+                                    .replace()
+                                    .name("Make ${component.name} an interface")
+                                    .pattern(oldClassPattern.toString())
+                                    .with("interface")
+                                    .build(),
                             ),
                         )
                     }
