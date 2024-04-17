@@ -49,7 +49,7 @@ detekt-test = { module = "io.gitlab.arturbosch.detekt:detekt-test", version.ref 
 androidx-gradle-lints = { module = "androidx.lint:lint-gradle", version = "1.0.0-alpha01" }
 androidx-core = { module = "androidx.core:core-ktx", version = "1.12.0" }
 androidx-appcompat = { module = "androidx.appcompat:appcompat", version = "1.6.1" }
-androidx-activity = { module = "androidx.activity:activity", version = "1.8.2" }
+androidx-activity = { module = "androidx.activity:activity", version = "1.9.0" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "dagger" }
 hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "dagger" }
 
