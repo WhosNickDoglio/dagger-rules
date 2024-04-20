@@ -16,7 +16,7 @@ import dev.whosnickdoglio.hilt.detectors.MissingHiltViewModelAnnotationDetector
 import dev.whosnickdoglio.hilt.detectors.MissingInstallInDetector
 
 @AutoService(IssueRegistry::class)
-class HiltRulesIssueRegistry : IssueRegistry() {
+public class HiltRulesIssueRegistry : IssueRegistry() {
     override val issues: List<Issue> =
         listOf(
             EntryPointMustBeAnInterfaceDetector.ISSUE,

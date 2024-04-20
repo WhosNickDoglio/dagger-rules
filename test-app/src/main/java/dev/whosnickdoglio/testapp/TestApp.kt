@@ -13,7 +13,7 @@ import dev.whosnickdoglio.testapp.vanilla.DaggerVanillaComponent
 import dev.whosnickdoglio.testapp.vanilla.VanillaComponent
 
 @HiltAndroidApp
-class TestApp : Application(), ComponentProvider {
+public class TestApp : Application(), ComponentProvider {
     override val component: VanillaComponent by lazy { DaggerVanillaComponent.create() }
 
     override fun onCreate() {

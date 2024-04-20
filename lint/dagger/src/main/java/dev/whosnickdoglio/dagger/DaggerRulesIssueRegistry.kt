@@ -18,7 +18,7 @@ import dev.whosnickdoglio.dagger.detectors.ScopedWithoutInjectAnnotationDetector
 import dev.whosnickdoglio.dagger.detectors.StaticProvidesDetector
 
 @AutoService(IssueRegistry::class)
-class DaggerRulesIssueRegistry : IssueRegistry() {
+public class DaggerRulesIssueRegistry : IssueRegistry() {
     override val issues: List<Issue> =
         listOf(
             ComponentMustBeAbstractDetector.ISSUE,

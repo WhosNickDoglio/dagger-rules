@@ -15,7 +15,8 @@ import dev.whosnickdoglio.testapp.greeter.GreeterImpl
 @Suppress("MissingContributesToAnnotation")
 @InstallIn(SingletonComponent::class)
 @Module
-interface BindModule {
+public interface BindModule {
 
-    @Suppress("ContributesBindingOverBinds") @Binds fun bindGreeter(impl: GreeterImpl): Greeter
+    @Suppress("ContributesBindingOverBinds") @Binds
+    public fun bindGreeter(impl: GreeterImpl): Greeter
 }
