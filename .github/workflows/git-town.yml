@@ -15,5 +15,5 @@ jobs:
       pull-requests: write
 
     steps:
-      - uses: actions/checkout@v4
-      - uses: git-town/action@v1
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
+      - uses: git-town/action@1860fa26f8c9f1178d86955627867307226190ad # v1
