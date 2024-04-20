@@ -10,12 +10,12 @@ import com.squareup.anvil.annotations.ContributesBinding
 import dev.whosnickdoglio.testapp.anvil.AppScope
 import javax.inject.Inject
 
-fun interface Greeter {
-    fun hello(name: String)
+public fun interface Greeter {
+    public fun hello(name: String)
 }
 
 @ContributesBinding(AppScope::class)
-class GreeterImpl @Inject constructor() : Greeter {
+public class GreeterImpl @Inject constructor() : Greeter {
     override fun hello(name: String) {
         Log.i("Greeter", "Hello $name")
     }

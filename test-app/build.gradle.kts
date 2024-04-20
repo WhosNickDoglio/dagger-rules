@@ -14,7 +14,10 @@ plugins {
     alias(libs.plugins.spotless)
 }
 
-kotlin { jvmToolchain(libs.versions.jdk.get().toInt()) }
+kotlin {
+    explicitApi()
+    jvmToolchain(libs.versions.jdk.get().toInt())
+}
 
 anvil { addOptionalAnnotations.set(true) }
 

@@ -9,8 +9,9 @@ import android.content.Context
 import com.squareup.anvil.annotations.MergeComponent
 import com.squareup.anvil.annotations.optional.SingleIn
 
-@SingleIn(AppScope::class) @MergeComponent(AppScope::class) interface AnvilComponent
+@SingleIn(AppScope::class) @MergeComponent(AppScope::class)
+public interface AnvilComponent
 
-sealed interface AppScope
+public sealed interface AppScope
 
-inline fun <reified T> Context.anvilInjector() = applicationContext as T
+internal inline fun <reified T> Context.anvilInjector() = applicationContext as T

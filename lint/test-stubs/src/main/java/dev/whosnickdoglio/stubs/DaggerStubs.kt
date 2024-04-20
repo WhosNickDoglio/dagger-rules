@@ -7,7 +7,7 @@ package dev.whosnickdoglio.stubs
 import com.android.tools.lint.checks.infrastructure.TestFile
 import com.android.tools.lint.checks.infrastructure.TestFiles
 
-val daggerAnnotations: TestFile =
+public val daggerAnnotations: TestFile =
     TestFiles.kotlin(
         """
         package  dagger
@@ -22,7 +22,7 @@ val daggerAnnotations: TestFile =
             .trimIndent(),
     )
 
-val daggerMultibindingAnnotations: TestFile =
+public val daggerMultibindingAnnotations: TestFile =
     TestFiles.kotlin(
         """
     package dagger.multibindings
@@ -35,7 +35,7 @@ val daggerMultibindingAnnotations: TestFile =
             .trimIndent(),
     )
 
-val daggerAssistedAnnotations: TestFile =
+public val daggerAssistedAnnotations: TestFile =
     TestFiles.kotlin(
         """
     package  dagger.assisted
@@ -47,7 +47,7 @@ val daggerAssistedAnnotations: TestFile =
             .trimIndent(),
     )
 
-val javaxAnnotations: TestFile =
+public val javaxAnnotations: TestFile =
     TestFiles.kotlin(
         """
     package javax.inject

@@ -13,14 +13,15 @@ import javax.inject.Scope
 
 @MyCustomScope
 @DefineComponent(parent = SingletonComponent::class)
-interface MyCustomComponent {
+public interface MyCustomComponent {
 
     @DefineComponent.Builder
-    interface Builder {
-        fun context(@BindsInstance context: Context): Builder
+    public interface Builder {
+        public fun context(@BindsInstance context: Context): Builder
 
-        fun build(): MyCustomComponent
+        public fun build(): MyCustomComponent
     }
 }
 
-@Scope @Retention annotation class MyCustomScope
+@Scope @Retention
+public annotation class MyCustomScope

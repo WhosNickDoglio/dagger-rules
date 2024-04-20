@@ -11,10 +11,10 @@ import javax.inject.Singleton
 
 @Singleton
 @Component
-interface VanillaComponent
+public interface VanillaComponent
 
-interface ComponentProvider {
+internal interface ComponentProvider {
     val component: VanillaComponent
 }
 
-val Context.injector get() = (applicationContext as ComponentProvider).component
+internal val Context.injector get() = (applicationContext as ComponentProvider).component

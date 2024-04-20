@@ -15,9 +15,12 @@ import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 internal fun Project.configureJvm(toolchainVersion: Int) {
-    extensions.getByType(KotlinJvmProjectExtension::class.java).jvmToolchain { toolchain ->
-        toolchain.languageVersion.set(JavaLanguageVersion.of(toolchainVersion))
-        toolchain.vendor.set(JvmVendorSpec.AZUL)
+    extensions.getByType(KotlinJvmProjectExtension::class.java).apply {
+        explicitApi()
+        jvmToolchain { toolchain ->
+            toolchain.languageVersion.set(JavaLanguageVersion.of(toolchainVersion))
+            toolchain.vendor.set(JvmVendorSpec.AZUL)
+        }
     }
     tasks.configureKotlin()
     tasks.configureJava()

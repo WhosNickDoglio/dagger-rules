@@ -13,9 +13,10 @@ import dev.whosnickdoglio.testapp.greeter.Greeter
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity() {
+public class MainActivity : AppCompatActivity() {
 
-    @Inject lateinit var greeter: Greeter
+    @Inject
+    public lateinit var greeter: Greeter
 
     override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
         super.onCreate(savedInstanceState, persistentState)

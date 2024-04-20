@@ -16,7 +16,7 @@ import dev.whosnickdoglio.anvil.detectors.MissingContributesToDetector
 import dev.whosnickdoglio.anvil.detectors.NoAnvilInJavaDetector
 
 @AutoService(IssueRegistry::class)
-class AnvilRulesIssueRegistry : IssueRegistry() {
+public class AnvilRulesIssueRegistry : IssueRegistry() {
     override val issues: List<Issue> =
         listOf(
             ContributesBindingMustHaveSuperDetector.ISSUE_BINDING_NO_SUPER,
