@@ -1,5 +1,6 @@
 [versions]
 agp = "8.3.2"
+desugar = "2.0.4"
 kotlin = "1.9.23"
 ktlint = "1.2.1"
 lint = "31.3.2"
@@ -39,6 +40,8 @@ autoService-ksp = { module = "dev.zacsweers.autoservice:auto-service-ksp", versi
 
 lint-api = { module = "com.android.tools.lint:lint-api", version.ref = "lint" }
 lint-tests = { module = "com.android.tools.lint:lint-tests", version.ref = "lint" }
+
+desugar = { module = "com.android.tools:desugar_jdk_libs", version.ref = "desugar" }
 
 ktlint = { module = "com.pinterest.ktlint:ktlint-cli", version.ref = "ktlint" }
 
