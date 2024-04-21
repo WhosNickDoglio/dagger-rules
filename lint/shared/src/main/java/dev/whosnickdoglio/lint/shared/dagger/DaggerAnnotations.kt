@@ -2,7 +2,7 @@
  * Copyright (C) 2024 Nicholas Doglio
  * SPDX-License-Identifier: MIT
  */
-package dev.whosnickdoglio.lint.shared
+package dev.whosnickdoglio.lint.shared.dagger
 
 public const val INJECT: String = "javax.inject.Inject"
 public const val SCOPE: String = "javax.inject.Scope"

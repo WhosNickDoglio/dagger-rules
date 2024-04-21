@@ -8,13 +8,13 @@ import com.android.tools.lint.checks.infrastructure.TestFiles
 import com.android.tools.lint.checks.infrastructure.TestLintTask
 import com.google.testing.junit.testparameterinjector.TestParameter
 import com.google.testing.junit.testparameterinjector.TestParameterInjector
-import dev.whosnickdoglio.anvil.CONTRIBUTES_BINDING
-import dev.whosnickdoglio.anvil.CONTRIBUTES_MULTI_BINDING
-import dev.whosnickdoglio.anvil.CONTRIBUTES_SUBCOMPONENT
-import dev.whosnickdoglio.anvil.CONTRIBUTES_SUBCOMPONENT_FACTORY
-import dev.whosnickdoglio.anvil.CONTRIBUTES_TO
-import dev.whosnickdoglio.anvil.MERGE_COMPONENT
-import dev.whosnickdoglio.anvil.MERGE_SUBCOMPONENT
+import dev.whosnickdoglio.lint.shared.anvil.CONTRIBUTES_BINDING
+import dev.whosnickdoglio.lint.shared.anvil.CONTRIBUTES_MULTI_BINDING
+import dev.whosnickdoglio.lint.shared.anvil.CONTRIBUTES_SUBCOMPONENT
+import dev.whosnickdoglio.lint.shared.anvil.CONTRIBUTES_SUBCOMPONENT_FACTORY
+import dev.whosnickdoglio.lint.shared.anvil.CONTRIBUTES_TO
+import dev.whosnickdoglio.lint.shared.anvil.MERGE_COMPONENT
+import dev.whosnickdoglio.lint.shared.anvil.MERGE_SUBCOMPONENT
 import org.junit.Test
 import org.junit.runner.RunWith
 
