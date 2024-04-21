@@ -15,9 +15,9 @@ import com.android.tools.lint.detector.api.Scope
 import com.android.tools.lint.detector.api.Severity
 import com.android.tools.lint.detector.api.SourceCodeScanner
 import com.android.tools.lint.detector.api.isKotlin
-import dev.whosnickdoglio.anvil.CONTRIBUTES_BINDING
-import dev.whosnickdoglio.anvil.CONTRIBUTES_MULTI_BINDING
-import dev.whosnickdoglio.lint.shared.INJECT
+import dev.whosnickdoglio.lint.shared.anvil.CONTRIBUTES_BINDING
+import dev.whosnickdoglio.lint.shared.anvil.CONTRIBUTES_MULTI_BINDING
+import dev.whosnickdoglio.lint.shared.dagger.INJECT
 import org.jetbrains.uast.UClass
 import org.jetbrains.uast.UElement
 
