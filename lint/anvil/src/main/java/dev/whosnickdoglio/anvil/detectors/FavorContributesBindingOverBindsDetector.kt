@@ -28,7 +28,8 @@ import org.jetbrains.uast.UMethod
  * `@Module` to bind the implementation to an interface.
  */
 internal class FavorContributesBindingOverBindsDetector : Detector(), SourceCodeScanner {
-    override fun getApplicableUastTypes(): List<Class<out UElement>> = listOf(UAnnotation::class.java)
+    override fun getApplicableUastTypes(): List<Class<out UElement>> =
+        listOf(UAnnotation::class.java)
 
     override fun createUastHandler(context: JavaContext): UElementHandler? {
         // Anvil is Kotlin only
@@ -39,19 +40,19 @@ internal class FavorContributesBindingOverBindsDetector : Detector(), SourceCode
                     val method = node.uastParent as? UMethod ?: return
                     val returnType = context.evaluator.getTypeClass(method.returnType)
                     // Anvils binding annotations do not support super types that type parameters
-                    // TODO document this better
+                    // https://github.com/square/anvil/pull/726#issuecomment-1657296801
                     if (returnType?.typeParameters?.isEmpty() == true) {
                         if (method.hasAnnotation(INTO_MAP) || method.hasAnnotation(INTO_SET)) {
                             context.report(
                                 Incident(context, ISSUE)
-                                    // TODO try range location
                                     .location(context.getLocation(node.uastParent))
-                                    .message("You can use `@ContributesMultibinding` over `@Binds`"),
+                                    .message(
+                                        "You can use `@ContributesMultibinding` over `@Binds`",
+                                    ),
                             )
                         } else {
                             context.report(
                                 Incident(context, ISSUE)
-                                    // TODO try range location
                                     .location(context.getLocation(node.uastParent))
                                     .message("You can use `@ContributesBinding` over `@Binds`"),
                             )
