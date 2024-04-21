@@ -12,6 +12,7 @@ import org.gradle.jvm.toolchain.JavaLanguageVersion
 import org.gradle.jvm.toolchain.JvmVendorSpec
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
+import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 internal fun Project.configureJvm(toolchainVersion: Int) {
@@ -29,12 +30,13 @@ internal fun Project.configureJvm(toolchainVersion: Int) {
 internal fun TaskContainer.configureKotlin() {
     withType(KotlinCompile::class.java).configureEach { kotlinCompile ->
         kotlinCompile.compilerOptions {
+            freeCompilerArgs.add("-Xjdk-release=17")
             allWarningsAsErrors.set(true)
-            jvmTarget.set(JvmTarget.JVM_11)
+            jvmTarget.set(JvmTarget.JVM_17)
             // Lint forces Kotlin (regardless of what version the project uses), so this
             // forces a lower language level for now. Similar to `targetCompatibility` for Java.
-            apiVersion.set(org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_1_7)
-            languageVersion.set(org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_1_7)
+            apiVersion.set(KotlinVersion.KOTLIN_1_9)
+            languageVersion.set(KotlinVersion.KOTLIN_1_9)
         }
     }
 }
@@ -45,4 +47,4 @@ internal fun TaskContainer.configureJava() {
     }
 }
 
-private const val JAVA_RELEASE_OPTIONS = 11
+private const val JAVA_RELEASE_OPTIONS = 17

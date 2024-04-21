@@ -1,4 +1,4 @@
-## Welcome! Thank you for considering contributing to this project!
+# Welcome! Thank you for considering contributing to this project!
 
 Adhering to the following guidelines will help make the development process for all of us a lot
 smoother, more productive and painless.
