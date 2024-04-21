@@ -118,16 +118,24 @@ class ComponentMustBeAbstractDetectorTest {
             .run()
             .expect(
                 """
-                    src/MyComponent.java:4: Error: A type annotated with @Component or @Subcomponent need to be abstract.
+                    src/MyComponent.java:3: Error: A type annotated with @Component or @Subcomponent need to be abstract.
 
                     See https://whosnickdoglio.dev/dagger-rules/rules/#classes-annotated-with-component-must-be-abstract for more information. [ComponentMustBeAbstract]
-                    class MyComponent {}
-                          ~~~~~~~~~~~
+                    @${componentAnnotation.substringAfterLast(".")}
+                    ^
                     1 errors, 0 warnings
                 """
                     .trimIndent(),
             )
             .expectErrorCount(1)
+            .expectFixDiffs(
+                """
+                Fix for src/MyComponent.java line 3: Make MyComponent an interface:
+                @@ -4 +4
+                - class MyComponent {}
+                + interface MyComponent {}
+                """.trimIndent(),
+            )
     }
 
     @Test
@@ -149,15 +157,23 @@ class ComponentMustBeAbstractDetectorTest {
             .run()
             .expect(
                 """
-                    src/MyComponent.kt:4: Error: A type annotated with @Component or @Subcomponent need to be abstract.
+                    src/MyComponent.kt:3: Error: A type annotated with @Component or @Subcomponent need to be abstract.
 
                     See https://whosnickdoglio.dev/dagger-rules/rules/#classes-annotated-with-component-must-be-abstract for more information. [ComponentMustBeAbstract]
-                    class MyComponent
-                          ~~~~~~~~~~~
+                    @${componentAnnotation.substringAfterLast(".")}
+                    ^
                     1 errors, 0 warnings
                 """
                     .trimIndent(),
             )
             .expectErrorCount(1)
+            .expectFixDiffs(
+                """
+                Fix for src/MyComponent.kt line 3: Make MyComponent an interface:
+                @@ -4 +4
+                - class MyComponent
+                + interface MyComponent
+                """.trimIndent(),
+            )
     }
 }
