@@ -2,10 +2,6 @@
 
 <!--- Describe your changes in detail -->
 
-## PR Stack
-
-<!-- branch-stack -->
-
 ## Related Issue
 
 <!--- This project only accepts pull requests related to open issues -->
@@ -22,3 +18,8 @@
 - [ ] I have added tests that prove my fix is effective or that my feature works
 - [ ] I have mentioned changes in [CHANGELOG.md](../CHANGELOG.md).
 - [ ] I have read the [**CONTRIBUTING**](CONTRIBUTING.md) document.
+
+
+## PR Stack
+
+<!-- branch-stack -->
