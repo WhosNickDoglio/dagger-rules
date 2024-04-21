@@ -1,10 +1,6 @@
-<!--- Provide a general summary of your changes in the Title above -->
-
 ## Description
 
 <!--- Describe your changes in detail -->
-
-
 
 ## PR Stack
 
@@ -22,13 +18,7 @@
 <!--- Go over all the following points, and put an `x` in all the boxes that apply. -->
 <!--- If you're unsure about any of these, don't hesitate to ask. We're here to help! -->
 
-- [ ] My code follows the style guidelines of this project (`./gradlew lint spotlessCheck`)
-- [ ] I have performed a self-review of my own code
-- [ ] I have commented on my code, particularly in hard-to-understand areas
 - [ ] I have made corresponding changes to the documentation
-- [ ] My changes generate no new warnings
 - [ ] I have added tests that prove my fix is effective or that my feature works
-- [ ] New and existing unit tests pass locally with my changes
-- [ ] I have checked my code and corrected any misspellings
 - [ ] I have mentioned changes in [CHANGELOG.md](../CHANGELOG.md).
 - [ ] I have read the [**CONTRIBUTING**](CONTRIBUTING.md) document.
