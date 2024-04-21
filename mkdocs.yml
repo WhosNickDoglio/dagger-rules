@@ -9,7 +9,7 @@ site_description: Static analysis checks for using Dagger, Anvil, or Hilt.
 site_author: WhosNickDoglio
 remote_branch: gh-pages
 
-copyright: 'Copyright &copy; 2023 Nicholas Doglio'
+copyright: 'Copyright &copy; 2024 Nicholas Doglio'
 
 theme:
   name: 'material'
