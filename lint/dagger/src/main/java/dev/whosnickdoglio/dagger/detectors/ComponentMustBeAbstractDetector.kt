@@ -15,6 +15,9 @@ import com.android.tools.lint.detector.api.Scope
 import com.android.tools.lint.detector.api.Severity
 import com.android.tools.lint.detector.api.SourceCodeScanner
 import com.android.tools.lint.detector.api.TextFormat
+import dev.whosnickdoglio.lint.annotations.anvil.CONTRIBUTES_SUBCOMPONENT
+import dev.whosnickdoglio.lint.annotations.anvil.MERGE_COMPONENT
+import dev.whosnickdoglio.lint.annotations.anvil.MERGE_SUBCOMPONENT
 import dev.whosnickdoglio.lint.annotations.dagger.COMPONENT
 import dev.whosnickdoglio.lint.annotations.dagger.SUBCOMPONENT
 import org.jetbrains.uast.UAnnotation
@@ -34,7 +37,7 @@ internal class ComponentMustBeAbstractDetector :
     override fun createUastHandler(context: JavaContext): UElementHandler =
         object : UElementHandler() {
             override fun visitAnnotation(node: UAnnotation) {
-                if (node.qualifiedName == COMPONENT || node.qualifiedName == SUBCOMPONENT) {
+                if (node.qualifiedName in componentAnnotations) {
                     val component = node.uastParent as? UClass ?: return
 
                     if (!context.evaluator.isAbstract(component)) {
@@ -61,6 +64,16 @@ internal class ComponentMustBeAbstractDetector :
     companion object {
         private val implementation =
             Implementation(ComponentMustBeAbstractDetector::class.java, Scope.JAVA_FILE_SCOPE)
+
+        internal val componentAnnotations = setOf(
+            // Vanilla Dagger
+            COMPONENT,
+            SUBCOMPONENT,
+            // Anvil
+            MERGE_COMPONENT,
+            MERGE_SUBCOMPONENT,
+            CONTRIBUTES_SUBCOMPONENT,
+        )
 
         internal val ISSUE =
             Issue.create(

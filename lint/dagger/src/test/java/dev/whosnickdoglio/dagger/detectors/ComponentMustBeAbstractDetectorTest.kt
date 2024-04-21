@@ -8,15 +8,20 @@ import com.android.tools.lint.checks.infrastructure.TestFiles
 import com.android.tools.lint.checks.infrastructure.TestLintTask
 import com.google.testing.junit.testparameterinjector.TestParameter
 import com.google.testing.junit.testparameterinjector.TestParameterInjector
-import dev.whosnickdoglio.lint.annotations.dagger.COMPONENT
-import dev.whosnickdoglio.lint.annotations.dagger.SUBCOMPONENT
+import com.google.testing.junit.testparameterinjector.TestParameterValuesProvider
+import dev.whosnickdoglio.stubs.anvilAnnotations
 import dev.whosnickdoglio.stubs.daggerAnnotations
 import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(TestParameterInjector::class)
 class ComponentMustBeAbstractDetectorTest {
-    @TestParameter(value = [COMPONENT, SUBCOMPONENT])
+    private class ComponentMustBeAbstractTestParameterValueProvider : TestParameterValuesProvider() {
+        override fun provideValues(context: Context?): List<*> =
+            ComponentMustBeAbstractDetector.componentAnnotations.toList()
+    }
+
+    @TestParameter(valuesProvider = ComponentMustBeAbstractTestParameterValueProvider::class)
     lateinit var componentAnnotation: String
 
     @Test
@@ -24,6 +29,7 @@ class ComponentMustBeAbstractDetectorTest {
         TestLintTask.lint()
             .files(
                 daggerAnnotations,
+                anvilAnnotations,
                 TestFiles.kotlin(
                     """
                     import $componentAnnotation
@@ -40,10 +46,11 @@ class ComponentMustBeAbstractDetectorTest {
     }
 
     @Test
-    fun `java kotlin abstract class component does not show error`() {
+    fun `java abstract class component does not show error`() {
         TestLintTask.lint()
             .files(
                 daggerAnnotations,
+                anvilAnnotations,
                 TestFiles.java(
                     """
                     import $componentAnnotation;
@@ -64,6 +71,7 @@ class ComponentMustBeAbstractDetectorTest {
         TestLintTask.lint()
             .files(
                 daggerAnnotations,
+                anvilAnnotations,
                 TestFiles.kotlin(
                     """
                     import $componentAnnotation
@@ -84,6 +92,7 @@ class ComponentMustBeAbstractDetectorTest {
         TestLintTask.lint()
             .files(
                 daggerAnnotations,
+                anvilAnnotations,
                 TestFiles.java(
                     """
                     import $componentAnnotation;
@@ -104,6 +113,7 @@ class ComponentMustBeAbstractDetectorTest {
         TestLintTask.lint()
             .files(
                 daggerAnnotations,
+                anvilAnnotations,
                 TestFiles.java(
                     """
                     import $componentAnnotation;
@@ -134,7 +144,8 @@ class ComponentMustBeAbstractDetectorTest {
                 @@ -4 +4
                 - class MyComponent {}
                 + interface MyComponent {}
-                """.trimIndent(),
+                """
+                    .trimIndent(),
             )
     }
 
@@ -143,6 +154,7 @@ class ComponentMustBeAbstractDetectorTest {
         TestLintTask.lint()
             .files(
                 daggerAnnotations,
+                anvilAnnotations,
                 TestFiles.kotlin(
                     """
                     import $componentAnnotation
@@ -173,7 +185,8 @@ class ComponentMustBeAbstractDetectorTest {
                 @@ -4 +4
                 - class MyComponent
                 + interface MyComponent
-                """.trimIndent(),
+                """
+                    .trimIndent(),
             )
     }
 }
