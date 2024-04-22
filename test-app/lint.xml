@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (C) 2024 Nicholas Doglio
+  ~ SPDX-License-Identifier: MIT
+  -->
+
 <lint>
     <issue id="MissingInstallInAnnotation">
         <option name="customHiltComponents" value="dev.whosnickdoglio.testapp.hilt.MyCustomComponent"/>
