@@ -22,6 +22,7 @@ dependencyAnalysis = { id = "com.autonomousapps.dependency-analysis", version.re
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
+publish = { id = "com.vanniktech.maven.publish", version = "0.28.0" }
 kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
 ksp = { id = "com.google.devtools.ksp", version = "2.0.21-1.0.28" }
 sortDependencies = { id = "com.squareup.sort-dependencies", version.ref = "sort" }
