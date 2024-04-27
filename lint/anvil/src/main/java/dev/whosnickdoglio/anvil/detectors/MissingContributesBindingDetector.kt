@@ -26,6 +26,7 @@ import org.jetbrains.uast.kotlin.isKotlin
  * `@ContributesBinding` or `@ContributesMultibinding` annotations for classes that use Dagger and
  * implement an interface or abstract class.
  */
+// TODO configurable
 internal class MissingContributesBindingDetector : Detector(), SourceCodeScanner {
     override fun getApplicableUastTypes(): List<Class<out UElement>> = listOf(UClass::class.java)
 
