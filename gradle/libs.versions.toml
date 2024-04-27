@@ -23,6 +23,7 @@ spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
 dependencyAnalysis = { id = "com.autonomousapps.dependency-analysis", version.ref = "dependencyAnalysis" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+publish = { id = "com.vanniktech.maven.publish", version = "0.34.0" }
 kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
 ksp = { id = "com.google.devtools.ksp", version = "2.2.10-2.0.2" }
 sortDependencies = { id = "com.squareup.sort-dependencies", version.ref = "sort" }
