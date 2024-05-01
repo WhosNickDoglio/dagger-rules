@@ -50,7 +50,7 @@ detekt-api = { module = "io.gitlab.arturbosch.detekt:detekt-api", version.ref = 
 detekt-test = { module = "io.gitlab.arturbosch.detekt:detekt-test", version.ref = "detekt" }
 
 androidx-gradle-lints = { module = "androidx.lint:lint-gradle", version = "1.0.0-alpha01" }
-androidx-core = { module = "androidx.core:core-ktx", version = "1.13.0" }
+androidx-core = { module = "androidx.core:core-ktx", version = "1.13.1" }
 androidx-appcompat = { module = "androidx.appcompat:appcompat", version = "1.6.1" }
 androidx-activity = { module = "androidx.activity:activity", version = "1.9.0" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "dagger" }
