@@ -8,8 +8,15 @@ rootProject.name = "dagger-rules"
 pluginManagement {
     includeBuild("build-logic")
     repositories {
+           exclusiveContent {
+                  forRepository { google() }
+                  filter {
+                        includeGroupAndSubgroups("androidx")
+                        includeGroupAndSubgroups("com.android")
+                        includeGroup("com.google.testing.platform")
+                      }
+                }
         mavenCentral()
-        google()
         gradlePluginPortal()
     }
 }
@@ -17,8 +24,15 @@ pluginManagement {
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
+        exclusiveContent {
+            forRepository { google() }
+            filter {
+                includeGroupAndSubgroups("androidx")
+                includeGroupAndSubgroups("com.android")
+                includeGroup("com.google.testing.platform")
+            }
+        }
         mavenCentral()
-        google()
     }
 }
 
