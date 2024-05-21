@@ -1,3 +1,7 @@
+import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
+import org.jetbrains.kotlin.gradle.internal.KaptGenerateStubsTask
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 /*
  * Copyright (C) 2024 Nicholas Doglio
  * SPDX-License-Identifier: MIT
@@ -64,6 +68,22 @@ android {
     kotlinOptions {
         allWarningsAsErrors = true
         jvmTarget = JavaVersion.VERSION_17.toString()
+    }
+}
+
+tasks.withType<KaptGenerateStubsTask>().configureEach {
+    // TODO necessary until anvil supports something for K2 contribution merging
+    compilerOptions {
+        progressiveMode.set(false)
+        languageVersion.set(KotlinVersion.KOTLIN_1_9)
+    }
+}
+
+tasks.withType<KotlinCompile>().configureEach {
+    // TODO necessary until anvil supports something for K2 contribution merging
+    compilerOptions {
+        progressiveMode.set(false)
+        languageVersion.set(KotlinVersion.KOTLIN_1_9)
     }
 }
 
