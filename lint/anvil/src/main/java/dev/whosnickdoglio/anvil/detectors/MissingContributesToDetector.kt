@@ -23,7 +23,9 @@ import org.jetbrains.uast.UClass
 import org.jetbrains.uast.UElement
 
 // TODO make this configurable for Anvil scopes in quick fix
-internal class MissingContributesToDetector : Detector(), SourceCodeScanner {
+internal class MissingContributesToDetector :
+    Detector(),
+    SourceCodeScanner {
     override fun getApplicableUastTypes(): List<Class<out UElement>> = listOf(UAnnotation::class.java)
 
     override fun createUastHandler(context: JavaContext): UElementHandler? {

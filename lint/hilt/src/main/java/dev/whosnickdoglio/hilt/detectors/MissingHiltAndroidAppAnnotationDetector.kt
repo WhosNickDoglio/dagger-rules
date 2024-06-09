@@ -19,7 +19,9 @@ import dev.whosnickdoglio.hilt.HILT_ANDROID_APP
 import org.jetbrains.uast.UClass
 import org.jetbrains.uast.UElement
 
-internal class MissingHiltAndroidAppAnnotationDetector : Detector(), SourceCodeScanner {
+internal class MissingHiltAndroidAppAnnotationDetector :
+    Detector(),
+    SourceCodeScanner {
     override fun getApplicableUastTypes(): List<Class<out UElement>> = listOf(UClass::class.java)
 
     override fun createUastHandler(context: JavaContext): UElementHandler =

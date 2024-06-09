@@ -24,7 +24,9 @@ import org.jetbrains.uast.UElement
 import org.jetbrains.uast.UMethod
 import org.jetbrains.uast.getContainingUClass
 
-internal class StaticProvidesDetector : Detector(), SourceCodeScanner {
+internal class StaticProvidesDetector :
+    Detector(),
+    SourceCodeScanner {
     override fun getApplicableUastTypes(): List<Class<out UElement>> =
         listOf(UAnnotation::class.java)
 

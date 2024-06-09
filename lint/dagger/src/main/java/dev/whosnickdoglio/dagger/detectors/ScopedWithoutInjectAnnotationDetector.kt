@@ -26,7 +26,9 @@ import org.jetbrains.uast.resolveToUElement
  * A Lint rule that warns if a class is annotated with any scope annotation but does not have a
  * `@Inject` annotation on any constructor that it will not be added to the Dagger graph.
  */
-internal class ScopedWithoutInjectAnnotationDetector : Detector(), SourceCodeScanner {
+internal class ScopedWithoutInjectAnnotationDetector :
+    Detector(),
+    SourceCodeScanner {
     override fun getApplicableUastTypes(): List<Class<out UElement>> = listOf(UClass::class.java)
 
     override fun createUastHandler(context: JavaContext): UElementHandler =

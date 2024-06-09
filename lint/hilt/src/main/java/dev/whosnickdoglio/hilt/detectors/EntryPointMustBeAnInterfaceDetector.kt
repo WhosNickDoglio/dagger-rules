@@ -21,7 +21,9 @@ import org.jetbrains.uast.UAnnotation
 import org.jetbrains.uast.UClass
 import org.jetbrains.uast.UElement
 
-internal class EntryPointMustBeAnInterfaceDetector : Detector(), SourceCodeScanner {
+internal class EntryPointMustBeAnInterfaceDetector :
+    Detector(),
+    SourceCodeScanner {
     private val oldClassPattern =
         (
             "(object|abstract\\s+class|enum\\s+class|annotation\\s+class|" +

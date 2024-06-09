@@ -22,7 +22,9 @@ import org.jetbrains.uast.UElement
 import org.jetbrains.uast.UField
 import org.jetbrains.uast.getContainingUClass
 
-internal class ConstructorInjectionOverFieldInjectionDetector : Detector(), SourceCodeScanner {
+internal class ConstructorInjectionOverFieldInjectionDetector :
+    Detector(),
+    SourceCodeScanner {
     override fun getApplicableUastTypes(): List<Class<out UElement>> =
         listOf(UAnnotation::class.java)
 
