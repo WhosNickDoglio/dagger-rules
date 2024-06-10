@@ -20,7 +20,9 @@ import dev.whosnickdoglio.lint.shared.INJECT
 import org.jetbrains.uast.UClass
 import org.jetbrains.uast.UElement
 
-internal class MissingAndroidEntryPointDetector : Detector(), SourceCodeScanner {
+internal class MissingAndroidEntryPointDetector :
+    Detector(),
+    SourceCodeScanner {
     private val androidEntryPointSupers =
         setOf(
             "android.app.Activity",

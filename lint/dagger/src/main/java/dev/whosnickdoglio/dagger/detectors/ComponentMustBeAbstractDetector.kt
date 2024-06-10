@@ -21,7 +21,9 @@ import org.jetbrains.uast.UAnnotation
 import org.jetbrains.uast.UClass
 import org.jetbrains.uast.UElement
 
-internal class ComponentMustBeAbstractDetector : Detector(), SourceCodeScanner {
+internal class ComponentMustBeAbstractDetector :
+    Detector(),
+    SourceCodeScanner {
     private val oldClassPattern =
         "(object|enum\\s+class|annotation\\s+class|sealed\\s+class|data\\s+class|enum|class)"
             .toRegex()

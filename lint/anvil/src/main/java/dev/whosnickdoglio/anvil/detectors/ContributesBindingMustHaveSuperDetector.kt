@@ -32,7 +32,9 @@ import org.jetbrains.uast.UElement
  * working with a Dagger module as well as preventing the use of binding annotations with a class
  * with no super type.
  */
-internal class ContributesBindingMustHaveSuperDetector : Detector(), SourceCodeScanner {
+internal class ContributesBindingMustHaveSuperDetector :
+    Detector(),
+    SourceCodeScanner {
     override fun getApplicableUastTypes(): List<Class<out UElement>> =
         listOf(UAnnotation::class.java)
 

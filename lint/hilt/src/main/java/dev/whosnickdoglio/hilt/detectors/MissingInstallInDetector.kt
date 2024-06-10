@@ -24,7 +24,9 @@ import org.jetbrains.uast.UAnnotation
 import org.jetbrains.uast.UClass
 import org.jetbrains.uast.UElement
 
-internal class MissingInstallInDetector : Detector(), SourceCodeScanner {
+internal class MissingInstallInDetector :
+    Detector(),
+    SourceCodeScanner {
     private val defaultHiltComponents =
         setOf(
             "dagger.hilt.components.SingletonComponent",

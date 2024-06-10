@@ -23,7 +23,9 @@ import dev.whosnickdoglio.lint.shared.PROVIDES
 import org.jetbrains.uast.UClass
 import org.jetbrains.uast.UElement
 
-internal class MissingModuleAnnotationDetector : Detector(), SourceCodeScanner {
+internal class MissingModuleAnnotationDetector :
+    Detector(),
+    SourceCodeScanner {
     private val daggerAnnotations = listOf(BINDS, PROVIDES, MULTIBINDS)
 
     override fun getApplicableUastTypes(): List<Class<out UElement>> = listOf(UClass::class.java)

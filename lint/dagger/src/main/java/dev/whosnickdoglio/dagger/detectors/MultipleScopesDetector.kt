@@ -29,7 +29,9 @@ import org.jetbrains.uast.resolveToUElement
  * A Kotlin and Java [Detector] for Dagger that warns if there is an attempt to add an object to the
  * DI graph with multiple scopes.
  */
-internal class MultipleScopesDetector : Detector(), SourceCodeScanner {
+internal class MultipleScopesDetector :
+    Detector(),
+    SourceCodeScanner {
     override fun getApplicableUastTypes(): List<Class<out UElement>> = listOf(UClass::class.java, UMethod::class.java)
 
     override fun createUastHandler(context: JavaContext): UElementHandler =

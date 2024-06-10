@@ -27,7 +27,9 @@ import org.jetbrains.uast.UMethod
  * `@ContributesBinding` or `@ContributesMultibinding` annotations instead of using a Dagger
  * `@Module` to bind the implementation to an interface.
  */
-internal class FavorContributesBindingOverBindsDetector : Detector(), SourceCodeScanner {
+internal class FavorContributesBindingOverBindsDetector :
+    Detector(),
+    SourceCodeScanner {
     override fun getApplicableUastTypes(): List<Class<out UElement>> =
         listOf(UAnnotation::class.java)
 

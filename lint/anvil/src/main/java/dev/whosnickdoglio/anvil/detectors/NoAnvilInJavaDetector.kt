@@ -26,7 +26,9 @@ import dev.whosnickdoglio.anvil.MERGE_SUBCOMPONENT
 import org.jetbrains.uast.UAnnotation
 import org.jetbrains.uast.UElement
 
-internal class NoAnvilInJavaDetector : Detector(), SourceCodeScanner {
+internal class NoAnvilInJavaDetector :
+    Detector(),
+    SourceCodeScanner {
     override fun getApplicableUastTypes(): List<Class<out UElement>> = listOf(UAnnotation::class.java)
 
     override fun createUastHandler(context: JavaContext): UElementHandler? {

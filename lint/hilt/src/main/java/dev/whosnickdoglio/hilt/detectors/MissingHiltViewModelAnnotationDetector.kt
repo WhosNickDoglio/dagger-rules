@@ -25,7 +25,9 @@ import org.jetbrains.uast.UElement
  * Android components. For Hilt to work as expected the `@AndroidEntryPoint`, `@HiltViewModel` and
  * `@HiltAndroidApp`.
  */
-internal class MissingHiltViewModelAnnotationDetector : Detector(), SourceCodeScanner {
+internal class MissingHiltViewModelAnnotationDetector :
+    Detector(),
+    SourceCodeScanner {
     override fun getApplicableUastTypes(): List<Class<out UElement>> = listOf(UClass::class.java)
 
     override fun createUastHandler(context: JavaContext): UElementHandler =
