@@ -15,7 +15,6 @@ import com.android.tools.lint.detector.api.Scope
 import com.android.tools.lint.detector.api.Severity
 import com.android.tools.lint.detector.api.SourceCodeScanner
 import com.android.tools.lint.detector.api.TextFormat
-import com.android.tools.lint.detector.api.isKotlin
 import dev.whosnickdoglio.anvil.CONTRIBUTES_BINDING
 import dev.whosnickdoglio.anvil.CONTRIBUTES_MULTI_BINDING
 import dev.whosnickdoglio.anvil.CONTRIBUTES_TO
@@ -24,6 +23,7 @@ import org.jetbrains.kotlin.psi.KtAnnotationEntry
 import org.jetbrains.uast.UAnnotation
 import org.jetbrains.uast.UClass
 import org.jetbrains.uast.UElement
+import org.jetbrains.uast.kotlin.isKotlin
 
 /**
  * A Kotlin only [Detector] for the Anvil library that warns against possible misuse of the

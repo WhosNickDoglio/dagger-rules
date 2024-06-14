@@ -15,7 +15,6 @@ import com.android.tools.lint.detector.api.Scope
 import com.android.tools.lint.detector.api.Severity
 import com.android.tools.lint.detector.api.SourceCodeScanner
 import com.android.tools.lint.detector.api.TextFormat
-import com.android.tools.lint.detector.api.isKotlin
 import dev.whosnickdoglio.anvil.CONTRIBUTES_BINDING
 import dev.whosnickdoglio.anvil.CONTRIBUTES_MULTI_BINDING
 import dev.whosnickdoglio.anvil.CONTRIBUTES_SUBCOMPONENT
@@ -25,6 +24,7 @@ import dev.whosnickdoglio.anvil.MERGE_COMPONENT
 import dev.whosnickdoglio.anvil.MERGE_SUBCOMPONENT
 import org.jetbrains.uast.UAnnotation
 import org.jetbrains.uast.UElement
+import org.jetbrains.uast.kotlin.isKotlin
 
 internal class NoAnvilInJavaDetector :
     Detector(),
