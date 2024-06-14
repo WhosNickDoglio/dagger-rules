@@ -5,6 +5,7 @@
 plugins {
     id("dev.whosnickdoglio.lint")
     alias(libs.plugins.ksp)
+    alias(libs.plugins.publish)
 }
 
 dependencies {
