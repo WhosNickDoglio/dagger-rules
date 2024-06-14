@@ -5,6 +5,7 @@
 package dev.whosnickdoglio.dagger.detectors
 
 import com.android.tools.lint.client.api.UElementHandler
+import com.android.tools.lint.detector.api.BooleanOption
 import com.android.tools.lint.detector.api.Category
 import com.android.tools.lint.detector.api.Detector
 import com.android.tools.lint.detector.api.Implementation
@@ -28,22 +29,20 @@ internal class ConstructorInjectionOverFieldInjectionDetector :
     override fun getApplicableUastTypes(): List<Class<out UElement>> =
         listOf(UAnnotation::class.java)
 
-    override fun createUastHandler(context: JavaContext): UElementHandler {
-        return object : UElementHandler() {
+    override fun createUastHandler(context: JavaContext): UElementHandler =
+        object : UElementHandler() {
             override fun visitAnnotation(node: UAnnotation) {
                 if (node.qualifiedName == INJECT) {
                     val annotatedElement = node.uastParent as? UField ?: return
-                    //                        val fullAllowList: List<String> =
-                    //                            if (context.mainProject.minSdk >= MIN_SDK) {
-                    //
-                    // allowList.defaultValue?.split(",").orEmpty()
-                    //                            } else {
-                    //
-                    // allowList.defaultValue?.split(",").orEmpty() + androidComponents
-                    //                            }
+                    val fullAllowList: List<String> =
+                        if (usingAppComponentFactory.getValue(context)) {
+                            allowList.getValue(context)?.split(",").orEmpty()
+                        } else {
+                            allowList.getValue(context)?.split(",").orEmpty() + androidComponents
+                        }
 
                     val isAllowedFieldInjection =
-                        androidComponents.any { className ->
+                        fullAllowList.any { className ->
                             context.evaluator.extendsClass(
                                 cls = annotatedElement.getContainingUClass(),
                                 className = className,
@@ -51,7 +50,6 @@ internal class ConstructorInjectionOverFieldInjectionDetector :
                             )
                         }
 
-                    //                        minSdkLessThan(28)
                     if (!isAllowedFieldInjection) {
                         context.report(
                             Incident(
@@ -65,13 +63,8 @@ internal class ConstructorInjectionOverFieldInjectionDetector :
                 }
             }
         }
-    }
 
     companion object {
-        //        private const val MIN_SDK = 28
-
-        // TODO make this configurable
-        @Suppress("UnusedPrivateMember")
         private val allowList =
             StringOption(
                 name = "allowList",
@@ -80,8 +73,14 @@ internal class ConstructorInjectionOverFieldInjectionDetector :
                 explanation = "",
             )
 
-        //
-        private val androidComponents =
+        internal val usingAppComponentFactory =
+            BooleanOption(
+                name = "usingAppComponentFactory",
+                description = "TOOD",
+                explanation = "",
+            )
+
+        internal val androidComponents =
             setOf(
                 // https://developer.android.com/reference/android/app/AppComponentFactory
                 "android.app.Activity",
@@ -115,5 +114,6 @@ internal class ConstructorInjectionOverFieldInjectionDetector :
                 severity = Severity.WARNING,
                 implementation = implementation,
             )
+                .setOptions(listOf(usingAppComponentFactory, allowList))
     }
 }
