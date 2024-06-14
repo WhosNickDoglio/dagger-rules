@@ -34,7 +34,7 @@ or `Fragments`)
 if the creation of the class you're trying to add to the Dagger graph isn't managed by something else like the Android
 OS you should be using constructor injection.
 
-```kotlin 
+```kotlin
 
 class MyClass {
     // BAD! don't do this!
@@ -223,6 +223,37 @@ interface AppComponent
 @Singleton MyOtherClass @Inject constructor()
 ```
 
+### Valid `@Component` methods
+
+`@Components` and `@Subcomponents` only support two types of methods, provision methods and members-injection methods.
+Trying to add any other kind of method to your component will lead to a crash at compile time.
+
+#### Provision methods
+
+Provision methods cover exposing specific dependencies from your graph via the `@Component`
+and are defined as "Provision methods have no parameters and return an injected or provided type."
+
+```kotlin
+
+// All valid provision methods
+@Component
+interface AppComponent {
+
+    fun myThing(): MyThing
+
+    fun myMultipleOtherThings(): Set<MyOtherThing>
+
+    @Qualified
+    fun MyQualifiedThing(): MyQualifiedThing
+}
+```
+
+#### Member-injection methods
+
+Member injection methods
+
+More information here: [`@Component` Dagger documentation](https://dagger.dev/api/latest/dagger/Component.html)
+
 ## Anvil Rules
 
 ### Prefer using `@ContributesBinding` over `@Binds`
@@ -383,7 +414,7 @@ class MyFragment : Fragment() {
     }
 }
 
-// Unsafe will throw UninitializedPropertyAccessException 
+// Unsafe will throw UninitializedPropertyAccessException
 // when trying to use `something`
 class MyOtherFragment : Fragment() {
 
@@ -459,7 +490,7 @@ interface MyUnsafeEntryPoint {
     fun getMyClass(): MyClass
 }
 
-// Safe 
+// Safe
 @InstallIn(SingletonComponent::class)
 @EntryPoint
 interface MySafeEntryPoint {
