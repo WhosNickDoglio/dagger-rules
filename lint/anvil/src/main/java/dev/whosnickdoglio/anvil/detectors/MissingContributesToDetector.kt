@@ -15,12 +15,12 @@ import com.android.tools.lint.detector.api.Scope
 import com.android.tools.lint.detector.api.Severity
 import com.android.tools.lint.detector.api.SourceCodeScanner
 import com.android.tools.lint.detector.api.TextFormat
-import com.android.tools.lint.detector.api.isKotlin
 import dev.whosnickdoglio.anvil.CONTRIBUTES_TO
 import dev.whosnickdoglio.lint.shared.MODULE
 import org.jetbrains.uast.UAnnotation
 import org.jetbrains.uast.UClass
 import org.jetbrains.uast.UElement
+import org.jetbrains.uast.kotlin.isKotlin
 
 // TODO make this configurable for Anvil scopes in quick fix
 internal class MissingContributesToDetector :
