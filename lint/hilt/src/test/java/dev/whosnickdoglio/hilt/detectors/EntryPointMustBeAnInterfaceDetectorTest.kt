@@ -6,7 +6,7 @@ package dev.whosnickdoglio.hilt.detectors
 
 import com.android.tools.lint.checks.infrastructure.TestFiles
 import com.android.tools.lint.checks.infrastructure.TestLintTask
-import dev.whosnickdoglio.hilt.ENTRY_POINT
+import dev.whosnickdoglio.lint.shared.hilt.ENTRY_POINT
 import org.junit.Test
 
 class EntryPointMustBeAnInterfaceDetectorTest {
