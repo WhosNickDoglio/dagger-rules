@@ -15,6 +15,7 @@ import dev.whosnickdoglio.lint.shared.anvil.CONTRIBUTES_SUBCOMPONENT_FACTORY
 import dev.whosnickdoglio.lint.shared.anvil.CONTRIBUTES_TO
 import dev.whosnickdoglio.lint.shared.anvil.MERGE_COMPONENT
 import dev.whosnickdoglio.lint.shared.anvil.MERGE_SUBCOMPONENT
+import dev.whosnickdoglio.stubs.anvilAnnotations
 import org.junit.Test
 import org.junit.runner.RunWith
 
