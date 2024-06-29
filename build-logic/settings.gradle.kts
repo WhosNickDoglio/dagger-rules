@@ -7,16 +7,30 @@ rootProject.name = "build-logic"
 
 pluginManagement {
     repositories {
+        exclusiveContent {
+            forRepository { google() }
+            filter {
+                includeGroupAndSubgroups("androidx")
+                includeGroupAndSubgroups("com.android")
+                includeGroup("com.google.testing.platform")
+            }
+        }
         mavenCentral()
-        google()
         gradlePluginPortal()
     }
 }
 
 dependencyResolutionManagement {
     repositories {
+        exclusiveContent {
+            forRepository { google() }
+            filter {
+                includeGroupAndSubgroups("androidx")
+                includeGroupAndSubgroups("com.android")
+                includeGroup("com.google.testing.platform")
+            }
+        }
         mavenCentral()
-        google()
     }
 
     versionCatalogs { create("libs") { from(files("../gradle/libs.versions.toml")) } }
