@@ -15,6 +15,9 @@ plugins {
     alias(libs.plugins.sortDependencies)
 }
 
+// https://docs.gradle.org/8.9/userguide/gradle_daemon.html#daemon_jvm_criteria
+tasks.updateDaemonJvm.configure { jvmVersion = JavaVersion.toVersion(libs.versions.jdk.get()) }
+
 kotlin {
     jvmToolchain {
         languageVersion = JavaLanguageVersion.of(libs.versions.jdk.get().toInt())
