@@ -127,6 +127,7 @@ hs_err_pid*
 
 # Avoid ignoring Gradle wrapper jar file (.jar files are usually ignored)
 !gradle/wrapper/gradle-wrapper.jar
+!build-logic/gradle/wrapper/gradle-wrapper.jar
 
 # Cache of project
 .gradletasknamecache
