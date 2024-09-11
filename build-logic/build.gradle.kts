@@ -89,4 +89,5 @@ dependencies {
     implementation(libs.kover.gradle)
     implementation(libs.sortDependencies.gradle)
     implementation(libs.spotless.gradle)
+    implementation(libs.dependencyAnalysis.gradle)
 }
