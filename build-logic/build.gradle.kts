@@ -19,6 +19,7 @@ plugins {
 tasks.updateDaemonJvm.configure { jvmVersion = JavaVersion.toVersion(libs.versions.jdk.get()) }
 
 kotlin {
+    explicitApi()
     jvmToolchain {
         languageVersion = JavaLanguageVersion.of(libs.versions.jdk.get().toInt())
         vendor = JvmVendorSpec.AZUL

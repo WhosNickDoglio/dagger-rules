@@ -9,7 +9,7 @@ import dev.whosnickdoglio.buildlogic.configuration.getVersionCatalog
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 
-class LintPlugin : Plugin<Project> {
+internal class LintPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         target.pluginManager.apply(RulesPlugin::class.java)
         val libs = target.getVersionCatalog()
