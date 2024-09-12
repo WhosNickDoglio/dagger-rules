@@ -11,8 +11,10 @@ import dev.whosnickdoglio.buildlogic.configuration.configureSpotless
 import dev.whosnickdoglio.buildlogic.configuration.configureTests
 import dev.whosnickdoglio.buildlogic.configuration.dependOnBuildLogicTask
 import dev.whosnickdoglio.buildlogic.configuration.getVersionCatalog
+import io.gitlab.arturbosch.detekt.Detekt
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 class RulesPlugin : Plugin<Project> {
     override fun apply(target: Project) {
@@ -31,6 +33,10 @@ class RulesPlugin : Plugin<Project> {
             pluginManager.apply("com.squareup.sort-dependencies")
             dependOnBuildLogicTask("sortDependencies")
             dependOnBuildLogicTask("checkSortDependencies")
+
+            tasks.withType(Detekt::class.java).configureEach {
+                it.jvmTarget = JvmTarget.JVM_17.target
+            }
 
             configureJvm(libs.findVersion("jdk").get().requiredVersion.toInt())
             configureLint()
