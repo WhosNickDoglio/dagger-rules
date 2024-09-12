@@ -6,7 +6,7 @@ package dev.whosnickdoglio.hilt.detectors
 
 import com.android.tools.lint.checks.infrastructure.TestFiles
 import com.android.tools.lint.checks.infrastructure.TestLintTask
-import dev.whosnickdoglio.hilt.HILT_ANDROID_APP
+import dev.whosnickdoglio.lint.annotations.hilt.HILT_ANDROID_APP
 import org.junit.Test
 
 class MissingHiltAndroidAppAnnotationDetectorTest {

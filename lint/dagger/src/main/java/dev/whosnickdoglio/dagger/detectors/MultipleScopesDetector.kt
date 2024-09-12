@@ -16,9 +16,9 @@ import com.android.tools.lint.detector.api.Scope
 import com.android.tools.lint.detector.api.Severity
 import com.android.tools.lint.detector.api.SourceCodeScanner
 import com.android.tools.lint.detector.api.TextFormat
-import dev.whosnickdoglio.lint.shared.BINDS
-import dev.whosnickdoglio.lint.shared.PROVIDES
-import dev.whosnickdoglio.lint.shared.SCOPE
+import dev.whosnickdoglio.lint.annotations.dagger.BINDS
+import dev.whosnickdoglio.lint.annotations.dagger.PROVIDES
+import dev.whosnickdoglio.lint.annotations.dagger.SCOPE
 import org.jetbrains.uast.UAnnotated
 import org.jetbrains.uast.UClass
 import org.jetbrains.uast.UElement

@@ -16,10 +16,10 @@ import com.android.tools.lint.detector.api.Severity
 import com.android.tools.lint.detector.api.SourceCodeScanner
 import com.android.tools.lint.detector.api.TextFormat
 import com.android.tools.lint.detector.api.isKotlin
-import dev.whosnickdoglio.lint.shared.BINDS
-import dev.whosnickdoglio.lint.shared.MODULE
-import dev.whosnickdoglio.lint.shared.MULTIBINDS
-import dev.whosnickdoglio.lint.shared.PROVIDES
+import dev.whosnickdoglio.lint.annotations.dagger.BINDS
+import dev.whosnickdoglio.lint.annotations.dagger.MODULE
+import dev.whosnickdoglio.lint.annotations.dagger.MULTIBINDS
+import dev.whosnickdoglio.lint.annotations.dagger.PROVIDES
 import org.jetbrains.uast.UClass
 import org.jetbrains.uast.UElement
 

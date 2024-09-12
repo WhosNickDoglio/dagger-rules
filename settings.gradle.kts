@@ -56,7 +56,6 @@ include(
     ":lint:dagger",
     ":lint:anvil",
     ":lint:hilt",
-    ":lint:shared",
-    ":lint:test-stubs",
+    ":lint:annotation-constants",
     ":test-app",
 )

@@ -15,8 +15,8 @@ import com.android.tools.lint.detector.api.Scope
 import com.android.tools.lint.detector.api.Severity
 import com.android.tools.lint.detector.api.SourceCodeScanner
 import com.android.tools.lint.detector.api.TextFormat
-import dev.whosnickdoglio.hilt.HILT_VIEW_MODEL
-import dev.whosnickdoglio.lint.shared.INJECT
+import dev.whosnickdoglio.lint.annotations.dagger.INJECT
+import dev.whosnickdoglio.lint.annotations.hilt.HILT_VIEW_MODEL
 import org.jetbrains.uast.UClass
 import org.jetbrains.uast.UElement
 
@@ -71,7 +71,11 @@ internal class MissingHiltViewModelAnnotationDetector :
             }
         }
 
-    private fun UClass.hasInjectedConstructor(): Boolean = constructors.any { method -> method.hasAnnotation(INJECT) }
+    private fun UClass.hasInjectedConstructor(): Boolean = constructors.any { method ->
+        method.hasAnnotation(
+            INJECT,
+        )
+    }
 
     companion object {
         private const val HILT_VIEW_MODEL_PACKAGE = "androidx.lifecycle.ViewModel"

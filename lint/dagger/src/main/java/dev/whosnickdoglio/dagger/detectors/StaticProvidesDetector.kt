@@ -17,7 +17,7 @@ import com.android.tools.lint.detector.api.SourceCodeScanner
 import com.android.tools.lint.detector.api.TextFormat
 import com.android.tools.lint.detector.api.isJava
 import com.android.tools.lint.detector.api.isKotlin
-import dev.whosnickdoglio.lint.shared.PROVIDES
+import dev.whosnickdoglio.lint.annotations.dagger.PROVIDES
 import org.jetbrains.kotlin.psi.KtObjectDeclaration
 import org.jetbrains.uast.UAnnotation
 import org.jetbrains.uast.UElement
