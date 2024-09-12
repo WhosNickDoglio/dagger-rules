@@ -26,6 +26,8 @@ class RulesPlugin : Plugin<Project> {
             dependOnBuildLogicTask("detektMain")
             dependOnBuildLogicTask("detektTest")
 
+            pluginManager.apply("com.autonomousapps.dependency-analysis")
+
             pluginManager.apply("com.squareup.sort-dependencies")
             dependOnBuildLogicTask("sortDependencies")
             dependOnBuildLogicTask("checkSortDependencies")
