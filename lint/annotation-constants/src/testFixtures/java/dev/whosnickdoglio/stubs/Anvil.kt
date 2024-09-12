@@ -2,7 +2,7 @@
  * Copyright (C) 2024 Nicholas Doglio
  * SPDX-License-Identifier: MIT
  */
-package dev.whosnickdoglio.anvil.detectors
+package dev.whosnickdoglio.stubs
 
 import com.android.tools.lint.checks.infrastructure.TestFile
 import com.android.tools.lint.checks.infrastructure.TestFiles

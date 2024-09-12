@@ -11,6 +11,7 @@ import com.google.testing.junit.testparameterinjector.TestParameterInjector
 import dev.whosnickdoglio.lint.annotations.anvil.CONTRIBUTES_BINDING
 import dev.whosnickdoglio.lint.annotations.anvil.CONTRIBUTES_MULTI_BINDING
 import dev.whosnickdoglio.lint.annotations.anvil.CONTRIBUTES_TO
+import dev.whosnickdoglio.stubs.anvilAnnotations
 import dev.whosnickdoglio.stubs.daggerAnnotations
 import dev.whosnickdoglio.stubs.javaxAnnotations
 import org.junit.Test
