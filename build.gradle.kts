@@ -19,5 +19,11 @@ plugins {
     alias(libs.plugins.spotless) apply false
 }
 
+doctor {
+    // https://github.com/runningcode/gradle-doctor/pull/258
+    warnWhenNotUsingParallelGC = false
+}
+
+
 // https://docs.gradle.org/8.9/userguide/gradle_daemon.html#daemon_jvm_criteria
 tasks.updateDaemonJvm.configure { jvmVersion = JavaVersion.toVersion(libs.versions.jdk.get()) }
