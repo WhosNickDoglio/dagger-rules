@@ -10,9 +10,9 @@ plugins {
 dependencies {
     ksp(libs.autoService.ksp)
 
-    implementation(projects.lint.shared)
+    implementation(projects.lint.annotationConstants)
 
     compileOnly(libs.autoService.annotations)
 
-    testImplementation(projects.lint.testStubs)
+    testImplementation(testFixtures(projects.lint.annotationConstants))
 }

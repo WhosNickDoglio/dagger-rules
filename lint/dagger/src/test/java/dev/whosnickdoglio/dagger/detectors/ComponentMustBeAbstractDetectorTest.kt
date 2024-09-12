@@ -8,8 +8,8 @@ import com.android.tools.lint.checks.infrastructure.TestFiles
 import com.android.tools.lint.checks.infrastructure.TestLintTask
 import com.google.testing.junit.testparameterinjector.TestParameter
 import com.google.testing.junit.testparameterinjector.TestParameterInjector
-import dev.whosnickdoglio.lint.shared.COMPONENT
-import dev.whosnickdoglio.lint.shared.SUBCOMPONENT
+import dev.whosnickdoglio.lint.annotations.dagger.COMPONENT
+import dev.whosnickdoglio.lint.annotations.dagger.SUBCOMPONENT
 import dev.whosnickdoglio.stubs.daggerAnnotations
 import org.junit.Test
 import org.junit.runner.RunWith

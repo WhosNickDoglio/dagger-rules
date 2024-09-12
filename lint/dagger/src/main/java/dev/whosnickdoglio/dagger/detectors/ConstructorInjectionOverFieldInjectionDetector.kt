@@ -16,7 +16,7 @@ import com.android.tools.lint.detector.api.Severity
 import com.android.tools.lint.detector.api.SourceCodeScanner
 import com.android.tools.lint.detector.api.StringOption
 import com.android.tools.lint.detector.api.TextFormat
-import dev.whosnickdoglio.lint.shared.INJECT
+import dev.whosnickdoglio.lint.annotations.dagger.INJECT
 import org.jetbrains.uast.UAnnotation
 import org.jetbrains.uast.UElement
 import org.jetbrains.uast.UField
