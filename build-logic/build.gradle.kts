@@ -83,7 +83,9 @@ tasks.withType<JavaCompile>().configureEach {
 
 dependencies {
     lintChecks(libs.androidx.gradle.lints)
+
     implementation(libs.android.gradle)
+    implementation(libs.dependencyAnalysis.gradle)
     implementation(libs.detekt.gradle)
     implementation(libs.kotlin.gradle)
     implementation(libs.kover.gradle)
