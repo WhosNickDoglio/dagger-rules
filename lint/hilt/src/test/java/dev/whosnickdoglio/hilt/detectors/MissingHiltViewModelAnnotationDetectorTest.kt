@@ -7,6 +7,7 @@ package dev.whosnickdoglio.hilt.detectors
 import com.android.tools.lint.checks.infrastructure.TestFiles
 import com.android.tools.lint.checks.infrastructure.TestLintTask
 import dev.whosnickdoglio.lint.annotations.hilt.HILT_VIEW_MODEL
+import dev.whosnickdoglio.stubs.hiltAnnotations
 import dev.whosnickdoglio.stubs.javaxAnnotations
 import org.junit.Test
 
