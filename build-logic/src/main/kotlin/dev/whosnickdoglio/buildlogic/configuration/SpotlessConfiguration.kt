@@ -8,7 +8,7 @@ package dev.whosnickdoglio.buildlogic.configuration
 import com.diffplug.gradle.spotless.SpotlessExtension
 import org.gradle.api.Project
 
-internal fun Project.configureSpotless(ktlintVersion: String) {
+internal fun Project.configureSpotless(ktfmtVersion: String) {
     pluginManager.apply("com.diffplug.spotless")
     dependOnBuildLogicTask("spotlessCheck")
     dependOnBuildLogicTask("spotlessApply")
@@ -23,7 +23,7 @@ internal fun Project.configureSpotless(ktlintVersion: String) {
 
         kotlin { kotlinExtension ->
             with(kotlinExtension) {
-                ktfmt(ktlintVersion).kotlinlangStyle()
+                ktfmt(ktfmtVersion).kotlinlangStyle()
                 trimTrailingWhitespace()
                 endWithNewline()
                 licenseHeaderFile(file("$rootDir/spotless/spotless.kt"))
@@ -31,7 +31,7 @@ internal fun Project.configureSpotless(ktlintVersion: String) {
         }
         kotlinGradle { kotlinGradleExtension ->
             with(kotlinGradleExtension) {
-                ktfmt(ktlintVersion).kotlinlangStyle()
+                ktfmt(ktfmtVersion).kotlinlangStyle()
                 trimTrailingWhitespace()
                 endWithNewline()
                 licenseHeaderFile(

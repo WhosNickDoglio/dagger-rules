@@ -40,7 +40,7 @@ internal class RulesPlugin : Plugin<Project> {
 
             configureJvm(libs.findVersion("jdk").get().requiredVersion.toInt())
             configureLint()
-            configureSpotless("0.52")
+            configureSpotless(libs.findVersion("ktfmt").get().requiredVersion)
             configureTests()
         }
     }
