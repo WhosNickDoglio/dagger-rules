@@ -17,14 +17,14 @@ import org.junit.runner.RunWith
 class MissingAndroidEntryPointDetectorTest {
     @TestParameter(
         value =
-        [
-            "android.app.Activity",
-            "android.app.Fragment",
-            "android.app.Service",
-            "android.content.ContentProvider",
-            "android.content.BroadcastReceiver",
-            "androidx.fragment.app.Fragment",
-        ],
+            [
+                "android.app.Activity",
+                "android.app.Fragment",
+                "android.app.Service",
+                "android.content.ContentProvider",
+                "android.content.BroadcastReceiver",
+                "androidx.fragment.app.Fragment",
+            ]
     )
     lateinit var androidEntryPoint: String
 
@@ -38,16 +38,16 @@ class MissingAndroidEntryPointDetectorTest {
                 javaxAnnotations,
                 *hiltAnnotations,
                 TestFiles.java(
-                    """
+                        """
                 package $classPackage;
 
                 class $className {}
 
-                """,
-                )
+                """
+                    )
                     .indented(),
                 TestFiles.java(
-                    """
+                        """
                 package androidx;
 
                 import $androidEntryPoint;
@@ -58,8 +58,8 @@ class MissingAndroidEntryPointDetectorTest {
                 class AndroidX$className extends $className {
                     @Inject String myString;
                 }
-                    """,
-                )
+                    """
+                    )
                     .indented(),
             )
             .issues(MissingAndroidEntryPointDetector.ISSUE)
@@ -99,16 +99,16 @@ class MissingAndroidEntryPointDetectorTest {
                 *hiltAnnotations,
                 javaxAnnotations,
                 TestFiles.java(
-                    """
+                        """
                 package $classPackage;
 
                 class $className {}
 
-                """,
-                )
+                """
+                    )
                     .indented(),
                 TestFiles.java(
-                    """
+                        """
                 package androidx;
 
                 import $androidEntryPoint;
@@ -118,8 +118,8 @@ class MissingAndroidEntryPointDetectorTest {
                 class AndroidX$className extends $className {
                     @Inject String myString;
                 }
-                    """,
-                )
+                    """
+                    )
                     .indented(),
             )
             .issues(MissingAndroidEntryPointDetector.ISSUE)
@@ -139,16 +139,16 @@ class MissingAndroidEntryPointDetectorTest {
                 *hiltAnnotations,
                 javaxAnnotations,
                 TestFiles.kotlin(
-                    """
+                        """
                 package $classPackage
 
                 class $className
 
-                """,
-                )
+                """
+                    )
                     .indented(),
                 TestFiles.kotlin(
-                    """
+                        """
                 package androidx
 
                 import $androidEntryPoint
@@ -159,8 +159,8 @@ class MissingAndroidEntryPointDetectorTest {
                 class AndroidX$className: $className {
                     @Inject lateinit var string: String
                 }
-                    """,
-                )
+                    """
+                    )
                     .indented(),
             )
             .issues(MissingAndroidEntryPointDetector.ISSUE)
@@ -200,16 +200,16 @@ class MissingAndroidEntryPointDetectorTest {
                 *hiltAnnotations,
                 javaxAnnotations,
                 TestFiles.kotlin(
-                    """
+                        """
                 package $classPackage
 
                 class $className
 
-                """,
-                )
+                """
+                    )
                     .indented(),
                 TestFiles.kotlin(
-                    """
+                        """
                 package androidx
 
                 import javax.inject.Inject
@@ -219,8 +219,8 @@ class MissingAndroidEntryPointDetectorTest {
                     @Inject
                     lateinit var something: String
                 }
-                    """,
-                )
+                    """
+                    )
                     .indented(),
             )
             .issues(MissingAndroidEntryPointDetector.ISSUE)
@@ -239,21 +239,21 @@ class MissingAndroidEntryPointDetectorTest {
             .files(
                 *hiltAnnotations,
                 TestFiles.kotlin(
-                    """
+                        """
                 package $classPackage
 
                 class $className
 
-                """,
-                )
+                """
+                    )
                     .indented(),
                 TestFiles.kotlin(
-                    """
+                        """
                 package androidx
 
                 class AndroidX$className : $className
-                    """,
-                )
+                    """
+                    )
                     .indented(),
             )
             .issues(MissingAndroidEntryPointDetector.ISSUE)
@@ -271,21 +271,21 @@ class MissingAndroidEntryPointDetectorTest {
             .files(
                 *hiltAnnotations,
                 TestFiles.java(
-                    """
+                        """
                 package $classPackage;
 
                 class $className {}
 
-                """,
-                )
+                """
+                    )
                     .indented(),
                 TestFiles.java(
-                    """
+                        """
                 package androidx;
 
                 class AndroidX$className extends $className {}
-                    """,
-                )
+                    """
+                    )
                     .indented(),
             )
             .issues(MissingAndroidEntryPointDetector.ISSUE)

@@ -24,14 +24,14 @@ class MissingContributesBindingDetectorTest {
                 anvilAnnotations,
                 javaxAnnotations,
                 TestFiles.kotlin(
-                    """
+                        """
                     import javax.inject.Inject
 
                     interface Authenticator
 
                     class AuthenticatorImpl @Inject constructor(): Authenticator
-                    """,
-                )
+                    """
+                    )
                     .indented(),
             )
             .issues(MissingContributesBindingDetector.ISSUE)
@@ -43,7 +43,7 @@ class MissingContributesBindingDetectorTest {
                           ~~~~~~~~~~~~~~~~~
                     0 errors, 1 warnings
                 """
-                    .trimIndent(),
+                    .trimIndent()
             )
             .expectWarningCount(1)
             .expectFixDiffs(
@@ -55,7 +55,7 @@ class MissingContributesBindingDetectorTest {
                     @@ -5 +5
                     + @com.squareup.anvil.annotations.ContributesMultibinding
                 """
-                    .trimIndent(),
+                    .trimIndent()
             )
     }
 
@@ -66,12 +66,12 @@ class MissingContributesBindingDetectorTest {
                 anvilAnnotations,
                 javaxAnnotations,
                 TestFiles.kotlin(
-                    """
+                        """
                     import javax.inject.Inject
 
                     class AuthenticatorImpl @Inject constructor()
-                    """,
-                )
+                    """
+                    )
                     .indented(),
             )
             .issues(MissingContributesBindingDetector.ISSUE)
@@ -82,14 +82,14 @@ class MissingContributesBindingDetectorTest {
 
     @Test
     fun `kotlin class with super using dagger with @ContributesBinding annotation shows no warning`(
-        @TestParameter(value = [CONTRIBUTES_BINDING, CONTRIBUTES_MULTI_BINDING]) annotation: String,
+        @TestParameter(value = [CONTRIBUTES_BINDING, CONTRIBUTES_MULTI_BINDING]) annotation: String
     ) {
         TestLintTask.lint()
             .files(
                 anvilAnnotations,
                 javaxAnnotations,
                 TestFiles.kotlin(
-                    """
+                        """
                     import javax.inject.Inject
                     import $annotation
 
@@ -97,8 +97,8 @@ class MissingContributesBindingDetectorTest {
 
                     @${annotation.substringAfterLast(".")}
                     class AuthenticatorImpl @Inject constructor(): Authenticator
-                    """,
-                )
+                    """
+                    )
                     .indented(),
             )
             .issues(MissingContributesBindingDetector.ISSUE)
@@ -113,14 +113,14 @@ class MissingContributesBindingDetectorTest {
             .files(
                 javaxAnnotations,
                 TestFiles.kotlin(
-                    """
+                        """
                     import javax.inject.Inject
 
                     interface JsonAdapter<T>
 
                     class MyJsonAdapter @Inject constructor(): JsonAdapter<String>
-                    """,
-                )
+                    """
+                    )
                     .indented(),
             )
             .issues(MissingContributesBindingDetector.ISSUE)
@@ -135,15 +135,15 @@ class MissingContributesBindingDetectorTest {
             .files(
                 javaxAnnotations,
                 TestFiles.kotlin(
-                    """
+                        """
                     import javax.inject.Inject
 
                     interface JsonAdapter<T>
                     interface CustomAdapter
 
                     class MyJsonAdapter @Inject constructor(): JsonAdapter<String>, CustomAdapter
-                    """,
-                )
+                    """
+                    )
                     .indented(),
             )
             .issues(MissingContributesBindingDetector.ISSUE)
@@ -155,7 +155,7 @@ class MissingContributesBindingDetectorTest {
                       ~~~~~~~~~~~~~
                 0 errors, 1 warnings
             """
-                    .trimIndent(),
+                    .trimIndent()
             )
             .expectWarningCount(1)
             .expectFixDiffs(
@@ -167,20 +167,20 @@ class MissingContributesBindingDetectorTest {
                     @@ -6 +6
                     + @com.squareup.anvil.annotations.ContributesMultibinding
                 """
-                    .trimIndent(),
+                    .trimIndent()
             )
     }
 
     @Test
     fun `kotlin class with @ContributesBinding annotation with a multiple supers does not show a warning`(
-        @TestParameter(value = [CONTRIBUTES_BINDING, CONTRIBUTES_MULTI_BINDING]) annotation: String,
+        @TestParameter(value = [CONTRIBUTES_BINDING, CONTRIBUTES_MULTI_BINDING]) annotation: String
     ) {
         TestLintTask.lint()
             .files(
                 anvilAnnotations,
                 javaxAnnotations,
                 TestFiles.kotlin(
-                    """
+                        """
                     import javax.inject.Inject
                     import $annotation
 
@@ -189,8 +189,8 @@ class MissingContributesBindingDetectorTest {
 
                     @${annotation.substringAfterLast(".")}
                     class MyJsonAdapter @Inject constructor(): JsonAdapter<String>, CustomAdapter
-                    """,
-                )
+                    """
+                    )
                     .indented(),
             )
             .issues(MissingContributesBindingDetector.ISSUE)
@@ -204,14 +204,14 @@ class MissingContributesBindingDetectorTest {
         TestLintTask.lint()
             .files(
                 TestFiles.kotlin(
-                    """
+                        """
 
                     interface Authenticator
 
                     class AuthenticatorImpl: Authenticator
-                    """,
-                )
-                    .indented(),
+                    """
+                    )
+                    .indented()
             )
             .issues(MissingContributesBindingDetector.ISSUE)
             .run()
@@ -226,7 +226,7 @@ class MissingContributesBindingDetectorTest {
                 anvilAnnotations,
                 javaxAnnotations,
                 TestFiles.java(
-                    """
+                        """
                     import javax.inject.Inject;
 
                     interface Authenticator {}
@@ -236,8 +236,8 @@ class MissingContributesBindingDetectorTest {
                         @Inject
                         public AuthenticatorImpl() {}
                     }
-                    """,
-                )
+                    """
+                    )
                     .indented(),
             )
             .issues(MissingContributesBindingDetector.ISSUE)
@@ -253,7 +253,7 @@ class MissingContributesBindingDetectorTest {
                 anvilAnnotations,
                 javaxAnnotations,
                 TestFiles.java(
-                    """
+                        """
                     import javax.inject.Inject;
 
                     class AuthenticatorImpl {
@@ -261,8 +261,8 @@ class MissingContributesBindingDetectorTest {
                     @Inject
                     public AuthenticatorImpl() {}
                     }
-                    """,
-                )
+                    """
+                    )
                     .indented(),
             )
             .issues(MissingContributesBindingDetector.ISSUE)

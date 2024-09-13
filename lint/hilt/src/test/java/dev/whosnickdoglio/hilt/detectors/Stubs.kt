@@ -9,13 +9,13 @@ import com.android.tools.lint.checks.infrastructure.TestFiles
 val hiltAnnotations =
     arrayOf(
         TestFiles.kotlin(
-            """
+                """
     package dagger.hilt.android
 
     annotation class AndroidEntryPoint
     annotation class HiltAndroidApp
-""",
-        )
+"""
+            )
             .indented(),
         TestFiles.kotlin(
             """
@@ -23,7 +23,7 @@ val hiltAnnotations =
 
             annotation class HiltViewModel
         """
-                .trimIndent(),
+                .trimIndent()
         ),
         TestFiles.kotlin(
             """
@@ -32,6 +32,6 @@ val hiltAnnotations =
             annotation class InstallIn
             annotation class EntryPoint
         """
-                .trimIndent(),
+                .trimIndent()
         ),
     )

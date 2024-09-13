@@ -9,7 +9,7 @@ import com.android.tools.lint.checks.infrastructure.TestFiles
 
 val anvilAnnotations: TestFile =
     TestFiles.kotlin(
-        """
+            """
     package com.squareup.anvil.annotations
 
     import kotlin.reflect.KClass
@@ -22,6 +22,6 @@ val anvilAnnotations: TestFile =
     }
     annotation class MergeComponent(val scope: KClass<*> = Int::class)
     annotation class MergeSubcomponent(val scope: KClass<*> = Int::class)
-""",
-    )
+"""
+        )
         .indented()

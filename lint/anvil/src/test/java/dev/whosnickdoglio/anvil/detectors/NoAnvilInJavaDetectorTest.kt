@@ -23,15 +23,15 @@ import org.junit.runner.RunWith
 class NoAnvilInJavaDetectorTest {
     @TestParameter(
         value =
-        [
-            CONTRIBUTES_TO,
-            CONTRIBUTES_BINDING,
-            CONTRIBUTES_MULTI_BINDING,
-            CONTRIBUTES_SUBCOMPONENT,
-            CONTRIBUTES_SUBCOMPONENT_FACTORY,
-            MERGE_COMPONENT,
-            MERGE_SUBCOMPONENT,
-        ],
+            [
+                CONTRIBUTES_TO,
+                CONTRIBUTES_BINDING,
+                CONTRIBUTES_MULTI_BINDING,
+                CONTRIBUTES_SUBCOMPONENT,
+                CONTRIBUTES_SUBCOMPONENT_FACTORY,
+                MERGE_COMPONENT,
+                MERGE_SUBCOMPONENT,
+            ]
     )
     lateinit var annotation: String
 
@@ -41,13 +41,13 @@ class NoAnvilInJavaDetectorTest {
             .files(
                 anvilAnnotations,
                 TestFiles.java(
-                    """
+                        """
                 import $annotation;
 
                 @${annotation.substringAfterLast(".")}
                 class MyJavaClass {}
-            """,
-                )
+            """
+                    )
                     .indented(),
             )
             .issues(NoAnvilInJavaDetector.ISSUE)
@@ -61,7 +61,7 @@ class NoAnvilInJavaDetectorTest {
                 ~${annotation.substringAfterLast(".").map { "~" }.joinToString(separator = "")}
                 1 errors, 0 warnings
             """
-                    .trimIndent(),
+                    .trimIndent()
             )
             .expectErrorCount(1)
     }
@@ -72,13 +72,13 @@ class NoAnvilInJavaDetectorTest {
             .files(
                 anvilAnnotations,
                 TestFiles.kotlin(
-                    """
+                        """
                 import $annotation
 
                 @${annotation.substringAfterLast(".")}
                 class MyKotlinClass
-            """,
-                )
+            """
+                    )
                     .indented(),
             )
             .issues(NoAnvilInJavaDetector.ISSUE)

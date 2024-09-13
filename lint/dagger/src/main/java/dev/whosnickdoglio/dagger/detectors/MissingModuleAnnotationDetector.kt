@@ -23,9 +23,7 @@ import dev.whosnickdoglio.lint.annotations.dagger.PROVIDES
 import org.jetbrains.uast.UClass
 import org.jetbrains.uast.UElement
 
-internal class MissingModuleAnnotationDetector :
-    Detector(),
-    SourceCodeScanner {
+internal class MissingModuleAnnotationDetector : Detector(), SourceCodeScanner {
     private val daggerAnnotations = listOf(BINDS, PROVIDES, MULTIBINDS)
 
     override fun getApplicableUastTypes(): List<Class<out UElement>> = listOf(UClass::class.java)
@@ -52,12 +50,12 @@ internal class MissingModuleAnnotationDetector :
                                 location = context.getNameLocation(node),
                                 message = ISSUE.getExplanation(TextFormat.RAW),
                                 fix =
-                                fix()
-                                    .name("Add @Module annotation")
-                                    .annotate(MODULE, context, node)
-                                    .autoFix(robot = true, independent = true)
-                                    .build(),
-                            ),
+                                    fix()
+                                        .name("Add @Module annotation")
+                                        .annotate(MODULE, context, node)
+                                        .autoFix(robot = true, independent = true)
+                                        .build(),
+                            )
                         )
                     }
                 }
@@ -74,7 +72,7 @@ internal class MissingModuleAnnotationDetector :
                 id = "MissingModuleAnnotation",
                 briefDescription = "Missing `@Module` annotation",
                 explanation =
-                """
+                    """
                     Provides or binds methods won't be picked up if the class isn't annotated with @Module.
 
                     See https://whosnickdoglio.dev/dagger-rules/rules/#classes-with-provides-binds-or-multibinds-methods-should-be-annotated-with-module for more information.

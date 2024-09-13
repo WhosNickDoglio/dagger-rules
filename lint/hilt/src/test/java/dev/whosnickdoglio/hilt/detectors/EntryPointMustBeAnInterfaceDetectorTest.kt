@@ -22,7 +22,7 @@ class EntryPointMustBeAnInterfaceDetectorTest {
                     @EntryPoint
                     interface MyEntryPoint
                 """
-                        .trimIndent(),
+                        .trimIndent()
                 ),
             )
             .issues(EntryPointMustBeAnInterfaceDetector.ISSUE)
@@ -43,7 +43,7 @@ class EntryPointMustBeAnInterfaceDetectorTest {
                     @EntryPoint
                     interface MyEntryPoint {}
                 """
-                        .trimIndent(),
+                        .trimIndent()
                 ),
             )
             .issues(EntryPointMustBeAnInterfaceDetector.ISSUE)
@@ -64,7 +64,7 @@ class EntryPointMustBeAnInterfaceDetectorTest {
                     @EntryPoint
                     abstract class MyEntryPoint
                 """
-                        .trimIndent(),
+                        .trimIndent()
                 ),
             )
             .issues(EntryPointMustBeAnInterfaceDetector.ISSUE)
@@ -78,7 +78,7 @@ class EntryPointMustBeAnInterfaceDetectorTest {
                     ^
                     1 errors, 0 warnings
                 """
-                    .trimIndent(),
+                    .trimIndent()
             )
             .expectErrorCount(1)
             .expectFixDiffs(
@@ -89,7 +89,7 @@ class EntryPointMustBeAnInterfaceDetectorTest {
                     @@ -5 +4
                     + interface MyEntryPoint
                 """
-                    .trimIndent(),
+                    .trimIndent()
             )
     }
 
@@ -105,7 +105,7 @@ class EntryPointMustBeAnInterfaceDetectorTest {
                     @EntryPoint
                     abstract class MyEntryPoint {}
                 """
-                        .trimIndent(),
+                        .trimIndent()
                 ),
             )
             .issues(EntryPointMustBeAnInterfaceDetector.ISSUE)
@@ -119,7 +119,7 @@ class EntryPointMustBeAnInterfaceDetectorTest {
                     ^
                     1 errors, 0 warnings
                 """
-                    .trimIndent(),
+                    .trimIndent()
             )
             .expectErrorCount(1)
             .expectFixDiffs(
@@ -130,7 +130,7 @@ class EntryPointMustBeAnInterfaceDetectorTest {
                 @@ -5 +4
                 + interface MyEntryPoint {}
             """
-                    .trimIndent(),
+                    .trimIndent()
             )
     }
 
@@ -146,7 +146,7 @@ class EntryPointMustBeAnInterfaceDetectorTest {
                     @EntryPoint
                     class MyEntryPoint
                 """
-                        .trimIndent(),
+                        .trimIndent()
                 ),
             )
             .issues(EntryPointMustBeAnInterfaceDetector.ISSUE)
@@ -160,7 +160,7 @@ class EntryPointMustBeAnInterfaceDetectorTest {
                     ^
                     1 errors, 0 warnings
                 """
-                    .trimIndent(),
+                    .trimIndent()
             )
             .expectErrorCount(1)
             .expectFixDiffs(
@@ -171,7 +171,7 @@ class EntryPointMustBeAnInterfaceDetectorTest {
                 @@ -5 +4
                 + interface MyEntryPoint
             """
-                    .trimIndent(),
+                    .trimIndent()
             )
     }
 
@@ -187,7 +187,7 @@ class EntryPointMustBeAnInterfaceDetectorTest {
                     @EntryPoint
                     class MyEntryPoint {}
                 """
-                        .trimIndent(),
+                        .trimIndent()
                 ),
             )
             .issues(EntryPointMustBeAnInterfaceDetector.ISSUE)
@@ -201,7 +201,7 @@ class EntryPointMustBeAnInterfaceDetectorTest {
                     ^
                     1 errors, 0 warnings
                 """
-                    .trimIndent(),
+                    .trimIndent()
             )
             .expectErrorCount(1)
             .expectFixDiffs(
@@ -212,7 +212,7 @@ class EntryPointMustBeAnInterfaceDetectorTest {
                 @@ -5 +4
                 + interface MyEntryPoint {}
             """
-                    .trimIndent(),
+                    .trimIndent()
             )
     }
 
@@ -228,7 +228,7 @@ class EntryPointMustBeAnInterfaceDetectorTest {
                     @EntryPoint
                     object MyEntryPoint
                 """
-                        .trimIndent(),
+                        .trimIndent()
                 ),
             )
             .issues(EntryPointMustBeAnInterfaceDetector.ISSUE)
@@ -242,7 +242,7 @@ class EntryPointMustBeAnInterfaceDetectorTest {
                     ^
                     1 errors, 0 warnings
                 """
-                    .trimIndent(),
+                    .trimIndent()
             )
             .expectErrorCount(1)
             .expectFixDiffs(
@@ -253,7 +253,7 @@ class EntryPointMustBeAnInterfaceDetectorTest {
                 @@ -5 +4
                 + interface MyEntryPoint
             """
-                    .trimIndent(),
+                    .trimIndent()
             )
     }
 
@@ -269,7 +269,7 @@ class EntryPointMustBeAnInterfaceDetectorTest {
                     @EntryPoint
                     enum class MyEntryPoint
                 """
-                        .trimIndent(),
+                        .trimIndent()
                 ),
             )
             .issues(EntryPointMustBeAnInterfaceDetector.ISSUE)
@@ -283,7 +283,7 @@ class EntryPointMustBeAnInterfaceDetectorTest {
                     ^
                     1 errors, 0 warnings
                 """
-                    .trimIndent(),
+                    .trimIndent()
             )
             .expectErrorCount(1)
             .expectFixDiffs(
@@ -294,7 +294,7 @@ class EntryPointMustBeAnInterfaceDetectorTest {
                 @@ -5 +4
                 + interface MyEntryPoint
             """
-                    .trimIndent(),
+                    .trimIndent()
             )
     }
 
@@ -310,7 +310,7 @@ class EntryPointMustBeAnInterfaceDetectorTest {
                     @EntryPoint
                     enum MyEntryPoint {}
                 """
-                        .trimIndent(),
+                        .trimIndent()
                 ),
             )
             .issues(EntryPointMustBeAnInterfaceDetector.ISSUE)
@@ -324,7 +324,7 @@ class EntryPointMustBeAnInterfaceDetectorTest {
                     ^
                     1 errors, 0 warnings
                 """
-                    .trimIndent(),
+                    .trimIndent()
             )
             .expectErrorCount(1)
             .expectFixDiffs(
@@ -335,7 +335,7 @@ class EntryPointMustBeAnInterfaceDetectorTest {
                     @@ -5 +4
                     + interface MyEntryPoint {}
                 """
-                    .trimIndent(),
+                    .trimIndent()
             )
     }
 
@@ -351,7 +351,7 @@ class EntryPointMustBeAnInterfaceDetectorTest {
                     @EntryPoint
                     data class MyEntryPoint
                 """
-                        .trimIndent(),
+                        .trimIndent()
                 ),
             )
             .issues(EntryPointMustBeAnInterfaceDetector.ISSUE)
@@ -365,7 +365,7 @@ class EntryPointMustBeAnInterfaceDetectorTest {
                     ^
                     1 errors, 0 warnings
                 """
-                    .trimIndent(),
+                    .trimIndent()
             )
             .expectErrorCount(1)
             .expectFixDiffs(
@@ -376,7 +376,7 @@ class EntryPointMustBeAnInterfaceDetectorTest {
                 @@ -5 +4
                 + interface MyEntryPoint
             """
-                    .trimIndent(),
+                    .trimIndent()
             )
     }
 
@@ -392,7 +392,7 @@ class EntryPointMustBeAnInterfaceDetectorTest {
                     @EntryPoint
                     sealed class MyEntryPoint
                 """
-                        .trimIndent(),
+                        .trimIndent()
                 ),
             )
             .issues(EntryPointMustBeAnInterfaceDetector.ISSUE)
@@ -406,7 +406,7 @@ class EntryPointMustBeAnInterfaceDetectorTest {
                     ^
                     1 errors, 0 warnings
                 """
-                    .trimIndent(),
+                    .trimIndent()
             )
             .expectErrorCount(1)
             .expectFixDiffs(
@@ -417,7 +417,7 @@ class EntryPointMustBeAnInterfaceDetectorTest {
                 @@ -5 +4
                 + interface MyEntryPoint
             """
-                    .trimIndent(),
+                    .trimIndent()
             )
     }
 
@@ -433,7 +433,7 @@ class EntryPointMustBeAnInterfaceDetectorTest {
                     @EntryPoint
                     annotation class MyEntryPoint
                 """
-                        .trimIndent(),
+                        .trimIndent()
                 ),
             )
             .issues(EntryPointMustBeAnInterfaceDetector.ISSUE)
@@ -447,7 +447,7 @@ class EntryPointMustBeAnInterfaceDetectorTest {
                     ^
                     1 errors, 0 warnings
                 """
-                    .trimIndent(),
+                    .trimIndent()
             )
             .expectErrorCount(1)
             .expectFixDiffs(
@@ -458,7 +458,7 @@ class EntryPointMustBeAnInterfaceDetectorTest {
                 @@ -5 +4
                 + interface MyEntryPoint
             """
-                    .trimIndent(),
+                    .trimIndent()
             )
     }
 }

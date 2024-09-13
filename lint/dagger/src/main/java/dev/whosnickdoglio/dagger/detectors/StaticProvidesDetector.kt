@@ -24,9 +24,7 @@ import org.jetbrains.uast.UElement
 import org.jetbrains.uast.UMethod
 import org.jetbrains.uast.getContainingUClass
 
-internal class StaticProvidesDetector :
-    Detector(),
-    SourceCodeScanner {
+internal class StaticProvidesDetector : Detector(), SourceCodeScanner {
     override fun getApplicableUastTypes(): List<Class<out UElement>> =
         listOf(UAnnotation::class.java)
 
@@ -43,10 +41,7 @@ internal class StaticProvidesDetector :
             }
         }
 
-    private fun javaCheck(
-        context: JavaContext,
-        method: UMethod,
-    ) {
+    private fun javaCheck(context: JavaContext, method: UMethod) {
         if (!context.evaluator.isStatic(method)) {
             context.report(
                 Incident(
@@ -54,15 +49,12 @@ internal class StaticProvidesDetector :
                     scope = method,
                     location = context.getNameLocation(method),
                     message = ISSUE.getExplanation(TextFormat.TEXT),
-                ),
+                )
             )
         }
     }
 
-    private fun kotlinCheck(
-        context: JavaContext,
-        method: UMethod,
-    ) {
+    private fun kotlinCheck(context: JavaContext, method: UMethod) {
         val containingClass = method.getContainingUClass()
         val sourcePsi = containingClass?.sourcePsi ?: return
         if (sourcePsi !is KtObjectDeclaration) {
@@ -72,7 +64,7 @@ internal class StaticProvidesDetector :
                     scope = method,
                     location = context.getLocation(method),
                     message = ISSUE.getExplanation(TextFormat.TEXT),
-                ),
+                )
             )
         }
     }
@@ -86,7 +78,7 @@ internal class StaticProvidesDetector :
                 id = "StaticProvides",
                 briefDescription = "Not using static @Provides methods",
                 explanation =
-                """
+                    """
                     @Provides methods be static.
 
                     See https://whosnickdoglio.dev/dagger-rules/rules/#provides-methods-should-be-static for more information.

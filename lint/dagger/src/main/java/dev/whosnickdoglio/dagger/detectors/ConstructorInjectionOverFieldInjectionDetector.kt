@@ -22,9 +22,7 @@ import org.jetbrains.uast.UElement
 import org.jetbrains.uast.UField
 import org.jetbrains.uast.getContainingUClass
 
-internal class ConstructorInjectionOverFieldInjectionDetector :
-    Detector(),
-    SourceCodeScanner {
+internal class ConstructorInjectionOverFieldInjectionDetector : Detector(), SourceCodeScanner {
     override fun getApplicableUastTypes(): List<Class<out UElement>> =
         listOf(UAnnotation::class.java)
 
@@ -59,7 +57,7 @@ internal class ConstructorInjectionOverFieldInjectionDetector :
                                 scope = annotatedElement,
                                 location = context.getLocation(annotatedElement),
                                 message = ISSUE.getExplanation(TextFormat.TEXT),
-                            ),
+                            )
                         )
                     }
                 }
@@ -76,7 +74,7 @@ internal class ConstructorInjectionOverFieldInjectionDetector :
             StringOption(
                 name = "allowList",
                 description =
-                "Classes that are allowed to use field injection instead of constructor injection.",
+                    "Classes that are allowed to use field injection instead of constructor injection.",
                 explanation = "",
             )
 
@@ -105,7 +103,7 @@ internal class ConstructorInjectionOverFieldInjectionDetector :
                 id = "ConstructorOverField",
                 briefDescription = "Class is using field injection over constructor injection",
                 explanation =
-                """
+                    """
                     Constructor injection should be favored over field injection for classes that support it.
 
                     See https://whosnickdoglio.dev/dagger-rules/rules/#prefer-constructor-injection-over-field-injection for more information.

@@ -26,9 +26,7 @@ import org.jetbrains.uast.kotlin.isKotlin
  * `@ContributesBinding` or `@ContributesMultibinding` annotations for classes that use Dagger and
  * implement an interface or abstract class.
  */
-internal class MissingContributesBindingDetector :
-    Detector(),
-    SourceCodeScanner {
+internal class MissingContributesBindingDetector : Detector(), SourceCodeScanner {
     override fun getApplicableUastTypes(): List<Class<out UElement>> = listOf(UClass::class.java)
 
     override fun createUastHandler(context: JavaContext): UElementHandler? {
@@ -42,10 +40,10 @@ internal class MissingContributesBindingDetector :
 
                 if (
                     node.constructors.any { method -> method.hasAnnotation(INJECT) } &&
-                    // TODO this feels naive
-                    // Ignore Any
-                    node.superTypes.size > 1 &&
-                    !hasBindingAnnotations
+                        // TODO this feels naive
+                        // Ignore Any
+                        node.superTypes.size > 1 &&
+                        !hasBindingAnnotations
                 ) {
                     val hasNoGenerics = node.superTypes.filter { !it.hasParameters() }
 
@@ -55,7 +53,7 @@ internal class MissingContributesBindingDetector :
                             Incident(context, ISSUE)
                                 .location(context.getNameLocation(node))
                                 .message(
-                                    "Contribute this binding to the Dagger graph using an Anvil annotation",
+                                    "Contribute this binding to the Dagger graph using an Anvil annotation"
                                 )
                                 .fix(
                                     fix()
@@ -71,8 +69,8 @@ internal class MissingContributesBindingDetector :
                                                 .annotate(CONTRIBUTES_MULTI_BINDING, context, node)
                                                 .autoFix(robot = true, independent = true)
                                                 .build(),
-                                        ),
-                                ),
+                                        )
+                                )
                         )
                     }
                 }

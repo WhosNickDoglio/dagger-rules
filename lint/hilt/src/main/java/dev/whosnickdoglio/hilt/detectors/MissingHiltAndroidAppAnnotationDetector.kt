@@ -19,9 +19,7 @@ import dev.whosnickdoglio.lint.annotations.hilt.HILT_ANDROID_APP
 import org.jetbrains.uast.UClass
 import org.jetbrains.uast.UElement
 
-internal class MissingHiltAndroidAppAnnotationDetector :
-    Detector(),
-    SourceCodeScanner {
+internal class MissingHiltAndroidAppAnnotationDetector : Detector(), SourceCodeScanner {
     override fun getApplicableUastTypes(): List<Class<out UElement>> = listOf(UClass::class.java)
 
     override fun createUastHandler(context: JavaContext): UElementHandler =
@@ -29,7 +27,7 @@ internal class MissingHiltAndroidAppAnnotationDetector :
             override fun visitClass(node: UClass) {
                 if (
                     context.evaluator.extendsClass(node, ANDROID_APP, true) &&
-                    !node.hasAnnotation(HILT_ANDROID_APP)
+                        !node.hasAnnotation(HILT_ANDROID_APP)
                 ) {
                     context.report(
                         Incident(context, ISSUE)
@@ -38,12 +36,12 @@ internal class MissingHiltAndroidAppAnnotationDetector :
                             .fix(
                                 fix()
                                     .name(
-                                        "Add ${HILT_ANDROID_APP.substringAfterLast(".")} annotation",
+                                        "Add ${HILT_ANDROID_APP.substringAfterLast(".")} annotation"
                                     )
                                     .annotate(HILT_ANDROID_APP, context, node)
                                     .autoFix(robot = true, independent = true)
-                                    .build(),
-                            ),
+                                    .build()
+                            )
                     )
                 }
             }
@@ -63,7 +61,7 @@ internal class MissingHiltAndroidAppAnnotationDetector :
                 id = "MissingHiltAndroidAppAnnotation",
                 briefDescription = "`Application` subclasses need `@HiltAndroidApp`",
                 explanation =
-                """
+                    """
                     When you using Hilt it's required for a `Application` subclass to be annotated with `@HiltAndroidApp.`
 
                     See https://whosnickdoglio.dev/dagger-rules/rules/#application-subclasses-should-be-annotated-with-hiltandroidapp for more information.

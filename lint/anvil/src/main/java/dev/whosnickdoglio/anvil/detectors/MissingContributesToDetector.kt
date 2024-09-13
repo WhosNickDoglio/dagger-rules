@@ -23,10 +23,9 @@ import org.jetbrains.uast.UElement
 import org.jetbrains.uast.kotlin.isKotlin
 
 // TODO make this configurable for Anvil scopes in quick fix
-internal class MissingContributesToDetector :
-    Detector(),
-    SourceCodeScanner {
-    override fun getApplicableUastTypes(): List<Class<out UElement>> = listOf(UAnnotation::class.java)
+internal class MissingContributesToDetector : Detector(), SourceCodeScanner {
+    override fun getApplicableUastTypes(): List<Class<out UElement>> =
+        listOf(UAnnotation::class.java)
 
     override fun createUastHandler(context: JavaContext): UElementHandler? {
         // Anvil is Kotlin only
@@ -46,8 +45,8 @@ internal class MissingContributesToDetector :
                                         .name("Add @ContributesTo annotation")
                                         .annotate(CONTRIBUTES_TO, context, element)
                                         .autoFix(robot = true, independent = true)
-                                        .build(),
-                                ),
+                                        .build()
+                                )
                         )
                     }
                 }
@@ -64,7 +63,7 @@ internal class MissingContributesToDetector :
                 id = "MissingContributesToAnnotation",
                 briefDescription = "Module missing @ContributesTo annotation",
                 explanation =
-                """
+                    """
                     This Dagger module is missing a `@ContributesTo` annotation for Anvil to pick it up. See https://whosnickdoglio.dev/dagger-rules/rules/#a-class-annotated-with-module-should-also-be-annotated-with-contributesto for more information.
                     """,
                 category = Category.CORRECTNESS,

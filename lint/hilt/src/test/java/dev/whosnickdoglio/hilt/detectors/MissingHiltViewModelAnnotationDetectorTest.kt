@@ -13,11 +13,11 @@ import org.junit.Test
 class MissingHiltViewModelAnnotationDetectorTest {
     private val viewModelStub =
         TestFiles.kotlin(
-            """
+                """
                         package androidx.lifecycle
                         class ViewModel
-                    """,
-        )
+                    """
+            )
             .indented()
 
     @Test
@@ -28,15 +28,15 @@ class MissingHiltViewModelAnnotationDetectorTest {
                 javaxAnnotations,
                 viewModelStub,
                 TestFiles.kotlin(
-                    """
+                        """
                 import androidx.lifecycle.ViewModel
                 import javax.inject.Inject
 
                 class MyViewModel @Inject constructor(
                     private val something: String
                 ) : ViewModel()
-            """,
-                )
+            """
+                    )
                     .indented(),
             )
             .issues(MissingHiltViewModelAnnotationDetector.ISSUE_MISSING_ANNOTATION)
@@ -50,7 +50,7 @@ class MissingHiltViewModelAnnotationDetectorTest {
                           ~~~~~~~~~~~
                     1 errors, 0 warnings
                 """
-                    .trimIndent(),
+                    .trimIndent()
             )
             .expectErrorCount(1)
             .expectFixDiffs(
@@ -59,7 +59,7 @@ class MissingHiltViewModelAnnotationDetectorTest {
                     @@ -4 +4
                     + @dagger.hilt.android.lifecycle.HiltViewModel
                 """
-                    .trimIndent(),
+                    .trimIndent()
             )
     }
 
@@ -71,7 +71,7 @@ class MissingHiltViewModelAnnotationDetectorTest {
                 javaxAnnotations,
                 viewModelStub,
                 TestFiles.java(
-                    """
+                        """
                 import androidx.lifecycle.ViewModel;
                 import javax.inject.Inject;
 
@@ -84,8 +84,8 @@ class MissingHiltViewModelAnnotationDetectorTest {
                         this.something = something;
                     }
                 }
-            """,
-                )
+            """
+                    )
                     .indented(),
             )
             .issues(MissingHiltViewModelAnnotationDetector.ISSUE_MISSING_ANNOTATION)
@@ -99,7 +99,7 @@ class MissingHiltViewModelAnnotationDetectorTest {
                           ~~~~~~~~~~~
                     1 errors, 0 warnings
                 """
-                    .trimIndent(),
+                    .trimIndent()
             )
             .expectErrorCount(1)
             .expectFixDiffs(
@@ -108,7 +108,7 @@ class MissingHiltViewModelAnnotationDetectorTest {
                     @@ -4 +4
                     + @dagger.hilt.android.lifecycle.HiltViewModel
                 """
-                    .trimIndent(),
+                    .trimIndent()
             )
     }
 
@@ -119,12 +119,12 @@ class MissingHiltViewModelAnnotationDetectorTest {
                 *hiltAnnotations,
                 viewModelStub,
                 TestFiles.kotlin(
-                    """
+                        """
                 import androidx.lifecycle.ViewModel
 
                 class MyViewModel : ViewModel()
-            """,
-                )
+            """
+                    )
                     .indented(),
             )
             .issues(MissingHiltViewModelAnnotationDetector.ISSUE_MISSING_ANNOTATION)
@@ -140,12 +140,12 @@ class MissingHiltViewModelAnnotationDetectorTest {
                 *hiltAnnotations,
                 viewModelStub,
                 TestFiles.java(
-                    """
+                        """
                 import androidx.lifecycle.ViewModel;
 
                 class MyViewModel extends ViewModel {}
-            """,
-                )
+            """
+                    )
                     .indented(),
             )
             .issues(MissingHiltViewModelAnnotationDetector.ISSUE_MISSING_ANNOTATION)
@@ -162,15 +162,15 @@ class MissingHiltViewModelAnnotationDetectorTest {
                 javaxAnnotations,
                 viewModelStub,
                 TestFiles.kotlin(
-                    """
+                        """
                 import androidx.lifecycle.ViewModel
                 import javax.inject.Inject
                 import $HILT_VIEW_MODEL
 
                 @${HILT_VIEW_MODEL.substringAfterLast(".")}
                 class MyViewModel @Inject constructor() : ViewModel()
-            """,
-                )
+            """
+                    )
                     .indented(),
             )
             .issues(MissingHiltViewModelAnnotationDetector.ISSUE_MISSING_ANNOTATION)
@@ -186,14 +186,14 @@ class MissingHiltViewModelAnnotationDetectorTest {
                 *hiltAnnotations,
                 viewModelStub,
                 TestFiles.java(
-                    """
+                        """
                 import androidx.lifecycle.ViewModel;
                 import $HILT_VIEW_MODEL;
 
                 @${HILT_VIEW_MODEL.substringAfterLast(".")}
                 class MyViewModel extends ViewModel {}
-            """,
-                )
+            """
+                    )
                     .indented(),
             )
             .issues(MissingHiltViewModelAnnotationDetector.ISSUE_MISSING_ANNOTATION)
@@ -210,15 +210,15 @@ class MissingHiltViewModelAnnotationDetectorTest {
                 viewModelStub,
                 javaxAnnotations,
                 TestFiles.kotlin(
-                    """
+                        """
                 import androidx.lifecycle.ViewModel
                 import javax.inject.Inject
                 import $HILT_VIEW_MODEL
 
                 @${HILT_VIEW_MODEL.substringAfterLast(".")}
                 class MyViewModel @Inject constructor() : ViewModel()
-            """,
-                )
+            """
+                    )
                     .indented(),
             )
             .issues(MissingHiltViewModelAnnotationDetector.ISSUE_MISSING_ANNOTATION)
@@ -235,7 +235,7 @@ class MissingHiltViewModelAnnotationDetectorTest {
                 javaxAnnotations,
                 viewModelStub,
                 TestFiles.java(
-                    """
+                        """
                 import androidx.lifecycle.ViewModel;
                 import javax.inject.Inject;
                 import $HILT_VIEW_MODEL;
@@ -246,8 +246,8 @@ class MissingHiltViewModelAnnotationDetectorTest {
                     @Inject
                     public MyViewModel() {}
                 }
-            """,
-                )
+            """
+                    )
                     .indented(),
             )
             .issues(MissingHiltViewModelAnnotationDetector.ISSUE_MISSING_ANNOTATION)

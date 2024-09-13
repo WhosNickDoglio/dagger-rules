@@ -23,7 +23,7 @@ internal fun Project.configureSpotless(ktlintVersion: String) {
 
         kotlin { kotlinExtension ->
             with(kotlinExtension) {
-                ktlint(ktlintVersion)
+                ktfmt(ktlintVersion).kotlinlangStyle()
                 trimTrailingWhitespace()
                 endWithNewline()
                 licenseHeaderFile(file("$rootDir/spotless/spotless.kt"))
@@ -31,7 +31,7 @@ internal fun Project.configureSpotless(ktlintVersion: String) {
         }
         kotlinGradle { kotlinGradleExtension ->
             with(kotlinGradleExtension) {
-                ktlint(ktlintVersion)
+                ktfmt(ktlintVersion).kotlinlangStyle()
                 trimTrailingWhitespace()
                 endWithNewline()
                 licenseHeaderFile(

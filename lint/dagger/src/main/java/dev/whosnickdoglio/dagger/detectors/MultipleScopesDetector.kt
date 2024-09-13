@@ -29,10 +29,9 @@ import org.jetbrains.uast.resolveToUElement
  * A Kotlin and Java [Detector] for Dagger that warns if there is an attempt to add an object to the
  * DI graph with multiple scopes.
  */
-internal class MultipleScopesDetector :
-    Detector(),
-    SourceCodeScanner {
-    override fun getApplicableUastTypes(): List<Class<out UElement>> = listOf(UClass::class.java, UMethod::class.java)
+internal class MultipleScopesDetector : Detector(), SourceCodeScanner {
+    override fun getApplicableUastTypes(): List<Class<out UElement>> =
+        listOf(UClass::class.java, UMethod::class.java)
 
     override fun createUastHandler(context: JavaContext): UElementHandler =
         object : UElementHandler() {
@@ -47,10 +46,7 @@ internal class MultipleScopesDetector :
             }
         }
 
-    private fun UAnnotated.report(
-        context: JavaContext,
-        location: Location,
-    ) {
+    private fun UAnnotated.report(context: JavaContext, location: Location) {
         val scopeAnnotations =
             uAnnotations
                 .map { annotation -> annotation.resolveToUElement() }
@@ -62,9 +58,9 @@ internal class MultipleScopesDetector :
         if (scopeAnnotations.size > 1) {
             context.report(
                 incident =
-                Incident(context)
-                    .location(location)
-                    .message(ISSUE.getExplanation(TextFormat.RAW)),
+                    Incident(context)
+                        .location(location)
+                        .message(ISSUE.getExplanation(TextFormat.RAW))
             )
         }
     }
@@ -78,7 +74,7 @@ internal class MultipleScopesDetector :
                 id = "MultipleScopes",
                 briefDescription = "An object cannot declare more than one `@Scope`",
                 explanation =
-                "Objects on the DI graph can only have one `@Scope` annotation, please remove one",
+                    "Objects on the DI graph can only have one `@Scope` annotation, please remove one",
                 category = Category.CORRECTNESS,
                 priority = 5,
                 severity = Severity.ERROR,

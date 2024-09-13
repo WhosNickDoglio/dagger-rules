@@ -16,7 +16,8 @@ import org.junit.runner.RunWith
 
 @RunWith(TestParameterInjector::class)
 class ComponentMustBeAbstractDetectorTest {
-    private class ComponentMustBeAbstractTestParameterValueProvider : TestParameterValuesProvider() {
+    private class ComponentMustBeAbstractTestParameterValueProvider :
+        TestParameterValuesProvider() {
         override fun provideValues(context: Context?): List<*> =
             ComponentMustBeAbstractDetector.componentAnnotations.toList()
     }
@@ -37,7 +38,7 @@ class ComponentMustBeAbstractDetectorTest {
                     @${componentAnnotation.substringAfterLast(".")}
                     abstract class MyComponent
                 """
-                        .trimIndent(),
+                        .trimIndent()
                 ),
             )
             .issues(ComponentMustBeAbstractDetector.ISSUE)
@@ -58,7 +59,7 @@ class ComponentMustBeAbstractDetectorTest {
                     @${componentAnnotation.substringAfterLast(".")}
                     abstract class MyComponent {}
                 """
-                        .trimIndent(),
+                        .trimIndent()
                 ),
             )
             .issues(ComponentMustBeAbstractDetector.ISSUE)
@@ -79,7 +80,7 @@ class ComponentMustBeAbstractDetectorTest {
                     @${componentAnnotation.substringAfterLast(".")}
                     interface MyComponent
                 """
-                        .trimIndent(),
+                        .trimIndent()
                 ),
             )
             .issues(ComponentMustBeAbstractDetector.ISSUE)
@@ -100,7 +101,7 @@ class ComponentMustBeAbstractDetectorTest {
                     @${componentAnnotation.substringAfterLast(".")}
                     interface MyComponent {}
                 """
-                        .trimIndent(),
+                        .trimIndent()
                 ),
             )
             .issues(ComponentMustBeAbstractDetector.ISSUE)
@@ -121,7 +122,7 @@ class ComponentMustBeAbstractDetectorTest {
                     @${componentAnnotation.substringAfterLast(".")}
                     class MyComponent {}
                 """
-                        .trimIndent(),
+                        .trimIndent()
                 ),
             )
             .issues(ComponentMustBeAbstractDetector.ISSUE)
@@ -135,7 +136,7 @@ class ComponentMustBeAbstractDetectorTest {
                     ^
                     1 errors, 0 warnings
                 """
-                    .trimIndent(),
+                    .trimIndent()
             )
             .expectErrorCount(1)
             .expectFixDiffs(
@@ -145,7 +146,7 @@ class ComponentMustBeAbstractDetectorTest {
                 - class MyComponent {}
                 + interface MyComponent {}
                 """
-                    .trimIndent(),
+                    .trimIndent()
             )
     }
 
@@ -162,7 +163,7 @@ class ComponentMustBeAbstractDetectorTest {
                     @${componentAnnotation.substringAfterLast(".")}
                     class MyComponent
                 """
-                        .trimIndent(),
+                        .trimIndent()
                 ),
             )
             .issues(ComponentMustBeAbstractDetector.ISSUE)
@@ -176,7 +177,7 @@ class ComponentMustBeAbstractDetectorTest {
                     ^
                     1 errors, 0 warnings
                 """
-                    .trimIndent(),
+                    .trimIndent()
             )
             .expectErrorCount(1)
             .expectFixDiffs(
@@ -186,7 +187,7 @@ class ComponentMustBeAbstractDetectorTest {
                 - class MyComponent
                 + interface MyComponent
                 """
-                    .trimIndent(),
+                    .trimIndent()
             )
     }
 }

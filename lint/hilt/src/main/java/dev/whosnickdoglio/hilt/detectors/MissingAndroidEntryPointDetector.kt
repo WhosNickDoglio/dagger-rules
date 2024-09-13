@@ -20,9 +20,7 @@ import dev.whosnickdoglio.lint.annotations.hilt.ANDROID_ENTRY_POINT
 import org.jetbrains.uast.UClass
 import org.jetbrains.uast.UElement
 
-internal class MissingAndroidEntryPointDetector :
-    Detector(),
-    SourceCodeScanner {
+internal class MissingAndroidEntryPointDetector : Detector(), SourceCodeScanner {
     private val androidEntryPointSupers =
         setOf(
             "android.app.Activity",
@@ -51,8 +49,8 @@ internal class MissingAndroidEntryPointDetector :
                         !node.hasAnnotation(ANDROID_ENTRY_POINT)
                     if (
                         isSubClass &&
-                        injectedFields.isNotEmpty() &&
-                        isMissingAndroidEntryPointAnnotation
+                            injectedFields.isNotEmpty() &&
+                            isMissingAndroidEntryPointAnnotation
                     ) {
                         context.report(
                             Incident(context, ISSUE)
@@ -61,12 +59,12 @@ internal class MissingAndroidEntryPointDetector :
                                 .fix(
                                     fix()
                                         .name(
-                                            "Add ${ANDROID_ENTRY_POINT.substringAfterLast(".")} annotation",
+                                            "Add ${ANDROID_ENTRY_POINT.substringAfterLast(".")} annotation"
                                         )
                                         .annotate(ANDROID_ENTRY_POINT, context, node)
                                         .autoFix(robot = true, independent = true)
-                                        .build(),
-                                ),
+                                        .build()
+                                )
                         )
                     }
                 }
@@ -82,7 +80,7 @@ internal class MissingAndroidEntryPointDetector :
                 id = "MissingAndroidEntryPointAnnotation",
                 briefDescription = "Android Component is missing @AndroidEntryPoint annotation",
                 explanation =
-                """
+                    """
                     This class needs to be annotated with `@AndroidEntryPoint` to use field injection with Hilt.
 
                     See https://whosnickdoglio.dev/dagger-rules/rules/#android-components-should-be-annotated-with-androidentrypoint for more information.

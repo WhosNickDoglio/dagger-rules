@@ -24,9 +24,7 @@ import org.jetbrains.uast.UAnnotation
 import org.jetbrains.uast.UClass
 import org.jetbrains.uast.UElement
 
-internal class ComponentMustBeAbstractDetector :
-    Detector(),
-    SourceCodeScanner {
+internal class ComponentMustBeAbstractDetector : Detector(), SourceCodeScanner {
     private val oldClassPattern =
         "(object|enum\\s+class|annotation\\s+class|sealed\\s+class|data\\s+class|enum|class)"
             .toRegex()
@@ -48,13 +46,13 @@ internal class ComponentMustBeAbstractDetector :
                                 location = context.getLocation(element = component),
                                 message = ISSUE.getExplanation(TextFormat.TEXT),
                                 fix =
-                                fix()
-                                    .replace()
-                                    .name("Make ${component.name} an interface")
-                                    .pattern(oldClassPattern.toString())
-                                    .with("interface")
-                                    .build(),
-                            ),
+                                    fix()
+                                        .replace()
+                                        .name("Make ${component.name} an interface")
+                                        .pattern(oldClassPattern.toString())
+                                        .with("interface")
+                                        .build(),
+                            )
                         )
                     }
                 }
@@ -65,22 +63,23 @@ internal class ComponentMustBeAbstractDetector :
         private val implementation =
             Implementation(ComponentMustBeAbstractDetector::class.java, Scope.JAVA_FILE_SCOPE)
 
-        internal val componentAnnotations = setOf(
-            // Vanilla Dagger
-            COMPONENT,
-            SUBCOMPONENT,
-            // Anvil
-            MERGE_COMPONENT,
-            MERGE_SUBCOMPONENT,
-            CONTRIBUTES_SUBCOMPONENT,
-        )
+        internal val componentAnnotations =
+            setOf(
+                // Vanilla Dagger
+                COMPONENT,
+                SUBCOMPONENT,
+                // Anvil
+                MERGE_COMPONENT,
+                MERGE_SUBCOMPONENT,
+                CONTRIBUTES_SUBCOMPONENT,
+            )
 
         internal val ISSUE =
             Issue.create(
                 id = "ComponentMustBeAbstract",
                 briefDescription = "A Dagger `Component` must be an interface or abstract",
                 explanation =
-                """
+                    """
                     A type annotated with @Component or @Subcomponent need to be abstract.
 
                     See https://whosnickdoglio.dev/dagger-rules/rules/#classes-annotated-with-component-must-be-abstract for more information.

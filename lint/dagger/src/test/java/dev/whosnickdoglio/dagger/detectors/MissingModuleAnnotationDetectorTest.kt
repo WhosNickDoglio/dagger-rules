@@ -12,14 +12,14 @@ import org.junit.Test
 class MissingModuleAnnotationDetectorTest {
     private val bindsTestFile =
         TestFiles.kotlin(
-            """
+                """
                      interface PizzaMaker
                      class PizzaMakerImpl: PizzaMaker
 
                     interface CoffeeMaker
                     class CoffeeMakerImpl: CoffeeMaker
-                    """,
-        )
+                    """
+            )
             .indented()
 
     @Test
@@ -28,7 +28,7 @@ class MissingModuleAnnotationDetectorTest {
             .files(
                 daggerAnnotations,
                 TestFiles.kotlin(
-                    """
+                        """
                 package com.test.android
 
                 import dagger.Provides
@@ -41,8 +41,8 @@ class MissingModuleAnnotationDetectorTest {
                         @Provides
                         fun doSomethingElse(): String = "World"
                 }
-                """,
-                )
+                """
+                    )
                     .indented(),
             )
             .issues(MissingModuleAnnotationDetector.ISSUE)
@@ -56,7 +56,7 @@ class MissingModuleAnnotationDetectorTest {
                            ~~~~~~~~
                     1 errors, 0 warnings
                 """
-                    .trimIndent(),
+                    .trimIndent()
             )
             .expectErrorCount(1)
             .expectFixDiffs(
@@ -65,7 +65,7 @@ class MissingModuleAnnotationDetectorTest {
                     @@ -5 +5
                     +  @dagger.Module
                 """
-                    .trimIndent(),
+                    .trimIndent()
             )
     }
 
@@ -75,7 +75,7 @@ class MissingModuleAnnotationDetectorTest {
             .files(
                 daggerAnnotations,
                 TestFiles.kotlin(
-                    """
+                        """
                 package com.test.android
 
                 import dagger.Provides
@@ -90,8 +90,8 @@ class MissingModuleAnnotationDetectorTest {
                         @Provides
                         fun doSomethingElse(): String = "World"
                 }
-                """,
-                )
+                """
+                    )
                     .indented(),
             )
             .issues(MissingModuleAnnotationDetector.ISSUE)
@@ -107,7 +107,7 @@ class MissingModuleAnnotationDetectorTest {
                 daggerAnnotations,
                 bindsTestFile,
                 TestFiles.kotlin(
-                    """
+                        """
                 package com.test.android
 
                 import dagger.Binds
@@ -120,8 +120,8 @@ class MissingModuleAnnotationDetectorTest {
                         @Binds
                         fun bindCoffee(impl: CoffeeMakerImpl): CoffeeMaker
                 }
-                """,
-                )
+                """
+                    )
                     .indented(),
             )
             .issues(MissingModuleAnnotationDetector.ISSUE)
@@ -135,7 +135,7 @@ class MissingModuleAnnotationDetectorTest {
                                ~~~~~~~~
                     1 errors, 0 warnings
                 """
-                    .trimIndent(),
+                    .trimIndent()
             )
             .expectErrorCount(1)
             .expectFixDiffs(
@@ -144,7 +144,7 @@ class MissingModuleAnnotationDetectorTest {
                     @@ -5 +5
                     +  @dagger.Module
                 """
-                    .trimIndent(),
+                    .trimIndent()
             )
     }
 
@@ -155,7 +155,7 @@ class MissingModuleAnnotationDetectorTest {
                 daggerAnnotations,
                 bindsTestFile,
                 TestFiles.kotlin(
-                    """
+                        """
                 package com.test.android
 
                 import dagger.Binds
@@ -170,8 +170,8 @@ class MissingModuleAnnotationDetectorTest {
                         @Binds
                         fun bindCoffee(impl: CoffeeMakerImpl): CoffeeMaker
                 }
-                """,
-                )
+                """
+                    )
                     .indented(),
             )
             .issues(MissingModuleAnnotationDetector.ISSUE)
@@ -185,14 +185,14 @@ class MissingModuleAnnotationDetectorTest {
             .files(
                 daggerAnnotations,
                 TestFiles.kotlin(
-                    """
+                        """
                  interface PizzaMaker
                  class PizzaMakerImpl
-                """,
-                )
+                """
+                    )
                     .indented(),
                 TestFiles.kotlin(
-                    """
+                        """
                 package com.test.android
 
                 import dagger.Binds
@@ -210,8 +210,8 @@ class MissingModuleAnnotationDetectorTest {
                             @Provides fun provideMyThing(): String = "Hello World"
                         }
                 }
-                """,
-                )
+                """
+                    )
                     .indented(),
             )
             .issues(MissingModuleAnnotationDetector.ISSUE)
@@ -225,7 +225,7 @@ class MissingModuleAnnotationDetectorTest {
                                ~~~~~~~~
                     1 errors, 0 warnings
                 """
-                    .trimIndent(),
+                    .trimIndent()
             )
             .expectErrorCount(1)
             .expectFixDiffs(
@@ -234,7 +234,7 @@ class MissingModuleAnnotationDetectorTest {
                     @@ -6 +6
                     +  @dagger.Module
                 """
-                    .trimIndent(),
+                    .trimIndent()
             )
     }
 
@@ -245,7 +245,7 @@ class MissingModuleAnnotationDetectorTest {
                 daggerAnnotations,
                 bindsTestFile,
                 TestFiles.kotlin(
-                    """
+                        """
                 package com.test.android
 
                 import dagger.Binds
@@ -265,8 +265,8 @@ class MissingModuleAnnotationDetectorTest {
                             @Provides fun provideMyThing(): String = "Hello World"
                         }
                 }
-                """,
-                )
+                """
+                    )
                     .indented(),
             )
             .issues(MissingModuleAnnotationDetector.ISSUE)
@@ -280,7 +280,7 @@ class MissingModuleAnnotationDetectorTest {
             .files(
                 daggerAnnotations,
                 TestFiles.java(
-                    """
+                        """
                 package com.test.android;
 
                 import dagger.Provides;
@@ -297,8 +297,8 @@ class MissingModuleAnnotationDetectorTest {
                             return false;
                         }
                 }
-                """,
-                )
+                """
+                    )
                     .indented(),
             )
             .issues(MissingModuleAnnotationDetector.ISSUE)
@@ -312,7 +312,7 @@ class MissingModuleAnnotationDetectorTest {
                            ~~~~~~~~
                     1 errors, 0 warnings
                 """
-                    .trimIndent(),
+                    .trimIndent()
             )
             .expectErrorCount(1)
             .expectFixDiffs(
@@ -321,7 +321,7 @@ class MissingModuleAnnotationDetectorTest {
                     @@ -5 +5
                     +  @dagger.Module
                 """
-                    .trimIndent(),
+                    .trimIndent()
             )
     }
 
@@ -331,7 +331,7 @@ class MissingModuleAnnotationDetectorTest {
             .files(
                 daggerAnnotations,
                 TestFiles.java(
-                    """
+                        """
                 package com.test.android;
 
                 import dagger.Provides;
@@ -350,8 +350,8 @@ class MissingModuleAnnotationDetectorTest {
                             return false;
                         }
                 }
-                """,
-                )
+                """
+                    )
                     .indented(),
             )
             .issues(MissingModuleAnnotationDetector.ISSUE)
@@ -367,7 +367,7 @@ class MissingModuleAnnotationDetectorTest {
                 daggerAnnotations,
                 bindsTestFile,
                 TestFiles.java(
-                    """
+                        """
                 package com.test.android;
 
                 import dagger.Binds;
@@ -380,8 +380,8 @@ class MissingModuleAnnotationDetectorTest {
                         @Binds
                         CoffeeMaker coffee(CoffeeMakerImpl impl);
                 }
-                """,
-                )
+                """
+                    )
                     .indented(),
             )
             .issues(MissingModuleAnnotationDetector.ISSUE)
@@ -395,7 +395,7 @@ class MissingModuleAnnotationDetectorTest {
                                ~~~~~~~~
                     1 errors, 0 warnings
                 """
-                    .trimIndent(),
+                    .trimIndent()
             )
             .expectErrorCount(1)
             .expectFixDiffs(
@@ -404,7 +404,7 @@ class MissingModuleAnnotationDetectorTest {
                     @@ -5 +5
                     +  @dagger.Module
                 """
-                    .trimIndent(),
+                    .trimIndent()
             )
     }
 
@@ -415,7 +415,7 @@ class MissingModuleAnnotationDetectorTest {
                 daggerAnnotations,
                 bindsTestFile,
                 TestFiles.java(
-                    """
+                        """
                 package com.test.android;
 
                 import dagger.Binds;
@@ -430,8 +430,8 @@ class MissingModuleAnnotationDetectorTest {
                         @Binds
                         CoffeeMaker coffee(CoffeeMakerImpl impl);
                 }
-                """,
-                )
+                """
+                    )
                     .indented(),
             )
             .issues(MissingModuleAnnotationDetector.ISSUE)

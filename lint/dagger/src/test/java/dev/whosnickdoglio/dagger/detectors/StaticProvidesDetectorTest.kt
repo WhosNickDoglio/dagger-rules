@@ -16,7 +16,7 @@ class StaticProvidesDetectorTest {
             .files(
                 daggerAnnotations,
                 TestFiles.kotlin(
-                    """
+                        """
                 package com.test.android
 
                 import dagger.Provides
@@ -27,8 +27,8 @@ class StaticProvidesDetectorTest {
                         @Provides fun myString(): String = "Hello World"
                         @Provides fun myInt(): Int = 1
                 }
-                """,
-                )
+                """
+                    )
                     .indented(),
             )
             .issues(StaticProvidesDetector.ISSUE)
@@ -43,7 +43,7 @@ class StaticProvidesDetectorTest {
             .files(
                 daggerAnnotations,
                 TestFiles.kotlin(
-                    """
+                        """
                 package com.test.android
 
                 import dagger.Provides
@@ -54,8 +54,8 @@ class StaticProvidesDetectorTest {
                         @Provides fun myString(): String = "Hello World"
                         @Provides fun myInt(): Int = 1
                 }
-                """,
-                )
+                """
+                    )
                     .indented(),
             )
             .issues(StaticProvidesDetector.ISSUE)
@@ -74,7 +74,7 @@ class StaticProvidesDetectorTest {
                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
                     0 errors, 2 warnings
                 """
-                    .trimIndent(),
+                    .trimIndent()
             )
             .expectWarningCount(2)
     }
@@ -85,7 +85,7 @@ class StaticProvidesDetectorTest {
             .files(
                 daggerAnnotations,
                 TestFiles.kotlin(
-                    """
+                        """
                 package com.test.android
 
                 import dagger.Provides
@@ -104,8 +104,8 @@ class StaticProvidesDetectorTest {
                         @Provides fun myInt(): Int = 1
                     }
                 }
-                """,
-                )
+                """
+                    )
                     .indented(),
             )
             .issues(StaticProvidesDetector.ISSUE)
@@ -120,7 +120,7 @@ class StaticProvidesDetectorTest {
             .files(
                 daggerAnnotations,
                 TestFiles.java(
-                    """
+                        """
                 package com.test.android;
 
                 import dagger.Provides;
@@ -139,8 +139,8 @@ class StaticProvidesDetectorTest {
                             return 100L;
                         }
                 }
-                """,
-                )
+                """
+                    )
                     .indented(),
             )
             .issues(StaticProvidesDetector.ISSUE)
@@ -154,7 +154,7 @@ class StaticProvidesDetectorTest {
             .files(
                 daggerAnnotations,
                 TestFiles.java(
-                    """
+                        """
                 package com.test.android;
 
                 import dagger.Provides;
@@ -174,8 +174,8 @@ class StaticProvidesDetectorTest {
                         }
 
                 }
-                """,
-                )
+                """
+                    )
                     .indented(),
             )
             .issues(StaticProvidesDetector.ISSUE)
@@ -194,7 +194,7 @@ class StaticProvidesDetectorTest {
                                         ~~~~~~
                     0 errors, 2 warnings
                 """
-                    .trimIndent(),
+                    .trimIndent()
             )
             .expectWarningCount(2)
     }

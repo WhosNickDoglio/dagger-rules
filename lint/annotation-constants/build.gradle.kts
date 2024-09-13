@@ -7,6 +7,4 @@ plugins {
     `java-test-fixtures`
 }
 
-dependencies {
-    testFixturesApi(libs.lint.tests)
-}
+dependencies { testFixturesApi(libs.lint.tests) }

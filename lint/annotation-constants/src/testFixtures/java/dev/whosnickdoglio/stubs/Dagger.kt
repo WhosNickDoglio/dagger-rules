@@ -19,7 +19,7 @@ public val daggerAnnotations: TestFile =
         annotation class Component
         annotation class Subcomponent
     """
-            .trimIndent(),
+            .trimIndent()
     )
 
 public val daggerMultibindingAnnotations: TestFile =
@@ -32,7 +32,7 @@ public val daggerMultibindingAnnotations: TestFile =
     annotation class StringKey(val key: String)
     annotation class IntKey(val key: Int)
 """
-            .trimIndent(),
+            .trimIndent()
     )
 
 public val daggerAssistedAnnotations: TestFile =
@@ -44,7 +44,7 @@ public val daggerAssistedAnnotations: TestFile =
     annotation class AssistedFactory
     annotation class AssistedInject
 """
-            .trimIndent(),
+            .trimIndent()
     )
 
 public val javaxAnnotations: TestFile =
@@ -55,5 +55,5 @@ public val javaxAnnotations: TestFile =
     annotation class Inject
     annotation class Scope
 """
-            .trimIndent(),
+            .trimIndent()
     )

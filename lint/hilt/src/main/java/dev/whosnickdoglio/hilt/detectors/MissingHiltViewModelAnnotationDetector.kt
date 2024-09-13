@@ -25,9 +25,7 @@ import org.jetbrains.uast.UElement
  * Android components. For Hilt to work as expected the `@AndroidEntryPoint`, `@HiltViewModel` and
  * `@HiltAndroidApp`.
  */
-internal class MissingHiltViewModelAnnotationDetector :
-    Detector(),
-    SourceCodeScanner {
+internal class MissingHiltViewModelAnnotationDetector : Detector(), SourceCodeScanner {
     override fun getApplicableUastTypes(): List<Class<out UElement>> = listOf(UClass::class.java)
 
     override fun createUastHandler(context: JavaContext): UElementHandler =
@@ -38,8 +36,8 @@ internal class MissingHiltViewModelAnnotationDetector :
 
                 if (
                     isViewModelSubclass &&
-                    node.hasInjectedConstructor() &&
-                    !node.hasAnnotation(HILT_VIEW_MODEL)
+                        node.hasInjectedConstructor() &&
+                        !node.hasAnnotation(HILT_VIEW_MODEL)
                 ) {
                     context.report(
                         Incident(context, ISSUE_MISSING_ANNOTATION)
@@ -48,34 +46,31 @@ internal class MissingHiltViewModelAnnotationDetector :
                             .fix(
                                 fix()
                                     .name(
-                                        "Add ${HILT_VIEW_MODEL.substringAfterLast(".")} annotation",
+                                        "Add ${HILT_VIEW_MODEL.substringAfterLast(".")} annotation"
                                     )
                                     .annotate(HILT_VIEW_MODEL, context, node)
-                                    .build(),
-                            ),
+                                    .build()
+                            )
                     )
                 } else if (
                     isViewModelSubclass &&
-                    !node.hasInjectedConstructor() &&
-                    node.hasAnnotation(HILT_VIEW_MODEL)
+                        !node.hasInjectedConstructor() &&
+                        node.hasAnnotation(HILT_VIEW_MODEL)
                 ) {
                     context.report(
                         Incident(context, ISSUE_UNNECESSARY_ANNOTATION)
                             .location(context.getNameLocation(node))
                             .message(
-                                "This class is missing the `@${HILT_VIEW_MODEL.substringAfterLast(".")}`",
+                                "This class is missing the `@${HILT_VIEW_MODEL.substringAfterLast(".")}`"
                             )
-                            .fix(null),
+                            .fix(null)
                     )
                 }
             }
         }
 
-    private fun UClass.hasInjectedConstructor(): Boolean = constructors.any { method ->
-        method.hasAnnotation(
-            INJECT,
-        )
-    }
+    private fun UClass.hasInjectedConstructor(): Boolean =
+        constructors.any { method -> method.hasAnnotation(INJECT) }
 
     companion object {
         private const val HILT_VIEW_MODEL_PACKAGE = "androidx.lifecycle.ViewModel"
@@ -91,7 +86,7 @@ internal class MissingHiltViewModelAnnotationDetector :
                 id = "MissingHiltViewModelAnnotation",
                 briefDescription = "Android Component is missing Hilt annotation",
                 explanation =
-                """
+                    """
                     ViewModels using Hilt need to be annotated with `@HiltViewModel`.
 
                     See https://whosnickdoglio.dev/dagger-rules/rules/#viewmodel-subclasses-should-be-annotated-with-hiltviewmodel for more information.

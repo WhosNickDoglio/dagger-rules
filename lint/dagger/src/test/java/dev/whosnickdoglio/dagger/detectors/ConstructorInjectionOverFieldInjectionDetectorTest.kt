@@ -22,26 +22,26 @@ class ConstructorInjectionOverFieldInjectionDetectorTest {
             .files(
                 javaxAnnotations,
                 TestFiles.kotlin(
-                    """
+                        """
                 package ${component.classPackage}
 
                 class ${component.className}
 
-                """,
-                )
+                """
+                    )
                     .indented(),
                 TestFiles.kotlin(
-                    """
+                        """
                 package androidx
 
                 import ${component.classImport}
 
                 class AndroidX${component.className}: ${component.className}
-                    """,
-                )
+                    """
+                    )
                     .indented(),
                 TestFiles.kotlin(
-                    """
+                        """
             package com.test.android
 
             import javax.inject.Inject
@@ -54,8 +54,8 @@ class ConstructorInjectionOverFieldInjectionDetectorTest {
             @Inject lateinit var something: Something
 
             }
-                """,
-                )
+                """
+                    )
                     .indented(),
             )
             .issues(ConstructorInjectionOverFieldInjectionDetector.ISSUE)
@@ -70,26 +70,26 @@ class ConstructorInjectionOverFieldInjectionDetectorTest {
             .files(
                 javaxAnnotations,
                 TestFiles.java(
-                    """
+                        """
                 package ${component.classPackage};
 
                 class ${component.className} {}
 
-                """,
-                )
+                """
+                    )
                     .indented(),
                 TestFiles.java(
-                    """
+                        """
                 package androidx;
 
                 import ${component.classImport};
 
                 class AndroidX${component.className} extends ${component.className} {}
-                    """,
-                )
+                    """
+                    )
                     .indented(),
                 TestFiles.java(
-                    """
+                        """
             package com.test.android;
 
             import javax.inject.Inject;
@@ -102,8 +102,8 @@ class ConstructorInjectionOverFieldInjectionDetectorTest {
             @Inject Something something;
 
             }
-                """,
-                )
+                """
+                    )
                     .indented(),
             )
             .issues(ConstructorInjectionOverFieldInjectionDetector.ISSUE)
@@ -118,7 +118,7 @@ class ConstructorInjectionOverFieldInjectionDetectorTest {
             .files(
                 javaxAnnotations,
                 TestFiles.kotlin(
-                    """
+                        """
             package com.test.android
 
             import javax.inject.Inject
@@ -130,8 +130,8 @@ class ConstructorInjectionOverFieldInjectionDetectorTest {
             @Inject lateinit var something: Something
 
             }
-                """,
-                )
+                """
+                    )
                     .indented(),
             )
             .issues(ConstructorInjectionOverFieldInjectionDetector.ISSUE)
@@ -145,7 +145,7 @@ class ConstructorInjectionOverFieldInjectionDetectorTest {
                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
                     0 errors, 1 warnings
                 """
-                    .trimIndent(),
+                    .trimIndent()
             )
             .expectWarningCount(1)
     }
@@ -156,7 +156,7 @@ class ConstructorInjectionOverFieldInjectionDetectorTest {
             .files(
                 javaxAnnotations,
                 TestFiles.java(
-                    """
+                        """
             package com.test.android;
 
             import javax.inject.Inject;
@@ -168,8 +168,8 @@ class ConstructorInjectionOverFieldInjectionDetectorTest {
             @Inject Something something;
 
             }
-                """,
-                )
+                """
+                    )
                     .indented(),
             )
             .issues(ConstructorInjectionOverFieldInjectionDetector.ISSUE)
@@ -183,7 +183,7 @@ class ConstructorInjectionOverFieldInjectionDetectorTest {
                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
                     0 errors, 1 warnings
                 """
-                    .trimIndent(),
+                    .trimIndent()
             )
             .expectWarningCount(1)
     }

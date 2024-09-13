@@ -24,9 +24,7 @@ import org.jetbrains.uast.UAnnotation
 import org.jetbrains.uast.UClass
 import org.jetbrains.uast.UElement
 
-internal class MissingInstallInDetector :
-    Detector(),
-    SourceCodeScanner {
+internal class MissingInstallInDetector : Detector(), SourceCodeScanner {
     private val defaultHiltComponents =
         setOf(
             "dagger.hilt.components.SingletonComponent",
@@ -39,7 +37,8 @@ internal class MissingInstallInDetector :
             "dagger.hilt.android.components.ViewWithFragmentComponent",
         )
 
-    override fun getApplicableUastTypes(): List<Class<out UElement>> = listOf(UAnnotation::class.java)
+    override fun getApplicableUastTypes(): List<Class<out UElement>> =
+        listOf(UAnnotation::class.java)
 
     override fun createUastHandler(context: JavaContext): UElementHandler =
         object : UElementHandler() {
@@ -55,19 +54,18 @@ internal class MissingInstallInDetector :
                                 .fix(
                                     fix()
                                         .alternatives()
-                                        .apply { quickFixes(context, daggerModule).forEach { add(it) } }
-                                        .build(),
-                                ),
+                                        .apply {
+                                            quickFixes(context, daggerModule).forEach { add(it) }
+                                        }
+                                        .build()
+                                )
                         )
                     }
                 }
             }
         }
 
-    private fun quickFixes(
-        context: JavaContext,
-        classToBeAnnotated: UClass,
-    ): List<LintFix> {
+    private fun quickFixes(context: JavaContext, classToBeAnnotated: UClass): List<LintFix> {
         val customHiltComponents =
             customComponentOptions.getValue(context).orEmpty().split(",").toSet().filter {
                 it.isNotEmpty()
@@ -90,9 +88,9 @@ internal class MissingInstallInDetector :
                 name = CUSTOM_HILT_COMPONENTS_OPTION_KEY,
                 description = "A comma separated list of fully qualified custom Hilt components",
                 explanation =
-                "Hilt provides you the ability to define custom Components if the " +
-                    "preexisting ones don't work for your use case, If you have any custom Hilt components " +
-                    "defined they can be added to the quickfix suggestions with this option. ",
+                    "Hilt provides you the ability to define custom Components if the " +
+                        "preexisting ones don't work for your use case, If you have any custom Hilt components " +
+                        "defined they can be added to the quickfix suggestions with this option. ",
             )
 
         private val implementation =
@@ -100,20 +98,20 @@ internal class MissingInstallInDetector :
 
         internal val ISSUE =
             Issue.create(
-                id = "MissingInstallInAnnotation",
-                briefDescription = "Missing @InstallIn annotation",
-                explanation =
-                """
+                    id = "MissingInstallInAnnotation",
+                    briefDescription = "Missing @InstallIn annotation",
+                    explanation =
+                        """
                     Hilt modules and entry points require the `@InstallIn` annotation to be properly connected to a Component. Annotate this class with @InstallIn \
                     and the Hilt component you want to connect it to, the most commonly used Component is the `SingletonComponent`.
 
                     See https://whosnickdoglio.dev/dagger-rules/rules/#a-class-annotated-with-module-or-entrypoint-should-also-be-annotated-with-installin for more information.
                     """,
-                category = Category.CORRECTNESS,
-                priority = 5,
-                severity = Severity.ERROR,
-                implementation = implementation,
-            )
+                    category = Category.CORRECTNESS,
+                    priority = 5,
+                    severity = Severity.ERROR,
+                    implementation = implementation,
+                )
                 .setOptions(listOf(customComponentOptions))
     }
 }

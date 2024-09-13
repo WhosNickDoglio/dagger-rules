@@ -24,9 +24,7 @@ import org.jetbrains.uast.UMethod
  * A Kotlin and Java [Detector] for Dagger that warns if the parameter of a `@Binds` method is not a
  * subclass of the method return type.
  */
-internal class CorrectBindsUsageDetector :
-    Detector(),
-    SourceCodeScanner {
+internal class CorrectBindsUsageDetector : Detector(), SourceCodeScanner {
     override fun getApplicableUastTypes(): List<Class<out UElement>> =
         listOf(UAnnotation::class.java)
 
@@ -43,7 +41,7 @@ internal class CorrectBindsUsageDetector :
                                 scope = bindsMethod,
                                 location = context.getLocation(bindsMethod),
                                 message = ISSUE_BINDS_ABSTRACT.getExplanation(TextFormat.TEXT),
-                            ),
+                            )
                         )
                     }
 
@@ -57,7 +55,7 @@ internal class CorrectBindsUsageDetector :
                                 scope = bindsMethod,
                                 location = context.getLocation(bindsMethod),
                                 message = ISSUE_CORRECT_RETURN_TYPE.getExplanation(TextFormat.TEXT),
-                            ),
+                            )
                         )
                     }
                 }
@@ -73,7 +71,7 @@ internal class CorrectBindsUsageDetector :
                 id = "BindsWithCorrectReturnType",
                 briefDescription = " parameter is not a subclass of return type",
                 explanation =
-                """
+                    """
                         `@Binds` method parameters need to be a subclass of the return type. \
                         Make sure you're passing the correct parameter or the intended subclass is implementing \
                         the return type interface.
@@ -91,7 +89,7 @@ internal class CorrectBindsUsageDetector :
                 id = "BindsMustBeAbstract",
                 briefDescription = "@Binds method must be abstract",
                 explanation =
-                """
+                    """
                     A @Binds method needs to be abstract or Dagger will throw an error at compile time. \
                     See https://whosnickdoglio.dev/dagger-rules/rules/#methods-annotated-with-binds-must-be-abstract for more information.
                 """,

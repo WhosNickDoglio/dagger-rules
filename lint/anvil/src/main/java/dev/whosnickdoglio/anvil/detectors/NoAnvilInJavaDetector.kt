@@ -26,10 +26,9 @@ import org.jetbrains.uast.UAnnotation
 import org.jetbrains.uast.UElement
 import org.jetbrains.uast.kotlin.isKotlin
 
-internal class NoAnvilInJavaDetector :
-    Detector(),
-    SourceCodeScanner {
-    override fun getApplicableUastTypes(): List<Class<out UElement>> = listOf(UAnnotation::class.java)
+internal class NoAnvilInJavaDetector : Detector(), SourceCodeScanner {
+    override fun getApplicableUastTypes(): List<Class<out UElement>> =
+        listOf(UAnnotation::class.java)
 
     override fun createUastHandler(context: JavaContext): UElementHandler? {
         if (isKotlin(context.uastFile?.lang)) return null
@@ -39,7 +38,7 @@ internal class NoAnvilInJavaDetector :
                     context.report(
                         Incident(context, ISSUE)
                             .location(context.getLocation(node))
-                            .message(ISSUE.getExplanation(TextFormat.RAW)),
+                            .message(ISSUE.getExplanation(TextFormat.RAW))
                     )
                 }
             }
@@ -65,7 +64,7 @@ internal class NoAnvilInJavaDetector :
                 id = "NoAnvilJavaUsage",
                 briefDescription = "Anvil doesn't support Java",
                 explanation =
-                """
+                    """
                         Anvil works as a Kotlin compiler plugin and does not support being used from Java. \
                         You can convert this class to Kotlin so it can use Anvil annotations.
 

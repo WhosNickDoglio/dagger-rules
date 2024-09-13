@@ -18,7 +18,7 @@ class MultipleScopesDetectorTest {
             @Scope annotation class MyScope
             @Scope annotation class MyOtherScope
             """
-                .trimIndent(),
+                .trimIndent()
         )
 
     @Test
@@ -35,7 +35,7 @@ class MultipleScopesDetectorTest {
                     @MyOtherScope
                     class MyClass @Inject constructor()
                     """
-                        .trimIndent(),
+                        .trimIndent()
                 ),
             )
             .issues(MultipleScopesDetector.ISSUE)
@@ -47,7 +47,7 @@ class MultipleScopesDetectorTest {
                       ~~~~~~~
                 1 errors, 0 warnings
             """
-                    .trimIndent(),
+                    .trimIndent()
             )
             .expectErrorCount(1)
     }
@@ -65,7 +65,7 @@ class MultipleScopesDetectorTest {
                     @MyScope
                     class MyClass @Inject constructor()
                     """
-                        .trimIndent(),
+                        .trimIndent()
                 ),
             )
             .issues(MultipleScopesDetector.ISSUE)
@@ -85,7 +85,7 @@ class MultipleScopesDetectorTest {
 
                     class MyClass @Inject constructor()
                     """
-                        .trimIndent(),
+                        .trimIndent()
                 ),
             )
             .issues(MultipleScopesDetector.ISSUE)
@@ -127,7 +127,7 @@ class MultipleScopesDetectorTest {
                        }
                     }
                     """
-                        .trimIndent(),
+                        .trimIndent()
                 ),
             )
             .issues(MultipleScopesDetector.ISSUE)
@@ -142,7 +142,7 @@ class MultipleScopesDetectorTest {
                                ~~~~~~~
                     2 errors, 0 warnings
                 """
-                    .trimIndent(),
+                    .trimIndent()
             )
             .expectErrorCount(2)
     }
@@ -178,7 +178,7 @@ class MultipleScopesDetectorTest {
                        }
                     }
                     """
-                        .trimIndent(),
+                        .trimIndent()
                 ),
             )
             .issues(MultipleScopesDetector.ISSUE)
@@ -216,7 +216,7 @@ class MultipleScopesDetectorTest {
                        }
                     }
                     """
-                        .trimIndent(),
+                        .trimIndent()
                 ),
             )
             .issues(MultipleScopesDetector.ISSUE)
@@ -241,7 +241,7 @@ class MultipleScopesDetectorTest {
                         @Inject MyClass() {}
                     }
                     """
-                        .trimIndent(),
+                        .trimIndent()
                 ),
             )
             .issues(MultipleScopesDetector.ISSUE)
@@ -253,7 +253,7 @@ class MultipleScopesDetectorTest {
                           ~~~~~~~
                     1 errors, 0 warnings
                 """
-                    .trimIndent(),
+                    .trimIndent()
             )
             .expectErrorCount(1)
     }
@@ -273,7 +273,7 @@ class MultipleScopesDetectorTest {
                         @Inject MyClass() {}
                     }
                     """
-                        .trimIndent(),
+                        .trimIndent()
                 ),
             )
             .issues(MultipleScopesDetector.ISSUE)
@@ -295,7 +295,7 @@ class MultipleScopesDetectorTest {
                         @Inject MyClass() {}
                     }
                     """
-                        .trimIndent(),
+                        .trimIndent()
                 ),
             )
             .issues(MultipleScopesDetector.ISSUE)
@@ -328,7 +328,7 @@ class MultipleScopesDetectorTest {
                            }
                     }
                     """
-                        .trimIndent(),
+                        .trimIndent()
                 ),
             )
             .issues(MultipleScopesDetector.ISSUE)
@@ -340,7 +340,7 @@ class MultipleScopesDetectorTest {
                                    ~~~~~~~
                     1 errors, 0 warnings
                 """
-                    .trimIndent(),
+                    .trimIndent()
             )
             .expectErrorCount(1)
     }
@@ -370,7 +370,7 @@ class MultipleScopesDetectorTest {
                         MyInterface bind(MyClass impl);
                     }
                     """
-                        .trimIndent(),
+                        .trimIndent()
                 ),
             )
             .issues(MultipleScopesDetector.ISSUE)
@@ -382,7 +382,7 @@ class MultipleScopesDetectorTest {
                                     ~~~~
                     1 errors, 0 warnings
                 """
-                    .trimIndent(),
+                    .trimIndent()
             )
             .expectErrorCount(1)
     }
@@ -410,7 +410,7 @@ class MultipleScopesDetectorTest {
                            }
                     }
                     """
-                        .trimIndent(),
+                        .trimIndent()
                 ),
             )
             .issues(MultipleScopesDetector.ISSUE)
@@ -443,7 +443,7 @@ class MultipleScopesDetectorTest {
                         MyInterface bind(MyClass impl);
                     }
                     """
-                        .trimIndent(),
+                        .trimIndent()
                 ),
             )
             .issues(MultipleScopesDetector.ISSUE)
@@ -473,7 +473,7 @@ class MultipleScopesDetectorTest {
                            }
                     }
                     """
-                        .trimIndent(),
+                        .trimIndent()
                 ),
             )
             .issues(MultipleScopesDetector.ISSUE)
@@ -504,7 +504,7 @@ class MultipleScopesDetectorTest {
                         MyInterface bind(MyClass impl);
                     }
                     """
-                        .trimIndent(),
+                        .trimIndent()
                 ),
             )
             .issues(MultipleScopesDetector.ISSUE)

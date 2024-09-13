@@ -17,7 +17,7 @@ class MissingContributesToDetectorTest {
             .files(
                 daggerAnnotations,
                 TestFiles.kotlin(
-                    """
+                        """
                 import dagger.Module
                 import dagger.Provides
 
@@ -29,8 +29,8 @@ class MissingContributesToDetectorTest {
                 @Provides fun provideAnotherThing(): Int = 1
 
                 }
-            """,
-                )
+            """
+                    )
                     .indented(),
             )
             .issues(MissingContributesToDetector.ISSUE)
@@ -42,7 +42,7 @@ class MissingContributesToDetectorTest {
                           ~~~~~~~~
                     1 errors, 0 warnings
                 """
-                    .trimIndent(),
+                    .trimIndent()
             )
             .expectErrorCount(1)
             .expectFixDiffs(
@@ -51,7 +51,7 @@ class MissingContributesToDetectorTest {
                     @@ -4 +4
                     + @com.squareup.anvil.annotations.ContributesTo
                 """
-                    .trimIndent(),
+                    .trimIndent()
             )
     }
 
@@ -62,7 +62,7 @@ class MissingContributesToDetectorTest {
                 daggerAnnotations,
                 anvilAnnotations,
                 TestFiles.kotlin(
-                    """
+                        """
                 import dagger.Module
                 import dagger.Provides
                 import com.squareup.anvil.annotations.ContributesTo
@@ -76,8 +76,8 @@ class MissingContributesToDetectorTest {
                 @Provides fun provideAnotherThing(): Int = 1
 
                 }
-            """,
-                )
+            """
+                    )
                     .indented(),
             )
             .issues(MissingContributesToDetector.ISSUE)
@@ -93,7 +93,7 @@ class MissingContributesToDetectorTest {
                 daggerAnnotations,
                 anvilAnnotations,
                 TestFiles.kotlin(
-                    """
+                        """
                 import dagger.Module
                 import dagger.Binds
 
@@ -111,8 +111,8 @@ class MissingContributesToDetectorTest {
                 @Binds fun provideMyOtherThing(impl: MyOtherThingImpl): OtherThing
 
                 }
-            """,
-                )
+            """
+                    )
                     .indented(),
             )
             .issues(MissingContributesToDetector.ISSUE)
@@ -124,7 +124,7 @@ class MissingContributesToDetectorTest {
                               ~~~~~~~~
                     1 errors, 0 warnings
                 """
-                    .trimIndent(),
+                    .trimIndent()
             )
             .expectErrorCount(1)
             .expectFixDiffs(
@@ -133,7 +133,7 @@ class MissingContributesToDetectorTest {
                     @@ -10 +10
                     + @com.squareup.anvil.annotations.ContributesTo
                 """
-                    .trimIndent(),
+                    .trimIndent()
             )
     }
 
@@ -144,7 +144,7 @@ class MissingContributesToDetectorTest {
                 daggerAnnotations,
                 anvilAnnotations,
                 TestFiles.kotlin(
-                    """
+                        """
                 import dagger.Module
                 import dagger.Binds
                 import com.squareup.anvil.annotations.ContributesTo
@@ -162,8 +162,8 @@ class MissingContributesToDetectorTest {
 
                     @Binds fun provideMyOtherThing(impl: MyOtherThingImpl): OtherThing
                 }
-            """,
-                )
+            """
+                    )
                     .indented(),
             )
             .issues(MissingContributesToDetector.ISSUE)
@@ -179,7 +179,7 @@ class MissingContributesToDetectorTest {
                 daggerAnnotations,
                 anvilAnnotations,
                 TestFiles.kotlin(
-                    """
+                        """
                 import dagger.Module
                 import dagger.Binds
                 import com.squareup.anvil.annotations.ContributesTo
@@ -197,8 +197,8 @@ class MissingContributesToDetectorTest {
                         @Provides fun provideSomething(): String = "Hello world"
                     }
                 }
-            """,
-                )
+            """
+                    )
                     .indented(),
             )
             .issues(MissingContributesToDetector.ISSUE)
@@ -214,7 +214,7 @@ class MissingContributesToDetectorTest {
                 daggerAnnotations,
                 anvilAnnotations,
                 TestFiles.kotlin(
-                    """
+                        """
                 import dagger.Module
                 import dagger.Binds
 
@@ -230,8 +230,8 @@ class MissingContributesToDetectorTest {
                         @Provides fun provideSomething(): String = "Hell World"
                     }
                 }
-            """,
-                )
+            """
+                    )
                     .indented(),
             )
             .issues(MissingContributesToDetector.ISSUE)
@@ -243,7 +243,7 @@ class MissingContributesToDetectorTest {
                               ~~~~~~~~
                     1 errors, 0 warnings
                 """
-                    .trimIndent(),
+                    .trimIndent()
             )
             .expectErrorCount(1)
             .expectFixDiffs(
@@ -252,7 +252,7 @@ class MissingContributesToDetectorTest {
                     @@ -7 +7
                     + @com.squareup.anvil.annotations.ContributesTo
                 """
-                    .trimIndent(),
+                    .trimIndent()
             )
     }
 
@@ -262,7 +262,7 @@ class MissingContributesToDetectorTest {
             .files(
                 daggerAnnotations,
                 TestFiles.java(
-                    """
+                        """
                 import dagger.Module;
                 import dagger.Provides;
 
@@ -275,8 +275,8 @@ class MissingContributesToDetectorTest {
                         return "Hello World";
                     }
                 }
-            """,
-                )
+            """
+                    )
                     .indented(),
             )
             .issues(MissingContributesToDetector.ISSUE)
@@ -292,7 +292,7 @@ class MissingContributesToDetectorTest {
                 daggerAnnotations,
                 anvilAnnotations,
                 TestFiles.java(
-                    """
+                        """
                 import dagger.Module;
                 import dagger.Binds;
 
@@ -305,8 +305,8 @@ class MissingContributesToDetectorTest {
                     @Binds
                     MyThing provideMyThing(MyThingImpl impl);
                 }
-            """,
-                )
+            """
+                    )
                     .indented(),
             )
             .issues(MissingContributesToDetector.ISSUE)

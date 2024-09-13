@@ -13,31 +13,31 @@ import org.junit.Test
 class FavorContributesBindingOverBindsDetectorTest {
     private val myThingStubs =
         TestFiles.kotlin(
-            """
+                """
                 interface MyThing
                 class MyThingImpl: MyThing
-                """,
-        )
+                """
+            )
             .indented()
 
     private val pizzaMakerStubs =
         TestFiles.kotlin(
-            """
+                """
                     interface PizzaMaker
                     class PizzaMakerImpl: PizzaMaker
-                    """,
-        )
+                    """
+            )
             .indented()
 
     private val multibindingStubs =
         TestFiles.kotlin(
-            """
+                """
             interface JsonAdapter
 
             class BasketballJsonAdapter: JsonAdapter
             class BaseballJsonAdapter: JsonAdapter
-    """,
-        )
+    """
+            )
             .indented()
 
     @Test
@@ -48,7 +48,7 @@ class FavorContributesBindingOverBindsDetectorTest {
                 myThingStubs,
                 pizzaMakerStubs,
                 TestFiles.kotlin(
-                    """
+                        """
                 import dagger.Module
                 import dagger.Binds
 
@@ -60,8 +60,8 @@ class FavorContributesBindingOverBindsDetectorTest {
                     @Binds
                     fun providePizzaMaker(impl: PizzaMakerImpl): PizzaMaker
                 }
-            """,
-                )
+            """
+                    )
                     .indented(),
             )
             .issues(FavorContributesBindingOverBindsDetector.ISSUE)
@@ -76,7 +76,7 @@ class FavorContributesBindingOverBindsDetectorTest {
                             ~~~~~~~~~~~~~~~~~
                     0 errors, 2 warnings
                 """
-                    .trimIndent(),
+                    .trimIndent()
             )
             .expectWarningCount(2)
     }
@@ -89,7 +89,7 @@ class FavorContributesBindingOverBindsDetectorTest {
                 myThingStubs,
                 pizzaMakerStubs,
                 TestFiles.kotlin(
-                    """
+                        """
                 import dagger.Module
                 import dagger.Binds
 
@@ -107,8 +107,8 @@ class FavorContributesBindingOverBindsDetectorTest {
                         @Provides fun provideAnotherThing(): Int = 1
                     }
                 }
-            """,
-                )
+            """
+                    )
                     .indented(),
             )
             .issues(FavorContributesBindingOverBindsDetector.ISSUE)
@@ -123,7 +123,7 @@ class FavorContributesBindingOverBindsDetectorTest {
                             ~~~~~~~~~~~~~~~~~
                     0 errors, 2 warnings
                 """
-                    .trimIndent(),
+                    .trimIndent()
             )
             .expectWarningCount(2)
     }
@@ -136,7 +136,7 @@ class FavorContributesBindingOverBindsDetectorTest {
                 myThingStubs,
                 pizzaMakerStubs,
                 TestFiles.java(
-                    """
+                        """
                 import dagger.Module;
                 import dagger.Binds;
 
@@ -148,8 +148,8 @@ class FavorContributesBindingOverBindsDetectorTest {
                     @Binds
                     PizzaMaker providePizzaMaker(PizzaMakerImpl impl);
                 }
-            """,
-                )
+            """
+                    )
                     .indented(),
             )
             .issues(FavorContributesBindingOverBindsDetector.ISSUE)
@@ -166,7 +166,7 @@ class FavorContributesBindingOverBindsDetectorTest {
                 daggerMultibindingAnnotations,
                 multibindingStubs,
                 TestFiles.kotlin(
-                    """
+                        """
                 import dagger.Module
                 import dagger.Binds
                 import dagger.multibindings.IntoMap
@@ -181,8 +181,8 @@ class FavorContributesBindingOverBindsDetectorTest {
                     @Binds @IntoMap @StringKey("basketball")
                     fun basketball(impl: BasketballJsonAdapter): JsonAdapter
                 }
-            """,
-                )
+            """
+                    )
                     .indented(),
             )
             .issues(FavorContributesBindingOverBindsDetector.ISSUE)
@@ -197,7 +197,7 @@ class FavorContributesBindingOverBindsDetectorTest {
                         ~~~~~~~~~~
                 0 errors, 2 warnings
             """
-                    .trimIndent(),
+                    .trimIndent()
             )
             .expectWarningCount(2)
     }
@@ -210,7 +210,7 @@ class FavorContributesBindingOverBindsDetectorTest {
                 daggerMultibindingAnnotations,
                 multibindingStubs,
                 TestFiles.kotlin(
-                    """
+                        """
                 import dagger.Module
                 import dagger.Binds
                 import dagger.multibindings.IntoSet
@@ -224,8 +224,8 @@ class FavorContributesBindingOverBindsDetectorTest {
                     @Binds @IntoSet
                     fun basketball(impl: BasketballJsonAdapter): JsonAdapter
                 }
-            """,
-                )
+            """
+                    )
                     .indented(),
             )
             .issues(FavorContributesBindingOverBindsDetector.ISSUE)
@@ -240,7 +240,7 @@ class FavorContributesBindingOverBindsDetectorTest {
                         ~~~~~~~~~~
                 0 errors, 2 warnings
             """
-                    .trimIndent(),
+                    .trimIndent()
             )
             .expectWarningCount(2)
     }
@@ -251,7 +251,7 @@ class FavorContributesBindingOverBindsDetectorTest {
             .files(
                 daggerAnnotations,
                 TestFiles.kotlin(
-                    """
+                        """
                 import dagger.Module
                 import dagger.Binds
 
@@ -264,8 +264,8 @@ class FavorContributesBindingOverBindsDetectorTest {
                     @Binds @IntoSet
                     fun baseball(impl: MyAdapter): Adapter<String>
                 }
-            """,
-                )
+            """
+                    )
                     .indented(),
             )
             .issues(FavorContributesBindingOverBindsDetector.ISSUE)
@@ -282,7 +282,7 @@ class FavorContributesBindingOverBindsDetectorTest {
                 daggerMultibindingAnnotations,
                 multibindingStubs,
                 TestFiles.java(
-                    """
+                        """
                 import dagger.Module;
                 import dagger.Binds;
                 import dagger.multibindings.IntoMap;
@@ -297,8 +297,8 @@ class FavorContributesBindingOverBindsDetectorTest {
                     @Binds @IntoMap @StringKey("basketball")
                     JsonAdapter basketball(BasketballJsonAdapter impl);
                 }
-            """,
-                )
+            """
+                    )
                     .indented(),
             )
             .issues(FavorContributesBindingOverBindsDetector.ISSUE)
@@ -315,7 +315,7 @@ class FavorContributesBindingOverBindsDetectorTest {
                 daggerMultibindingAnnotations,
                 multibindingStubs,
                 TestFiles.java(
-                    """
+                        """
                 import dagger.Module;
                 import dagger.Binds;
                 import dagger.multibindings.IntoSet;
@@ -329,8 +329,8 @@ class FavorContributesBindingOverBindsDetectorTest {
                     @Binds @IntoSet
                     JsonAdapter basketball(BasketballJsonAdapter impl);
                 }
-            """,
-                )
+            """
+                    )
                     .indented(),
             )
             .issues(FavorContributesBindingOverBindsDetector.ISSUE)

@@ -26,9 +26,7 @@ import org.jetbrains.uast.resolveToUElement
  * A Lint rule that warns if a class is annotated with any scope annotation but does not have a
  * `@Inject` annotation on any constructor that it will not be added to the Dagger graph.
  */
-internal class ScopedWithoutInjectAnnotationDetector :
-    Detector(),
-    SourceCodeScanner {
+internal class ScopedWithoutInjectAnnotationDetector : Detector(), SourceCodeScanner {
     override fun getApplicableUastTypes(): List<Class<out UElement>> = listOf(UClass::class.java)
 
     override fun createUastHandler(context: JavaContext): UElementHandler =
@@ -65,13 +63,13 @@ internal class ScopedWithoutInjectAnnotationDetector :
                                     location = context.getLocation(annotation),
                                     message = ISSUE.getExplanation(TextFormat.TEXT),
                                     fix =
-                                    fix()
-                                        .name("Remove unnecessary scope annotation")
-                                        .replace()
-                                        .text(annotation.asRenderString())
-                                        .with("")
-                                        .build(),
-                                ),
+                                        fix()
+                                            .name("Remove unnecessary scope annotation")
+                                            .replace()
+                                            .text(annotation.asRenderString())
+                                            .with("")
+                                            .build(),
+                                )
                             )
                         }
                     }
@@ -88,8 +86,8 @@ internal class ScopedWithoutInjectAnnotationDetector :
                 id = "ScopedWithoutInjection",
                 briefDescription = "Class is scoped without using the `@Inject` annotation",
                 explanation =
-                "Without the `@Inject` annotation this class is not added to the " +
-                    "DI graph which means the scope annotation doesn't do anything.",
+                    "Without the `@Inject` annotation this class is not added to the " +
+                        "DI graph which means the scope annotation doesn't do anything.",
                 category = Category.CORRECTNESS,
                 priority = 5,
                 severity = Severity.ERROR,

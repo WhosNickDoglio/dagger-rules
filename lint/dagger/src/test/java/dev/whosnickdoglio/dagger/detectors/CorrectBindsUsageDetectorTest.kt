@@ -12,12 +12,12 @@ import org.junit.Test
 class CorrectBindsUsageDetectorTest {
     private val pizzaMakerStubs =
         TestFiles.kotlin(
-            """
+                """
                     interface PizzaMaker
                     class PizzaMakerImpl: PizzaMaker
                     class NotAPizzaMaker
-                    """,
-        )
+                    """
+            )
             .indented()
 
     private val repositoryStubs =
@@ -27,7 +27,7 @@ class CorrectBindsUsageDetectorTest {
                 class InMemoryRepository : Repository
                 class NotARepository
                 """
-                .trimIndent(),
+                .trimIndent()
         )
 
     @Test
@@ -38,7 +38,7 @@ class CorrectBindsUsageDetectorTest {
                 pizzaMakerStubs,
                 repositoryStubs,
                 TestFiles.java(
-                    """
+                        """
                     import dagger.Module;
                     import dagger.Binds;
 
@@ -49,8 +49,8 @@ class CorrectBindsUsageDetectorTest {
 
                         @Binds Repository bindsRepository(InMemoryRepository impl);
                     }
-                """,
-                )
+                """
+                    )
                     .indented(),
             )
             .issues(CorrectBindsUsageDetector.ISSUE_CORRECT_RETURN_TYPE)
@@ -67,7 +67,7 @@ class CorrectBindsUsageDetectorTest {
                 pizzaMakerStubs,
                 repositoryStubs,
                 TestFiles.java(
-                    """
+                        """
                     import dagger.Module;
                     import dagger.Binds;
 
@@ -78,8 +78,8 @@ class CorrectBindsUsageDetectorTest {
 
                         @Binds Repository bindsRepository(NotARepository impl);
                     }
-                """,
-                )
+                """
+                    )
                     .indented(),
             )
             .issues(CorrectBindsUsageDetector.ISSUE_CORRECT_RETURN_TYPE)
@@ -98,7 +98,7 @@ class CorrectBindsUsageDetectorTest {
                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
                     2 errors, 0 warnings
                 """
-                    .trimIndent(),
+                    .trimIndent()
             )
             .expectErrorCount(2)
     }
@@ -111,7 +111,7 @@ class CorrectBindsUsageDetectorTest {
                 pizzaMakerStubs,
                 repositoryStubs,
                 TestFiles.kotlin(
-                    """
+                        """
 
                     @Module
                     interface MyModule {
@@ -120,8 +120,8 @@ class CorrectBindsUsageDetectorTest {
 
                         @Binds fun bindsRepository(impl: InMemoryRepository): Repository
                     }
-                """,
-                )
+                """
+                    )
                     .indented(),
             )
             .issues(CorrectBindsUsageDetector.ISSUE_CORRECT_RETURN_TYPE)
@@ -138,7 +138,7 @@ class CorrectBindsUsageDetectorTest {
                 pizzaMakerStubs,
                 repositoryStubs,
                 TestFiles.kotlin(
-                    """
+                        """
                     import dagger.Module
                     import dagger.Binds
 
@@ -147,8 +147,8 @@ class CorrectBindsUsageDetectorTest {
 
                         @Binds fun bindsPizzaMaker(impl: NotAPizzaMaker): PizzaMaker
                     }
-                """,
-                )
+                """
+                    )
                     .indented(),
             )
             .issues(CorrectBindsUsageDetector.ISSUE_CORRECT_RETURN_TYPE)
@@ -162,7 +162,7 @@ class CorrectBindsUsageDetectorTest {
                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
                     1 errors, 0 warnings
                 """
-                    .trimIndent(),
+                    .trimIndent()
             )
             .expectErrorCount(1)
     }
@@ -174,7 +174,7 @@ class CorrectBindsUsageDetectorTest {
                 daggerAnnotations,
                 pizzaMakerStubs,
                 TestFiles.kotlin(
-                    """
+                        """
                     import dagger.Module
                     import dagger.Binds
 
@@ -183,8 +183,8 @@ class CorrectBindsUsageDetectorTest {
 
                         @Binds fun PizzaMakerImpl.bindPizzaMaker(): PizzaMaker
                     }
-                """,
-                )
+                """
+                    )
                     .indented(),
             )
             .issues(CorrectBindsUsageDetector.ISSUE_CORRECT_RETURN_TYPE)
@@ -200,7 +200,7 @@ class CorrectBindsUsageDetectorTest {
                 daggerAnnotations,
                 pizzaMakerStubs,
                 TestFiles.kotlin(
-                    """
+                        """
                     import dagger.Module
                     import dagger.Binds
 
@@ -209,8 +209,8 @@ class CorrectBindsUsageDetectorTest {
 
                         @Binds fun NotPizzaMaker.bindPizzaMaker(): PizzaMaker
                     }
-                """,
-                )
+                """
+                    )
                     .indented(),
             )
             .issues(CorrectBindsUsageDetector.ISSUE_CORRECT_RETURN_TYPE)
@@ -224,7 +224,7 @@ class CorrectBindsUsageDetectorTest {
                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
                     1 errors, 0 warnings
                 """
-                    .trimIndent(),
+                    .trimIndent()
             )
             .expectErrorCount(1)
     }
@@ -236,7 +236,7 @@ class CorrectBindsUsageDetectorTest {
                 daggerAnnotations,
                 pizzaMakerStubs,
                 TestFiles.kotlin(
-                    """
+                        """
                     import dagger.Module
                     import dagger.Binds
 
@@ -245,8 +245,8 @@ class CorrectBindsUsageDetectorTest {
 
                         @Binds fun bindPizzaMaker(): PizzaMaker = PizzaMakerImpl()
                     }
-                """,
-                )
+                """
+                    )
                     .indented(),
             )
             .issues(CorrectBindsUsageDetector.ISSUE_BINDS_ABSTRACT)
@@ -258,7 +258,7 @@ class CorrectBindsUsageDetectorTest {
                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
                     1 errors, 0 warnings
                 """
-                    .trimIndent(),
+                    .trimIndent()
             )
             .expectErrorCount(1)
     }
@@ -270,7 +270,7 @@ class CorrectBindsUsageDetectorTest {
                 daggerAnnotations,
                 pizzaMakerStubs,
                 TestFiles.java(
-                    """
+                        """
                     import dagger.Module;
                     import dagger.Binds;
 
@@ -281,8 +281,8 @@ class CorrectBindsUsageDetectorTest {
                             return PizzaMakerImpl();
                         }
                     }
-                """,
-                )
+                """
+                    )
                     .indented(),
             )
             .issues(CorrectBindsUsageDetector.ISSUE_BINDS_ABSTRACT)
@@ -294,7 +294,7 @@ class CorrectBindsUsageDetectorTest {
                         ^
                     1 errors, 0 warnings
                 """
-                    .trimIndent(),
+                    .trimIndent()
             )
             .expectErrorCount(1)
     }
@@ -307,7 +307,7 @@ class CorrectBindsUsageDetectorTest {
                 pizzaMakerStubs,
                 repositoryStubs,
                 TestFiles.kotlin(
-                    """
+                        """
                     import dagger.Module
                     import dagger.Binds
 
@@ -318,8 +318,8 @@ class CorrectBindsUsageDetectorTest {
 
                         @Binds fun bindsRepository(impl: InMemoryRepository)
                     }
-                """,
-                )
+                """
+                    )
                     .indented(),
             )
             .issues(CorrectBindsUsageDetector.ISSUE_CORRECT_RETURN_TYPE)
@@ -338,7 +338,7 @@ class CorrectBindsUsageDetectorTest {
                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
                 2 errors, 0 warnings
             """
-                    .trimIndent(),
+                    .trimIndent()
             )
             .expectErrorCount(2)
     }
@@ -350,7 +350,7 @@ class CorrectBindsUsageDetectorTest {
                 daggerAnnotations,
                 repositoryStubs,
                 TestFiles.java(
-                    """
+                        """
                     import dagger.Module;
                     import dagger.Binds;
 
@@ -358,8 +358,8 @@ class CorrectBindsUsageDetectorTest {
                     interface MyModule {
                         @Binds Void bindsRepository(InMemoryRepository impl);
                     }
-                """,
-                )
+                """
+                    )
                     .indented(),
             )
             .issues(CorrectBindsUsageDetector.ISSUE_CORRECT_RETURN_TYPE)
@@ -373,7 +373,7 @@ class CorrectBindsUsageDetectorTest {
                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
                 1 errors, 0 warnings
             """
-                    .trimIndent(),
+                    .trimIndent()
             )
             .expectErrorCount(1)
     }

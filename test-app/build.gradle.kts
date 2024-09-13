@@ -80,12 +80,12 @@ spotless {
     }
 
     kotlin {
-        ktlint(libs.versions.ktlint.get())
+        ktfmt("0.52").kotlinlangStyle()
         trimTrailingWhitespace()
         endWithNewline()
     }
     kotlinGradle {
-        ktlint(libs.versions.ktlint.get())
+        ktfmt("0.52").kotlinlangStyle()
         trimTrailingWhitespace()
         endWithNewline()
     }

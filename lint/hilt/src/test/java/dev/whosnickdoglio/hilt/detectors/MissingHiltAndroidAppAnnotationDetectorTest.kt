@@ -16,19 +16,19 @@ class MissingHiltAndroidAppAnnotationDetectorTest {
             .files(
                 *hiltAnnotations,
                 TestFiles.kotlin(
-                    """
+                        """
                     package android.app
                     class Application
-                """,
-                )
+                """
+                    )
                     .indented(),
                 TestFiles.java(
-                    """
+                        """
                 import android.app.Application;
 
                 class MyApplication extends Application {}
-            """,
-                )
+            """
+                    )
                     .indented(),
             )
             .issues(MissingHiltAndroidAppAnnotationDetector.ISSUE)
@@ -40,7 +40,7 @@ class MissingHiltAndroidAppAnnotationDetectorTest {
                           ~~~~~~~~~~~~~
                     1 errors, 0 warnings
                 """
-                    .trimIndent(),
+                    .trimIndent()
             )
             .expectErrorCount(1)
             .expectFixDiffs(
@@ -49,7 +49,7 @@ class MissingHiltAndroidAppAnnotationDetectorTest {
                     @@ -3 +3
                     + @dagger.hilt.android.HiltAndroidApp
                 """
-                    .trimIndent(),
+                    .trimIndent()
             )
     }
 
@@ -59,21 +59,21 @@ class MissingHiltAndroidAppAnnotationDetectorTest {
             .files(
                 *hiltAnnotations,
                 TestFiles.kotlin(
-                    """
+                        """
                     package android.app
                     class Application
-                """,
-                )
+                """
+                    )
                     .indented(),
                 TestFiles.java(
-                    """
+                        """
                 import android.app.Application;
                 import $HILT_ANDROID_APP;
 
                 @${HILT_ANDROID_APP.substringAfterLast(".")}
                 class MyApplication extends Application {}
-            """,
-                )
+            """
+                    )
                     .indented(),
             )
             .issues(MissingHiltAndroidAppAnnotationDetector.ISSUE)
@@ -88,19 +88,19 @@ class MissingHiltAndroidAppAnnotationDetectorTest {
             .files(
                 *hiltAnnotations,
                 TestFiles.kotlin(
-                    """
+                        """
                     package android.app
                     class Application
-                """,
-                )
+                """
+                    )
                     .indented(),
                 TestFiles.kotlin(
-                    """
+                        """
                 import android.app.Application
 
                 class MyApplication : Application
-            """,
-                )
+            """
+                    )
                     .indented(),
             )
             .issues(MissingHiltAndroidAppAnnotationDetector.ISSUE)
@@ -112,7 +112,7 @@ class MissingHiltAndroidAppAnnotationDetectorTest {
                           ~~~~~~~~~~~~~
                     1 errors, 0 warnings
                 """
-                    .trimIndent(),
+                    .trimIndent()
             )
             .expectErrorCount(1)
             .expectFixDiffs(
@@ -121,7 +121,7 @@ class MissingHiltAndroidAppAnnotationDetectorTest {
                     @@ -3 +3
                     + @dagger.hilt.android.HiltAndroidApp
                 """
-                    .trimIndent(),
+                    .trimIndent()
             )
     }
 
@@ -131,21 +131,21 @@ class MissingHiltAndroidAppAnnotationDetectorTest {
             .files(
                 *hiltAnnotations,
                 TestFiles.kotlin(
-                    """
+                        """
                     package android.app
                     class Application
-                """,
-                )
+                """
+                    )
                     .indented(),
                 TestFiles.kotlin(
-                    """
+                        """
                 import android.app.Application
                 import $HILT_ANDROID_APP
 
                 @${HILT_ANDROID_APP.substringAfterLast(".")}
                 class MyApplication : Application
-            """,
-                )
+            """
+                    )
                     .indented(),
             )
             .issues(MissingHiltAndroidAppAnnotationDetector.ISSUE)

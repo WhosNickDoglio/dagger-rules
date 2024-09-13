@@ -18,7 +18,7 @@ import org.junit.runner.RunWith
 class ScopedWithoutInjectAnnotationDetectorTest {
     @Test
     fun `kotlin scoped class without inject annotation triggers error message`(
-        @TestParameter scopeFile: ScopeTestFile,
+        @TestParameter scopeFile: ScopeTestFile
     ) {
         TestLintTask.lint()
             .files(javaxAnnotations, scopeFile.file, TestFiles.kotlin("@MyScope class MyClass"))
@@ -31,7 +31,7 @@ class ScopedWithoutInjectAnnotationDetectorTest {
                     ~~~~~~~~
                     1 errors, 0 warnings
                 """
-                    .trimIndent(),
+                    .trimIndent()
             )
             .expectErrorCount(1)
             .expectFixDiffs(
@@ -41,13 +41,13 @@ class ScopedWithoutInjectAnnotationDetectorTest {
                     - @MyScope class MyClass
                     +  class MyClass
                 """
-                    .trimIndent(),
+                    .trimIndent()
             )
     }
 
     @Test
     fun `java scoped class without inject annotation triggers error message`(
-        @TestParameter scopeFile: ScopeTestFile,
+        @TestParameter scopeFile: ScopeTestFile
     ) {
         TestLintTask.lint()
             .files(javaxAnnotations, scopeFile.file, TestFiles.java("@MyScope class MyClass {}"))
@@ -60,7 +60,7 @@ class ScopedWithoutInjectAnnotationDetectorTest {
                     ~~~~~~~~
                     1 errors, 0 warnings
                 """
-                    .trimIndent(),
+                    .trimIndent()
             )
             .expectFixDiffs(
                 """
@@ -69,13 +69,13 @@ class ScopedWithoutInjectAnnotationDetectorTest {
                     - @MyScope class MyClass {}
                     +  class MyClass {}
                 """
-                    .trimIndent(),
+                    .trimIndent()
             )
     }
 
     @Test
     fun `kotlin scoped class with inject annotation does not trigger error message`(
-        @TestParameter scopeFile: ScopeTestFile,
+        @TestParameter scopeFile: ScopeTestFile
     ) {
         TestLintTask.lint()
             .files(
@@ -87,7 +87,7 @@ class ScopedWithoutInjectAnnotationDetectorTest {
 
                 @MyScope class MyClass @Inject constructor()
                     """
-                        .trimIndent(),
+                        .trimIndent()
                 ),
             )
             .issues(ScopedWithoutInjectAnnotationDetector.ISSUE)
@@ -98,7 +98,7 @@ class ScopedWithoutInjectAnnotationDetectorTest {
 
     @Test
     fun `java scoped class with inject annotation does not trigger error message`(
-        @TestParameter scopeFile: ScopeTestFile,
+        @TestParameter scopeFile: ScopeTestFile
     ) {
         TestLintTask.lint()
             .files(
@@ -113,7 +113,7 @@ class ScopedWithoutInjectAnnotationDetectorTest {
                         @Inject public MyClass() {}
                     }
                 """
-                        .trimIndent(),
+                        .trimIndent()
                 ),
             )
             .issues(ScopedWithoutInjectAnnotationDetector.ISSUE)
@@ -132,7 +132,7 @@ class ScopedWithoutInjectAnnotationDetectorTest {
 
                     class MyClass @Inject constructor()
                 """
-                        .trimIndent(),
+                        .trimIndent()
                 ),
             )
             .issues(ScopedWithoutInjectAnnotationDetector.ISSUE)
@@ -154,7 +154,7 @@ class ScopedWithoutInjectAnnotationDetectorTest {
                         @Inject public MyClass() {}
                     }
                 """
-                        .trimIndent(),
+                        .trimIndent()
                 ),
             )
             .issues(ScopedWithoutInjectAnnotationDetector.ISSUE)
@@ -183,7 +183,7 @@ class ScopedWithoutInjectAnnotationDetectorTest {
 
     @Test
     fun `kotlin @Component definition with a scope does not show an error message`(
-        @TestParameter scopeFile: ScopeTestFile,
+        @TestParameter scopeFile: ScopeTestFile
     ) {
         TestLintTask.lint()
             .files(
@@ -196,7 +196,7 @@ class ScopedWithoutInjectAnnotationDetectorTest {
 
                 @MyScope @Component interface MyComponent
             """
-                        .trimIndent(),
+                        .trimIndent()
                 ),
             )
             .issues(ScopedWithoutInjectAnnotationDetector.ISSUE)
@@ -207,7 +207,7 @@ class ScopedWithoutInjectAnnotationDetectorTest {
 
     @Test
     fun `java @Component definition with a scope does not show an error message`(
-        @TestParameter scopeFile: ScopeTestFile,
+        @TestParameter scopeFile: ScopeTestFile
     ) {
         TestLintTask.lint()
             .files(
@@ -220,7 +220,7 @@ class ScopedWithoutInjectAnnotationDetectorTest {
 
                 @MyScope @Component interface MyComponent {}
             """
-                        .trimIndent(),
+                        .trimIndent()
                 ),
             )
             .issues(ScopedWithoutInjectAnnotationDetector.ISSUE)
@@ -238,8 +238,8 @@ enum class ScopeTestFile(val file: TestFile) {
         import javax.inject.Scope
         @Scope annotation class MyScope
         """
-                .trimIndent(),
-        ),
+                .trimIndent()
+        )
     ),
     JAVA(
         TestFiles.java(
@@ -249,7 +249,7 @@ enum class ScopeTestFile(val file: TestFile) {
         @Scope
         public @interface MyScope {}
         """
-                .trimIndent(),
-        ),
+                .trimIndent()
+        )
     ),
 }

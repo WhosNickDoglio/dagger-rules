@@ -21,17 +21,14 @@ import org.jetbrains.uast.UAnnotation
 import org.jetbrains.uast.UClass
 import org.jetbrains.uast.UElement
 
-internal class EntryPointMustBeAnInterfaceDetector :
-    Detector(),
-    SourceCodeScanner {
+internal class EntryPointMustBeAnInterfaceDetector : Detector(), SourceCodeScanner {
     private val oldClassPattern =
-        (
-            "(object|abstract\\s+class|enum\\s+class|annotation\\s+class|" +
-                "sealed\\s+class|data\\s+class|enum|class)"
-            )
+        ("(object|abstract\\s+class|enum\\s+class|annotation\\s+class|" +
+                "sealed\\s+class|data\\s+class|enum|class)")
             .toRegex()
 
-    override fun getApplicableUastTypes(): List<Class<out UElement>> = listOf(UAnnotation::class.java)
+    override fun getApplicableUastTypes(): List<Class<out UElement>> =
+        listOf(UAnnotation::class.java)
 
     override fun createUastHandler(context: JavaContext): UElementHandler =
         object : UElementHandler() {
@@ -50,8 +47,8 @@ internal class EntryPointMustBeAnInterfaceDetector :
                                         .name("Make ${entryPoint.name} an interface")
                                         .pattern(oldClassPattern.toString())
                                         .with("interface")
-                                        .build(),
-                                ),
+                                        .build()
+                                )
                         )
                     }
                 }
@@ -67,7 +64,7 @@ internal class EntryPointMustBeAnInterfaceDetector :
                 id = "EntryPointMustBeAnInterface",
                 briefDescription = "Hilt entry points must be interfaces",
                 explanation =
-                """
+                    """
                     The `@EntryPoint` annotation can only be applied to `interfaces`, trying to apply it to anything else will cause an error at compile time.
 
                     See https://whosnickdoglio.dev/dagger-rules/rules/#the-entrypoint-annotation-can-only-be-applied-to-interfaces for more information.

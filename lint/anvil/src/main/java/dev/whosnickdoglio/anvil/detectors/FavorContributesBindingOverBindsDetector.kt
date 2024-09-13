@@ -27,9 +27,7 @@ import org.jetbrains.uast.kotlin.isKotlin
  * `@ContributesBinding` or `@ContributesMultibinding` annotations instead of using a Dagger
  * `@Module` to bind the implementation to an interface.
  */
-internal class FavorContributesBindingOverBindsDetector :
-    Detector(),
-    SourceCodeScanner {
+internal class FavorContributesBindingOverBindsDetector : Detector(), SourceCodeScanner {
     override fun getApplicableUastTypes(): List<Class<out UElement>> =
         listOf(UAnnotation::class.java)
 
@@ -48,15 +46,13 @@ internal class FavorContributesBindingOverBindsDetector :
                             context.report(
                                 Incident(context, ISSUE)
                                     .location(context.getLocation(node.uastParent))
-                                    .message(
-                                        "You can use `@ContributesMultibinding` over `@Binds`",
-                                    ),
+                                    .message("You can use `@ContributesMultibinding` over `@Binds`")
                             )
                         } else {
                             context.report(
                                 Incident(context, ISSUE)
                                     .location(context.getLocation(node.uastParent))
-                                    .message("You can use `@ContributesBinding` over `@Binds`"),
+                                    .message("You can use `@ContributesBinding` over `@Binds`")
                             )
                         }
                     }

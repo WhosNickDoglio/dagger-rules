@@ -29,7 +29,7 @@ class ContributesBindingMustHaveSuperDetectorTest {
                 anvilAnnotations,
                 javaxAnnotations,
                 TestFiles.kotlin(
-                    """
+                        """
                     import javax.inject.Inject
                     import $annotation
 
@@ -37,8 +37,8 @@ class ContributesBindingMustHaveSuperDetectorTest {
 
                     @${annotation.substringAfterLast(".")}(AppScope::class)
                     class AuthenticatorImpl @Inject constructor(): Authenticator
-                    """,
-                )
+                    """
+                    )
                     .indented(),
             )
             .issues(ContributesBindingMustHaveSuperDetector.ISSUE_BINDING_NO_SUPER)
@@ -54,14 +54,14 @@ class ContributesBindingMustHaveSuperDetectorTest {
                 anvilAnnotations,
                 javaxAnnotations,
                 TestFiles.kotlin(
-                    """
+                        """
                     import javax.inject.Inject
                     import $annotation
 
                     @${annotation.substringAfterLast(".")}(AppScope::class)
                     class AuthenticatorImpl @Inject constructor()
-                    """,
-                )
+                    """
+                    )
                     .indented(),
             )
             .issues(ContributesBindingMustHaveSuperDetector.ISSUE_BINDING_NO_SUPER)
@@ -73,7 +73,7 @@ class ContributesBindingMustHaveSuperDetectorTest {
                       ~~~~~~~~~~~~~~~~~
                 0 errors, 1 warnings
             """
-                    .trimIndent(),
+                    .trimIndent()
             )
             .expectWarningCount(1)
     }
@@ -85,15 +85,15 @@ class ContributesBindingMustHaveSuperDetectorTest {
                 anvilAnnotations,
                 daggerAnnotations,
                 TestFiles.kotlin(
-                    """
+                        """
                     import dagger.Module
                     import $annotation
 
                     @${annotation.substringAfterLast(".")}
                     @Module
                     class MyModule
-                    """,
-                )
+                    """
+                    )
                     .indented(),
             )
             .issues(ContributesBindingMustHaveSuperDetector.ISSUE_CONTRIBUTES_TO_INSTEAD_OF_BINDING)
@@ -105,7 +105,7 @@ class ContributesBindingMustHaveSuperDetectorTest {
                     ~${annotation.substringAfterLast(".").map { "~" }.joinToString(separator = "")}
                     1 errors, 0 warnings
                 """
-                    .trimIndent(),
+                    .trimIndent()
             )
             .expectWarningCount(0)
             .expectFixDiffs(
@@ -116,7 +116,7 @@ class ContributesBindingMustHaveSuperDetectorTest {
                     + @$CONTRIBUTES_TO
                     +
                 """
-                    .trimIndent(),
+                    .trimIndent()
             )
     }
 
@@ -127,14 +127,14 @@ class ContributesBindingMustHaveSuperDetectorTest {
                 anvilAnnotations,
                 javaxAnnotations,
                 TestFiles.kotlin(
-                    """
+                        """
                     import javax.inject.Inject
                     import $annotation
 
                     @${annotation.substringAfterLast(".")}(boundType = Any::class)
                     class AuthenticatorImpl @Inject constructor()
-                    """,
-                )
+                    """
+                    )
                     .indented(),
             )
             .issues(ContributesBindingMustHaveSuperDetector.ISSUE_BINDING_NO_SUPER)
