@@ -353,28 +353,28 @@ class MissingInstallInDetectorTest {
                 """
                 Fix for src/MyModule.java line 5: Install in the SingletonComponent :
                 @@ -4 +4
-                + @dagger.hilt.InstallIn(dagger.hilt.components.SingletonComponent::class)
+                + @dagger.hilt.InstallIn(dagger.hilt.components.SingletonComponent.class)
                 Fix for src/MyModule.java line 5: Install in the ActivityComponent :
                 @@ -4 +4
-                + @dagger.hilt.InstallIn(dagger.hilt.android.components.ActivityComponent::class)
+                + @dagger.hilt.InstallIn(dagger.hilt.android.components.ActivityComponent.class)
                 Fix for src/MyModule.java line 5: Install in the ActivityRetainedComponent :
                 @@ -4 +4
-                + @dagger.hilt.InstallIn(dagger.hilt.android.components.ActivityRetainedComponent::class)
+                + @dagger.hilt.InstallIn(dagger.hilt.android.components.ActivityRetainedComponent.class)
                 Fix for src/MyModule.java line 5: Install in the FragmentComponent :
                 @@ -4 +4
-                + @dagger.hilt.InstallIn(dagger.hilt.android.components.FragmentComponent::class)
+                + @dagger.hilt.InstallIn(dagger.hilt.android.components.FragmentComponent.class)
                 Fix for src/MyModule.java line 5: Install in the ServiceComponent :
                 @@ -4 +4
-                + @dagger.hilt.InstallIn(dagger.hilt.android.components.ServiceComponent::class)
+                + @dagger.hilt.InstallIn(dagger.hilt.android.components.ServiceComponent.class)
                 Fix for src/MyModule.java line 5: Install in the ViewComponent :
                 @@ -4 +4
-                + @dagger.hilt.InstallIn(dagger.hilt.android.components.ViewComponent::class)
+                + @dagger.hilt.InstallIn(dagger.hilt.android.components.ViewComponent.class)
                 Fix for src/MyModule.java line 5: Install in the ViewModelComponent :
                 @@ -4 +4
-                + @dagger.hilt.InstallIn(dagger.hilt.android.components.ViewModelComponent::class)
+                + @dagger.hilt.InstallIn(dagger.hilt.android.components.ViewModelComponent.class)
                 Fix for src/MyModule.java line 5: Install in the ViewWithFragmentComponent :
                 @@ -4 +4
-                + @dagger.hilt.InstallIn(dagger.hilt.android.components.ViewWithFragmentComponent::class)
+                + @dagger.hilt.InstallIn(dagger.hilt.android.components.ViewWithFragmentComponent.class)
             """
                     .trimIndent()
             )
@@ -450,28 +450,28 @@ class MissingInstallInDetectorTest {
                 """
                 Fix for src/PizzaMaker.java line 9: Install in the SingletonComponent :
                 @@ -8 +8
-                + @dagger.hilt.InstallIn(dagger.hilt.components.SingletonComponent::class)
+                + @dagger.hilt.InstallIn(dagger.hilt.components.SingletonComponent.class)
                 Fix for src/PizzaMaker.java line 9: Install in the ActivityComponent :
                 @@ -8 +8
-                + @dagger.hilt.InstallIn(dagger.hilt.android.components.ActivityComponent::class)
+                + @dagger.hilt.InstallIn(dagger.hilt.android.components.ActivityComponent.class)
                 Fix for src/PizzaMaker.java line 9: Install in the ActivityRetainedComponent :
                 @@ -8 +8
-                + @dagger.hilt.InstallIn(dagger.hilt.android.components.ActivityRetainedComponent::class)
+                + @dagger.hilt.InstallIn(dagger.hilt.android.components.ActivityRetainedComponent.class)
                 Fix for src/PizzaMaker.java line 9: Install in the FragmentComponent :
                 @@ -8 +8
-                + @dagger.hilt.InstallIn(dagger.hilt.android.components.FragmentComponent::class)
+                + @dagger.hilt.InstallIn(dagger.hilt.android.components.FragmentComponent.class)
                 Fix for src/PizzaMaker.java line 9: Install in the ServiceComponent :
                 @@ -8 +8
-                + @dagger.hilt.InstallIn(dagger.hilt.android.components.ServiceComponent::class)
+                + @dagger.hilt.InstallIn(dagger.hilt.android.components.ServiceComponent.class)
                 Fix for src/PizzaMaker.java line 9: Install in the ViewComponent :
                 @@ -8 +8
-                + @dagger.hilt.InstallIn(dagger.hilt.android.components.ViewComponent::class)
+                + @dagger.hilt.InstallIn(dagger.hilt.android.components.ViewComponent.class)
                 Fix for src/PizzaMaker.java line 9: Install in the ViewModelComponent :
                 @@ -8 +8
-                + @dagger.hilt.InstallIn(dagger.hilt.android.components.ViewModelComponent::class)
+                + @dagger.hilt.InstallIn(dagger.hilt.android.components.ViewModelComponent.class)
                 Fix for src/PizzaMaker.java line 9: Install in the ViewWithFragmentComponent :
                 @@ -8 +8
-                + @dagger.hilt.InstallIn(dagger.hilt.android.components.ViewWithFragmentComponent::class)
+                + @dagger.hilt.InstallIn(dagger.hilt.android.components.ViewWithFragmentComponent.class)
             """
                     .trimIndent()
             )
@@ -604,28 +604,28 @@ class MissingInstallInDetectorTest {
                 """
                 Fix for src/MyEntryPoint.java line 4: Install in the SingletonComponent :
                 @@ -3 +3
-                + @dagger.hilt.InstallIn(dagger.hilt.components.SingletonComponent::class)
+                + @dagger.hilt.InstallIn(dagger.hilt.components.SingletonComponent.class)
                 Fix for src/MyEntryPoint.java line 4: Install in the ActivityComponent :
                 @@ -3 +3
-                + @dagger.hilt.InstallIn(dagger.hilt.android.components.ActivityComponent::class)
+                + @dagger.hilt.InstallIn(dagger.hilt.android.components.ActivityComponent.class)
                 Fix for src/MyEntryPoint.java line 4: Install in the ActivityRetainedComponent :
                 @@ -3 +3
-                + @dagger.hilt.InstallIn(dagger.hilt.android.components.ActivityRetainedComponent::class)
+                + @dagger.hilt.InstallIn(dagger.hilt.android.components.ActivityRetainedComponent.class)
                 Fix for src/MyEntryPoint.java line 4: Install in the FragmentComponent :
                 @@ -3 +3
-                + @dagger.hilt.InstallIn(dagger.hilt.android.components.FragmentComponent::class)
+                + @dagger.hilt.InstallIn(dagger.hilt.android.components.FragmentComponent.class)
                 Fix for src/MyEntryPoint.java line 4: Install in the ServiceComponent :
                 @@ -3 +3
-                + @dagger.hilt.InstallIn(dagger.hilt.android.components.ServiceComponent::class)
+                + @dagger.hilt.InstallIn(dagger.hilt.android.components.ServiceComponent.class)
                 Fix for src/MyEntryPoint.java line 4: Install in the ViewComponent :
                 @@ -3 +3
-                + @dagger.hilt.InstallIn(dagger.hilt.android.components.ViewComponent::class)
+                + @dagger.hilt.InstallIn(dagger.hilt.android.components.ViewComponent.class)
                 Fix for src/MyEntryPoint.java line 4: Install in the ViewModelComponent :
                 @@ -3 +3
-                + @dagger.hilt.InstallIn(dagger.hilt.android.components.ViewModelComponent::class)
+                + @dagger.hilt.InstallIn(dagger.hilt.android.components.ViewModelComponent.class)
                 Fix for src/MyEntryPoint.java line 4: Install in the ViewWithFragmentComponent :
                 @@ -3 +3
-                + @dagger.hilt.InstallIn(dagger.hilt.android.components.ViewWithFragmentComponent::class)
+                + @dagger.hilt.InstallIn(dagger.hilt.android.components.ViewWithFragmentComponent.class)
             """
                     .trimIndent()
             )
@@ -722,31 +722,31 @@ class MissingInstallInDetectorTest {
                 """
                 Fix for src/MyEntryPoint.java line 4: Install in the SingletonComponent :
                 @@ -3 +3
-                + @dagger.hilt.InstallIn(dagger.hilt.components.SingletonComponent::class)
+                + @dagger.hilt.InstallIn(dagger.hilt.components.SingletonComponent.class)
                 Fix for src/MyEntryPoint.java line 4: Install in the ActivityComponent :
                 @@ -3 +3
-                + @dagger.hilt.InstallIn(dagger.hilt.android.components.ActivityComponent::class)
+                + @dagger.hilt.InstallIn(dagger.hilt.android.components.ActivityComponent.class)
                 Fix for src/MyEntryPoint.java line 4: Install in the ActivityRetainedComponent :
                 @@ -3 +3
-                + @dagger.hilt.InstallIn(dagger.hilt.android.components.ActivityRetainedComponent::class)
+                + @dagger.hilt.InstallIn(dagger.hilt.android.components.ActivityRetainedComponent.class)
                 Fix for src/MyEntryPoint.java line 4: Install in the FragmentComponent :
                 @@ -3 +3
-                + @dagger.hilt.InstallIn(dagger.hilt.android.components.FragmentComponent::class)
+                + @dagger.hilt.InstallIn(dagger.hilt.android.components.FragmentComponent.class)
                 Fix for src/MyEntryPoint.java line 4: Install in the ServiceComponent :
                 @@ -3 +3
-                + @dagger.hilt.InstallIn(dagger.hilt.android.components.ServiceComponent::class)
+                + @dagger.hilt.InstallIn(dagger.hilt.android.components.ServiceComponent.class)
                 Fix for src/MyEntryPoint.java line 4: Install in the ViewComponent :
                 @@ -3 +3
-                + @dagger.hilt.InstallIn(dagger.hilt.android.components.ViewComponent::class)
+                + @dagger.hilt.InstallIn(dagger.hilt.android.components.ViewComponent.class)
                 Fix for src/MyEntryPoint.java line 4: Install in the ViewModelComponent :
                 @@ -3 +3
-                + @dagger.hilt.InstallIn(dagger.hilt.android.components.ViewModelComponent::class)
+                + @dagger.hilt.InstallIn(dagger.hilt.android.components.ViewModelComponent.class)
                 Fix for src/MyEntryPoint.java line 4: Install in the ViewWithFragmentComponent :
                 @@ -3 +3
-                + @dagger.hilt.InstallIn(dagger.hilt.android.components.ViewWithFragmentComponent::class)
+                + @dagger.hilt.InstallIn(dagger.hilt.android.components.ViewWithFragmentComponent.class)
                 Fix for src/MyEntryPoint.java line 4: Install in the CustomComponent :
                 @@ -3 +3
-                + @dagger.hilt.InstallIn(dev.whosnickdoglio.hilt.CustomComponent::class)
+                + @dagger.hilt.InstallIn(dev.whosnickdoglio.hilt.CustomComponent.class)
             """
                     .trimIndent()
             )

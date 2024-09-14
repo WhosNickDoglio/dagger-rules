@@ -17,6 +17,7 @@ import com.android.tools.lint.detector.api.Severity
 import com.android.tools.lint.detector.api.SourceCodeScanner
 import com.android.tools.lint.detector.api.StringOption
 import com.android.tools.lint.detector.api.TextFormat
+import com.android.tools.lint.detector.api.isKotlin
 import dev.whosnickdoglio.lint.annotations.dagger.MODULE
 import dev.whosnickdoglio.lint.annotations.hilt.ENTRY_POINT
 import dev.whosnickdoglio.lint.annotations.hilt.INSTALL_IN
@@ -72,9 +73,11 @@ internal class MissingInstallInDetector : Detector(), SourceCodeScanner {
             }
 
         return (defaultHiltComponents + customHiltComponents).map { component ->
+            val separator = if (isKotlin(classToBeAnnotated.language)) "::" else "."
+
             fix()
                 .name("Install in the ${component.substringAfterLast(".")} ")
-                .annotate("$INSTALL_IN($component::class)", context, classToBeAnnotated)
+                .annotate("$INSTALL_IN($component${separator}class)", context, classToBeAnnotated)
                 .autoFix(robot = true, independent = true)
                 .build()
         }
