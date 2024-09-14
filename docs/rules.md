@@ -297,7 +297,9 @@ More information here: [
 
 ## Hilt Rules
 
-### The `@EntryPoint` annotation can only be applied to interfaces
+### The `@EntryPoint` & `@DefineComponent` annotations can only be applied to interfaces
+
+// TODO rewrite this
 
 The [`@EntryPoint` annotation](https://dagger.dev/api/latest/dagger/hilt/EntryPoint.html) can be
 used
