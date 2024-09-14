@@ -35,10 +35,21 @@ internal class NoAnvilInJavaDetector : Detector(), SourceCodeScanner {
         return object : UElementHandler() {
             override fun visitAnnotation(node: UAnnotation) {
                 if (node.qualifiedName in anvilAnnotations) {
+                    val annotation = node.qualifiedName?.substringAfterLast(".")
                     context.report(
                         Incident(context, ISSUE)
                             .location(context.getLocation(node))
                             .message(ISSUE.getExplanation(TextFormat.RAW))
+                            .fix(
+                                fix()
+                                    .replace()
+                                    .name("Remove $annotation")
+                                    .pattern("(@(.*)?$annotation\\(.*\\))")
+                                    .with("")
+                                    .reformat(true)
+                                    .autoFix(robot = true, independent = true)
+                                    .build()
+                            )
                     )
                 }
             }

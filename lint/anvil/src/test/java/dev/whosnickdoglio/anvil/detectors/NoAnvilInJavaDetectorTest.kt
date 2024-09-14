@@ -8,35 +8,25 @@ import com.android.tools.lint.checks.infrastructure.TestFiles
 import com.android.tools.lint.checks.infrastructure.TestLintTask
 import com.google.testing.junit.testparameterinjector.TestParameter
 import com.google.testing.junit.testparameterinjector.TestParameterInjector
-import dev.whosnickdoglio.lint.annotations.anvil.CONTRIBUTES_BINDING
-import dev.whosnickdoglio.lint.annotations.anvil.CONTRIBUTES_MULTI_BINDING
-import dev.whosnickdoglio.lint.annotations.anvil.CONTRIBUTES_SUBCOMPONENT
-import dev.whosnickdoglio.lint.annotations.anvil.CONTRIBUTES_SUBCOMPONENT_FACTORY
-import dev.whosnickdoglio.lint.annotations.anvil.CONTRIBUTES_TO
-import dev.whosnickdoglio.lint.annotations.anvil.MERGE_COMPONENT
-import dev.whosnickdoglio.lint.annotations.anvil.MERGE_SUBCOMPONENT
+import com.google.testing.junit.testparameterinjector.TestParameterValuesProvider
 import dev.whosnickdoglio.stubs.anvilAnnotations
 import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(TestParameterInjector::class)
 class NoAnvilInJavaDetectorTest {
-    @TestParameter(
-        value =
-            [
-                CONTRIBUTES_TO,
-                CONTRIBUTES_BINDING,
-                CONTRIBUTES_MULTI_BINDING,
-                CONTRIBUTES_SUBCOMPONENT,
-                CONTRIBUTES_SUBCOMPONENT_FACTORY,
-                MERGE_COMPONENT,
-                MERGE_SUBCOMPONENT,
-            ]
-    )
+
+    private class NoAnvilInJavaTestParameterValuesProvider : TestParameterValuesProvider() {
+        override fun provideValues(context: Context?): List<*> =
+            NoAnvilInJavaDetector.anvilAnnotations.toList()
+    }
+
+    @TestParameter(valuesProvider = NoAnvilInJavaTestParameterValuesProvider::class)
     lateinit var annotation: String
 
     @Test
     fun `using Anvil annotation in java shows an error`() {
+        val scopeString = "(AppScope.class)"
         TestLintTask.lint()
             .files(
                 anvilAnnotations,
@@ -44,7 +34,7 @@ class NoAnvilInJavaDetectorTest {
                         """
                 import $annotation;
 
-                @${annotation.substringAfterLast(".")}
+                @${annotation.substringAfterLast(".")}(AppScope.class)
                 class MyJavaClass {}
             """
                     )
@@ -57,13 +47,21 @@ class NoAnvilInJavaDetectorTest {
                 src/MyJavaClass.java:3: Error: Anvil works as a Kotlin compiler plugin and does not support being used from Java. You can convert this class to Kotlin so it can use Anvil annotations.
 
                 See https://whosnickdoglio.dev/dagger-rules/rules/#anvil-cannot-be-used-from-java for more information. [NoAnvilJavaUsage]
-                @${annotation.substringAfterLast(".")}
-                ~${annotation.substringAfterLast(".").map { "~" }.joinToString(separator = "")}
+                @${annotation.substringAfterLast(".")}$scopeString
+                ~${annotation.substringAfterLast(".").map { "~" }.joinToString(separator = "")}${scopeString.map { "~" }.joinToString(separator = "")}
                 1 errors, 0 warnings
             """
                     .trimIndent()
             )
             .expectErrorCount(1)
+            .expectFixDiffs(
+                """
+                Autofix for src/MyJavaClass.java line 3: Remove ${annotation.substringAfterLast(".")}:
+                @@ -3 +3
+                - @${annotation.substringAfterLast(".")}$scopeString
+            """
+                    .trimIndent()
+            )
     }
 
     @Test
@@ -75,7 +73,7 @@ class NoAnvilInJavaDetectorTest {
                         """
                 import $annotation
 
-                @${annotation.substringAfterLast(".")}
+                @${annotation.substringAfterLast(".")}(AppScope::class)
                 class MyKotlinClass
             """
                     )

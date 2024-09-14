@@ -14,6 +14,8 @@ val anvilAnnotations: TestFile =
 
     import kotlin.reflect.KClass
 
+    sealed interface AppScope
+
     annotation class ContributesTo(val scope: KClass<*> = Int::class)
     annotation class ContributesBinding(val scope: KClass<*> = Int::class, boundType: KClass<*> = Unit::class)
     annotation class ContributesMultibinding(val scope: KClass<*> = Int::class, boundType: KClass<*> = Unit::class)
