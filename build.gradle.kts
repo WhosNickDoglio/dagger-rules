@@ -15,6 +15,7 @@ plugins {
     alias(libs.plugins.kover) apply false
     alias(libs.plugins.ksp) apply false
     alias(libs.plugins.lint) apply false
+    alias(libs.plugins.publish) apply false
     alias(libs.plugins.sortDependencies) apply false
     alias(libs.plugins.spotless) apply false
 }
