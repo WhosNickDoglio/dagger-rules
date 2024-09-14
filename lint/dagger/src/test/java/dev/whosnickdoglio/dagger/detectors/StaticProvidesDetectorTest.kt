@@ -10,6 +10,7 @@ import dev.whosnickdoglio.stubs.daggerAnnotations
 import org.junit.Test
 
 class StaticProvidesDetectorTest {
+
     @Test
     fun `kotlin @Provides methods in an object do not show a warning`() {
         TestLintTask.lint()
@@ -62,12 +63,12 @@ class StaticProvidesDetectorTest {
             .run()
             .expect(
                 """
-                    src/com/test/android/MyModule.kt:8: Warning: @Provides methods be static.
+                    src/com/test/android/MyModule.kt:8: Warning: @Provides methods should be static.
 
                     See https://whosnickdoglio.dev/dagger-rules/rules/#provides-methods-should-be-static for more information. [StaticProvides]
                             @Provides fun myString(): String = "Hello World"
                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                    src/com/test/android/MyModule.kt:9: Warning: @Provides methods be static.
+                    src/com/test/android/MyModule.kt:9: Warning: @Provides methods should be static.
 
                     See https://whosnickdoglio.dev/dagger-rules/rules/#provides-methods-should-be-static for more information. [StaticProvides]
                             @Provides fun myInt(): Int = 1
@@ -182,12 +183,12 @@ class StaticProvidesDetectorTest {
             .run()
             .expect(
                 """
-                    src/com/test/android/MyModule.java:10: Warning: @Provides methods be static.
+                    src/com/test/android/MyModule.java:10: Warning: @Provides methods should be static.
 
                     See https://whosnickdoglio.dev/dagger-rules/rules/#provides-methods-should-be-static for more information. [StaticProvides]
                             public String myString() {
                                           ~~~~~~~~
-                    src/com/test/android/MyModule.java:15: Warning: @Provides methods be static.
+                    src/com/test/android/MyModule.java:15: Warning: @Provides methods should be static.
 
                     See https://whosnickdoglio.dev/dagger-rules/rules/#provides-methods-should-be-static for more information. [StaticProvides]
                             public Long myLong() {

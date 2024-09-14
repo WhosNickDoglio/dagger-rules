@@ -79,7 +79,7 @@ internal class StaticProvidesDetector : Detector(), SourceCodeScanner {
                 briefDescription = "Not using static @Provides methods",
                 explanation =
                     """
-                    @Provides methods be static.
+                    @Provides methods should be static.
 
                     See https://whosnickdoglio.dev/dagger-rules/rules/#provides-methods-should-be-static for more information.
                 """,
