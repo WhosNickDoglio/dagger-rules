@@ -115,16 +115,16 @@ tasks.withType<KaptGenerateStubsTask>().configureEach {
 }
 
 dependencies {
-    coreLibraryDesugaring(libs.desugar)
-
-    lintChecks(projects.lint.anvil)
-    lintChecks(projects.lint.dagger)
-    lintChecks(projects.lint.hilt)
-
     implementation(libs.androidx.activity)
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.core)
     implementation(libs.hilt.android)
 
     kapt(libs.hilt.compiler)
+
+    coreLibraryDesugaring(libs.desugar)
+
+    lintChecks(projects.lint.anvil)
+    lintChecks(projects.lint.dagger)
+    lintChecks(projects.lint.hilt)
 }
