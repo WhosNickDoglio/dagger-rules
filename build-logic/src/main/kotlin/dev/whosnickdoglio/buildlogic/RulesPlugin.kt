@@ -35,7 +35,7 @@ internal class RulesPlugin : Plugin<Project> {
             dependOnBuildLogicTask("checkSortDependencies")
 
             tasks.withType(Detekt::class.java).configureEach {
-                it.jvmTarget = JvmTarget.JVM_17.target
+                it.jvmTarget = JvmTarget.JVM_22.target
             }
 
             configureJvm(libs.findVersion("jdk").get().requiredVersion.toInt())
