@@ -8,7 +8,7 @@ lint = "31.7.1"
 detekt = "1.23.7"
 kover = "0.8.3"
 spotless = "7.0.0.BETA3"
-jdk = "22"
+jdk = "23"
 sort = "0.9"
 dagger = "2.52"
 

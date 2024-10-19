@@ -1,3 +1,4 @@
+import io.gitlab.arturbosch.detekt.Detekt
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 import org.jetbrains.kotlin.gradle.internal.KaptGenerateStubsTask
@@ -113,6 +114,8 @@ tasks.withType<KaptGenerateStubsTask>().configureEach {
         languageVersion.set(KotlinVersion.KOTLIN_1_9)
     }
 }
+
+tasks.withType<Detekt>().configureEach { jvmTarget = "22" }
 
 dependencies {
     implementation(libs.androidx.activity)
