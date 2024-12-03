@@ -10,7 +10,7 @@ kover = "0.8.3"
 spotless = "7.0.0.BETA4"
 jdk = "23"
 sort = "0.13"
-dagger = "2.52"
+dagger = "2.53"
 
 [plugins]
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
