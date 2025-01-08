@@ -16,12 +16,13 @@ import com.android.tools.lint.detector.api.Scope
 import com.android.tools.lint.detector.api.Severity
 import com.android.tools.lint.detector.api.SourceCodeScanner
 import com.android.tools.lint.detector.api.TextFormat
+import dev.whosnickdoglio.lint.annotations.hilt.DEFINE_COMPONENT
 import dev.whosnickdoglio.lint.annotations.hilt.ENTRY_POINT
 import org.jetbrains.uast.UAnnotation
 import org.jetbrains.uast.UClass
 import org.jetbrains.uast.UElement
 
-internal class EntryPointMustBeAnInterfaceDetector : Detector(), SourceCodeScanner {
+internal class HiltAnnotationMustBeInterface : Detector(), SourceCodeScanner {
     private val oldClassPattern =
         ("(object|abstract\\s+class|enum\\s+class|annotation\\s+class|" +
                 "sealed\\s+class|data\\s+class|enum|class)")
@@ -33,7 +34,7 @@ internal class EntryPointMustBeAnInterfaceDetector : Detector(), SourceCodeScann
     override fun createUastHandler(context: JavaContext): UElementHandler =
         object : UElementHandler() {
             override fun visitAnnotation(node: UAnnotation) {
-                if (node.qualifiedName == ENTRY_POINT) {
+                if (node.qualifiedName in annotations) {
                     val entryPoint = node.uastParent as? UClass ?: return
 
                     if (!entryPoint.isInterface || entryPoint.isAnnotationType) {
@@ -56,16 +57,18 @@ internal class EntryPointMustBeAnInterfaceDetector : Detector(), SourceCodeScann
         }
 
     companion object {
+        internal val annotations = setOf(ENTRY_POINT, DEFINE_COMPONENT)
+
         private val implementation =
-            Implementation(EntryPointMustBeAnInterfaceDetector::class.java, Scope.JAVA_FILE_SCOPE)
+            Implementation(HiltAnnotationMustBeInterface::class.java, Scope.JAVA_FILE_SCOPE)
 
         internal val ISSUE =
             Issue.create(
-                id = "EntryPointMustBeAnInterface",
-                briefDescription = "Hilt entry points must be interfaces",
+                id = "HiltMustBeAnInterface",
+                briefDescription = "Must be interfaces",
                 explanation =
                     """
-                    The `@EntryPoint` annotation can only be applied to `interfaces`, trying to apply it to anything else will cause an error at compile time.
+                    The `@EntryPoint` and `DefineComponent` annotations can only be applied to `interfaces`, trying to apply it to anything else will cause an error at compile time.
 
                     See https://whosnickdoglio.dev/dagger-rules/rules/#the-entrypoint-annotation-can-only-be-applied-to-interfaces for more information.
                     """,
