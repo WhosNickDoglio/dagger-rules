@@ -48,10 +48,11 @@ class NoAnvilInJavaDetectorTest {
 
                 See https://whosnickdoglio.dev/dagger-rules/rules/#anvil-cannot-be-used-from-java for more information. [NoAnvilJavaUsage]
                 @${annotation.substringAfterLast(".")}$scopeString
-                ~${annotation.substringAfterLast(".").map { "~" }.joinToString(separator = "")}${scopeString.map { "~" }.joinToString(separator = "")}
+                ~${
+                    annotation.substringAfterLast(".").map { "~" }.joinToString(separator = "")
+                }${scopeString.map { "~" }.joinToString(separator = "")}
                 1 errors, 0 warnings
             """
-                    .trimIndent()
             )
             .expectErrorCount(1)
             .expectFixDiffs(
@@ -60,7 +61,6 @@ class NoAnvilInJavaDetectorTest {
                 @@ -3 +3
                 - @${annotation.substringAfterLast(".")}$scopeString
             """
-                    .trimIndent()
             )
     }
 

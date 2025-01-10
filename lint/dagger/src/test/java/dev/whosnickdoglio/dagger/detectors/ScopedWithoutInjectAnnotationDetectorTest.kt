@@ -31,7 +31,6 @@ class ScopedWithoutInjectAnnotationDetectorTest {
                     ~~~~~~~~
                     1 errors, 0 warnings
                 """
-                    .trimIndent()
             )
             .expectErrorCount(1)
             .expectFixDiffs(
@@ -41,7 +40,6 @@ class ScopedWithoutInjectAnnotationDetectorTest {
                     - @MyScope class MyClass
                     +  class MyClass
                 """
-                    .trimIndent()
             )
     }
 
@@ -60,7 +58,6 @@ class ScopedWithoutInjectAnnotationDetectorTest {
                     ~~~~~~~~
                     1 errors, 0 warnings
                 """
-                    .trimIndent()
             )
             .expectFixDiffs(
                 """
@@ -69,7 +66,6 @@ class ScopedWithoutInjectAnnotationDetectorTest {
                     - @MyScope class MyClass {}
                     +  class MyClass {}
                 """
-                    .trimIndent()
             )
     }
 
@@ -87,7 +83,6 @@ class ScopedWithoutInjectAnnotationDetectorTest {
 
                 @MyScope class MyClass @Inject constructor()
                     """
-                        .trimIndent()
                 ),
             )
             .issues(ScopedWithoutInjectAnnotationDetector.ISSUE)
@@ -113,7 +108,6 @@ class ScopedWithoutInjectAnnotationDetectorTest {
                         @Inject public MyClass() {}
                     }
                 """
-                        .trimIndent()
                 ),
             )
             .issues(ScopedWithoutInjectAnnotationDetector.ISSUE)
@@ -132,7 +126,6 @@ class ScopedWithoutInjectAnnotationDetectorTest {
 
                     class MyClass @Inject constructor()
                 """
-                        .trimIndent()
                 ),
             )
             .issues(ScopedWithoutInjectAnnotationDetector.ISSUE)
@@ -154,7 +147,6 @@ class ScopedWithoutInjectAnnotationDetectorTest {
                         @Inject public MyClass() {}
                     }
                 """
-                        .trimIndent()
                 ),
             )
             .issues(ScopedWithoutInjectAnnotationDetector.ISSUE)
@@ -196,7 +188,6 @@ class ScopedWithoutInjectAnnotationDetectorTest {
 
                 @MyScope @Component interface MyComponent
             """
-                        .trimIndent()
                 ),
             )
             .issues(ScopedWithoutInjectAnnotationDetector.ISSUE)
@@ -220,7 +211,6 @@ class ScopedWithoutInjectAnnotationDetectorTest {
 
                 @MyScope @Component interface MyComponent {}
             """
-                        .trimIndent()
                 ),
             )
             .issues(ScopedWithoutInjectAnnotationDetector.ISSUE)
@@ -238,7 +228,6 @@ enum class ScopeTestFile(val file: TestFile) {
         import javax.inject.Scope
         @Scope annotation class MyScope
         """
-                .trimIndent()
         )
     ),
     JAVA(
@@ -249,7 +238,6 @@ enum class ScopeTestFile(val file: TestFile) {
         @Scope
         public @interface MyScope {}
         """
-                .trimIndent()
         )
     ),
 }

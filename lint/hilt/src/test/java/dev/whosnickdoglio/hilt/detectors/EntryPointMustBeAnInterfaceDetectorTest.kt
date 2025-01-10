@@ -23,7 +23,6 @@ class EntryPointMustBeAnInterfaceDetectorTest {
                     @EntryPoint
                     interface MyEntryPoint
                 """
-                        .trimIndent()
                 ),
             )
             .issues(EntryPointMustBeAnInterfaceDetector.ISSUE)
@@ -44,7 +43,6 @@ class EntryPointMustBeAnInterfaceDetectorTest {
                     @EntryPoint
                     interface MyEntryPoint {}
                 """
-                        .trimIndent()
                 ),
             )
             .issues(EntryPointMustBeAnInterfaceDetector.ISSUE)
@@ -59,14 +57,14 @@ class EntryPointMustBeAnInterfaceDetectorTest {
             .files(
                 *hiltAnnotations,
                 TestFiles.kotlin(
-                    """
+                        """
                     import $ENTRY_POINT
 
                     @EntryPoint
                     abstract class MyEntryPoint
                 """
-                        .trimIndent()
-                ),
+                    )
+                    .indented(),
             )
             .issues(EntryPointMustBeAnInterfaceDetector.ISSUE)
             .run()
@@ -79,7 +77,6 @@ class EntryPointMustBeAnInterfaceDetectorTest {
                     ^
                     1 errors, 0 warnings
                 """
-                    .trimIndent()
             )
             .expectErrorCount(1)
             .expectFixDiffs(
@@ -90,7 +87,6 @@ class EntryPointMustBeAnInterfaceDetectorTest {
                     @@ -5 +4
                     + interface MyEntryPoint
                 """
-                    .trimIndent()
             )
     }
 
@@ -100,14 +96,14 @@ class EntryPointMustBeAnInterfaceDetectorTest {
             .files(
                 *hiltAnnotations,
                 TestFiles.java(
-                    """
+                        """
                     import $ENTRY_POINT;
 
                     @EntryPoint
                     abstract class MyEntryPoint {}
                 """
-                        .trimIndent()
-                ),
+                    )
+                    .indented(),
             )
             .issues(EntryPointMustBeAnInterfaceDetector.ISSUE)
             .run()
@@ -120,7 +116,6 @@ class EntryPointMustBeAnInterfaceDetectorTest {
                     ^
                     1 errors, 0 warnings
                 """
-                    .trimIndent()
             )
             .expectErrorCount(1)
             .expectFixDiffs(
@@ -131,7 +126,6 @@ class EntryPointMustBeAnInterfaceDetectorTest {
                 @@ -5 +4
                 + interface MyEntryPoint {}
             """
-                    .trimIndent()
             )
     }
 
@@ -141,14 +135,14 @@ class EntryPointMustBeAnInterfaceDetectorTest {
             .files(
                 *hiltAnnotations,
                 TestFiles.kotlin(
-                    """
+                        """
                     import $ENTRY_POINT
 
                     @EntryPoint
                     class MyEntryPoint
                 """
-                        .trimIndent()
-                ),
+                    )
+                    .indented(),
             )
             .issues(EntryPointMustBeAnInterfaceDetector.ISSUE)
             .run()
@@ -161,7 +155,6 @@ class EntryPointMustBeAnInterfaceDetectorTest {
                     ^
                     1 errors, 0 warnings
                 """
-                    .trimIndent()
             )
             .expectErrorCount(1)
             .expectFixDiffs(
@@ -172,7 +165,6 @@ class EntryPointMustBeAnInterfaceDetectorTest {
                 @@ -5 +4
                 + interface MyEntryPoint
             """
-                    .trimIndent()
             )
     }
 
@@ -182,14 +174,14 @@ class EntryPointMustBeAnInterfaceDetectorTest {
             .files(
                 *hiltAnnotations,
                 TestFiles.java(
-                    """
+                        """
                     import $ENTRY_POINT;
 
                     @EntryPoint
                     class MyEntryPoint {}
                 """
-                        .trimIndent()
-                ),
+                    )
+                    .indented(),
             )
             .issues(EntryPointMustBeAnInterfaceDetector.ISSUE)
             .run()
@@ -202,7 +194,6 @@ class EntryPointMustBeAnInterfaceDetectorTest {
                     ^
                     1 errors, 0 warnings
                 """
-                    .trimIndent()
             )
             .expectErrorCount(1)
             .expectFixDiffs(
@@ -213,7 +204,6 @@ class EntryPointMustBeAnInterfaceDetectorTest {
                 @@ -5 +4
                 + interface MyEntryPoint {}
             """
-                    .trimIndent()
             )
     }
 
@@ -223,14 +213,14 @@ class EntryPointMustBeAnInterfaceDetectorTest {
             .files(
                 *hiltAnnotations,
                 TestFiles.kotlin(
-                    """
+                        """
                     import $ENTRY_POINT
 
                     @EntryPoint
                     object MyEntryPoint
                 """
-                        .trimIndent()
-                ),
+                    )
+                    .indented(),
             )
             .issues(EntryPointMustBeAnInterfaceDetector.ISSUE)
             .run()
@@ -243,7 +233,6 @@ class EntryPointMustBeAnInterfaceDetectorTest {
                     ^
                     1 errors, 0 warnings
                 """
-                    .trimIndent()
             )
             .expectErrorCount(1)
             .expectFixDiffs(
@@ -254,7 +243,6 @@ class EntryPointMustBeAnInterfaceDetectorTest {
                 @@ -5 +4
                 + interface MyEntryPoint
             """
-                    .trimIndent()
             )
     }
 
@@ -264,14 +252,14 @@ class EntryPointMustBeAnInterfaceDetectorTest {
             .files(
                 *hiltAnnotations,
                 TestFiles.kotlin(
-                    """
+                        """
                     import $ENTRY_POINT
 
                     @EntryPoint
                     enum class MyEntryPoint
                 """
-                        .trimIndent()
-                ),
+                    )
+                    .indented(),
             )
             .issues(EntryPointMustBeAnInterfaceDetector.ISSUE)
             .run()
@@ -284,7 +272,6 @@ class EntryPointMustBeAnInterfaceDetectorTest {
                     ^
                     1 errors, 0 warnings
                 """
-                    .trimIndent()
             )
             .expectErrorCount(1)
             .expectFixDiffs(
@@ -295,7 +282,6 @@ class EntryPointMustBeAnInterfaceDetectorTest {
                 @@ -5 +4
                 + interface MyEntryPoint
             """
-                    .trimIndent()
             )
     }
 
@@ -305,14 +291,14 @@ class EntryPointMustBeAnInterfaceDetectorTest {
             .files(
                 *hiltAnnotations,
                 TestFiles.java(
-                    """
+                        """
                     import $ENTRY_POINT;
 
                     @EntryPoint
                     enum MyEntryPoint {}
                 """
-                        .trimIndent()
-                ),
+                    )
+                    .indented(),
             )
             .issues(EntryPointMustBeAnInterfaceDetector.ISSUE)
             .run()
@@ -325,7 +311,6 @@ class EntryPointMustBeAnInterfaceDetectorTest {
                     ^
                     1 errors, 0 warnings
                 """
-                    .trimIndent()
             )
             .expectErrorCount(1)
             .expectFixDiffs(
@@ -336,7 +321,6 @@ class EntryPointMustBeAnInterfaceDetectorTest {
                     @@ -5 +4
                     + interface MyEntryPoint {}
                 """
-                    .trimIndent()
             )
     }
 
@@ -346,14 +330,14 @@ class EntryPointMustBeAnInterfaceDetectorTest {
             .files(
                 *hiltAnnotations,
                 TestFiles.kotlin(
-                    """
+                        """
                     import $ENTRY_POINT
 
                     @EntryPoint
                     data class MyEntryPoint
                 """
-                        .trimIndent()
-                ),
+                    )
+                    .indented(),
             )
             .issues(EntryPointMustBeAnInterfaceDetector.ISSUE)
             .run()
@@ -366,7 +350,6 @@ class EntryPointMustBeAnInterfaceDetectorTest {
                     ^
                     1 errors, 0 warnings
                 """
-                    .trimIndent()
             )
             .expectErrorCount(1)
             .expectFixDiffs(
@@ -377,7 +360,6 @@ class EntryPointMustBeAnInterfaceDetectorTest {
                 @@ -5 +4
                 + interface MyEntryPoint
             """
-                    .trimIndent()
             )
     }
 
@@ -387,14 +369,14 @@ class EntryPointMustBeAnInterfaceDetectorTest {
             .files(
                 *hiltAnnotations,
                 TestFiles.kotlin(
-                    """
+                        """
                     import $ENTRY_POINT
 
                     @EntryPoint
                     sealed class MyEntryPoint
                 """
-                        .trimIndent()
-                ),
+                    )
+                    .indented(),
             )
             .issues(EntryPointMustBeAnInterfaceDetector.ISSUE)
             .run()
@@ -407,7 +389,6 @@ class EntryPointMustBeAnInterfaceDetectorTest {
                     ^
                     1 errors, 0 warnings
                 """
-                    .trimIndent()
             )
             .expectErrorCount(1)
             .expectFixDiffs(
@@ -418,7 +399,6 @@ class EntryPointMustBeAnInterfaceDetectorTest {
                 @@ -5 +4
                 + interface MyEntryPoint
             """
-                    .trimIndent()
             )
     }
 
@@ -428,14 +408,14 @@ class EntryPointMustBeAnInterfaceDetectorTest {
             .files(
                 *hiltAnnotations,
                 TestFiles.kotlin(
-                    """
+                        """
                     import $ENTRY_POINT
 
                     @EntryPoint
                     annotation class MyEntryPoint
                 """
-                        .trimIndent()
-                ),
+                    )
+                    .indented(),
             )
             .issues(EntryPointMustBeAnInterfaceDetector.ISSUE)
             .run()
@@ -448,7 +428,6 @@ class EntryPointMustBeAnInterfaceDetectorTest {
                     ^
                     1 errors, 0 warnings
                 """
-                    .trimIndent()
             )
             .expectErrorCount(1)
             .expectFixDiffs(
@@ -459,7 +438,6 @@ class EntryPointMustBeAnInterfaceDetectorTest {
                 @@ -5 +4
                 + interface MyEntryPoint
             """
-                    .trimIndent()
             )
     }
 }

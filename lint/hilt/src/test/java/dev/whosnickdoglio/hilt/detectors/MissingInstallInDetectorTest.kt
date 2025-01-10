@@ -41,7 +41,6 @@ class MissingInstallInDetectorTest {
                           ~~~~~~~~
                     1 errors, 0 warnings
                 """
-                    .trimIndent()
             )
             .expectErrorCount(1)
             .expectFixDiffs(
@@ -71,7 +70,6 @@ class MissingInstallInDetectorTest {
                 @@ -4 +4
                 + @dagger.hilt.InstallIn(dagger.hilt.android.components.ViewWithFragmentComponent::class)
             """
-                    .trimIndent()
             )
     }
 
@@ -140,7 +138,6 @@ class MissingInstallInDetectorTest {
                               ~~~~~~~~
                     1 errors, 0 warnings
                 """
-                    .trimIndent()
             )
             .expectErrorCount(1)
             .expectFixDiffs(
@@ -170,7 +167,6 @@ class MissingInstallInDetectorTest {
                 @@ -11 +11
                 + @dagger.hilt.InstallIn(dagger.hilt.android.components.ViewWithFragmentComponent::class)
             """
-                    .trimIndent()
             )
     }
 
@@ -281,7 +277,6 @@ class MissingInstallInDetectorTest {
                               ~~~~~~~~
                     1 errors, 0 warnings
                 """
-                    .trimIndent()
             )
             .expectErrorCount(1)
             .expectFixDiffs(
@@ -311,7 +306,6 @@ class MissingInstallInDetectorTest {
                 @@ -8 +8
                 + @dagger.hilt.InstallIn(dagger.hilt.android.components.ViewWithFragmentComponent::class)
             """
-                    .trimIndent()
             )
     }
 
@@ -346,7 +340,6 @@ class MissingInstallInDetectorTest {
                           ~~~~~~~~
                     1 errors, 0 warnings
                 """
-                    .trimIndent()
             )
             .expectErrorCount(1)
             .expectFixDiffs(
@@ -376,7 +369,6 @@ class MissingInstallInDetectorTest {
                 @@ -4 +4
                 + @dagger.hilt.InstallIn(dagger.hilt.android.components.ViewWithFragmentComponent.class)
             """
-                    .trimIndent()
             )
     }
 
@@ -443,7 +435,6 @@ class MissingInstallInDetectorTest {
                               ~~~~~~~~
                     1 errors, 0 warnings
                 """
-                    .trimIndent()
             )
             .expectErrorCount(1)
             .expectFixDiffs(
@@ -473,7 +464,6 @@ class MissingInstallInDetectorTest {
                 @@ -8 +8
                 + @dagger.hilt.InstallIn(dagger.hilt.android.components.ViewWithFragmentComponent.class)
             """
-                    .trimIndent()
             )
     }
 
@@ -498,7 +488,6 @@ class MissingInstallInDetectorTest {
                     @Binds PizzaMaker binds(PizzaMakerImpl impl);
                 }
             """
-                        .trimIndent()
                 ),
             )
             .issues(MissingInstallInDetector.ISSUE)
@@ -513,7 +502,7 @@ class MissingInstallInDetectorTest {
             .files(
                 *hiltAnnotations,
                 TestFiles.kotlin(
-                    """
+                        """
                     import dagger.hilt.EntryPoint
 
                     @EntryPoint
@@ -521,8 +510,8 @@ class MissingInstallInDetectorTest {
                         fun myString(): String
                     }
             """
-                        .trimIndent()
-                ),
+                    )
+                    .indented(),
             )
             .issues(MissingInstallInDetector.ISSUE)
             .run()
@@ -535,7 +524,6 @@ class MissingInstallInDetectorTest {
                               ~~~~~~~~~~~~
                     1 errors, 0 warnings
                 """
-                    .trimIndent()
             )
             .expectErrorCount(1)
             .expectFixDiffs(
@@ -565,7 +553,6 @@ class MissingInstallInDetectorTest {
                 @@ -3 +3
                 + @dagger.hilt.InstallIn(dagger.hilt.android.components.ViewWithFragmentComponent::class)
             """
-                    .trimIndent()
             )
     }
 
@@ -575,7 +562,7 @@ class MissingInstallInDetectorTest {
             .files(
                 *hiltAnnotations,
                 TestFiles.java(
-                    """
+                        """
                     import dagger.hilt.EntryPoint;
 
                     @EntryPoint
@@ -583,8 +570,8 @@ class MissingInstallInDetectorTest {
                         String myString();
                     }
             """
-                        .trimIndent()
-                ),
+                    )
+                    .indented(),
             )
             .issues(MissingInstallInDetector.ISSUE)
             .run()
@@ -597,7 +584,6 @@ class MissingInstallInDetectorTest {
                               ~~~~~~~~~~~~
                     1 errors, 0 warnings
                 """
-                    .trimIndent()
             )
             .expectErrorCount(1)
             .expectFixDiffs(
@@ -627,7 +613,6 @@ class MissingInstallInDetectorTest {
                 @@ -3 +3
                 + @dagger.hilt.InstallIn(dagger.hilt.android.components.ViewWithFragmentComponent.class)
             """
-                    .trimIndent()
             )
     }
 
@@ -647,7 +632,6 @@ class MissingInstallInDetectorTest {
                         fun myString(): String
                     }
             """
-                        .trimIndent()
                 ),
             )
             .issues(MissingInstallInDetector.ISSUE)
@@ -672,7 +656,6 @@ class MissingInstallInDetectorTest {
                         String myString();
                     }
             """
-                        .trimIndent()
                 ),
             )
             .issues(MissingInstallInDetector.ISSUE)
@@ -688,7 +671,7 @@ class MissingInstallInDetectorTest {
             .files(
                 *hiltAnnotations,
                 TestFiles.java(
-                    """
+                        """
                     import dagger.hilt.EntryPoint;
 
                     @EntryPoint
@@ -696,8 +679,8 @@ class MissingInstallInDetectorTest {
                         String myString();
                     }
             """
-                        .trimIndent()
-                ),
+                    )
+                    .indented(),
             )
             .issues(MissingInstallInDetector.ISSUE)
             .configureOption(
@@ -715,7 +698,6 @@ class MissingInstallInDetectorTest {
                 1 errors, 0 warnings
 
             """
-                    .trimIndent()
             )
             .expectErrorCount(1)
             .expectFixDiffs(
@@ -748,7 +730,6 @@ class MissingInstallInDetectorTest {
                 @@ -3 +3
                 + @dagger.hilt.InstallIn(dev.whosnickdoglio.hilt.CustomComponent.class)
             """
-                    .trimIndent()
             )
     }
 }

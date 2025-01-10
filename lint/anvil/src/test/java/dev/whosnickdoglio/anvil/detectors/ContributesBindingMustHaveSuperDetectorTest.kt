@@ -73,7 +73,6 @@ class ContributesBindingMustHaveSuperDetectorTest {
                       ~~~~~~~~~~~~~~~~~
                 0 errors, 1 warnings
             """
-                    .trimIndent()
             )
             .expectWarningCount(1)
     }
@@ -105,7 +104,6 @@ class ContributesBindingMustHaveSuperDetectorTest {
                     ~${annotation.substringAfterLast(".").map { "~" }.joinToString(separator = "")}
                     1 errors, 0 warnings
                 """
-                    .trimIndent()
             )
             .expectWarningCount(0)
             .expectFixDiffs(
@@ -116,7 +114,6 @@ class ContributesBindingMustHaveSuperDetectorTest {
                     + @$CONTRIBUTES_TO
                     +
                 """
-                    .trimIndent()
             )
     }
 

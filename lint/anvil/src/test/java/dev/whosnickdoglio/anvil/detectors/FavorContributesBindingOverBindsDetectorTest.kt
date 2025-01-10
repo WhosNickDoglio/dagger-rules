@@ -76,7 +76,6 @@ class FavorContributesBindingOverBindsDetectorTest {
                             ~~~~~~~~~~~~~~~~~
                     0 errors, 2 warnings
                 """
-                    .trimIndent()
             )
             .expectWarningCount(2)
     }
@@ -123,7 +122,6 @@ class FavorContributesBindingOverBindsDetectorTest {
                             ~~~~~~~~~~~~~~~~~
                     0 errors, 2 warnings
                 """
-                    .trimIndent()
             )
             .expectWarningCount(2)
     }
@@ -197,7 +195,6 @@ class FavorContributesBindingOverBindsDetectorTest {
                         ~~~~~~~~~~
                 0 errors, 2 warnings
             """
-                    .trimIndent()
             )
             .expectWarningCount(2)
     }
@@ -240,7 +237,6 @@ class FavorContributesBindingOverBindsDetectorTest {
                         ~~~~~~~~~~
                 0 errors, 2 warnings
             """
-                    .trimIndent()
             )
             .expectWarningCount(2)
     }

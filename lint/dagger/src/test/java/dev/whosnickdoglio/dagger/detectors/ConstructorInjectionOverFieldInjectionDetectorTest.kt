@@ -145,7 +145,6 @@ class ConstructorInjectionOverFieldInjectionDetectorTest {
                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
                     0 errors, 1 warnings
                 """
-                    .trimIndent()
             )
             .expectWarningCount(1)
     }
@@ -183,7 +182,6 @@ class ConstructorInjectionOverFieldInjectionDetectorTest {
                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
                     0 errors, 1 warnings
                 """
-                    .trimIndent()
             )
             .expectWarningCount(1)
     }

@@ -27,7 +27,6 @@ class CorrectBindsUsageDetectorTest {
                 class InMemoryRepository : Repository
                 class NotARepository
                 """
-                .trimIndent()
         )
 
     @Test
@@ -98,7 +97,6 @@ class CorrectBindsUsageDetectorTest {
                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
                     2 errors, 0 warnings
                 """
-                    .trimIndent()
             )
             .expectErrorCount(2)
     }
@@ -162,7 +160,6 @@ class CorrectBindsUsageDetectorTest {
                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
                     1 errors, 0 warnings
                 """
-                    .trimIndent()
             )
             .expectErrorCount(1)
     }
@@ -224,7 +221,6 @@ class CorrectBindsUsageDetectorTest {
                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
                     1 errors, 0 warnings
                 """
-                    .trimIndent()
             )
             .expectErrorCount(1)
     }
@@ -258,7 +254,6 @@ class CorrectBindsUsageDetectorTest {
                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
                     1 errors, 0 warnings
                 """
-                    .trimIndent()
             )
             .expectErrorCount(1)
     }
@@ -294,7 +289,6 @@ class CorrectBindsUsageDetectorTest {
                         ^
                     1 errors, 0 warnings
                 """
-                    .trimIndent()
             )
             .expectErrorCount(1)
     }
@@ -338,7 +332,6 @@ class CorrectBindsUsageDetectorTest {
                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
                 2 errors, 0 warnings
             """
-                    .trimIndent()
             )
             .expectErrorCount(2)
     }
@@ -373,7 +366,6 @@ class CorrectBindsUsageDetectorTest {
                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
                 1 errors, 0 warnings
             """
-                    .trimIndent()
             )
             .expectErrorCount(1)
     }

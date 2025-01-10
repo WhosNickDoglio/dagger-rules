@@ -56,7 +56,6 @@ class MissingModuleAnnotationDetectorTest {
                            ~~~~~~~~
                     1 errors, 0 warnings
                 """
-                    .trimIndent()
             )
             .expectErrorCount(1)
             .expectFixDiffs(
@@ -65,7 +64,6 @@ class MissingModuleAnnotationDetectorTest {
                     @@ -5 +5
                     +  @dagger.Module
                 """
-                    .trimIndent()
             )
     }
 
@@ -135,7 +133,6 @@ class MissingModuleAnnotationDetectorTest {
                                ~~~~~~~~
                     1 errors, 0 warnings
                 """
-                    .trimIndent()
             )
             .expectErrorCount(1)
             .expectFixDiffs(
@@ -144,7 +141,6 @@ class MissingModuleAnnotationDetectorTest {
                     @@ -5 +5
                     +  @dagger.Module
                 """
-                    .trimIndent()
             )
     }
 
@@ -225,7 +221,6 @@ class MissingModuleAnnotationDetectorTest {
                                ~~~~~~~~
                     1 errors, 0 warnings
                 """
-                    .trimIndent()
             )
             .expectErrorCount(1)
             .expectFixDiffs(
@@ -234,7 +229,6 @@ class MissingModuleAnnotationDetectorTest {
                     @@ -6 +6
                     +  @dagger.Module
                 """
-                    .trimIndent()
             )
     }
 
@@ -312,7 +306,6 @@ class MissingModuleAnnotationDetectorTest {
                            ~~~~~~~~
                     1 errors, 0 warnings
                 """
-                    .trimIndent()
             )
             .expectErrorCount(1)
             .expectFixDiffs(
@@ -321,7 +314,6 @@ class MissingModuleAnnotationDetectorTest {
                     @@ -5 +5
                     +  @dagger.Module
                 """
-                    .trimIndent()
             )
     }
 
@@ -395,7 +387,6 @@ class MissingModuleAnnotationDetectorTest {
                                ~~~~~~~~
                     1 errors, 0 warnings
                 """
-                    .trimIndent()
             )
             .expectErrorCount(1)
             .expectFixDiffs(
@@ -404,7 +395,6 @@ class MissingModuleAnnotationDetectorTest {
                     @@ -5 +5
                     +  @dagger.Module
                 """
-                    .trimIndent()
             )
     }
 

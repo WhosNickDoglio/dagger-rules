@@ -23,7 +23,6 @@ val hiltAnnotations =
 
             annotation class HiltViewModel
         """
-                .trimIndent()
         ),
         TestFiles.kotlin(
             """
@@ -32,6 +31,5 @@ val hiltAnnotations =
             annotation class InstallIn
             annotation class EntryPoint
         """
-                .trimIndent()
         ),
     )
