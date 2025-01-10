@@ -9,7 +9,7 @@ detekt = "1.23.7"
 kover = "0.9.1"
 spotless = "7.0.1"
 jdk = "23"
-sort = "0.13"
+sort = "0.14"
 dagger = "2.55"
 
 [plugins]
