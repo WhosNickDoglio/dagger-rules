@@ -43,7 +43,6 @@ class MissingContributesBindingDetectorTest {
                           ~~~~~~~~~~~~~~~~~
                     0 errors, 1 warnings
                 """
-                    .trimIndent()
             )
             .expectWarningCount(1)
             .expectFixDiffs(
@@ -55,7 +54,6 @@ class MissingContributesBindingDetectorTest {
                     @@ -5 +5
                     + @com.squareup.anvil.annotations.ContributesMultibinding
                 """
-                    .trimIndent()
             )
     }
 
@@ -155,7 +153,6 @@ class MissingContributesBindingDetectorTest {
                       ~~~~~~~~~~~~~
                 0 errors, 1 warnings
             """
-                    .trimIndent()
             )
             .expectWarningCount(1)
             .expectFixDiffs(
@@ -167,7 +164,6 @@ class MissingContributesBindingDetectorTest {
                     @@ -6 +6
                     + @com.squareup.anvil.annotations.ContributesMultibinding
                 """
-                    .trimIndent()
             )
     }
 

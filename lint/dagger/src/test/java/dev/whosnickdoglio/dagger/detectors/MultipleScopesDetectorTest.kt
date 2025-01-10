@@ -13,13 +13,13 @@ import org.junit.Test
 class MultipleScopesDetectorTest {
     private val scopes =
         TestFiles.kotlin(
-            """
+                """
             import javax.inject.Scope
             @Scope annotation class MyScope
             @Scope annotation class MyOtherScope
             """
-                .trimIndent()
-        )
+            )
+            .indented()
 
     @Test
     fun `kotlin class with multiple scopes triggers an error`() {
@@ -28,15 +28,15 @@ class MultipleScopesDetectorTest {
                 scopes,
                 javaxAnnotations,
                 TestFiles.kotlin(
-                    """
+                        """
                     import javax.inject.Inject
 
                     @MyScope
                     @MyOtherScope
                     class MyClass @Inject constructor()
                     """
-                        .trimIndent()
-                ),
+                    )
+                    .indented(),
             )
             .issues(MultipleScopesDetector.ISSUE)
             .run()
@@ -47,7 +47,6 @@ class MultipleScopesDetectorTest {
                       ~~~~~~~
                 1 errors, 0 warnings
             """
-                    .trimIndent()
             )
             .expectErrorCount(1)
     }
@@ -59,14 +58,14 @@ class MultipleScopesDetectorTest {
                 scopes,
                 javaxAnnotations,
                 TestFiles.kotlin(
-                    """
+                        """
                     import javax.inject.Inject
 
                     @MyScope
                     class MyClass @Inject constructor()
                     """
-                        .trimIndent()
-                ),
+                    )
+                    .indented(),
             )
             .issues(MultipleScopesDetector.ISSUE)
             .run()
@@ -80,13 +79,13 @@ class MultipleScopesDetectorTest {
             .files(
                 javaxAnnotations,
                 TestFiles.kotlin(
-                    """
+                        """
                     import javax.inject.Inject
 
                     class MyClass @Inject constructor()
                     """
-                        .trimIndent()
-                ),
+                    )
+                    .indented(),
             )
             .issues(MultipleScopesDetector.ISSUE)
             .run()
@@ -102,7 +101,7 @@ class MultipleScopesDetectorTest {
                 javaxAnnotations,
                 daggerAnnotations,
                 TestFiles.kotlin(
-                    """
+                        """
                     import dagger.Module
                     import dagger.Provides
                     import dagger.Binds
@@ -127,8 +126,8 @@ class MultipleScopesDetectorTest {
                        }
                     }
                     """
-                        .trimIndent()
-                ),
+                    )
+                    .indented(),
             )
             .issues(MultipleScopesDetector.ISSUE)
             .run()
@@ -142,7 +141,6 @@ class MultipleScopesDetectorTest {
                                ~~~~~~~
                     2 errors, 0 warnings
                 """
-                    .trimIndent()
             )
             .expectErrorCount(2)
     }
@@ -155,7 +153,7 @@ class MultipleScopesDetectorTest {
                 javaxAnnotations,
                 daggerAnnotations,
                 TestFiles.kotlin(
-                    """
+                        """
                     import dagger.Module
                     import dagger.Provides
                     import dagger.Binds
@@ -178,8 +176,8 @@ class MultipleScopesDetectorTest {
                        }
                     }
                     """
-                        .trimIndent()
-                ),
+                    )
+                    .indented(),
             )
             .issues(MultipleScopesDetector.ISSUE)
             .run()
@@ -195,7 +193,7 @@ class MultipleScopesDetectorTest {
                 javaxAnnotations,
                 daggerAnnotations,
                 TestFiles.kotlin(
-                    """
+                        """
                     import dagger.Module
                     import dagger.Provides
                     import dagger.Binds
@@ -216,8 +214,8 @@ class MultipleScopesDetectorTest {
                        }
                     }
                     """
-                        .trimIndent()
-                ),
+                    )
+                    .indented(),
             )
             .issues(MultipleScopesDetector.ISSUE)
             .run()
@@ -232,7 +230,7 @@ class MultipleScopesDetectorTest {
                 scopes,
                 javaxAnnotations,
                 TestFiles.java(
-                    """
+                        """
                     import javax.inject.Inject;
 
                     @MyScope
@@ -241,8 +239,8 @@ class MultipleScopesDetectorTest {
                         @Inject MyClass() {}
                     }
                     """
-                        .trimIndent()
-                ),
+                    )
+                    .indented(),
             )
             .issues(MultipleScopesDetector.ISSUE)
             .run()
@@ -253,7 +251,6 @@ class MultipleScopesDetectorTest {
                           ~~~~~~~
                     1 errors, 0 warnings
                 """
-                    .trimIndent()
             )
             .expectErrorCount(1)
     }
@@ -265,7 +262,7 @@ class MultipleScopesDetectorTest {
                 scopes,
                 javaxAnnotations,
                 TestFiles.java(
-                    """
+                        """
                     import javax.inject.Inject;
 
                     @MyScope
@@ -273,8 +270,8 @@ class MultipleScopesDetectorTest {
                         @Inject MyClass() {}
                     }
                     """
-                        .trimIndent()
-                ),
+                    )
+                    .indented(),
             )
             .issues(MultipleScopesDetector.ISSUE)
             .run()
@@ -288,15 +285,15 @@ class MultipleScopesDetectorTest {
             .files(
                 javaxAnnotations,
                 TestFiles.java(
-                    """
+                        """
                     import javax.inject.Inject;
 
                    class MyClass {
                         @Inject MyClass() {}
                     }
                     """
-                        .trimIndent()
-                ),
+                    )
+                    .indented(),
             )
             .issues(MultipleScopesDetector.ISSUE)
             .run()
@@ -312,7 +309,7 @@ class MultipleScopesDetectorTest {
                 javaxAnnotations,
                 daggerAnnotations,
                 TestFiles.java(
-                    """
+                        """
                     import dagger.Module;
                     import dagger.Provides;
 
@@ -328,8 +325,8 @@ class MultipleScopesDetectorTest {
                            }
                     }
                     """
-                        .trimIndent()
-                ),
+                    )
+                    .indented(),
             )
             .issues(MultipleScopesDetector.ISSUE)
             .run()
@@ -340,7 +337,6 @@ class MultipleScopesDetectorTest {
                                    ~~~~~~~
                     1 errors, 0 warnings
                 """
-                    .trimIndent()
             )
             .expectErrorCount(1)
     }
@@ -353,7 +349,7 @@ class MultipleScopesDetectorTest {
                 javaxAnnotations,
                 daggerAnnotations,
                 TestFiles.java(
-                    """
+                        """
                     import dagger.Module;
                     import dagger.Binds;
 
@@ -370,8 +366,8 @@ class MultipleScopesDetectorTest {
                         MyInterface bind(MyClass impl);
                     }
                     """
-                        .trimIndent()
-                ),
+                    )
+                    .indented(),
             )
             .issues(MultipleScopesDetector.ISSUE)
             .run()
@@ -382,7 +378,6 @@ class MultipleScopesDetectorTest {
                                     ~~~~
                     1 errors, 0 warnings
                 """
-                    .trimIndent()
             )
             .expectErrorCount(1)
     }
@@ -395,7 +390,7 @@ class MultipleScopesDetectorTest {
                 javaxAnnotations,
                 daggerAnnotations,
                 TestFiles.java(
-                    """
+                        """
                     import dagger.Module;
                     import dagger.Provides;
 
@@ -410,8 +405,8 @@ class MultipleScopesDetectorTest {
                            }
                     }
                     """
-                        .trimIndent()
-                ),
+                    )
+                    .indented(),
             )
             .issues(MultipleScopesDetector.ISSUE)
             .run()
@@ -427,7 +422,7 @@ class MultipleScopesDetectorTest {
                 javaxAnnotations,
                 daggerAnnotations,
                 TestFiles.java(
-                    """
+                        """
                     import dagger.Module;
                     import dagger.Binds;
 
@@ -443,8 +438,8 @@ class MultipleScopesDetectorTest {
                         MyInterface bind(MyClass impl);
                     }
                     """
-                        .trimIndent()
-                ),
+                    )
+                    .indented(),
             )
             .issues(MultipleScopesDetector.ISSUE)
             .run()
@@ -459,7 +454,7 @@ class MultipleScopesDetectorTest {
                 javaxAnnotations,
                 daggerAnnotations,
                 TestFiles.java(
-                    """
+                        """
                     import dagger.Module;
                     import dagger.Provides;
 
@@ -473,8 +468,8 @@ class MultipleScopesDetectorTest {
                            }
                     }
                     """
-                        .trimIndent()
-                ),
+                    )
+                    .indented(),
             )
             .issues(MultipleScopesDetector.ISSUE)
             .run()
@@ -489,7 +484,7 @@ class MultipleScopesDetectorTest {
                 javaxAnnotations,
                 daggerAnnotations,
                 TestFiles.java(
-                    """
+                        """
                     import dagger.Module;
                     import dagger.Binds;
 
@@ -504,8 +499,8 @@ class MultipleScopesDetectorTest {
                         MyInterface bind(MyClass impl);
                     }
                     """
-                        .trimIndent()
-                ),
+                    )
+                    .indented(),
             )
             .issues(MultipleScopesDetector.ISSUE)
             .run()

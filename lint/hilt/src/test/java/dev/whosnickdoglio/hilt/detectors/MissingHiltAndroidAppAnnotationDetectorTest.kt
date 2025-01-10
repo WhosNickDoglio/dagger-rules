@@ -41,7 +41,6 @@ class MissingHiltAndroidAppAnnotationDetectorTest {
                           ~~~~~~~~~~~~~
                     1 errors, 0 warnings
                 """
-                    .trimIndent()
             )
             .expectErrorCount(1)
             .expectFixDiffs(
@@ -50,7 +49,6 @@ class MissingHiltAndroidAppAnnotationDetectorTest {
                     @@ -3 +3
                     + @dagger.hilt.android.HiltAndroidApp
                 """
-                    .trimIndent()
             )
     }
 
@@ -113,7 +111,6 @@ class MissingHiltAndroidAppAnnotationDetectorTest {
                           ~~~~~~~~~~~~~
                     1 errors, 0 warnings
                 """
-                    .trimIndent()
             )
             .expectErrorCount(1)
             .expectFixDiffs(
@@ -122,7 +119,6 @@ class MissingHiltAndroidAppAnnotationDetectorTest {
                     @@ -3 +3
                     + @dagger.hilt.android.HiltAndroidApp
                 """
-                    .trimIndent()
             )
     }
 

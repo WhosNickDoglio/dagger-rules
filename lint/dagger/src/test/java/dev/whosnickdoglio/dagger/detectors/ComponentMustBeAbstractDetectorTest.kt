@@ -32,14 +32,14 @@ class ComponentMustBeAbstractDetectorTest {
                 daggerAnnotations,
                 anvilAnnotations,
                 TestFiles.kotlin(
-                    """
+                        """
                     import $componentAnnotation
 
                     @${componentAnnotation.substringAfterLast(".")}
                     abstract class MyComponent
                 """
-                        .trimIndent()
-                ),
+                    )
+                    .indented(),
             )
             .issues(ComponentMustBeAbstractDetector.ISSUE)
             .run()
@@ -53,14 +53,14 @@ class ComponentMustBeAbstractDetectorTest {
                 daggerAnnotations,
                 anvilAnnotations,
                 TestFiles.java(
-                    """
+                        """
                     import $componentAnnotation;
 
                     @${componentAnnotation.substringAfterLast(".")}
                     abstract class MyComponent {}
                 """
-                        .trimIndent()
-                ),
+                    )
+                    .indented(),
             )
             .issues(ComponentMustBeAbstractDetector.ISSUE)
             .run()
@@ -74,14 +74,14 @@ class ComponentMustBeAbstractDetectorTest {
                 daggerAnnotations,
                 anvilAnnotations,
                 TestFiles.kotlin(
-                    """
+                        """
                     import $componentAnnotation
 
                     @${componentAnnotation.substringAfterLast(".")}
                     interface MyComponent
                 """
-                        .trimIndent()
-                ),
+                    )
+                    .indented(),
             )
             .issues(ComponentMustBeAbstractDetector.ISSUE)
             .run()
@@ -95,14 +95,14 @@ class ComponentMustBeAbstractDetectorTest {
                 daggerAnnotations,
                 anvilAnnotations,
                 TestFiles.java(
-                    """
+                        """
                     import $componentAnnotation;
 
                     @${componentAnnotation.substringAfterLast(".")}
                     interface MyComponent {}
                 """
-                        .trimIndent()
-                ),
+                    )
+                    .indented(),
             )
             .issues(ComponentMustBeAbstractDetector.ISSUE)
             .run()
@@ -116,14 +116,14 @@ class ComponentMustBeAbstractDetectorTest {
                 daggerAnnotations,
                 anvilAnnotations,
                 TestFiles.java(
-                    """
+                        """
                     import $componentAnnotation;
 
                     @${componentAnnotation.substringAfterLast(".")}
                     class MyComponent {}
                 """
-                        .trimIndent()
-                ),
+                    )
+                    .indented(),
             )
             .issues(ComponentMustBeAbstractDetector.ISSUE)
             .run()
@@ -136,7 +136,6 @@ class ComponentMustBeAbstractDetectorTest {
                     ^
                     1 errors, 0 warnings
                 """
-                    .trimIndent()
             )
             .expectErrorCount(1)
             .expectFixDiffs(
@@ -146,7 +145,6 @@ class ComponentMustBeAbstractDetectorTest {
                 - class MyComponent {}
                 + interface MyComponent {}
                 """
-                    .trimIndent()
             )
     }
 
@@ -157,14 +155,14 @@ class ComponentMustBeAbstractDetectorTest {
                 daggerAnnotations,
                 anvilAnnotations,
                 TestFiles.kotlin(
-                    """
+                        """
                     import $componentAnnotation
 
                     @${componentAnnotation.substringAfterLast(".")}
                     class MyComponent
                 """
-                        .trimIndent()
-                ),
+                    )
+                    .indented(),
             )
             .issues(ComponentMustBeAbstractDetector.ISSUE)
             .run()
@@ -177,7 +175,6 @@ class ComponentMustBeAbstractDetectorTest {
                     ^
                     1 errors, 0 warnings
                 """
-                    .trimIndent()
             )
             .expectErrorCount(1)
             .expectFixDiffs(
@@ -187,7 +184,6 @@ class ComponentMustBeAbstractDetectorTest {
                 - class MyComponent
                 + interface MyComponent
                 """
-                    .trimIndent()
             )
     }
 }

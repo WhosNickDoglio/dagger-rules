@@ -51,7 +51,6 @@ class MissingHiltViewModelAnnotationDetectorTest {
                           ~~~~~~~~~~~
                     1 errors, 0 warnings
                 """
-                    .trimIndent()
             )
             .expectErrorCount(1)
             .expectFixDiffs(
@@ -60,7 +59,6 @@ class MissingHiltViewModelAnnotationDetectorTest {
                     @@ -4 +4
                     + @dagger.hilt.android.lifecycle.HiltViewModel
                 """
-                    .trimIndent()
             )
     }
 
@@ -100,7 +98,6 @@ class MissingHiltViewModelAnnotationDetectorTest {
                           ~~~~~~~~~~~
                     1 errors, 0 warnings
                 """
-                    .trimIndent()
             )
             .expectErrorCount(1)
             .expectFixDiffs(
@@ -109,7 +106,6 @@ class MissingHiltViewModelAnnotationDetectorTest {
                     @@ -4 +4
                     + @dagger.hilt.android.lifecycle.HiltViewModel
                 """
-                    .trimIndent()
             )
     }
 

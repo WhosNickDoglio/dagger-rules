@@ -93,7 +93,6 @@ class MissingAndroidEntryPointDetectorTest {
             @@ -7 +7
             + @dagger.hilt.android.AndroidEntryPoint
         """
-                .trimIndent()
 
         TestLintTask.lint()
             .files(
@@ -194,7 +193,6 @@ class MissingAndroidEntryPointDetectorTest {
                 @@ -6 +6
                 + @dagger.hilt.android.AndroidEntryPoint
             """
-                .trimIndent()
 
         TestLintTask.lint()
             .files(

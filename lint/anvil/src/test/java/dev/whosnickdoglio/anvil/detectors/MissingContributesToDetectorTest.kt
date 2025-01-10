@@ -42,7 +42,6 @@ class MissingContributesToDetectorTest {
                           ~~~~~~~~
                     1 errors, 0 warnings
                 """
-                    .trimIndent()
             )
             .expectErrorCount(1)
             .expectFixDiffs(
@@ -51,7 +50,6 @@ class MissingContributesToDetectorTest {
                     @@ -4 +4
                     + @com.squareup.anvil.annotations.ContributesTo
                 """
-                    .trimIndent()
             )
     }
 
@@ -124,7 +122,6 @@ class MissingContributesToDetectorTest {
                               ~~~~~~~~
                     1 errors, 0 warnings
                 """
-                    .trimIndent()
             )
             .expectErrorCount(1)
             .expectFixDiffs(
@@ -133,7 +130,6 @@ class MissingContributesToDetectorTest {
                     @@ -10 +10
                     + @com.squareup.anvil.annotations.ContributesTo
                 """
-                    .trimIndent()
             )
     }
 
@@ -243,7 +239,6 @@ class MissingContributesToDetectorTest {
                               ~~~~~~~~
                     1 errors, 0 warnings
                 """
-                    .trimIndent()
             )
             .expectErrorCount(1)
             .expectFixDiffs(
@@ -252,7 +247,6 @@ class MissingContributesToDetectorTest {
                     @@ -7 +7
                     + @com.squareup.anvil.annotations.ContributesTo
                 """
-                    .trimIndent()
             )
     }
 

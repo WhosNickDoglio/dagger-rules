@@ -163,15 +163,22 @@ class ValidComponentMethodDetectorTest {
             .run()
             .expect(
                 """
-                    src/com/test/android/AppComponent.kt:7: Error: Methods in a interface annotated with @${component.substringAfterLast(".")} either need to take a single parameter with no return type (member injection methods) or take no parameters and return a injected or provided type (provision methods), anything else will create a compile time error.See https://whosnickdoglio.dev/dagger-rules/rules/#valid-component-methods for more information. [ValidComponentMethod]
+                    src/com/test/android/AppComponent.kt:7: Error: Methods in a interface annotated with @${
+                    component.substringAfterLast(
+                        "."
+                    )
+                } either need to take a single parameter with no return type (member injection methods) or take no parameters and return a injected or provided type (provision methods), anything else will create a compile time error.See https://whosnickdoglio.dev/dagger-rules/rules/#valid-component-methods for more information. [ValidComponentMethod]
                          fun injectWithTwoParams(target: String, otherTarget: Int)
                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                    src/com/test/android/AppComponent.kt:8: Error: Methods in a interface annotated with @${component.substringAfterLast(".")} either need to take a single parameter with no return type (member injection methods) or take no parameters and return a injected or provided type (provision methods), anything else will create a compile time error.See https://whosnickdoglio.dev/dagger-rules/rules/#valid-component-methods for more information. [ValidComponentMethod]
+                    src/com/test/android/AppComponent.kt:8: Error: Methods in a interface annotated with @${
+                    component.substringAfterLast(
+                        "."
+                    )
+                } either need to take a single parameter with no return type (member injection methods) or take no parameters and return a injected or provided type (provision methods), anything else will create a compile time error.See https://whosnickdoglio.dev/dagger-rules/rules/#valid-component-methods for more information. [ValidComponentMethod]
                          fun injectWithReturnType(target: String): Int
                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
                     2 errors, 0 warnings
                 """
-                    .trimIndent()
             )
             .expectErrorCount(2)
     }
@@ -202,15 +209,22 @@ class ValidComponentMethodDetectorTest {
             .run()
             .expect(
                 """
-                    src/com/test/android/AppComponent.java:7: Error: Methods in a interface annotated with @${component.substringAfterLast(".")} either need to take a single parameter with no return type (member injection methods) or take no parameters and return a injected or provided type (provision methods), anything else will create a compile time error.See https://whosnickdoglio.dev/dagger-rules/rules/#valid-component-methods for more information. [ValidComponentMethod]
+                    src/com/test/android/AppComponent.java:7: Error: Methods in a interface annotated with @${
+                    component.substringAfterLast(
+                        "."
+                    )
+                } either need to take a single parameter with no return type (member injection methods) or take no parameters and return a injected or provided type (provision methods), anything else will create a compile time error.See https://whosnickdoglio.dev/dagger-rules/rules/#valid-component-methods for more information. [ValidComponentMethod]
                          void injectWithTwoParams(String target, Int otherTarget);
                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                    src/com/test/android/AppComponent.java:8: Error: Methods in a interface annotated with @${component.substringAfterLast(".")} either need to take a single parameter with no return type (member injection methods) or take no parameters and return a injected or provided type (provision methods), anything else will create a compile time error.See https://whosnickdoglio.dev/dagger-rules/rules/#valid-component-methods for more information. [ValidComponentMethod]
+                    src/com/test/android/AppComponent.java:8: Error: Methods in a interface annotated with @${
+                    component.substringAfterLast(
+                        "."
+                    )
+                } either need to take a single parameter with no return type (member injection methods) or take no parameters and return a injected or provided type (provision methods), anything else will create a compile time error.See https://whosnickdoglio.dev/dagger-rules/rules/#valid-component-methods for more information. [ValidComponentMethod]
                          String injectWithReturnType(Boolean target);
                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
                     2 errors, 0 warnings
                 """
-                    .trimIndent()
             )
             .expectErrorCount(2)
     }
@@ -241,15 +255,22 @@ class ValidComponentMethodDetectorTest {
             .run()
             .expect(
                 """
-                    src/com/test/android/AppComponent.kt:7: Error: Methods in a interface annotated with @${component.substringAfterLast(".")} either need to take a single parameter with no return type (member injection methods) or take no parameters and return a injected or provided type (provision methods), anything else will create a compile time error.See https://whosnickdoglio.dev/dagger-rules/rules/#valid-component-methods for more information. [ValidComponentMethod]
+                    src/com/test/android/AppComponent.kt:7: Error: Methods in a interface annotated with @${
+                    component.substringAfterLast(
+                        "."
+                    )
+                } either need to take a single parameter with no return type (member injection methods) or take no parameters and return a injected or provided type (provision methods), anything else will create a compile time error.See https://whosnickdoglio.dev/dagger-rules/rules/#valid-component-methods for more information. [ValidComponentMethod]
                          fun myThingWithParameter(otherThing: String): Int
                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                    src/com/test/android/AppComponent.kt:8: Error: Methods in a interface annotated with @${component.substringAfterLast(".")} either need to take a single parameter with no return type (member injection methods) or take no parameters and return a injected or provided type (provision methods), anything else will create a compile time error.See https://whosnickdoglio.dev/dagger-rules/rules/#valid-component-methods for more information. [ValidComponentMethod]
+                    src/com/test/android/AppComponent.kt:8: Error: Methods in a interface annotated with @${
+                    component.substringAfterLast(
+                        "."
+                    )
+                } either need to take a single parameter with no return type (member injection methods) or take no parameters and return a injected or provided type (provision methods), anything else will create a compile time error.See https://whosnickdoglio.dev/dagger-rules/rules/#valid-component-methods for more information. [ValidComponentMethod]
                          fun myThingWithNoReturnType()
                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
                     2 errors, 0 warnings
                 """
-                    .trimIndent()
             )
             .expectErrorCount(2)
     }
@@ -280,15 +301,22 @@ class ValidComponentMethodDetectorTest {
             .run()
             .expect(
                 """
-                    src/com/test/android/AppComponent.java:7: Error: Methods in a interface annotated with @${component.substringAfterLast(".")} either need to take a single parameter with no return type (member injection methods) or take no parameters and return a injected or provided type (provision methods), anything else will create a compile time error.See https://whosnickdoglio.dev/dagger-rules/rules/#valid-component-methods for more information. [ValidComponentMethod]
+                    src/com/test/android/AppComponent.java:7: Error: Methods in a interface annotated with @${
+                    component.substringAfterLast(
+                        "."
+                    )
+                } either need to take a single parameter with no return type (member injection methods) or take no parameters and return a injected or provided type (provision methods), anything else will create a compile time error.See https://whosnickdoglio.dev/dagger-rules/rules/#valid-component-methods for more information. [ValidComponentMethod]
                          boolean myThingWithParameter(String otherThing);
                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                    src/com/test/android/AppComponent.java:8: Error: Methods in a interface annotated with @${component.substringAfterLast(".")} either need to take a single parameter with no return type (member injection methods) or take no parameters and return a injected or provided type (provision methods), anything else will create a compile time error.See https://whosnickdoglio.dev/dagger-rules/rules/#valid-component-methods for more information. [ValidComponentMethod]
+                    src/com/test/android/AppComponent.java:8: Error: Methods in a interface annotated with @${
+                    component.substringAfterLast(
+                        "."
+                    )
+                } either need to take a single parameter with no return type (member injection methods) or take no parameters and return a injected or provided type (provision methods), anything else will create a compile time error.See https://whosnickdoglio.dev/dagger-rules/rules/#valid-component-methods for more information. [ValidComponentMethod]
                          void myThingWithNoReturnType();
                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
                     2 errors, 0 warnings
                 """
-                    .trimIndent()
             )
             .expectErrorCount(2)
     }
