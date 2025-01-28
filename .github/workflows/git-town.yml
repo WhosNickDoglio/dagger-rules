@@ -16,4 +16,4 @@ jobs:
 
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
-      - uses: git-town/action@379e52b8a5c26c8350c75b45597b3ca7316683d7 # v1
+      - uses: git-town/action@8a6469b6e49b1d8c8eac1daf542ce05fac587308 # v1
