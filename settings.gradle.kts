@@ -6,7 +6,6 @@
 rootProject.name = "dagger-rules"
 
 pluginManagement {
-    includeBuild("build-logic")
     repositories {
            exclusiveContent {
                   forRepository { google() }
