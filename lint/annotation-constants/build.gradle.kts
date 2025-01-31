@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: MIT
  */
 plugins {
-    id("dev.whosnickdoglio.lint")
+    alias(libs.plugins.convention.kotlin)
     `java-test-fixtures`
 }
 

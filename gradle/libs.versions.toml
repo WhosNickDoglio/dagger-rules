@@ -9,10 +9,12 @@ detekt = "1.23.7"
 kover = "0.9.1"
 spotless = "7.0.2"
 jdk = "23"
+jdkTarget = "17"
 sort = "0.14"
 dagger = "2.55"
 
 [plugins]
+convention-kotlin = { id = "dev.whosnickdoglio.convention.kotlin", version = "0.1" }
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
 lint = { id = "com.android.lint", version.ref = "agp" }
 android-app = { id = "com.android.application", version.ref = "agp" }
