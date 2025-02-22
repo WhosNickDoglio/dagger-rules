@@ -1,7 +1,7 @@
 [versions]
 agp = "8.8.1"
 desugar = "2.1.4"
-dependencyAnalysis = "2.10.0"
+dependencyAnalysis = "2.10.1"
 kotlin = "2.1.10"
 ktfmt = "0.54"
 lint = "31.8.1"
