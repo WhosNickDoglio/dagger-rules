@@ -1,18 +1,16 @@
-import io.gitlab.arturbosch.detekt.Detekt
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
-import org.jetbrains.kotlin.gradle.internal.KaptGenerateStubsTask
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 /*
  * Copyright (C) 2024 Nicholas Doglio
  * SPDX-License-Identifier: MIT
  */
 
+import io.gitlab.arturbosch.detekt.Detekt
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 plugins {
     alias(libs.plugins.android.app)
     alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.kotlin.kapt)
+    alias(libs.plugins.ksp)
     alias(libs.plugins.anvil)
     alias(libs.plugins.hilt)
     alias(libs.plugins.detekt)
@@ -25,21 +23,23 @@ kotlin {
     jvmToolchain(libs.versions.jdk.get().toInt())
 }
 
-anvil { addOptionalAnnotations.set(true) }
+ksp { arg("dagger.hilt.disableModulesHaveInstallInCheck", "true") }
+
+anvil {
+    addOptionalAnnotations.set(true)
+    useKsp(contributesAndFactoryGeneration = true, componentMerging = true)
+}
 
 android {
     namespace = "dev.whosnickdoglio.demo"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "dev.whosnickdoglio.demo"
         minSdk = 24
-        targetSdk = 35
+        targetSdk = 36
         versionCode = 1
         versionName = "1.0"
-        javaCompileOptions.annotationProcessorOptions {
-            arguments["dagger.hilt.disableModulesHaveInstallInCheck"] = "true"
-        }
     }
 
     buildTypes {
@@ -101,17 +101,6 @@ tasks.withType<KotlinCompile>().configureEach {
     compilerOptions {
         allWarningsAsErrors = true
         jvmTarget = JvmTarget.JVM_17
-        // TODO necessary until anvil supports something for K2 contribution merging
-        progressiveMode.set(false)
-        languageVersion.set(KotlinVersion.KOTLIN_1_9)
-    }
-}
-
-tasks.withType<KaptGenerateStubsTask>().configureEach {
-    // TODO necessary until anvil supports something for K2 contribution merging
-    compilerOptions {
-        progressiveMode.set(false)
-        languageVersion.set(KotlinVersion.KOTLIN_1_9)
     }
 }
 
@@ -123,9 +112,9 @@ dependencies {
     implementation(libs.androidx.core)
     implementation(libs.hilt.android)
 
-    kapt(libs.hilt.compiler)
-
     coreLibraryDesugaring(libs.desugar)
+
+    ksp(libs.hilt.compiler)
 
     lintChecks(projects.lint.anvil)
     lintChecks(projects.lint.dagger)
