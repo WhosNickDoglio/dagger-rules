@@ -186,6 +186,130 @@ class ConstructorInjectionOverFieldInjectionDetectorTest {
             .expectWarningCount(1)
     }
 
+    @Test
+    fun `android subclass in kotlin does triggers member injection warning when usingAppComponentFactory is enabled`() {
+        TestLintTask.lint()
+            .files(
+                javaxAnnotations,
+                TestFiles.kotlin(
+                        """
+                package ${component.classPackage}
+
+                class ${component.className}
+
+                """
+                    )
+                    .indented(),
+                TestFiles.kotlin(
+                        """
+                package androidx
+
+                import ${component.classImport}
+
+                class AndroidX${component.className}: ${component.className}
+                    """
+                    )
+                    .indented(),
+                TestFiles.kotlin(
+                        """
+            package com.test.android
+
+            import javax.inject.Inject
+            import androidx.AndroidX${component.className}
+
+            class Something
+
+            class My${component.className}: AndroidX${component.className} {
+
+            @Inject lateinit var something: Something
+
+            }
+                """
+                    )
+                    .indented(),
+            )
+            .issues(ConstructorInjectionOverFieldInjectionDetector.ISSUE)
+            .configureOption(
+                ConstructorInjectionOverFieldInjectionDetector.usingAppComponentFactory,
+                true,
+            )
+            .run()
+            .expect(
+                """
+                src/com/test/android/Something.kt:10: Warning: Constructor injection should be favored over field injection for classes that support it.
+
+                See https://whosnickdoglio.dev/dagger-rules/rules/#prefer-constructor-injection-over-field-injection for more information. [ConstructorOverField]
+                @Inject lateinit var something: Something
+                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                0 errors, 1 warnings
+            """
+                    .trimIndent()
+            )
+            .expectWarningCount(1)
+    }
+
+    @Test
+    fun `android subclass in java does triggers member injection warning when usingAppComponentFactory is enabled`() {
+        TestLintTask.lint()
+            .files(
+                javaxAnnotations,
+                TestFiles.java(
+                        """
+                package ${component.classPackage};
+
+                class ${component.className} {}
+
+                """
+                    )
+                    .indented(),
+                TestFiles.java(
+                        """
+                package androidx;
+
+                import ${component.classImport};
+
+                class AndroidX${component.className} extends ${component.className} {}
+                    """
+                    )
+                    .indented(),
+                TestFiles.java(
+                        """
+            package com.test.android;
+
+            import javax.inject.Inject;
+            import androidx.AndroidX${component.className};
+
+            class Something {}
+
+            class My${component.className} extends AndroidX${component.className} {
+
+            @Inject Something something;
+
+            }
+                """
+                    )
+                    .indented(),
+            )
+            .issues(ConstructorInjectionOverFieldInjectionDetector.ISSUE)
+            .configureOption(
+                ConstructorInjectionOverFieldInjectionDetector.usingAppComponentFactory,
+                true,
+            )
+            .run()
+            .expect(
+                """
+                src/com/test/android/Something.java:10: Warning: Constructor injection should be favored over field injection for classes that support it.
+
+                See https://whosnickdoglio.dev/dagger-rules/rules/#prefer-constructor-injection-over-field-injection for more information. [ConstructorOverField]
+                @Inject Something something;
+                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                0 errors, 1 warnings
+            """
+                    .trimIndent()
+            )
+            .expectWarningCount(1)
+    }
+
     @Suppress("unused")
     enum class AndroidComponentParameters(
         val className: String,
