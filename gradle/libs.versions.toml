@@ -11,7 +11,7 @@ spotless = "7.0.2"
 jdk = "23"
 jdkTarget = "17"
 sort = "0.14"
-dagger = "2.55"
+dagger = "2.56"
 
 [plugins]
 convention-kotlin = { id = "dev.whosnickdoglio.convention.kotlin", version = "0.1" }
