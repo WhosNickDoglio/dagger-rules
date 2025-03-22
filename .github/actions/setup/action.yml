@@ -7,11 +7,11 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - name: set up JDK 23
+    - name: set up JDK 24
       uses: actions/setup-java@c5195efecf7bdfc987ee8bae7a71cb8b11521c00 # v4.7.1
       with:
         distribution: 'zulu'
-        java-version: '23'
+        java-version: '24'
     - name: Set up jemalloc
       uses: kaeawc/setup-jemalloc@97ffdab77f76db0584b4d9cfb036fab6457d5526 # v0.0.3
     - name: Setup Gradle
