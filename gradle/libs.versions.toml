@@ -24,7 +24,7 @@ dependencyAnalysis = { id = "com.autonomousapps.dependency-analysis", version.re
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
-ksp = { id = "com.google.devtools.ksp", version = "2.1.20-1.0.31" }
+ksp = { id = "com.google.devtools.ksp", version = "2.1.20-1.0.32" }
 sortDependencies = { id = "com.squareup.sort-dependencies", version.ref = "sort" }
 anvil = { id = "dev.zacsweers.anvil", version = "0.4.1" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "dagger" }
