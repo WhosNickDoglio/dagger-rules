@@ -23,6 +23,11 @@ import dev.whosnickdoglio.lint.annotations.dagger.PROVIDES
 import org.jetbrains.uast.UClass
 import org.jetbrains.uast.UElement
 
+/**
+ * A [Detector] that flags if a class contains Dagger annotations (such as `@Binds`, `@Provides` or
+ * `@Multibinds`) but is missing the `@Module` annotation, without the `@Module` annotations none of
+ * these provided dependencies will be added to the dependency graph.
+ */
 internal class MissingModuleAnnotationDetector : Detector(), SourceCodeScanner {
     private val daggerAnnotations = listOf(BINDS, PROVIDES, MULTIBINDS)
 

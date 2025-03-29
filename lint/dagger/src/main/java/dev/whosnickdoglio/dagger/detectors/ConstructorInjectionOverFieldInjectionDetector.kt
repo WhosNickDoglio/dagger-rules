@@ -22,6 +22,10 @@ import org.jetbrains.uast.UElement
 import org.jetbrains.uast.UField
 import org.jetbrains.uast.getContainingUClass
 
+/**
+ * A [Detector] that checks to ensure when possible constructor injection
+ * is used over field injection.
+ */
 internal class ConstructorInjectionOverFieldInjectionDetector : Detector(), SourceCodeScanner {
     override fun getApplicableUastTypes(): List<Class<out UElement>> =
         listOf(UAnnotation::class.java)

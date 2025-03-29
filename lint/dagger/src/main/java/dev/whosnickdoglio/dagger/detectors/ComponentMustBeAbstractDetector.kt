@@ -24,6 +24,15 @@ import org.jetbrains.uast.UAnnotation
 import org.jetbrains.uast.UClass
 import org.jetbrains.uast.UElement
 
+/**
+ * A [Detector] that checks to ensure anything annotated with `@Component` or `Subcomponent` is an
+ * abstract class or interface. Dagger requires all components to be abstract so the generated code
+ * can implement the abstract class/interface. This [Detector] also checks for Anvil related
+ * component annotations like `@MergeComponent`, `@MergeSubcomponent`, and
+ * `@ContributesSubcomponent`.
+ * * More info can be found in the
+ * * [Dagger `@Component` documentation](https://dagger.dev/api/latest/dagger/Component.html)
+ */
 internal class ComponentMustBeAbstractDetector : Detector(), SourceCodeScanner {
     private val oldClassPattern =
         "(object|enum\\s+class|annotation\\s+class|sealed\\s+class|data\\s+class|enum|class)"
