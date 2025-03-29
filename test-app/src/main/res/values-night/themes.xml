@@ -1,9 +1,9 @@
 <!--
-  ~ Copyright (C) 2024 Nicholas Doglio
+  ~ Copyright (C) 2025 Nicholas Doglio
   ~ SPDX-License-Identifier: MIT
   -->
 
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <!-- Base application theme. -->
     <style name="Theme.Daggerrules" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Primary brand color. -->

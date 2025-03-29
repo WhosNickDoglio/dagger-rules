@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2024 Nicholas Doglio
+ * Copyright (C) 2025 Nicholas Doglio
  * SPDX-License-Identifier: MIT
  */
 package dev.whosnickdoglio.dagger.detectors
@@ -23,8 +23,8 @@ import org.jetbrains.uast.UField
 import org.jetbrains.uast.getContainingUClass
 
 /**
- * A [Detector] that checks to ensure when possible constructor injection
- * is used over field injection.
+ * A [Detector] that checks to ensure when possible constructor injection is used over field
+ * injection.
  */
 internal class ConstructorInjectionOverFieldInjectionDetector : Detector(), SourceCodeScanner {
     override fun getApplicableUastTypes(): List<Class<out UElement>> =

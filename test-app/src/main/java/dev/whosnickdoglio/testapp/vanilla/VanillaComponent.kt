@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2024 Nicholas Doglio
+ * Copyright (C) 2025 Nicholas Doglio
  * SPDX-License-Identifier: MIT
  */
 
@@ -9,12 +9,11 @@ import android.content.Context
 import dagger.Component
 import javax.inject.Singleton
 
-@Singleton
-@Component
-public interface VanillaComponent
+@Singleton @Component public interface VanillaComponent
 
 internal interface ComponentProvider {
     val component: VanillaComponent
 }
 
-internal val Context.injector get() = (applicationContext as ComponentProvider).component
+internal val Context.injector
+    get() = (applicationContext as ComponentProvider).component

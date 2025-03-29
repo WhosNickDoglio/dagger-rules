@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2024 Nicholas Doglio
+ * Copyright (C) 2025 Nicholas Doglio
  * SPDX-License-Identifier: MIT
  */
 
@@ -7,14 +7,14 @@ rootProject.name = "dagger-rules"
 
 pluginManagement {
     repositories {
-           exclusiveContent {
-                  forRepository { google() }
-                  filter {
-                        includeGroupAndSubgroups("androidx")
-                        includeGroupAndSubgroups("com.android")
-                        includeGroup("com.google.testing.platform")
-                      }
-                }
+        exclusiveContent {
+            forRepository { google() }
+            filter {
+                includeGroupAndSubgroups("androidx")
+                includeGroupAndSubgroups("com.android")
+                includeGroup("com.google.testing.platform")
+            }
+        }
         mavenCentral()
         gradlePluginPortal()
     }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2024 Nicholas Doglio
+ * Copyright (C) 2025 Nicholas Doglio
  * SPDX-License-Identifier: MIT
  */
 
@@ -15,8 +15,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 public class MainActivity : AppCompatActivity() {
 
-    @Inject
-    public lateinit var greeter: Greeter
+    @Inject public lateinit var greeter: Greeter
 
     override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
         super.onCreate(savedInstanceState, persistentState)

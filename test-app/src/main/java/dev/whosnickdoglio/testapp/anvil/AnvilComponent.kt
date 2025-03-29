@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2024 Nicholas Doglio
+ * Copyright (C) 2025 Nicholas Doglio
  * SPDX-License-Identifier: MIT
  */
 
@@ -9,8 +9,7 @@ import android.content.Context
 import com.squareup.anvil.annotations.MergeComponent
 import com.squareup.anvil.annotations.optional.SingleIn
 
-@SingleIn(AppScope::class) @MergeComponent(AppScope::class)
-public interface AnvilComponent
+@SingleIn(AppScope::class) @MergeComponent(AppScope::class) public interface AnvilComponent
 
 public sealed interface AppScope
 
