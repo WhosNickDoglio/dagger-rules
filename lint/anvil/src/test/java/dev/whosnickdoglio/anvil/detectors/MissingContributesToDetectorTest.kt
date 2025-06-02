@@ -251,7 +251,55 @@ class MissingContributesToDetectorTest {
     }
 
     @Test
-    fun `java provides module without @ContributesTo annotation shows an error`() {
+    fun `kotlin @Module without @ContributesTo with lint option set shows error with expected quickfix`() {
+        TestLintTask.lint()
+            .files(
+                daggerAnnotations,
+                TestFiles.kotlin(
+                        """
+                import dagger.Module
+                import dagger.Provides
+
+                @Module
+                class MyModule {
+
+                @Provides fun provideMyThing(): String = "Hello World"
+
+                @Provides fun provideAnotherThing(): Int = 1
+
+                }
+            """
+                    )
+                    .indented(),
+            )
+            .issues(MissingContributesToDetector.ISSUE)
+            .configureOption(
+                MissingContributesToDetector.CUSTOM_ANVIL_SCOPE_OPTION_KEY,
+                "dev.whosnickdoglio.anvil.AppScope",
+            )
+            .run()
+            .expect(
+                """
+                    src/MyModule.kt:5: Error: This Dagger module is missing a @ContributesTo annotation for Anvil to pick it up. See https://whosnickdoglio.dev/dagger-rules/rules/#a-class-annotated-with-module-should-also-be-annotated-with-contributesto for more information. [MissingContributesToAnnotation]
+                    class MyModule {
+                          ~~~~~~~~
+                    1 errors, 0 warnings
+                """
+                    .trimIndent()
+            )
+            .expectErrorCount(1)
+            .expectFixDiffs(
+                """
+                    Autofix for src/MyModule.kt line 5: Contribute to AppScope :
+                    @@ -4 +4
+                    + @com.squareup.anvil.annotations.ContributesTo(dev.whosnickdoglio.anvil.AppScope::class)
+                """
+                    .trimIndent()
+            )
+    }
+
+    @Test
+    fun `java provides module without @ContributesTo annotation shows no error`() {
         TestLintTask.lint()
             .files(
                 daggerAnnotations,
