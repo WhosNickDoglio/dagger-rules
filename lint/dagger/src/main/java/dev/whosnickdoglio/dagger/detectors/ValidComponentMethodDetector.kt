@@ -14,6 +14,7 @@ import com.android.tools.lint.detector.api.JavaContext
 import com.android.tools.lint.detector.api.Scope
 import com.android.tools.lint.detector.api.Severity
 import com.android.tools.lint.detector.api.SourceCodeScanner
+import com.intellij.psi.PsiMethod
 import com.intellij.psi.PsiTypes
 import dev.whosnickdoglio.lint.annotations.anvil.CONTRIBUTES_SUBCOMPONENT
 import dev.whosnickdoglio.lint.annotations.anvil.MERGE_COMPONENT
@@ -24,7 +25,6 @@ import dev.whosnickdoglio.lint.annotations.hilt.ENTRY_POINT
 import org.jetbrains.uast.UAnnotation
 import org.jetbrains.uast.UClass
 import org.jetbrains.uast.UElement
-import org.jetbrains.uast.UMethod
 
 /**
  * A [Detector] that ensures all methods in a Dagger Component (or similar annotations for Anvil and
@@ -44,7 +44,7 @@ internal class ValidComponentMethodDetector : Detector(), SourceCodeScanner {
             override fun visitAnnotation(node: UAnnotation) {
                 if (node.qualifiedName in components) {
                     val component = node.uastParent as? UClass ?: return
-                    component.methods.forEach { method ->
+                    component.javaPsi.methods.forEach { method ->
                         val isValidProvisionMethod = method.isValidProvisionMethod()
                         val isValidMemberInjectionMethod = method.isValidMemberInjectionMethod()
 
@@ -73,14 +73,14 @@ internal class ValidComponentMethodDetector : Detector(), SourceCodeScanner {
      * Returns `true` if the method is a valid provision method with no parameter with a non-void
      * return type.
      */
-    private fun UMethod.isValidProvisionMethod(): Boolean =
+    private fun PsiMethod.isValidProvisionMethod(): Boolean =
         parameterList.isEmpty && returnType != PsiTypes.voidType()
 
     /**
      * Returns `true` if the method is a valid member injection method with a single parameter with
      * a either a Unit/Void **or** the injected type return type.
      */
-    private fun UMethod.isValidMemberInjectionMethod(): Boolean {
+    private fun PsiMethod.isValidMemberInjectionMethod(): Boolean {
         val numberOfParameters = parameterList.parametersCount
         val parameter = parameterList.getParameter(0)
         return numberOfParameters == 1 &&

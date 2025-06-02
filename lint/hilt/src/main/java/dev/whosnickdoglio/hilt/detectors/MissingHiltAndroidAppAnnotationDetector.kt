@@ -25,20 +25,21 @@ internal class MissingHiltAndroidAppAnnotationDetector : Detector(), SourceCodeS
     override fun createUastHandler(context: JavaContext): UElementHandler =
         object : UElementHandler() {
             override fun visitClass(node: UClass) {
+                val clazz = node.javaPsi
                 if (
-                    context.evaluator.extendsClass(node, ANDROID_APP, true) &&
-                        !node.hasAnnotation(HILT_ANDROID_APP)
+                    context.evaluator.extendsClass(clazz, ANDROID_APP, true) &&
+                        !clazz.hasAnnotation(HILT_ANDROID_APP)
                 ) {
                     context.report(
                         Incident(context, ISSUE)
-                            .location(context.getNameLocation(node))
+                            .location(context.getNameLocation(clazz))
                             .message(ISSUE.getBriefDescription(TextFormat.RAW))
                             .fix(
                                 fix()
                                     .name(
                                         "Add ${HILT_ANDROID_APP.substringAfterLast(".")} annotation"
                                     )
-                                    .annotate(HILT_ANDROID_APP, context, node)
+                                    .annotate(HILT_ANDROID_APP, context, node.sourcePsi)
                                     .autoFix(robot = true, independent = true)
                                     .build()
                             )

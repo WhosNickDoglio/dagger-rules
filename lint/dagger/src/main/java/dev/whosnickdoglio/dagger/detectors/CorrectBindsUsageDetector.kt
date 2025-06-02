@@ -15,10 +15,10 @@ import com.android.tools.lint.detector.api.Scope
 import com.android.tools.lint.detector.api.Severity
 import com.android.tools.lint.detector.api.SourceCodeScanner
 import com.android.tools.lint.detector.api.TextFormat
+import com.intellij.psi.PsiMethod
 import dev.whosnickdoglio.lint.annotations.dagger.BINDS
 import org.jetbrains.uast.UAnnotation
 import org.jetbrains.uast.UElement
-import org.jetbrains.uast.UMethod
 
 /**
  * A Kotlin and Java [Detector] for Dagger that warns if the parameter of a `@Binds` method is not a
@@ -32,7 +32,7 @@ internal class CorrectBindsUsageDetector : Detector(), SourceCodeScanner {
         object : UElementHandler() {
             override fun visitAnnotation(node: UAnnotation) {
                 if (node.qualifiedName == BINDS) {
-                    val bindsMethod = node.uastParent as? UMethod ?: return
+                    val bindsMethod = node.uastParent?.javaPsi as? PsiMethod ?: return
 
                     if (!context.evaluator.isAbstract(bindsMethod)) {
                         context.report(

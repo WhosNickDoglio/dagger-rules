@@ -37,13 +37,14 @@ internal class MissingModuleAnnotationDetector : Detector(), SourceCodeScanner {
         return object : UElementHandler() {
             override fun visitClass(node: UClass) {
                 if (!node.hasAnnotation(MODULE)) {
-                    if (isKotlin(node.lang) && context.evaluator.isCompanion(node)) {
+                    val clazz = node.javaPsi
+                    if (isKotlin(node.lang) && context.evaluator.isCompanion(clazz)) {
                         // Early out, other methods should already trigger lint warning?
                         return
                     }
 
                     val needsModuleAnnotation =
-                        node.methods.any { method ->
+                        clazz.methods.any { method ->
                             daggerAnnotations.any { annotation -> method.hasAnnotation(annotation) }
                         }
 
@@ -51,13 +52,13 @@ internal class MissingModuleAnnotationDetector : Detector(), SourceCodeScanner {
                         context.report(
                             Incident(
                                 issue = ISSUE,
-                                scope = node,
-                                location = context.getNameLocation(node),
+                                scope = clazz,
+                                location = context.getNameLocation(clazz),
                                 message = ISSUE.getExplanation(TextFormat.RAW),
                                 fix =
                                     fix()
                                         .name("Add @Module annotation")
-                                        .annotate(MODULE, context, node)
+                                        .annotate(MODULE, context, node.sourcePsi)
                                         .autoFix(robot = true, independent = true)
                                         .build(),
                             )

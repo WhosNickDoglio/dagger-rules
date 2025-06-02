@@ -3,7 +3,7 @@
   ~ SPDX-License-Identifier: MIT
   -->
 
-<issues format="6" by="lint 8.9.1" type="baseline" client="gradle" dependencies="false"
-        name="AGP (8.9.1)" variant="all" version="8.9.1">
+<issues format="6" by="lint 8.10.1" type="baseline" client="gradle" dependencies="false"
+        name="AGP (8.10.1)" variant="all" version="8.10.1">
 
 </issues>

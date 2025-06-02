@@ -38,14 +38,16 @@ internal class MissingContributesBindingDetector : Detector(), SourceCodeScanner
                     node.hasAnnotation(CONTRIBUTES_BINDING) ||
                         node.hasAnnotation(CONTRIBUTES_MULTI_BINDING)
 
+                val psiClass = node.javaPsi
+
                 if (
-                    node.constructors.any { method -> method.hasAnnotation(INJECT) } &&
+                    psiClass.constructors.any { method -> method.hasAnnotation(INJECT) } &&
                         // TODO this feels naive
                         // Ignore Any
-                        node.superTypes.size > 1 &&
+                        psiClass.superTypes.size > 1 &&
                         !hasBindingAnnotations
                 ) {
-                    val hasNoGenerics = node.superTypes.filter { !it.hasParameters() }
+                    val hasNoGenerics = psiClass.superTypes.filter { !it.hasParameters() }
 
                     // Ignore Any
                     if (hasNoGenerics.size > 1) {
@@ -61,12 +63,20 @@ internal class MissingContributesBindingDetector : Detector(), SourceCodeScanner
                                         .alternatives(
                                             fix()
                                                 .name("Add @ContributesBinding annotation")
-                                                .annotate(CONTRIBUTES_BINDING, context, node)
+                                                .annotate(
+                                                    CONTRIBUTES_BINDING,
+                                                    context,
+                                                    node.sourcePsi,
+                                                )
                                                 .autoFix(robot = true, independent = true)
                                                 .build(),
                                             fix()
                                                 .name("Add @ContributesMultibinding annotation")
-                                                .annotate(CONTRIBUTES_MULTI_BINDING, context, node)
+                                                .annotate(
+                                                    CONTRIBUTES_MULTI_BINDING,
+                                                    context,
+                                                    node.sourcePsi,
+                                                )
                                                 .autoFix(robot = true, independent = true)
                                                 .build(),
                                         )
