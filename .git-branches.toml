@@ -22,7 +22,7 @@ push-hook = true
 # When disabled, many Git Town commands execute faster
 # and Git Town will create the missing tracking branch
 # on the first run of "git sync".
-push-new-branches = false
+share-new-branches = "push"
 
 # Should "git ship" delete the tracking branch?
 # You want to disable this if your code hosting platform
