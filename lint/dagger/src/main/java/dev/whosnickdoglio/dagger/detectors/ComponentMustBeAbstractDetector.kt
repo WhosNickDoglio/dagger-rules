@@ -57,7 +57,7 @@ internal class ComponentMustBeAbstractDetector : Detector(), SourceCodeScanner {
                                 fix =
                                     fix()
                                         .replace()
-                                        .name("Make ${component.name} an interface")
+                                        .name("Make ${component.javaPsi.name} an interface")
                                         .pattern(oldClassPattern.toString())
                                         .with("interface")
                                         .build(),

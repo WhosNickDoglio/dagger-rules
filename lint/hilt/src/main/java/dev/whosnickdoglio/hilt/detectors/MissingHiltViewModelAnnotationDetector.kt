@@ -15,6 +15,7 @@ import com.android.tools.lint.detector.api.Scope
 import com.android.tools.lint.detector.api.Severity
 import com.android.tools.lint.detector.api.SourceCodeScanner
 import com.android.tools.lint.detector.api.TextFormat
+import com.intellij.psi.PsiClass
 import dev.whosnickdoglio.lint.annotations.dagger.INJECT
 import dev.whosnickdoglio.lint.annotations.hilt.HILT_VIEW_MODEL
 import org.jetbrains.uast.UClass
@@ -31,35 +32,37 @@ internal class MissingHiltViewModelAnnotationDetector : Detector(), SourceCodeSc
     override fun createUastHandler(context: JavaContext): UElementHandler =
         object : UElementHandler() {
             override fun visitClass(node: UClass) {
+                val clazz = node.javaPsi
                 val isViewModelSubclass =
-                    context.evaluator.extendsClass(node, HILT_VIEW_MODEL_PACKAGE, true)
+                    context.evaluator.extendsClass(clazz, HILT_VIEW_MODEL_PACKAGE, true)
 
                 if (
                     isViewModelSubclass &&
-                        node.hasInjectedConstructor() &&
-                        !node.hasAnnotation(HILT_VIEW_MODEL)
+                        clazz.hasInjectedConstructor() &&
+                        !clazz.hasAnnotation(HILT_VIEW_MODEL)
                 ) {
                     context.report(
                         Incident(context, ISSUE_MISSING_ANNOTATION)
-                            .location(context.getNameLocation(node))
+                            .location(context.getNameLocation(clazz))
                             .message(ISSUE_MISSING_ANNOTATION.getExplanation(TextFormat.RAW))
                             .fix(
                                 fix()
                                     .name(
                                         "Add ${HILT_VIEW_MODEL.substringAfterLast(".")} annotation"
                                     )
-                                    .annotate(HILT_VIEW_MODEL, context, node)
+                                    .annotate(HILT_VIEW_MODEL, context, clazz)
+                                    .range(context.getLocation(node.sourcePsi))
                                     .build()
                             )
                     )
                 } else if (
                     isViewModelSubclass &&
-                        !node.hasInjectedConstructor() &&
-                        node.hasAnnotation(HILT_VIEW_MODEL)
+                        !clazz.hasInjectedConstructor() &&
+                        clazz.hasAnnotation(HILT_VIEW_MODEL)
                 ) {
                     context.report(
                         Incident(context, ISSUE_UNNECESSARY_ANNOTATION)
-                            .location(context.getNameLocation(node))
+                            .location(context.getNameLocation(clazz))
                             .message(
                                 "This class is missing the `@${HILT_VIEW_MODEL.substringAfterLast(".")}`"
                             )
@@ -69,7 +72,7 @@ internal class MissingHiltViewModelAnnotationDetector : Detector(), SourceCodeSc
             }
         }
 
-    private fun UClass.hasInjectedConstructor(): Boolean =
+    private fun PsiClass.hasInjectedConstructor(): Boolean =
         constructors.any { method -> method.hasAnnotation(INJECT) }
 
     companion object {

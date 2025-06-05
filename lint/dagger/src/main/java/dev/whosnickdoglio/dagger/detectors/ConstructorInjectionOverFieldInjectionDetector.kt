@@ -16,11 +16,11 @@ import com.android.tools.lint.detector.api.Severity
 import com.android.tools.lint.detector.api.SourceCodeScanner
 import com.android.tools.lint.detector.api.StringOption
 import com.android.tools.lint.detector.api.TextFormat
+import com.intellij.psi.PsiField
 import dev.whosnickdoglio.lint.annotations.dagger.INJECT
 import org.jetbrains.uast.UAnnotation
 import org.jetbrains.uast.UElement
 import org.jetbrains.uast.UField
-import org.jetbrains.uast.getContainingUClass
 
 /**
  * A [Detector] that checks to ensure when possible constructor injection is used over field
@@ -44,10 +44,12 @@ internal class ConstructorInjectionOverFieldInjectionDetector : Detector(), Sour
                     // allowList.defaultValue?.split(",").orEmpty() + androidComponents
                     //                            }
 
+                    val containingClass =
+                        (annotatedElement.javaPsi as? PsiField)?.containingClass ?: return
                     val isAllowedFieldInjection =
                         androidComponents.any { className ->
                             context.evaluator.extendsClass(
-                                cls = annotatedElement.getContainingUClass(),
+                                cls = containingClass,
                                 className = className,
                                 strict = true,
                             )

@@ -34,8 +34,8 @@ internal class StaticProvidesDetector : Detector(), SourceCodeScanner {
                 if (node.qualifiedName == PROVIDES) {
                     val method = node.uastParent as? UMethod ?: return
                     when {
-                        isJava(method.language) -> javaCheck(context, method)
-                        isKotlin(method.language) -> kotlinCheck(context, method)
+                        isJava(node.lang) -> javaCheck(context, method)
+                        isKotlin(node.lang) -> kotlinCheck(context, method)
                     }
                 }
             }

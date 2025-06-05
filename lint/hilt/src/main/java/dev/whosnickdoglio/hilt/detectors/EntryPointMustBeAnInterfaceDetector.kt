@@ -44,7 +44,7 @@ internal class EntryPointMustBeAnInterfaceDetector : Detector(), SourceCodeScann
                                 .fix(
                                     fix()
                                         .replace()
-                                        .name("Make ${entryPoint.name} an interface")
+                                        .name("Make ${entryPoint.javaPsi.name} an interface")
                                         .pattern(oldClassPattern.toString())
                                         .with("interface")
                                         .build()

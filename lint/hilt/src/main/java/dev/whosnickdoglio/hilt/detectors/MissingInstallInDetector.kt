@@ -18,6 +18,7 @@ import com.android.tools.lint.detector.api.SourceCodeScanner
 import com.android.tools.lint.detector.api.StringOption
 import com.android.tools.lint.detector.api.TextFormat
 import com.android.tools.lint.detector.api.isKotlin
+import com.intellij.psi.PsiElement
 import dev.whosnickdoglio.lint.annotations.dagger.MODULE
 import dev.whosnickdoglio.lint.annotations.hilt.ENTRY_POINT
 import dev.whosnickdoglio.lint.annotations.hilt.INSTALL_IN
@@ -45,7 +46,8 @@ internal class MissingInstallInDetector : Detector(), SourceCodeScanner {
         object : UElementHandler() {
             override fun visitAnnotation(node: UAnnotation) {
                 if (node.qualifiedName == MODULE || node.qualifiedName == ENTRY_POINT) {
-                    val daggerModule = node.uastParent as? UClass ?: return
+                    val uClass = node.uastParent as? UClass ?: return
+                    val daggerModule = uClass.javaPsi
 
                     if (!daggerModule.hasAnnotation(INSTALL_IN)) {
                         context.report(
@@ -56,7 +58,9 @@ internal class MissingInstallInDetector : Detector(), SourceCodeScanner {
                                     fix()
                                         .alternatives()
                                         .apply {
-                                            quickFixes(context, daggerModule).forEach { add(it) }
+                                            uClass.sourcePsi?.let { psi ->
+                                                quickFixes(context, psi).forEach { fix -> add(fix) }
+                                            }
                                         }
                                         .build()
                                 )
@@ -66,7 +70,7 @@ internal class MissingInstallInDetector : Detector(), SourceCodeScanner {
             }
         }
 
-    private fun quickFixes(context: JavaContext, classToBeAnnotated: UClass): List<LintFix> {
+    private fun quickFixes(context: JavaContext, classToBeAnnotated: PsiElement): List<LintFix> {
         val customHiltComponents =
             customComponentOptions.getValue(context).orEmpty().split(",").toSet().filter {
                 it.isNotEmpty()

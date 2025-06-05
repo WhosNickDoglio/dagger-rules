@@ -37,13 +37,8 @@ internal class MissingAndroidEntryPointDetector : Detector(), SourceCodeScanner 
         object : UElementHandler() {
             override fun visitClass(node: UClass) {
                 androidEntryPointSupers.forEach { superClass ->
-                    val isSubClass = context.evaluator.extendsClass(node, superClass, true)
-                    val injectedFields =
-                        node.fields.filter { field ->
-                            field.uAnnotations.any { annotation ->
-                                annotation.qualifiedName == INJECT
-                            }
-                        }
+                    val isSubClass = context.evaluator.extendsClass(node.javaPsi, superClass, true)
+                    val injectedFields = node.fields.filter { field -> field.hasAnnotation(INJECT) }
 
                     val isMissingAndroidEntryPointAnnotation =
                         !node.hasAnnotation(ANDROID_ENTRY_POINT)
@@ -61,7 +56,7 @@ internal class MissingAndroidEntryPointDetector : Detector(), SourceCodeScanner 
                                         .name(
                                             "Add ${ANDROID_ENTRY_POINT.substringAfterLast(".")} annotation"
                                         )
-                                        .annotate(ANDROID_ENTRY_POINT, context, node)
+                                        .annotate(ANDROID_ENTRY_POINT, context, node.sourcePsi)
                                         .autoFix(robot = true, independent = true)
                                         .build()
                                 )

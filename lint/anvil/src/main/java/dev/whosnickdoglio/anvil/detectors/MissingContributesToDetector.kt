@@ -33,7 +33,8 @@ internal class MissingContributesToDetector : Detector(), SourceCodeScanner {
         return object : UElementHandler() {
             override fun visitAnnotation(node: UAnnotation) {
                 if (node.qualifiedName == MODULE) {
-                    val element = node.uastParent as? UClass ?: return
+                    val uClass = node.uastParent as? UClass ?: return
+                    val element = uClass.javaPsi
 
                     if (!element.hasAnnotation(CONTRIBUTES_TO)) {
                         context.report(
@@ -43,7 +44,7 @@ internal class MissingContributesToDetector : Detector(), SourceCodeScanner {
                                 .fix(
                                     fix()
                                         .name("Add @ContributesTo annotation")
-                                        .annotate(CONTRIBUTES_TO, context, element)
+                                        .annotate(CONTRIBUTES_TO, context, uClass.sourcePsi)
                                         .autoFix(robot = true, independent = true)
                                         .build()
                                 )

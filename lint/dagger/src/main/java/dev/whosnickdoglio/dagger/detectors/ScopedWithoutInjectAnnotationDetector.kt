@@ -52,7 +52,9 @@ internal class ScopedWithoutInjectAnnotationDetector : Detector(), SourceCodeSca
                         }
 
                     val isInjected =
-                        node.constructors.any { constructor -> constructor.hasAnnotation(INJECT) }
+                        node.javaPsi.constructors.any { constructor ->
+                            constructor.hasAnnotation(INJECT)
+                        }
 
                     if (scopeAnnotations.isNotEmpty() && !isInjected) {
                         scopeAnnotations.forEach { annotation ->

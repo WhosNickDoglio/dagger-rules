@@ -49,7 +49,7 @@ internal class ContributesBindingMustHaveSuperDetector : Detector(), SourceCodeS
                     val annotation = node.sourcePsi as? KtAnnotationEntry ?: return
 
                     // Accounts for Any supertype
-                    if (clazz.supers.size == 1) {
+                    if (clazz.javaPsi.supers.size == 1) {
                         checkIsDaggerModule(clazz, context, node)
 
                         val annotationArguments =
@@ -89,7 +89,7 @@ internal class ContributesBindingMustHaveSuperDetector : Detector(), SourceCodeS
                                     .with("")
                                     .build(),
                                 fix()
-                                    .annotate(CONTRIBUTES_TO, context, clazz)
+                                    .annotate(CONTRIBUTES_TO, context, clazz.javaPsi)
                                     .autoFix(robot = true, independent = true)
                                     .build(),
                             )
