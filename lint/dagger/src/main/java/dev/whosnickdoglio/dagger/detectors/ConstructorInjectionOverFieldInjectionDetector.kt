@@ -5,6 +5,7 @@
 package dev.whosnickdoglio.dagger.detectors
 
 import com.android.tools.lint.client.api.UElementHandler
+import com.android.tools.lint.detector.api.BooleanOption
 import com.android.tools.lint.detector.api.Category
 import com.android.tools.lint.detector.api.Detector
 import com.android.tools.lint.detector.api.Implementation
@@ -30,24 +31,22 @@ internal class ConstructorInjectionOverFieldInjectionDetector : Detector(), Sour
     override fun getApplicableUastTypes(): List<Class<out UElement>> =
         listOf(UAnnotation::class.java)
 
-    override fun createUastHandler(context: JavaContext): UElementHandler {
-        return object : UElementHandler() {
+    override fun createUastHandler(context: JavaContext): UElementHandler =
+        object : UElementHandler() {
             override fun visitAnnotation(node: UAnnotation) {
                 if (node.qualifiedName == INJECT) {
                     val annotatedElement = node.uastParent as? UField ?: return
-                    //                        val fullAllowList: List<String> =
-                    //                            if (context.mainProject.minSdk >= MIN_SDK) {
-                    //
-                    // allowList.defaultValue?.split(",").orEmpty()
-                    //                            } else {
-                    //
-                    // allowList.defaultValue?.split(",").orEmpty() + androidComponents
-                    //                            }
+                    val fullAllowList: List<String> =
+                        if (usingAppComponentFactory.getValue(context)) {
+                            allowList.getValue(context)?.split(",").orEmpty()
+                        } else {
+                            allowList.getValue(context)?.split(",").orEmpty() + androidComponents
+                        }
 
                     val containingClass =
                         (annotatedElement.javaPsi as? PsiField)?.containingClass ?: return
                     val isAllowedFieldInjection =
-                        androidComponents.any { className ->
+                        fullAllowList.any { className ->
                             context.evaluator.extendsClass(
                                 cls = containingClass,
                                 className = className,
@@ -55,7 +54,6 @@ internal class ConstructorInjectionOverFieldInjectionDetector : Detector(), Sour
                             )
                         }
 
-                    //                        minSdkLessThan(28)
                     if (!isAllowedFieldInjection) {
                         context.report(
                             Incident(
@@ -69,13 +67,8 @@ internal class ConstructorInjectionOverFieldInjectionDetector : Detector(), Sour
                 }
             }
         }
-    }
 
     companion object {
-        //        private const val MIN_SDK = 28
-
-        // TODO make this configurable
-        @Suppress("UnusedPrivateMember")
         private val allowList =
             StringOption(
                 name = "allowList",
@@ -84,8 +77,10 @@ internal class ConstructorInjectionOverFieldInjectionDetector : Detector(), Sour
                 explanation = "",
             )
 
-        //
-        private val androidComponents =
+        internal val usingAppComponentFactory =
+            BooleanOption(name = "usingAppComponentFactory", description = "TOOD", explanation = "")
+
+        internal val androidComponents =
             setOf(
                 // https://developer.android.com/reference/android/app/AppComponentFactory
                 "android.app.Activity",
@@ -106,18 +101,19 @@ internal class ConstructorInjectionOverFieldInjectionDetector : Detector(), Sour
 
         internal val ISSUE =
             Issue.create(
-                id = "ConstructorOverField",
-                briefDescription = "Class is using field injection over constructor injection",
-                explanation =
-                    """
+                    id = "ConstructorOverField",
+                    briefDescription = "Class is using field injection over constructor injection",
+                    explanation =
+                        """
                     Constructor injection should be favored over field injection for classes that support it.
 
                     See https://whosnickdoglio.dev/dagger-rules/rules/#prefer-constructor-injection-over-field-injection for more information.
                 """,
-                category = Category.CORRECTNESS,
-                priority = 5,
-                severity = Severity.WARNING,
-                implementation = implementation,
-            )
+                    category = Category.CORRECTNESS,
+                    priority = 5,
+                    severity = Severity.WARNING,
+                    implementation = implementation,
+                )
+                .setOptions(listOf(usingAppComponentFactory, allowList))
     }
 }
