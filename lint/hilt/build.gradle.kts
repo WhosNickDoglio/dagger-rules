@@ -5,6 +5,7 @@
 plugins {
     alias(libs.plugins.convention.kotlin)
     alias(libs.plugins.ksp)
+    alias(libs.plugins.publish)
 }
 
 convention { enableCodeCoverageWithKover() }
