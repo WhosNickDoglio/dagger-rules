@@ -63,6 +63,72 @@ here: [Keeping the Daggers Sharp](https://developer.squareup.com/blog/keeping-th
 
 [//]: # (TODO mention `AppComponentFactory` and `FragmentFactory`)
 
+## Prefer `@Inject` annotating classes in your project domain over providing them in a Dagger module
+
+When you want to add something to the Dagger graph that is a **class we own** (A class that has been written by a Zillow
+engineer and the source code can be modified), you should use constructor injection over writing a `@Provides` method in
+a Dagger `@Module` to add this class to the Dagger graph.
+Methods are only for things Dagger can't figure
+out how to provide on its own.
+These are the three most common scenarios for when you should use a `@Provides` method:
+
+1. Adding a third party dependency to your Dagger Graph.
+   When you're using something like Room, Retrofit, or
+   `SharedPreferences` you cannot access their code to properly annotate their classes with an `@Inject` annotation for
+   Dagger to pick them up.
+2. Adding a class to the Dagger graph that doesn't have a straight forward constructor but instead uses a `Factory`
+   or `Builder`.
+3. Adding a duplicate class to the Dagger graph using a `@Named` or Qualifier annotation.
+   Sometimes you need multiple
+   instances of a single class (maybe one per feature or one for prod vs testing) so you can create a custom qualifier
+   annotation or use `@Named` to differentiate them.
+
+TODO mention dependency inversion
+
+A common pattern that arises when using dependency injection is to have an interface/implementation pair to allow to
+easily swap implementations for testing (maybe a `Repository` that hits a real API in prod and fake data for tests).
+In
+these scenarios, you want to make sure your class depends on the interface and not the concrete implementation to make
+swapping implementations easy.
+A common mistake is to do this via a `@Provides` method instead of `@Binds` method.
+
+```kotlin
+interface Greeter {
+    fun hello(): String
+}
+
+class GreeterImpl @Inject constructor() : Greeter {
+    override fun hello(): String = "Hello World"
+}
+
+// Bad!
+@Module
+abstract class GreeterModule {
+    @Provides
+    fun provideGreeter(): Greeter = GreeterImpl()
+}
+
+// Good!
+@Module
+abstract class GreeterModule {
+
+    @Binds
+    abstract fun provideGreeter(impl: GreeterImpl): Greeter
+}
+```
+
+We want to do this for two major reasons.
+The first being if we avoid using a `@Provides` method we can avoid
+maintaining the constructor contract in two different places, at the class definition and also the `@Provides` method.
+The `Greeter` example is simple with a no parameter constructor but imagine it having six dependencies, we'd need wire
+that up correctly in both the constructor and `@Provides` method and then maintain it in two places if a new dependency
+is added.
+The second reason is by using `@Binds` Dagger will generate less code!
+For `@Binds` functions no extra code is
+actually generated.
+Dagger can swap in the concrete implementation wherever the interface is used but if using
+a `Provides` method Dagger would have to generate another class to supply this dependency to its consumers.
+
 ### Methods annotated with `@Binds` must be abstract
 
 Methods annotated with the [`@Binds` annotation](https://dagger.dev/api/latest/dagger/Binds.html) need to be abstract.
