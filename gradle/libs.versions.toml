@@ -45,7 +45,7 @@ detekt-ruleauthors = { module = "io.gitlab.arturbosch.detekt:detekt-rules-ruleau
 detekt-api = { module = "io.gitlab.arturbosch.detekt:detekt-api", version.ref = "detekt" }
 detekt-test = { module = "io.gitlab.arturbosch.detekt:detekt-test", version.ref = "detekt" }
 
-androidx-core = { module = "androidx.core:core-ktx", version = "1.16.0" }
+androidx-core = { module = "androidx.core:core-ktx", version = "1.17.0" }
 androidx-appcompat = { module = "androidx.appcompat:appcompat", version = "1.7.1" }
 androidx-activity = { module = "androidx.activity:activity", version = "1.10.1" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "dagger" }
