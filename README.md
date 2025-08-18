@@ -1,7 +1,7 @@
 # Dagger Rules
 
 [![CI](https://github.com/WhosNickDoglio/dagger-rules/actions/workflows/ci.yml/badge.svg)](https://github.com/WhosNickDoglio/dagger-rules/actions/workflows/ci.yml)
-[![Snapshot](https://img.shields.io/maven-metadata/v.svg?label=snapshot&metadataUrl=https%3A%2F%2Fcentral.sonatype.com%2Frepository%2Fmaven-snapshots%2Fdev%2Fwhosnickdoglio%2Fdagger-rules%2Fmaven-metadata.xml)](https://central.sonatype.com/service/rest/repository/browse/maven-snapshots/dev/whosnickdoglio/dagger-rules)
+[![Snapshot](https://img.shields.io/maven-metadata/v.svg?label=snapshot&metadataUrl=https%3A%2F%2Fcentral.sonatype.com%2Frepository%2Fmaven-snapshots%2Fdev%2Fwhosnickdoglio%2Fdagger-rules%2Fdagger-lint%2Fmaven-metadata.xml)](https://central.sonatype.com/service/rest/repository/browse/maven-snapshots/dev/whosnickdoglio/dagger-rules)
 [![codecov](https://codecov.io/gh/WhosNickDoglio/dagger-rules/branch/main/graph/badge.svg?token=wCMZ499cH4)](https://codecov.io/gh/WhosNickDoglio/dagger-rules)
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](.github/CODE_OF_CONDUCT.md)
 [![Maintainability](https://api.codeclimate.com/v1/badges/528180026c455cacee93/maintainability)](https://codeclimate.com/github/WhosNickDoglio/dagger-rules/maintainability)
