@@ -6,6 +6,8 @@ to structure your DI code as well as checks for common Dagger issues.
 
 ## Installation
 
+[![Snapshot](https://img.shields.io/maven-metadata/v.svg?label=snapshot&metadataUrl=https%3A%2F%2Fcentral.sonatype.com%2Frepository%2Fmaven-snapshots%2Fdev%2Fwhosnickdoglio%2Fdagger-rules%2Fdagger-lint%2Fmaven-metadata.xml)](https://central.sonatype.com/service/rest/repository/browse/maven-snapshots/dev/whosnickdoglio/dagger-rules)
+
 ```kotlin
 repositories {
     mavenCentral()
