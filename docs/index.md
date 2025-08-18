@@ -1,6 +1,7 @@
 # Dagger Rules
 
-Static analysis checks for Dagger and related libraries Anvil and Hilt that provide some opinionated suggestions on how
+Static analysis checks for Dagger and related libraries Anvil and Hilt that provide some opinionated
+suggestions on how
 to structure your DI code as well as checks for common Dagger issues.
 
 ## Installation
@@ -12,13 +13,13 @@ repositories {
 
 dependencies {
     // Use for vanilla dagger rules
-    lintChecks("dev.whosnickdoglio.dagger.rules:dagger-lint:<version>")
+    lintChecks("dev.whosnickdoglio.dagger-rules:dagger-lint:<version>")
 
     // Use for Anvil rules
-    lintChecks("dev.whosnickdoglio.dagger.rules:anvil-lint:<version>")
+    lintChecks("dev.whosnickdoglio.dagger-rules:anvil-lint:<version>")
 
     // Use for Hilt rules
-    lintChecks("dev.whosnickdoglio.dagger.rules:hilt-lint:<version>")
+    lintChecks("dev.whosnickdoglio.dagger-rules:hilt-lint:<version>")
 }
 ```
 
@@ -26,7 +27,7 @@ dependencies {
 
 	MIT License
 
-	Copyright (c) 2024 Nicholas Doglio
+	Copyright (C) 2025 Nicholas Doglio
 
 	Permission is hereby granted, free of charge, to any person obtaining a copy
 	of this software and associated documentation files (the "Software"), to deal
