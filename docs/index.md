@@ -10,7 +10,11 @@ to structure your DI code as well as checks for common Dagger issues.
 
 ```kotlin
 repositories {
+    // Stable releases
     mavenCentral()
+
+    // Snapshots 
+    maven(url = "https://central.sonatype.com/repository/maven-snapshots/")
 }
 
 dependencies {
