@@ -10,7 +10,7 @@ kover = "0.9.1"
 spotless = "7.2.1"
 jdk = "24"
 jdkTarget = "17"
-sort = "0.14"
+sort = "0.15"
 dagger = "2.57.1"
 
 [plugins]
