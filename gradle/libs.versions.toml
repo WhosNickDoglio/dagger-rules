@@ -53,7 +53,7 @@ hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "dagge
 hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "dagger" }
 
 junit = { module = "junit:junit", version = "4.13.2" }
-testParameterInjector = { module = "com.google.testparameterinjector:test-parameter-injector", version = "1.18" }
+testParameterInjector = { module = "com.google.testparameterinjector:test-parameter-injector", version = "1.19" }
 
 [bundles]
 lintTest = ["lint-api", "lint-tests"]
