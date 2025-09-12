@@ -25,7 +25,7 @@ kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 publish = { id = "com.vanniktech.maven.publish", version = "0.34.0" }
 kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
-ksp = { id = "com.google.devtools.ksp", version = "2.2.20-2.0.2" }
+ksp = { id = "com.google.devtools.ksp", version = "2.2.20-2.0.3" }
 sortDependencies = { id = "com.squareup.sort-dependencies", version.ref = "sort" }
 anvil = { id = "dev.zacsweers.anvil", version = "0.4.1" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "dagger" }
