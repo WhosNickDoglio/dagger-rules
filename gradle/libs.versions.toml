@@ -14,7 +14,7 @@ sort = "0.15"
 dagger = "2.57.2"
 
 [plugins]
-convention-kotlin = { id = "dev.whosnickdoglio.convention.kotlin", version = "0.1" }
+convention-kotlin = { id = "dev.whosnickdoglio.convention.kotlin", version = "0.2.0" }
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
 lint = { id = "com.android.lint", version.ref = "agp" }
 android-app = { id = "com.android.application", version.ref = "agp" }
