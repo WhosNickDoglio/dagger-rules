@@ -15,7 +15,12 @@ plugins {
     alias(libs.plugins.hilt)
     alias(libs.plugins.detekt)
     alias(libs.plugins.sortDependencies)
-    alias(libs.plugins.spotless)
+    alias(libs.plugins.ktfmt)
+}
+
+ktfmt {
+    kotlinLangStyle()
+    removeUnusedImports = true
 }
 
 kotlin {
@@ -66,25 +71,6 @@ android {
         isCoreLibraryDesugaringEnabled = true
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
-    }
-}
-
-spotless {
-    format("misc") {
-        target("*.md", ".gitignore")
-        trimTrailingWhitespace()
-        endWithNewline()
-    }
-
-    kotlin {
-        ktfmt(libs.versions.ktfmt.get()).kotlinlangStyle()
-        trimTrailingWhitespace()
-        endWithNewline()
-    }
-    kotlinGradle {
-        ktfmt(libs.versions.ktfmt.get()).kotlinlangStyle()
-        trimTrailingWhitespace()
-        endWithNewline()
     }
 }
 

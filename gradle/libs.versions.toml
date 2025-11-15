@@ -7,25 +7,24 @@ ktfmt = "0.59"
 lint = "31.13.1"
 detekt = "1.23.8"
 kover = "0.9.3"
-spotless = "8.0.0"
 jdk = "24"
 jdkTarget = "17"
 sort = "0.15"
 dagger = "2.57.2"
 
 [plugins]
-convention-kotlin = { id = "dev.whosnickdoglio.convention.kotlin", version = "0.1" }
+convention-kotlin = { id = "dev.whosnickdoglio.convention.kotlin", version = "0.2.0" }
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
 lint = { id = "com.android.lint", version.ref = "agp" }
 android-app = { id = "com.android.application", version.ref = "agp" }
 doctor = { id = "com.osacky.doctor", version = "0.12.1" }
-spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
 dependencyAnalysis = { id = "com.autonomousapps.dependency-analysis", version.ref = "dependencyAnalysis" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 publish = { id = "com.vanniktech.maven.publish", version = "0.35.0" }
 kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
 ksp = { id = "com.google.devtools.ksp", version = "2.3.2" }
+ktfmt = { id = "com.ncorti.ktfmt.gradle", version = "0.25.0" }
 sortDependencies = { id = "com.squareup.sort-dependencies", version.ref = "sort" }
 anvil = { id = "dev.zacsweers.anvil", version = "0.4.1" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "dagger" }
@@ -38,9 +37,6 @@ lint-api = { module = "com.android.tools.lint:lint-api", version.ref = "lint" }
 lint-tests = { module = "com.android.tools.lint:lint-tests", version.ref = "lint" }
 
 desugar = { module = "com.android.tools:desugar_jdk_libs", version.ref = "desugar" }
-
-# Only present to trigger automatic renovate updates
-ktfmt = { module = "com.facebook:ktfmt", version.ref = "ktfmt" }
 
 detekt-ruleauthors = { module = "io.gitlab.arturbosch.detekt:detekt-rules-ruleauthors", version.ref = "detekt" }
 detekt-api = { module = "io.gitlab.arturbosch.detekt:detekt-api", version.ref = "detekt" }

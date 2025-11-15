@@ -16,7 +16,7 @@ plugins {
     alias(libs.plugins.lint) apply false
     alias(libs.plugins.publish) apply false
     alias(libs.plugins.sortDependencies) apply false
-    alias(libs.plugins.spotless) apply false
+    alias(libs.plugins.ktfmt) apply false
 }
 
 doctor {
