@@ -1,9 +1,7 @@
 #!/bin/bash
 
-#
 # Copyright (C) 2025 Nicholas Doglio
 # SPDX-License-Identifier: MIT
-#
 
 set -ex
 

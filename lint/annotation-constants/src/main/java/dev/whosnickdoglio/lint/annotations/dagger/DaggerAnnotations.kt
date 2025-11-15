@@ -1,7 +1,5 @@
-/*
- * Copyright (C) 2025 Nicholas Doglio
- * SPDX-License-Identifier: MIT
- */
+// Copyright (C) 2025 Nicholas Doglio
+// SPDX-License-Identifier: MIT
 package dev.whosnickdoglio.lint.annotations.dagger
 
 public const val INJECT: String = "javax.inject.Inject"

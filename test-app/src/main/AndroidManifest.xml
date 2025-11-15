@@ -1,7 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
-  ~ Copyright (C) 2025 Nicholas Doglio
-  ~ SPDX-License-Identifier: MIT
-  -->
+<?xml version="1.0" encoding="utf-8"?><!-- Copyright (C) 2025 Nicholas Doglio -->
+<!-- SPDX-License-Identifier: MIT -->
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 

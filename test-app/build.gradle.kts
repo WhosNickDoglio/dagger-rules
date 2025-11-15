@@ -1,7 +1,5 @@
-/*
- * Copyright (C) 2025 Nicholas Doglio
- * SPDX-License-Identifier: MIT
- */
+// Copyright (C) 2025 Nicholas Doglio
+// SPDX-License-Identifier: MIT
 
 import io.gitlab.arturbosch.detekt.Detekt
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget

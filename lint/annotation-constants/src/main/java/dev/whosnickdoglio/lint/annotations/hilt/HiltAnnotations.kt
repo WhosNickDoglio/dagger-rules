@@ -1,7 +1,5 @@
-/*
- * Copyright (C) 2025 Nicholas Doglio
- * SPDX-License-Identifier: MIT
- */
+// Copyright (C) 2025 Nicholas Doglio
+// SPDX-License-Identifier: MIT
 package dev.whosnickdoglio.lint.annotations.hilt
 
 public const val INSTALL_IN: String = "dagger.hilt.InstallIn"
