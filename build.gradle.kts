@@ -1,4 +1,4 @@
-// Copyright (C) 2025 Nicholas Doglio
+// Copyright (C) 2026 Nicholas Doglio
 // SPDX-License-Identifier: MIT
 
 plugins {
@@ -15,11 +15,6 @@ plugins {
     alias(libs.plugins.publish) apply false
     alias(libs.plugins.sortDependencies) apply false
     alias(libs.plugins.ktfmt) apply false
-}
-
-doctor {
-    @Suppress("DEPRECATION")
-    warnWhenNotUsingParallelGC = false
 }
 
 // https://docs.gradle.org/8.9/userguide/gradle_daemon.html#daemon_jvm_criteria
