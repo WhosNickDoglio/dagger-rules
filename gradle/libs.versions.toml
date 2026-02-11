@@ -10,7 +10,7 @@ kover = "0.9.7"
 jdk = "24"
 jdkTarget = "17"
 sort = "0.16"
-dagger = "2.58"
+dagger = "2.59.1"
 
 [plugins]
 convention-kotlin = { id = "dev.whosnickdoglio.convention.kotlin", version = "0.3.0" }
