@@ -1,4 +1,4 @@
-// Copyright (C) 2025 Nicholas Doglio
+// Copyright (C) 2026 Nicholas Doglio
 // SPDX-License-Identifier: MIT
 package dev.whosnickdoglio.dagger
 
@@ -6,7 +6,7 @@ import com.android.tools.lint.client.api.IssueRegistry
 import com.android.tools.lint.client.api.Vendor
 import com.android.tools.lint.detector.api.CURRENT_API
 import com.android.tools.lint.detector.api.Issue
-import com.google.auto.service.AutoService
+import com.fueledbycaffeine.autoservice.AutoService
 import dev.whosnickdoglio.dagger.detectors.ComponentMustBeAbstractDetector
 import dev.whosnickdoglio.dagger.detectors.ConstructorInjectionOverFieldInjectionDetector
 import dev.whosnickdoglio.dagger.detectors.CorrectBindsUsageDetector

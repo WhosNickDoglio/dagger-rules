@@ -4,6 +4,7 @@
 plugins {
     alias(libs.plugins.dependencyAnalysis)
     alias(libs.plugins.doctor)
+    alias(libs.plugins.auto) apply false
     alias(libs.plugins.android.app) apply false
     alias(libs.plugins.detekt) apply false
     alias(libs.plugins.hilt) apply false
