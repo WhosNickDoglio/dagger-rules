@@ -5,7 +5,7 @@
 site_name: dagger-rules
 repo_name: dagger-rules
 repo_url: https://github.com/WhosNickDoglio/dagger-rules
-site_description: Static analysis checks for using Dagger, Anvil, or Hilt.
+site_description: Static analysis checks for using Dagger, or Hilt.
 site_author: WhosNickDoglio
 remote_branch: gh-pages
 
