@@ -1,4 +1,4 @@
-// Copyright (C) 2025 Nicholas Doglio
+// Copyright (C) 2026 Nicholas Doglio
 // SPDX-License-Identifier: MIT
 
 import io.gitlab.arturbosch.detekt.Detekt
@@ -9,7 +9,6 @@ plugins {
     alias(libs.plugins.android.app)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.ksp)
-    alias(libs.plugins.anvil)
     alias(libs.plugins.hilt)
     alias(libs.plugins.detekt)
     alias(libs.plugins.sortDependencies)
@@ -27,11 +26,6 @@ kotlin {
 }
 
 ksp { arg("dagger.hilt.disableModulesHaveInstallInCheck", "true") }
-
-anvil {
-    addOptionalAnnotations.set(true)
-    useKsp(contributesAndFactoryGeneration = true, componentMerging = true)
-}
 
 android {
     namespace = "dev.whosnickdoglio.demo"
@@ -96,7 +90,6 @@ dependencies {
 
     ksp(libs.hilt.compiler)
 
-    lintChecks(projects.lint.anvil)
     lintChecks(projects.lint.dagger)
     lintChecks(projects.lint.hilt)
 }

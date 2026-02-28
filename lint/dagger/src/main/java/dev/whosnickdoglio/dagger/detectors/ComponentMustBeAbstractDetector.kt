@@ -1,4 +1,4 @@
-// Copyright (C) 2025 Nicholas Doglio
+// Copyright (C) 2026 Nicholas Doglio
 // SPDX-License-Identifier: MIT
 package dev.whosnickdoglio.dagger.detectors
 
@@ -13,9 +13,6 @@ import com.android.tools.lint.detector.api.Scope
 import com.android.tools.lint.detector.api.Severity
 import com.android.tools.lint.detector.api.SourceCodeScanner
 import com.android.tools.lint.detector.api.TextFormat
-import dev.whosnickdoglio.lint.annotations.anvil.CONTRIBUTES_SUBCOMPONENT
-import dev.whosnickdoglio.lint.annotations.anvil.MERGE_COMPONENT
-import dev.whosnickdoglio.lint.annotations.anvil.MERGE_SUBCOMPONENT
 import dev.whosnickdoglio.lint.annotations.dagger.COMPONENT
 import dev.whosnickdoglio.lint.annotations.dagger.SUBCOMPONENT
 import org.jetbrains.uast.UAnnotation
@@ -25,9 +22,7 @@ import org.jetbrains.uast.UElement
 /**
  * A [Detector] that checks to ensure anything annotated with `@Component` or `Subcomponent` is an
  * abstract class or interface. Dagger requires all components to be abstract so the generated code
- * can implement the abstract class/interface. This [Detector] also checks for Anvil related
- * component annotations like `@MergeComponent`, `@MergeSubcomponent`, and
- * `@ContributesSubcomponent`.
+ * can implement the abstract class/interface.
  * * More info can be found in the
  * * [Dagger `@Component` documentation](https://dagger.dev/api/latest/dagger/Component.html)
  */
@@ -75,10 +70,6 @@ internal class ComponentMustBeAbstractDetector : Detector(), SourceCodeScanner {
                 // Vanilla Dagger
                 COMPONENT,
                 SUBCOMPONENT,
-                // Anvil
-                MERGE_COMPONENT,
-                MERGE_SUBCOMPONENT,
-                CONTRIBUTES_SUBCOMPONENT,
             )
 
         internal val ISSUE =

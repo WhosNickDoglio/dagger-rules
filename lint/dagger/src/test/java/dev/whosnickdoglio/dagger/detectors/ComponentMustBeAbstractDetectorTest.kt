@@ -1,4 +1,4 @@
-// Copyright (C) 2025 Nicholas Doglio
+// Copyright (C) 2026 Nicholas Doglio
 // SPDX-License-Identifier: MIT
 package dev.whosnickdoglio.dagger.detectors
 
@@ -7,7 +7,6 @@ import com.android.tools.lint.checks.infrastructure.TestLintTask
 import com.google.testing.junit.testparameterinjector.TestParameter
 import com.google.testing.junit.testparameterinjector.TestParameterInjector
 import com.google.testing.junit.testparameterinjector.TestParameterValuesProvider
-import dev.whosnickdoglio.stubs.anvilAnnotations
 import dev.whosnickdoglio.stubs.daggerAnnotations
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -28,7 +27,6 @@ class ComponentMustBeAbstractDetectorTest {
         TestLintTask.lint()
             .files(
                 daggerAnnotations,
-                anvilAnnotations,
                 TestFiles.kotlin(
                         """
                     import $componentAnnotation
@@ -49,7 +47,6 @@ class ComponentMustBeAbstractDetectorTest {
         TestLintTask.lint()
             .files(
                 daggerAnnotations,
-                anvilAnnotations,
                 TestFiles.java(
                         """
                     import $componentAnnotation;
@@ -70,7 +67,6 @@ class ComponentMustBeAbstractDetectorTest {
         TestLintTask.lint()
             .files(
                 daggerAnnotations,
-                anvilAnnotations,
                 TestFiles.kotlin(
                         """
                     import $componentAnnotation
@@ -91,7 +87,6 @@ class ComponentMustBeAbstractDetectorTest {
         TestLintTask.lint()
             .files(
                 daggerAnnotations,
-                anvilAnnotations,
                 TestFiles.java(
                         """
                     import $componentAnnotation;
@@ -112,7 +107,6 @@ class ComponentMustBeAbstractDetectorTest {
         TestLintTask.lint()
             .files(
                 daggerAnnotations,
-                anvilAnnotations,
                 TestFiles.java(
                         """
                     import $componentAnnotation;
@@ -151,7 +145,6 @@ class ComponentMustBeAbstractDetectorTest {
         TestLintTask.lint()
             .files(
                 daggerAnnotations,
-                anvilAnnotations,
                 TestFiles.kotlin(
                         """
                     import $componentAnnotation

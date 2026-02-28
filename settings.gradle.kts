@@ -1,4 +1,4 @@
-// Copyright (C) 2025 Nicholas Doglio
+// Copyright (C) 2026 Nicholas Doglio
 // SPDX-License-Identifier: MIT
 
 rootProject.name = "dagger-rules"
@@ -51,7 +51,6 @@ enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 include(
     ":kover-aggregate",
     ":lint:dagger",
-    ":lint:anvil",
     ":lint:hilt",
     ":lint:annotation-constants",
     ":test-app",

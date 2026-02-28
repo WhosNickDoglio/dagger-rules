@@ -1,4 +1,4 @@
-// Copyright (C) 2025 Nicholas Doglio
+// Copyright (C) 2026 Nicholas Doglio
 // SPDX-License-Identifier: MIT
 package dev.whosnickdoglio.dagger.detectors
 
@@ -14,9 +14,6 @@ import com.android.tools.lint.detector.api.Severity
 import com.android.tools.lint.detector.api.SourceCodeScanner
 import com.intellij.psi.PsiMethod
 import com.intellij.psi.PsiTypes
-import dev.whosnickdoglio.lint.annotations.anvil.CONTRIBUTES_SUBCOMPONENT
-import dev.whosnickdoglio.lint.annotations.anvil.MERGE_COMPONENT
-import dev.whosnickdoglio.lint.annotations.anvil.MERGE_SUBCOMPONENT
 import dev.whosnickdoglio.lint.annotations.dagger.COMPONENT
 import dev.whosnickdoglio.lint.annotations.dagger.SUBCOMPONENT
 import dev.whosnickdoglio.lint.annotations.hilt.ENTRY_POINT
@@ -25,9 +22,9 @@ import org.jetbrains.uast.UClass
 import org.jetbrains.uast.UElement
 
 /**
- * A [Detector] that ensures all methods in a Dagger Component (or similar annotations for Anvil and
- * Hilt) are valid and will not fail at compile time. Dagger components support two types of
- * methods, provision methods and member injection methods, anything else will fail to compile.
+ * A [Detector] that ensures all methods in a Dagger Component (or similar annotations for Hilt) are
+ * valid and will not fail at compile time. Dagger components support two types of methods,
+ * provision methods and member injection methods, anything else will fail to compile.
  *
  * More info can be found in the
  * [Dagger `@Component` documentation](https://dagger.dev/api/latest/dagger/Component.html)
@@ -92,10 +89,6 @@ internal class ValidComponentMethodDetector : Detector(), SourceCodeScanner {
                 // Vanilla Dagger
                 COMPONENT,
                 SUBCOMPONENT,
-                // Anvil
-                MERGE_COMPONENT,
-                MERGE_SUBCOMPONENT,
-                CONTRIBUTES_SUBCOMPONENT,
                 // Hilt
                 ENTRY_POINT,
             )

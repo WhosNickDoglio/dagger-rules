@@ -1,4 +1,4 @@
-// Copyright (C) 2025 Nicholas Doglio
+// Copyright (C) 2026 Nicholas Doglio
 // SPDX-License-Identifier: MIT
 package dev.whosnickdoglio.dagger.detectors
 
@@ -7,7 +7,6 @@ import com.android.tools.lint.checks.infrastructure.TestLintTask
 import com.google.testing.junit.testparameterinjector.TestParameter
 import com.google.testing.junit.testparameterinjector.TestParameterInjector
 import com.google.testing.junit.testparameterinjector.TestParameterValuesProvider
-import dev.whosnickdoglio.stubs.anvilAnnotations
 import dev.whosnickdoglio.stubs.daggerAnnotations
 import dev.whosnickdoglio.stubs.hiltAnnotations
 import org.junit.Test
@@ -30,7 +29,6 @@ class ValidComponentMethodDetectorTest {
         TestLintTask.lint()
             .files(
                 daggerAnnotations,
-                anvilAnnotations,
                 *hiltAnnotations,
                 TestFiles.kotlin(
                         """
@@ -57,7 +55,6 @@ class ValidComponentMethodDetectorTest {
         TestLintTask.lint()
             .files(
                 daggerAnnotations,
-                anvilAnnotations,
                 *hiltAnnotations,
                 TestFiles.java(
                         """
@@ -84,7 +81,6 @@ class ValidComponentMethodDetectorTest {
         TestLintTask.lint()
             .files(
                 daggerAnnotations,
-                anvilAnnotations,
                 *hiltAnnotations,
                 TestFiles.kotlin(
                         """
@@ -112,7 +108,6 @@ class ValidComponentMethodDetectorTest {
         TestLintTask.lint()
             .files(
                 daggerAnnotations,
-                anvilAnnotations,
                 *hiltAnnotations,
                 TestFiles.java(
                         """
@@ -140,7 +135,6 @@ class ValidComponentMethodDetectorTest {
         TestLintTask.lint()
             .files(
                 daggerAnnotations,
-                anvilAnnotations,
                 *hiltAnnotations,
                 TestFiles.kotlin(
                         """
@@ -186,7 +180,6 @@ class ValidComponentMethodDetectorTest {
         TestLintTask.lint()
             .files(
                 daggerAnnotations,
-                anvilAnnotations,
                 *hiltAnnotations,
                 TestFiles.java(
                         """
@@ -232,7 +225,6 @@ class ValidComponentMethodDetectorTest {
         TestLintTask.lint()
             .files(
                 daggerAnnotations,
-                anvilAnnotations,
                 *hiltAnnotations,
                 TestFiles.kotlin(
                         """
@@ -278,7 +270,6 @@ class ValidComponentMethodDetectorTest {
         TestLintTask.lint()
             .files(
                 daggerAnnotations,
-                anvilAnnotations,
                 *hiltAnnotations,
                 TestFiles.java(
                         """
