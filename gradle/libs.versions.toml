@@ -10,7 +10,7 @@ kover = "0.9.7"
 jdk = "24"
 jdkTarget = "17"
 sort = "0.16"
-dagger = "2.58"
+dagger = "2.59.2"
 
 [plugins]
 auto = { id = "com.fueledbycaffeine.autoservice", version = "0.1.4" }
