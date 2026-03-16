@@ -2,7 +2,7 @@
 agp = "8.13.2"
 desugar = "2.1.5"
 dependencyAnalysis = "3.6.1"
-kotlin = "2.3.10"
+kotlin = "2.3.20"
 ktfmt = "0.59"
 lint = "31.13.2"
 detekt = "1.23.8"
