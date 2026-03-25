@@ -44,14 +44,13 @@ internal class ConstructorInjectionOverFieldInjectionDetector : Detector(), Sour
 
                     val containingClass =
                         (annotatedElement.javaPsi as? PsiField)?.containingClass ?: return
-                    val isAllowedFieldInjection =
-                        androidComponents.any { className ->
-                            context.evaluator.extendsClass(
-                                cls = containingClass,
-                                className = className,
-                                strict = true,
-                            )
-                        }
+                    val isAllowedFieldInjection = androidComponents.any { className ->
+                        context.evaluator.extendsClass(
+                            cls = containingClass,
+                            className = className,
+                            strict = true,
+                        )
+                    }
 
                     //                        minSdkLessThan(28)
                     if (!isAllowedFieldInjection) {
