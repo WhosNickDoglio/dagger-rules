@@ -70,8 +70,9 @@ internal class MissingHiltViewModelAnnotationDetector : Detector(), SourceCodeSc
             }
         }
 
-    private fun PsiClass.hasInjectedConstructor(): Boolean =
-        constructors.any { method -> method.hasAnnotation(INJECT) }
+    private fun PsiClass.hasInjectedConstructor(): Boolean = constructors.any { method ->
+        method.hasAnnotation(INJECT)
+    }
 
     companion object {
         private const val HILT_VIEW_MODEL_PACKAGE = "androidx.lifecycle.ViewModel"
