@@ -1,4 +1,4 @@
-// Copyright (C) 2025 Nicholas Doglio
+// Copyright (C) 2026 Nicholas Doglio
 // SPDX-License-Identifier: MIT
 package dev.whosnickdoglio.dagger.detectors
 
@@ -47,13 +47,14 @@ internal class MultipleScopesDetector : Detector(), SourceCodeScanner {
     private fun UAnnotated.report(context: JavaContext, location: Location) {
         val scopeAnnotations =
             uAnnotations
+                .asSequence()
                 .map { annotation -> annotation.resolveToUElement() }
                 .filterIsInstance<UAnnotated>()
                 .filter { annotated ->
                     annotated.uAnnotations.any { annotation -> annotation.qualifiedName == SCOPE }
                 }
 
-        if (scopeAnnotations.size > 1) {
+        if (scopeAnnotations.toList().size > 1) {
             context.report(
                 incident =
                     Incident(context)

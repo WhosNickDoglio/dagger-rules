@@ -1,4 +1,4 @@
-// Copyright (C) 2025 Nicholas Doglio
+// Copyright (C) 2026 Nicholas Doglio
 // SPDX-License-Identifier: MIT
 package dev.whosnickdoglio.dagger.detectors
 
@@ -33,6 +33,7 @@ internal class ScopedWithoutInjectAnnotationDetector : Detector(), SourceCodeSca
                 if (!context.evaluator.isAbstract(node)) {
                     val sourceScopeAnnotations =
                         node.uAnnotations
+                            .asSequence()
                             .map { annotation -> annotation.resolveToUElement() }
                             .filterIsInstance<UAnnotated>()
                             .filter { annotated ->

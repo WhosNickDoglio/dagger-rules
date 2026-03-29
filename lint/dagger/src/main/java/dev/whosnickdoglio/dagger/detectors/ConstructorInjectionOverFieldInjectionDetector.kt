@@ -1,4 +1,4 @@
-// Copyright (C) 2025 Nicholas Doglio
+// Copyright (C) 2026 Nicholas Doglio
 // SPDX-License-Identifier: MIT
 package dev.whosnickdoglio.dagger.detectors
 
@@ -72,7 +72,7 @@ internal class ConstructorInjectionOverFieldInjectionDetector : Detector(), Sour
         //        private const val MIN_SDK = 28
 
         // TODO make this configurable
-        @Suppress("UnusedPrivateMember")
+        @Suppress("UnusedPrivateProperty")
         private val allowList =
             StringOption(
                 name = "allowList",
