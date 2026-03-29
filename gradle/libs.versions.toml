@@ -1,16 +1,16 @@
 [versions]
-agp = "8.13.2"
+agp = "9.0.1"
 desugar = "2.1.5"
 dependencyAnalysis = "3.6.1"
 kotlin = "2.3.20"
 ktfmt = "0.59"
-lint = "31.13.2"
+lint = "32.0.1"
 detekt = "1.23.8"
 kover = "0.9.8"
 jdk = "24"
 jdkTarget = "17"
 sort = "0.16"
-dagger = "2.58"
+dagger = "2.59.2"
 
 [plugins]
 auto = { id = "com.fueledbycaffeine.autoservice", version = "0.1.4" }
@@ -21,7 +21,6 @@ android-app = { id = "com.android.application", version.ref = "agp" }
 doctor = { id = "com.osacky.doctor", version = "0.12.1" }
 dependencyAnalysis = { id = "com.autonomousapps.dependency-analysis", version.ref = "dependencyAnalysis" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 publish = { id = "com.vanniktech.maven.publish", version = "0.36.0" }
 kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
 ksp = { id = "com.google.devtools.ksp", version = "2.3.6" }

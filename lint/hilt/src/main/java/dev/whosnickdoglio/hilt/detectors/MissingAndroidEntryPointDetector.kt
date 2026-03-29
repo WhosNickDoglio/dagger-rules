@@ -1,4 +1,4 @@
-// Copyright (C) 2025 Nicholas Doglio
+// Copyright (C) 2026 Nicholas Doglio
 // SPDX-License-Identifier: MIT
 package dev.whosnickdoglio.hilt.detectors
 
@@ -36,7 +36,12 @@ internal class MissingAndroidEntryPointDetector : Detector(), SourceCodeScanner 
             override fun visitClass(node: UClass) {
                 androidEntryPointSupers.forEach { superClass ->
                     val isSubClass = context.evaluator.extendsClass(node.javaPsi, superClass, true)
-                    val injectedFields = node.fields.filter { field -> field.hasAnnotation(INJECT) }
+                    val injectedFields =
+                        node.fields.filter { field ->
+                            field.sourceAnnotations.any { annotation ->
+                                annotation.qualifiedName == INJECT
+                            }
+                        }
 
                     val isMissingAndroidEntryPointAnnotation =
                         !node.hasAnnotation(ANDROID_ENTRY_POINT)
