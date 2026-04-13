@@ -22,7 +22,7 @@ runs:
     # Stolen from here https://github.com/kaeawc/android-build/blob/a86b15e3cbc5d36339a97d09f46c7a22e276ff7f/.github/actions/gradle-task-run/action.yml#L140
     - name: "Restore Android SDK Platform Tools"
       id: cache-android-platform-tools
-      uses: actions/cache/restore@668228422ae6a00e4ad889ee87cd7109ec5666a7 # v5
+      uses: actions/cache/restore@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
       with:
         path: |
           /usr/local/lib/android/sdk/platform-tools
@@ -32,7 +32,7 @@ runs:
       if: steps.cache-android-platform-tools.outputs.cache-hit != 'true'
       uses: android-actions/setup-android@40fd30fb8d7440372e1316f5d1809ec01dcd3699 # v4.0.1
     - name: "Save Android SDK Platform Tools"
-      uses: actions/cache/save@668228422ae6a00e4ad889ee87cd7109ec5666a7 # v5
+      uses: actions/cache/save@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
       if: steps.cache-android-platform-tools.outputs.cache-hit != 'true'
       with:
         path: |
