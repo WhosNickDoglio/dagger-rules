@@ -9,7 +9,7 @@ detekt = "2.0.0-alpha.2"
 kover = "0.9.8"
 jdk = "25"
 jdkTarget = "17"
-sort = "0.16"
+sort = "0.17.1"
 dagger = "2.59.2"
 
 [plugins]
