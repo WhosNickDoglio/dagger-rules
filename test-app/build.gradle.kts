@@ -29,7 +29,7 @@ ksp { arg("dagger.hilt.disableModulesHaveInstallInCheck", "true") }
 
 android {
     namespace = "dev.whosnickdoglio.demo"
-    compileSdk = 36
+    compileSdk = 37
 
     defaultConfig {
         applicationId = "dev.whosnickdoglio.demo"
