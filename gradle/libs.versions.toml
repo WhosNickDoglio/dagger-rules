@@ -5,7 +5,7 @@ dependencyAnalysis = "3.10.0"
 kotlin = "2.3.21"
 ktfmt = "0.59"
 lint = "32.2.0"
-detekt = "2.0.0-alpha.2"
+detekt = "2.0.0-alpha.3"
 kover = "0.9.8"
 jdk = "25"
 jdkTarget = "17"
@@ -20,7 +20,6 @@ lint = { id = "com.android.lint", version.ref = "agp" }
 android-app = { id = "com.android.application", version.ref = "agp" }
 doctor = { id = "com.osacky.doctor", version = "0.12.1" }
 dependencyAnalysis = { id = "com.autonomousapps.dependency-analysis", version.ref = "dependencyAnalysis" }
-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 publish = { id = "com.vanniktech.maven.publish", version = "0.36.0" }
 kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
