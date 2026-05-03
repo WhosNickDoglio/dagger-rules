@@ -13,7 +13,7 @@ dagger = "2.59.2"
 
 [plugins]
 auto = { id = "com.fueledbycaffeine.autoservice", version = "0.1.4" }
-convention-kotlin = { id = "dev.whosnickdoglio.convention.kotlin", version = "0.3.0" }
+convention-kotlin = { id = "dev.whosnickdoglio.convention.kotlin", version = "0.4.0" }
 detekt = { id = "dev.detekt", version.ref = "detekt" }
 lint = { id = "com.android.lint", version.ref = "agp" }
 android-app = { id = "com.android.application", version.ref = "agp" }
