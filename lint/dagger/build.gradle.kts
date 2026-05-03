@@ -6,7 +6,7 @@ plugins {
     alias(libs.plugins.publish)
 }
 
-convention { codeCoverage() }
+convention { published { codeCoverage() } }
 
 dependencies {
     implementation(projects.lint.annotationConstants)
