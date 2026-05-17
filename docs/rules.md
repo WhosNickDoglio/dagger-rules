@@ -221,8 +221,7 @@ class MyThing @Inject constructor()
 class MyOtherThing @Inject constructor()
 ```
 
-### Classes annotated with scopes require their constructors to be annotated with
-`@Inject` to be added to the Dagger graph
+### Classes annotated with scopes require their constructors to be annotated with `@Inject` to be added to the Dagger graph
 
 Dagger supports the concept of scoping classes to the lifecycle of `Components` by annotating them
 with the same scope
