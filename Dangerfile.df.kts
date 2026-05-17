@@ -1,7 +1,5 @@
-/*
- * Copyright (C) 2025 Nicholas Doglio
- * SPDX-License-Identifier: MIT
- */
+// Copyright (C) 2026 Nicholas Doglio
+// SPDX-License-Identifier: MIT
 
 import systems.danger.kotlin.danger
 import systems.danger.kotlin.onGitHub
