@@ -15,6 +15,7 @@ import com.android.tools.lint.detector.api.SourceCodeScanner
 import com.android.tools.lint.detector.api.TextFormat
 import com.android.tools.lint.detector.api.isJava
 import com.android.tools.lint.detector.api.isKotlin
+import dev.whosnickdoglio.lint.annotations.Priority
 import dev.whosnickdoglio.lint.annotations.dagger.PROVIDES
 import org.jetbrains.kotlin.psi.KtObjectDeclaration
 import org.jetbrains.uast.UAnnotation
@@ -82,7 +83,7 @@ internal class StaticProvidesDetector : Detector(), SourceCodeScanner {
                     See https://whosnickdoglio.dev/dagger-rules/rules/#provides-methods-should-be-static for more information.
                 """,
                 category = Category.CORRECTNESS,
-                priority = 5,
+                priority = Priority.WARNING,
                 severity = Severity.WARNING,
                 implementation = implementation,
             )

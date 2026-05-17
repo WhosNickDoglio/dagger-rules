@@ -13,6 +13,7 @@ import com.android.tools.lint.detector.api.Scope
 import com.android.tools.lint.detector.api.Severity
 import com.android.tools.lint.detector.api.SourceCodeScanner
 import com.android.tools.lint.detector.api.TextFormat
+import dev.whosnickdoglio.lint.annotations.Priority
 import dev.whosnickdoglio.lint.annotations.dagger.INJECT
 import dev.whosnickdoglio.lint.annotations.dagger.SCOPE
 import org.jetbrains.uast.UAnnotated
@@ -90,7 +91,7 @@ internal class ScopedWithoutInjectAnnotationDetector : Detector(), SourceCodeSca
                     "Without the `@Inject` annotation this class is not added to the " +
                         "DI graph which means the scope annotation doesn't do anything.",
                 category = Category.CORRECTNESS,
-                priority = 5,
+                priority = Priority.ERROR,
                 severity = Severity.ERROR,
                 implementation = implementation,
             )

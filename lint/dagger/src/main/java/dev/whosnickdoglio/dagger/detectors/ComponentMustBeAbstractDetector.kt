@@ -13,6 +13,7 @@ import com.android.tools.lint.detector.api.Scope
 import com.android.tools.lint.detector.api.Severity
 import com.android.tools.lint.detector.api.SourceCodeScanner
 import com.android.tools.lint.detector.api.TextFormat
+import dev.whosnickdoglio.lint.annotations.Priority
 import dev.whosnickdoglio.lint.annotations.dagger.COMPONENT
 import dev.whosnickdoglio.lint.annotations.dagger.SUBCOMPONENT
 import org.jetbrains.uast.UAnnotation
@@ -83,7 +84,7 @@ internal class ComponentMustBeAbstractDetector : Detector(), SourceCodeScanner {
                     See https://whosnickdoglio.dev/dagger-rules/rules/#classes-annotated-with-component-must-be-abstract for more information.
                 """,
                 category = Category.CORRECTNESS,
-                priority = 5,
+                priority = Priority.ERROR,
                 severity = Severity.ERROR,
                 implementation = implementation,
             )
