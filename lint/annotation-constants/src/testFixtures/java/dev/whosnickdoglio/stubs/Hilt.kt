@@ -28,6 +28,7 @@ val hiltAnnotations =
 
             annotation class InstallIn
             annotation class EntryPoint
+            annotation class DefineComponent
         """
         ),
     )

@@ -4,74 +4,87 @@ package dev.whosnickdoglio.hilt.detectors
 
 import com.android.tools.lint.checks.infrastructure.TestFiles
 import com.android.tools.lint.checks.infrastructure.TestLintTask
-import dev.whosnickdoglio.lint.annotations.hilt.ENTRY_POINT
+import com.google.testing.junit.testparameterinjector.TestParameter
+import com.google.testing.junit.testparameterinjector.TestParameterInjector
+import com.google.testing.junit.testparameterinjector.TestParameterValuesProvider
 import dev.whosnickdoglio.stubs.hiltAnnotations
 import org.junit.Test
+import org.junit.runner.RunWith
 
-class EntryPointMustBeAnInterfaceDetectorTest {
+@RunWith(TestParameterInjector::class)
+class HiltAnnotationMustBeInterfaceTest {
+
+    private class MustBeInterfaceTestParameterValuesProvider : TestParameterValuesProvider() {
+        override fun provideValues(context: Context?): List<*> =
+            HiltAnnotationMustBeInterface.annotations.toList()
+    }
+
+    @TestParameter(valuesProvider = MustBeInterfaceTestParameterValuesProvider::class)
+    lateinit var annotation: String
+
     @Test
-    fun `kotlin @EntryPoint usage on an interface does not show an error`() {
+    fun `kotlin hilt annotation usage on an interface does not show an error`() {
         TestLintTask.lint()
             .files(
                 *hiltAnnotations,
                 TestFiles.kotlin(
                     """
-                    import $ENTRY_POINT
+                    import $annotation
 
-                    @EntryPoint
+                    @${annotation.substringAfterLast(".")}
                     interface MyEntryPoint
                 """
                 ),
             )
-            .issues(EntryPointMustBeAnInterfaceDetector.ISSUE)
+            .issues(HiltAnnotationMustBeInterface.ISSUE)
             .run()
             .expectClean()
             .expectErrorCount(0)
     }
 
     @Test
-    fun `java @EntryPoint usage on an interface does not show an error`() {
+    fun `java hilt annotation usage on an interface does not show an error`() {
         TestLintTask.lint()
             .files(
                 *hiltAnnotations,
                 TestFiles.java(
                     """
-                    import $ENTRY_POINT;
+                    import $annotation;
 
-                    @EntryPoint
+                    @${annotation.substringAfterLast(".")}
                     interface MyEntryPoint {}
                 """
                 ),
             )
-            .issues(EntryPointMustBeAnInterfaceDetector.ISSUE)
+            .issues(HiltAnnotationMustBeInterface.ISSUE)
             .run()
             .expectClean()
             .expectErrorCount(0)
     }
 
     @Test
-    fun `kotlin @EntryPoint usage on an abstract class shows an error`() {
+    fun `kotlin hilt annotation usage on an abstract class shows an error`() {
         TestLintTask.lint()
             .files(
                 *hiltAnnotations,
                 TestFiles.kotlin(
                         """
-                    import $ENTRY_POINT
+                    import $annotation
 
-                    @EntryPoint
+                    @${annotation.substringAfterLast(".")}
                     abstract class MyEntryPoint
                 """
                     )
                     .indented(),
             )
-            .issues(EntryPointMustBeAnInterfaceDetector.ISSUE)
+            .issues(HiltAnnotationMustBeInterface.ISSUE)
             .run()
             .expect(
                 """
-                    src/MyEntryPoint.kt:3: Error: The @EntryPoint annotation can only be applied to interfaces, trying to apply it to anything else will cause an error at compile time.
+                    src/MyEntryPoint.kt:3: Error: The @EntryPoint and DefineComponent annotations can only be applied to interfaces, trying to apply it to anything else will cause an error at compile time.
 
-                    See https://whosnickdoglio.dev/dagger-rules/rules/#the-entrypoint-annotation-can-only-be-applied-to-interfaces for more information. [EntryPointMustBeAnInterface]
-                    @EntryPoint
+                    See https://whosnickdoglio.dev/dagger-rules/rules/#the-entrypoint-annotation-can-only-be-applied-to-interfaces for more information. [HiltMustBeAnInterface]
+                    @${annotation.substringAfterLast(".")}
                     ^
                     1 errors, 0 warnings
                 """
@@ -89,28 +102,28 @@ class EntryPointMustBeAnInterfaceDetectorTest {
     }
 
     @Test
-    fun `java @EntryPoint usage on an abstract class shows an error`() {
+    fun `java hilt annotation usage on an abstract class shows an error`() {
         TestLintTask.lint()
             .files(
                 *hiltAnnotations,
                 TestFiles.java(
                         """
-                    import $ENTRY_POINT;
+                    import $annotation;
 
-                    @EntryPoint
+                    @${annotation.substringAfterLast(".")}
                     abstract class MyEntryPoint {}
                 """
                     )
                     .indented(),
             )
-            .issues(EntryPointMustBeAnInterfaceDetector.ISSUE)
+            .issues(HiltAnnotationMustBeInterface.ISSUE)
             .run()
             .expect(
                 """
-                    src/MyEntryPoint.java:3: Error: The @EntryPoint annotation can only be applied to interfaces, trying to apply it to anything else will cause an error at compile time.
+                    src/MyEntryPoint.java:3: Error: The @EntryPoint and DefineComponent annotations can only be applied to interfaces, trying to apply it to anything else will cause an error at compile time.
 
-                    See https://whosnickdoglio.dev/dagger-rules/rules/#the-entrypoint-annotation-can-only-be-applied-to-interfaces for more information. [EntryPointMustBeAnInterface]
-                    @EntryPoint
+                    See https://whosnickdoglio.dev/dagger-rules/rules/#the-entrypoint-annotation-can-only-be-applied-to-interfaces for more information. [HiltMustBeAnInterface]
+                    @${annotation.substringAfterLast(".")}
                     ^
                     1 errors, 0 warnings
                 """
@@ -128,28 +141,28 @@ class EntryPointMustBeAnInterfaceDetectorTest {
     }
 
     @Test
-    fun `kotlin @EntryPoint usage on an concrete class shows an error`() {
+    fun `kotlin hilt annotation usage on an concrete class shows an error`() {
         TestLintTask.lint()
             .files(
                 *hiltAnnotations,
                 TestFiles.kotlin(
                         """
-                    import $ENTRY_POINT
+                    import $annotation
 
-                    @EntryPoint
+                    @${annotation.substringAfterLast(".")}
                     class MyEntryPoint
                 """
                     )
                     .indented(),
             )
-            .issues(EntryPointMustBeAnInterfaceDetector.ISSUE)
+            .issues(HiltAnnotationMustBeInterface.ISSUE)
             .run()
             .expect(
                 """
-                    src/MyEntryPoint.kt:3: Error: The @EntryPoint annotation can only be applied to interfaces, trying to apply it to anything else will cause an error at compile time.
+                    src/MyEntryPoint.kt:3: Error: The @EntryPoint and DefineComponent annotations can only be applied to interfaces, trying to apply it to anything else will cause an error at compile time.
 
-                    See https://whosnickdoglio.dev/dagger-rules/rules/#the-entrypoint-annotation-can-only-be-applied-to-interfaces for more information. [EntryPointMustBeAnInterface]
-                    @EntryPoint
+                    See https://whosnickdoglio.dev/dagger-rules/rules/#the-entrypoint-annotation-can-only-be-applied-to-interfaces for more information. [HiltMustBeAnInterface]
+                    @${annotation.substringAfterLast(".")}
                     ^
                     1 errors, 0 warnings
                 """
@@ -167,28 +180,28 @@ class EntryPointMustBeAnInterfaceDetectorTest {
     }
 
     @Test
-    fun `java @EntryPoint usage on an concrete class shows an error`() {
+    fun `java hilt annotation usage on an concrete class shows an error`() {
         TestLintTask.lint()
             .files(
                 *hiltAnnotations,
                 TestFiles.java(
                         """
-                    import $ENTRY_POINT;
+                    import $annotation;
 
-                    @EntryPoint
+                    @${annotation.substringAfterLast(".")}
                     class MyEntryPoint {}
                 """
                     )
                     .indented(),
             )
-            .issues(EntryPointMustBeAnInterfaceDetector.ISSUE)
+            .issues(HiltAnnotationMustBeInterface.ISSUE)
             .run()
             .expect(
                 """
-                    src/MyEntryPoint.java:3: Error: The @EntryPoint annotation can only be applied to interfaces, trying to apply it to anything else will cause an error at compile time.
+                    src/MyEntryPoint.java:3: Error: The @EntryPoint and DefineComponent annotations can only be applied to interfaces, trying to apply it to anything else will cause an error at compile time.
 
-                    See https://whosnickdoglio.dev/dagger-rules/rules/#the-entrypoint-annotation-can-only-be-applied-to-interfaces for more information. [EntryPointMustBeAnInterface]
-                    @EntryPoint
+                    See https://whosnickdoglio.dev/dagger-rules/rules/#the-entrypoint-annotation-can-only-be-applied-to-interfaces for more information. [HiltMustBeAnInterface]
+                    @${annotation.substringAfterLast(".")}
                     ^
                     1 errors, 0 warnings
                 """
@@ -206,28 +219,28 @@ class EntryPointMustBeAnInterfaceDetectorTest {
     }
 
     @Test
-    fun `@EntryPoint usage on a kotlin object shows an error`() {
+    fun `hilt annotation usage on a kotlin object shows an error`() {
         TestLintTask.lint()
             .files(
                 *hiltAnnotations,
                 TestFiles.kotlin(
                         """
-                    import $ENTRY_POINT
+                    import $annotation
 
-                    @EntryPoint
+                    @${annotation.substringAfterLast(".")}
                     object MyEntryPoint
                 """
                     )
                     .indented(),
             )
-            .issues(EntryPointMustBeAnInterfaceDetector.ISSUE)
+            .issues(HiltAnnotationMustBeInterface.ISSUE)
             .run()
             .expect(
                 """
-                    src/MyEntryPoint.kt:3: Error: The @EntryPoint annotation can only be applied to interfaces, trying to apply it to anything else will cause an error at compile time.
+                    src/MyEntryPoint.kt:3: Error: The @EntryPoint and DefineComponent annotations can only be applied to interfaces, trying to apply it to anything else will cause an error at compile time.
 
-                    See https://whosnickdoglio.dev/dagger-rules/rules/#the-entrypoint-annotation-can-only-be-applied-to-interfaces for more information. [EntryPointMustBeAnInterface]
-                    @EntryPoint
+                    See https://whosnickdoglio.dev/dagger-rules/rules/#the-entrypoint-annotation-can-only-be-applied-to-interfaces for more information. [HiltMustBeAnInterface]
+                    @${annotation.substringAfterLast(".")}
                     ^
                     1 errors, 0 warnings
                 """
@@ -245,28 +258,28 @@ class EntryPointMustBeAnInterfaceDetectorTest {
     }
 
     @Test
-    fun `@EntryPoint usage on kotlin enum shows an error`() {
+    fun `hilt annotation usage on kotlin enum shows an error`() {
         TestLintTask.lint()
             .files(
                 *hiltAnnotations,
                 TestFiles.kotlin(
                         """
-                    import $ENTRY_POINT
+                    import $annotation
 
-                    @EntryPoint
+                    @${annotation.substringAfterLast(".")}
                     enum class MyEntryPoint
                 """
                     )
                     .indented(),
             )
-            .issues(EntryPointMustBeAnInterfaceDetector.ISSUE)
+            .issues(HiltAnnotationMustBeInterface.ISSUE)
             .run()
             .expect(
                 """
-                    src/MyEntryPoint.kt:3: Error: The @EntryPoint annotation can only be applied to interfaces, trying to apply it to anything else will cause an error at compile time.
+                    src/MyEntryPoint.kt:3: Error: The @EntryPoint and DefineComponent annotations can only be applied to interfaces, trying to apply it to anything else will cause an error at compile time.
 
-                    See https://whosnickdoglio.dev/dagger-rules/rules/#the-entrypoint-annotation-can-only-be-applied-to-interfaces for more information. [EntryPointMustBeAnInterface]
-                    @EntryPoint
+                    See https://whosnickdoglio.dev/dagger-rules/rules/#the-entrypoint-annotation-can-only-be-applied-to-interfaces for more information. [HiltMustBeAnInterface]
+                    @${annotation.substringAfterLast(".")}
                     ^
                     1 errors, 0 warnings
                 """
@@ -284,28 +297,28 @@ class EntryPointMustBeAnInterfaceDetectorTest {
     }
 
     @Test
-    fun `@EntryPoint usage on a java enum class shows an error`() {
+    fun `hilt annotation usage on a java enum class shows an error`() {
         TestLintTask.lint()
             .files(
                 *hiltAnnotations,
                 TestFiles.java(
                         """
-                    import $ENTRY_POINT;
+                    import $annotation;
 
-                    @EntryPoint
+                    @${annotation.substringAfterLast(".")}
                     enum MyEntryPoint {}
                 """
                     )
                     .indented(),
             )
-            .issues(EntryPointMustBeAnInterfaceDetector.ISSUE)
+            .issues(HiltAnnotationMustBeInterface.ISSUE)
             .run()
             .expect(
                 """
-                    src/MyEntryPoint.java:3: Error: The @EntryPoint annotation can only be applied to interfaces, trying to apply it to anything else will cause an error at compile time.
+                    src/MyEntryPoint.java:3: Error: The @EntryPoint and DefineComponent annotations can only be applied to interfaces, trying to apply it to anything else will cause an error at compile time.
 
-                    See https://whosnickdoglio.dev/dagger-rules/rules/#the-entrypoint-annotation-can-only-be-applied-to-interfaces for more information. [EntryPointMustBeAnInterface]
-                    @EntryPoint
+                    See https://whosnickdoglio.dev/dagger-rules/rules/#the-entrypoint-annotation-can-only-be-applied-to-interfaces for more information. [HiltMustBeAnInterface]
+                    @${annotation.substringAfterLast(".")}
                     ^
                     1 errors, 0 warnings
                 """
@@ -323,28 +336,28 @@ class EntryPointMustBeAnInterfaceDetectorTest {
     }
 
     @Test
-    fun `@EntryPoint usage on kotlin data shows an error`() {
+    fun `hilt annotation usage on kotlin data shows an error`() {
         TestLintTask.lint()
             .files(
                 *hiltAnnotations,
                 TestFiles.kotlin(
                         """
-                    import $ENTRY_POINT
+                    import $annotation
 
-                    @EntryPoint
+                    @${annotation.substringAfterLast(".")}
                     data class MyEntryPoint
                 """
                     )
                     .indented(),
             )
-            .issues(EntryPointMustBeAnInterfaceDetector.ISSUE)
+            .issues(HiltAnnotationMustBeInterface.ISSUE)
             .run()
             .expect(
                 """
-                    src/MyEntryPoint.kt:3: Error: The @EntryPoint annotation can only be applied to interfaces, trying to apply it to anything else will cause an error at compile time.
+                    src/MyEntryPoint.kt:3: Error: The @EntryPoint and DefineComponent annotations can only be applied to interfaces, trying to apply it to anything else will cause an error at compile time.
 
-                    See https://whosnickdoglio.dev/dagger-rules/rules/#the-entrypoint-annotation-can-only-be-applied-to-interfaces for more information. [EntryPointMustBeAnInterface]
-                    @EntryPoint
+                    See https://whosnickdoglio.dev/dagger-rules/rules/#the-entrypoint-annotation-can-only-be-applied-to-interfaces for more information. [HiltMustBeAnInterface]
+                    @${annotation.substringAfterLast(".")}
                     ^
                     1 errors, 0 warnings
                 """
@@ -362,28 +375,28 @@ class EntryPointMustBeAnInterfaceDetectorTest {
     }
 
     @Test
-    fun `@EntryPoint usage on kotlin sealed shows an error`() {
+    fun `hilt annotation usage on kotlin sealed shows an error`() {
         TestLintTask.lint()
             .files(
                 *hiltAnnotations,
                 TestFiles.kotlin(
                         """
-                    import $ENTRY_POINT
+                    import $annotation
 
-                    @EntryPoint
+                    @${annotation.substringAfterLast(".")}
                     sealed class MyEntryPoint
                 """
                     )
                     .indented(),
             )
-            .issues(EntryPointMustBeAnInterfaceDetector.ISSUE)
+            .issues(HiltAnnotationMustBeInterface.ISSUE)
             .run()
             .expect(
                 """
-                    src/MyEntryPoint.kt:3: Error: The @EntryPoint annotation can only be applied to interfaces, trying to apply it to anything else will cause an error at compile time.
+                    src/MyEntryPoint.kt:3: Error: The @EntryPoint and DefineComponent annotations can only be applied to interfaces, trying to apply it to anything else will cause an error at compile time.
 
-                    See https://whosnickdoglio.dev/dagger-rules/rules/#the-entrypoint-annotation-can-only-be-applied-to-interfaces for more information. [EntryPointMustBeAnInterface]
-                    @EntryPoint
+                    See https://whosnickdoglio.dev/dagger-rules/rules/#the-entrypoint-annotation-can-only-be-applied-to-interfaces for more information. [HiltMustBeAnInterface]
+                    @${annotation.substringAfterLast(".")}
                     ^
                     1 errors, 0 warnings
                 """
@@ -401,28 +414,28 @@ class EntryPointMustBeAnInterfaceDetectorTest {
     }
 
     @Test
-    fun `@EntryPoint usage on kotlin annotation shows an error`() {
+    fun `hilt annotation usage on kotlin annotation shows an error`() {
         TestLintTask.lint()
             .files(
                 *hiltAnnotations,
                 TestFiles.kotlin(
                         """
-                    import $ENTRY_POINT
+                    import $annotation
 
-                    @EntryPoint
+                    @${annotation.substringAfterLast(".")}
                     annotation class MyEntryPoint
                 """
                     )
                     .indented(),
             )
-            .issues(EntryPointMustBeAnInterfaceDetector.ISSUE)
+            .issues(HiltAnnotationMustBeInterface.ISSUE)
             .run()
             .expect(
                 """
-                    src/MyEntryPoint.kt:3: Error: The @EntryPoint annotation can only be applied to interfaces, trying to apply it to anything else will cause an error at compile time.
+                    src/MyEntryPoint.kt:3: Error: The @EntryPoint and DefineComponent annotations can only be applied to interfaces, trying to apply it to anything else will cause an error at compile time.
 
-                    See https://whosnickdoglio.dev/dagger-rules/rules/#the-entrypoint-annotation-can-only-be-applied-to-interfaces for more information. [EntryPointMustBeAnInterface]
-                    @EntryPoint
+                    See https://whosnickdoglio.dev/dagger-rules/rules/#the-entrypoint-annotation-can-only-be-applied-to-interfaces for more information. [HiltMustBeAnInterface]
+                    @${annotation.substringAfterLast(".")}
                     ^
                     1 errors, 0 warnings
                 """
