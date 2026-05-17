@@ -18,8 +18,3 @@
 - [ ] I have added tests that prove my fix is effective or that my feature works
 - [ ] I have mentioned changes in [CHANGELOG.md](../CHANGELOG.md).
 - [ ] I have read the [**CONTRIBUTING**](CONTRIBUTING.md) document.
-
-
-## PR Stack
-
-<!-- branch-stack -->
