@@ -1,4 +1,4 @@
-// Copyright (C) 2025 Nicholas Doglio
+// Copyright (C) 2026 Nicholas Doglio
 // SPDX-License-Identifier: MIT
 package dev.whosnickdoglio.hilt.detectors
 
@@ -14,6 +14,7 @@ import com.android.tools.lint.detector.api.Severity
 import com.android.tools.lint.detector.api.SourceCodeScanner
 import com.android.tools.lint.detector.api.TextFormat
 import com.intellij.psi.PsiClass
+import dev.whosnickdoglio.lint.annotations.Priority
 import dev.whosnickdoglio.lint.annotations.dagger.INJECT
 import dev.whosnickdoglio.lint.annotations.hilt.HILT_VIEW_MODEL
 import org.jetbrains.uast.UClass
@@ -94,7 +95,7 @@ internal class MissingHiltViewModelAnnotationDetector : Detector(), SourceCodeSc
                     See https://whosnickdoglio.dev/dagger-rules/rules/#viewmodel-subclasses-should-be-annotated-with-hiltviewmodel for more information.
                     """,
                 category = Category.CORRECTNESS,
-                priority = 5,
+                priority = Priority.ERROR,
                 severity = Severity.ERROR,
                 implementation = implementation,
             )
@@ -105,7 +106,7 @@ internal class MissingHiltViewModelAnnotationDetector : Detector(), SourceCodeSc
                 briefDescription = "ViewModel doesn't need @HiltViewModel",
                 explanation = "Hello friend",
                 category = Category.CORRECTNESS,
-                priority = 5,
+                priority = Priority.WARNING,
                 severity = Severity.WARNING,
                 implementation = implementation,
             )

@@ -14,6 +14,7 @@ import com.android.tools.lint.detector.api.Scope
 import com.android.tools.lint.detector.api.Severity
 import com.android.tools.lint.detector.api.SourceCodeScanner
 import com.android.tools.lint.detector.api.TextFormat
+import dev.whosnickdoglio.lint.annotations.Priority
 import dev.whosnickdoglio.lint.annotations.dagger.BINDS
 import dev.whosnickdoglio.lint.annotations.dagger.PROVIDES
 import dev.whosnickdoglio.lint.annotations.dagger.SCOPE
@@ -75,7 +76,7 @@ internal class MultipleScopesDetector : Detector(), SourceCodeScanner {
                 explanation =
                     "Objects on the DI graph can only have one `@Scope` annotation, please remove one",
                 category = Category.CORRECTNESS,
-                priority = 5,
+                priority = Priority.ERROR,
                 severity = Severity.ERROR,
                 implementation = implementation,
             )

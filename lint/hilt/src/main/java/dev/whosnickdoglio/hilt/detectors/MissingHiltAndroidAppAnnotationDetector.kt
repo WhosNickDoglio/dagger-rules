@@ -1,4 +1,4 @@
-// Copyright (C) 2025 Nicholas Doglio
+// Copyright (C) 2026 Nicholas Doglio
 // SPDX-License-Identifier: MIT
 package dev.whosnickdoglio.hilt.detectors
 
@@ -13,6 +13,7 @@ import com.android.tools.lint.detector.api.Scope
 import com.android.tools.lint.detector.api.Severity
 import com.android.tools.lint.detector.api.SourceCodeScanner
 import com.android.tools.lint.detector.api.TextFormat
+import dev.whosnickdoglio.lint.annotations.Priority
 import dev.whosnickdoglio.lint.annotations.hilt.HILT_ANDROID_APP
 import org.jetbrains.uast.UClass
 import org.jetbrains.uast.UElement
@@ -66,7 +67,7 @@ internal class MissingHiltAndroidAppAnnotationDetector : Detector(), SourceCodeS
                     See https://whosnickdoglio.dev/dagger-rules/rules/#application-subclasses-should-be-annotated-with-hiltandroidapp for more information.
                     """,
                 category = Category.CORRECTNESS,
-                priority = 5,
+                priority = Priority.ERROR,
                 severity = Severity.ERROR,
                 implementation = implementation,
             )

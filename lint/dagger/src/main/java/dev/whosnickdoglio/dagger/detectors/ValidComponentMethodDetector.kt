@@ -14,6 +14,7 @@ import com.android.tools.lint.detector.api.Severity
 import com.android.tools.lint.detector.api.SourceCodeScanner
 import com.intellij.psi.PsiMethod
 import com.intellij.psi.PsiTypes
+import dev.whosnickdoglio.lint.annotations.Priority
 import dev.whosnickdoglio.lint.annotations.dagger.COMPONENT
 import dev.whosnickdoglio.lint.annotations.dagger.SUBCOMPONENT
 import dev.whosnickdoglio.lint.annotations.hilt.ENTRY_POINT
@@ -107,7 +108,7 @@ internal class ValidComponentMethodDetector : Detector(), SourceCodeScanner {
                         "See https://whosnickdoglio.dev/dagger-rules/rules/#valid-component-methods " +
                         "for more information.",
                 category = Category.CORRECTNESS,
-                priority = 5,
+                priority = Priority.ERROR,
                 severity = Severity.ERROR,
                 implementation = implementation,
             )

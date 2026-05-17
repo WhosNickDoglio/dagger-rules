@@ -1,4 +1,4 @@
-// Copyright (C) 2025 Nicholas Doglio
+// Copyright (C) 2026 Nicholas Doglio
 // SPDX-License-Identifier: MIT
 package dev.whosnickdoglio.hilt.detectors
 
@@ -17,6 +17,7 @@ import com.android.tools.lint.detector.api.StringOption
 import com.android.tools.lint.detector.api.TextFormat
 import com.android.tools.lint.detector.api.isKotlin
 import com.intellij.psi.PsiElement
+import dev.whosnickdoglio.lint.annotations.Priority
 import dev.whosnickdoglio.lint.annotations.dagger.MODULE
 import dev.whosnickdoglio.lint.annotations.hilt.ENTRY_POINT
 import dev.whosnickdoglio.lint.annotations.hilt.INSTALL_IN
@@ -113,7 +114,7 @@ internal class MissingInstallInDetector : Detector(), SourceCodeScanner {
                     See https://whosnickdoglio.dev/dagger-rules/rules/#a-class-annotated-with-module-or-entrypoint-should-also-be-annotated-with-installin for more information.
                     """,
                     category = Category.CORRECTNESS,
-                    priority = 5,
+                    priority = Priority.ERROR,
                     severity = Severity.ERROR,
                     implementation = implementation,
                 )

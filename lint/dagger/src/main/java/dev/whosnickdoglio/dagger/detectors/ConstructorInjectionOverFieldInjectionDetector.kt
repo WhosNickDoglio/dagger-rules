@@ -15,6 +15,7 @@ import com.android.tools.lint.detector.api.SourceCodeScanner
 import com.android.tools.lint.detector.api.StringOption
 import com.android.tools.lint.detector.api.TextFormat
 import com.intellij.psi.PsiField
+import dev.whosnickdoglio.lint.annotations.Priority
 import dev.whosnickdoglio.lint.annotations.dagger.INJECT
 import org.jetbrains.uast.UAnnotation
 import org.jetbrains.uast.UElement
@@ -112,7 +113,7 @@ internal class ConstructorInjectionOverFieldInjectionDetector : Detector(), Sour
                     See https://whosnickdoglio.dev/dagger-rules/rules/#prefer-constructor-injection-over-field-injection for more information.
                 """,
                 category = Category.CORRECTNESS,
-                priority = 5,
+                priority = Priority.WARNING,
                 severity = Severity.WARNING,
                 implementation = implementation,
             )
