@@ -38,7 +38,7 @@ detekt-ruleauthors = { module = "dev.detekt:detekt-rules-ruleauthors", version.r
 detekt-api = { module = "dev.detekt:detekt-api", version.ref = "detekt" }
 detekt-test = { module = "dev.detekt:detekt-test", version.ref = "detekt" }
 
-androidx-core = { module = "androidx.core:core-ktx", version = "1.18.0" }
+androidx-core = { module = "androidx.core:core-ktx", version = "1.19.0" }
 androidx-appcompat = { module = "androidx.appcompat:appcompat", version = "1.7.1" }
 androidx-activity = { module = "androidx.activity:activity", version = "1.13.0" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "dagger" }
