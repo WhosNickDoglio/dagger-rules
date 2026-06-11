@@ -77,6 +77,8 @@ dependencies {
     coreLibraryDesugaring(libs.desugar)
 
     ksp(libs.hilt.compiler)
+    // https://github.com/google/dagger/issues/5177
+    ksp(libs.kotlin.metadata)
 
     lintChecks(projects.lint.dagger)
     lintChecks(projects.lint.hilt)
