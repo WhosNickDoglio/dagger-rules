@@ -22,7 +22,7 @@ dependencyAnalysis = { id = "com.autonomousapps.dependency-analysis", version.re
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 publish = { id = "com.vanniktech.maven.publish", version = "0.37.0" }
 kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
-ksp = { id = "com.google.devtools.ksp", version = "2.3.9" }
+ksp = { id = "com.google.devtools.ksp", version = "2.3.10" }
 ktfmt = { id = "com.ncorti.ktfmt.gradle", version = "0.26.0" }
 sortDependencies = { id = "com.squareup.sort-dependencies", version.ref = "sort" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "dagger" }
