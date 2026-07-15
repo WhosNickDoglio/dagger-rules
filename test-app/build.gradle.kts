@@ -38,9 +38,6 @@ android {
         versionName = "1.0"
     }
     lint {
-        htmlReport = false
-        xmlReport = false
-        textReport = true
         absolutePaths = false
         checkTestSources = true
         warningsAsErrors = true
