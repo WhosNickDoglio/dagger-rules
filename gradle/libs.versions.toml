@@ -1,5 +1,5 @@
 [versions]
-agp = "9.2.1"
+agp = "9.3.0"
 desugar = "2.1.5"
 dependencyAnalysis = "3.16.1"
 kotlin = "2.4.10"
