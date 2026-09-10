@@ -10,6 +10,7 @@ import com.fueledbycaffeine.autoservice.AutoService
 import dev.whosnickdoglio.dagger.detectors.ComponentMustBeAbstractDetector
 import dev.whosnickdoglio.dagger.detectors.ConstructorInjectionOverFieldInjectionDetector
 import dev.whosnickdoglio.dagger.detectors.CorrectBindsUsageDetector
+import dev.whosnickdoglio.dagger.detectors.FavorBindsOverProvidesDetector
 import dev.whosnickdoglio.dagger.detectors.MissingModuleAnnotationDetector
 import dev.whosnickdoglio.dagger.detectors.MultipleScopesDetector
 import dev.whosnickdoglio.dagger.detectors.ScopedWithoutInjectAnnotationDetector
@@ -24,6 +25,7 @@ public class DaggerRulesIssueRegistry : IssueRegistry() {
             ConstructorInjectionOverFieldInjectionDetector.ISSUE,
             CorrectBindsUsageDetector.ISSUE_BINDS_ABSTRACT,
             CorrectBindsUsageDetector.ISSUE_CORRECT_RETURN_TYPE,
+            FavorBindsOverProvidesDetector.ISSUE,
             MissingModuleAnnotationDetector.ISSUE,
             MultipleScopesDetector.ISSUE,
             StaticProvidesDetector.ISSUE,
