@@ -20,7 +20,7 @@ jobs:
         with:
           encryption_key: ${{ secrets.GRADLE_ENCRYPTION_KEY }}
       - name: Gradle Wrapper Validation
-        uses: gradle/actions/wrapper-validation@3f5f9adaf7d9fecd50b5935e54106014257a94e6 # v6
+        uses: gradle/actions/wrapper-validation@8da46b539cd8fe6ab27ca75128919a18d757604c # v6
   Build:
     runs-on: ubuntu-latest
     needs: [ Validate-Gradle ]
