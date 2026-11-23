@@ -13,7 +13,7 @@ runs:
         distribution: 'zulu'
         java-version: '26'
     - name: Set up jemalloc
-      uses: kaeawc/setup-jemalloc@2c377b1a87e4f48c405f69642eb5e82a13ce3987 # v0.1.0
+      uses: kaeawc/setup-jemalloc@7ad993d113652a2d8e5f3ed74aece06d3ff3b7eb # v0.1.1
     - name: Setup Gradle
       uses: gradle/actions/setup-gradle@8da46b539cd8fe6ab27ca75128919a18d757604c # v6
       with:
